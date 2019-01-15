@@ -18,6 +18,7 @@ import {
 } from 'utils/peopleSearchHelper'
 import {isCommaSuffix, formatHighlightedSuffix} from 'utils/nameFormatter'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
+import Fuse from 'fuse.js'
 
 const selectPeopleSearch = (state) => state.get('peopleSearch')
 export const selectSearchTermValue = (state) => (
@@ -78,12 +79,26 @@ const mapCounties = (counties, countyCodes) => counties.map((county) =>
 
 const hasActiveCsec = (_result) => false
 
+export const formatAkaFullName = (state, result) => {
+  const akas = result.get('akas', List()).toJS()
+  const searchTerm = selectSearchTermValue(state)
+  const options = {
+    keys: ['first_name', 'last_name', 'middle_name'],
+  }
+  const fuse = new Fuse(akas, options)
+  const aka = fuse.search(searchTerm)
+  if (aka[0] === [] || aka[0] === undefined) return null
+  const akaFullName = ` (${aka[0].name_type || ''} ${aka[0].first_name || ''} ${aka[0].last_name || ''})`
+  return akaFullName
+}
+
 export const selectPeopleResults = (state) => selectPeopleSearch(state)
   .get('results')
   .map((fullResult) => {
     const result = fullResult.get('_source', Map())
     const highlight = fullResult.get('highlight', Map())
     return Map({
+      akaFullName: formatAkaFullName(state, result),
       legacy_id: result.get('id'),
       fullName: formatFullName(result, highlight),
       legacyDescriptor: result.get('legacy_descriptor'),
