@@ -10,7 +10,7 @@ def failureColor = '#FF0000'
 SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 def buildDate = dateFormatGmt.format(new Date())
 def docker_credentials_id = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
-def github_credentials_id = '433ac100-b3c2-4519-b4d6-207c029a103b'
+GITHUB_CREDENTIALS_ID = '433ac100-b3c2-4519-b4d6-207c029a103b'
 def de_ansible_github_url = 'git@github.com:ca-cwds/de-ansible.git'
 
 switch(env.BUILD_JOB_TYPE) {
@@ -139,7 +139,7 @@ def incrementTag() {
 
 def tagRepo() {
   stage('Tag Repo'){
-    tagGithubRepo(VERSION, github_credentials_id)
+    tagGithubRepo(VERSION, GITHUB_CREDENTIALS_ID)
   }
 }
 
@@ -248,7 +248,7 @@ def checkOutStage() {
 def deployToStage(environment, version) {
   stage("Deploy to $environment") {
     ws {
-      git branch: "master", credentialsId: github_credentials_id, url: de_ansible_github_url
+      git branch: "master", credentialsId: GITHUB_CREDENTIALS_ID, url: de_ansible_github_url
       sh "ansible-playbook -e NEW_RELIC_AGENT=true -e INTAKE_APP_VERSION=$version -i inventories/$environment/hosts.yml deploy-intake.yml --vault-password-file ~/.ssh/vault.txt "
     }
   }
@@ -256,7 +256,7 @@ def deployToStage(environment, version) {
 
 def updateManifestStage(environment, version) {
   stage('Update Manifest Version') {
-    updateManifest("intake", environment, github_credentials_id, version)
+    updateManifest("intake", environment, GITHUB_CREDENTIALS_ID, version)
   }
 }
 
