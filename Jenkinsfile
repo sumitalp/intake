@@ -1,8 +1,8 @@
 import java.text.SimpleDateFormat
 @Library('jenkins-pipeline-utils') _
 
-def scmInfo = checkout scm
-def branch = scmInfo.GIT_BRANCH ?: env.GIT_BRANCH
+def scmInfo
+def branch
 def curStage = 'Start'
 def pipelineStatus = 'SUCCESS'
 def successColor = '11AB1B'
@@ -22,6 +22,8 @@ switch(env.BUILD_JOB_TYPE) {
 def buildPullRequest() {
   node('intake-slave') {
     try {
+      scmInfo = checkout scm
+      branch = scmInfo.GIT_BRANCH ?: env.GIT_BRANCH
       buildingTestBench()
       lintTest()
       veriftySemVerLabel()
