@@ -279,8 +279,8 @@ def smokeTest(environment) {
 def deployWithSmoke(environment) {
   node(environment) {
     checkOutStage()
-    deployToStage(environment, env.VERSION)
-    updateManifestStage(environment, env.VERSION)
+    deployToStage(environment, env.APP_VERSION))
+    updateManifestStage(environment, env.APP_VERSION))
     buildDocker()
     cleanWs()
   }
