@@ -9,6 +9,12 @@ describe('PersonSuggestion', () => {
     expect(component.html()).toContain('<strong class="highlighted">Bart Jacqueline Simpson, MD</strong>')
   })
 
+  it('renders aka full name', () => {
+    const props = {akaFullName: '(AKA James Doolittle)'}
+    const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
+    expect(component.html()).toContain('<span>(AKA James Doolittle)</span>')
+  })
+
   it('renders legacy source table and id', () => {
     const props = {legacyDescriptor: {legacy_ui_id: '123-456-789', legacy_table_description: 'Client'}}
     const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})

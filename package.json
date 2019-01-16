@@ -1,5 +1,8 @@
 {
   "private": true,
+  "scripts": {
+    "licenses-report": "bundle exec license_finder report --save=legal/licenses.csv --format csv --columns=name version homepage licenses"
+  },
   "dependencies": {
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.25.0",
@@ -26,6 +29,7 @@
     "file-loader": "^0.11.2",
     "flux-standard-action": "^1.2.0",
     "font-awesome": "^4.7.0",
+    "fuse.js": "^3.3.0",
     "history": "3.2.1",
     "immutable": "^3.8.1",
     "is-docker": "^1.1.0",
