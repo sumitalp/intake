@@ -282,6 +282,7 @@ def deployWithSmoke(environment) {
     deployToStage(environment, env.APP_VERSION)
     updateManifestStage(environment, env.APP_VERSION)
     buildDocker()
+    smokeTest(environment)
     cleanWs()
   }
 }
