@@ -276,14 +276,17 @@ def smokeTest(environment) {
       }
     } else {
       withCredentials([
-        string(credentialsId: 'intake-smoke-email', variable: 'ACCEPTANCE_TEST_USER'),
-        string(credentialsId: 'intake-smoke-password', variable: 'ACCEPTANCE_TEST_PASSWORD'),
-        string(credentialsId: 'intake-smoke-mfa', variable: 'VERIFICATION_CODE')
+        string(credentialsId: 'c24b6659-fd2c-4d31-8433-835528fce0d7', variable: 'ACCEPTANCE_TEST_USER'),
+        string(credentialsId: '48619eb9-4a74-4c84-bc25-81557ed9dd7d', variable: 'ACCEPTANCE_TEST_PASSWORD'),
+        string(credentialsId: 'f75da5fa-b2c8-4ca5-896a-b8a85fa30572', variable: 'VERIFICATION_CODE')
       ]) {
         withEnv(["APP_URL=https://web.${environment}.cwds.io",
              "FEATURE_SET=${FEATURE_SET}",
-             "CAPYBARA_DRIVER=${CAPYBARA_DRIVER}"]) {
-          sh "docker-compose run acceptance_test ACCEPTANCE_TEST_USER=$ACCEPTANCE_TEST_USER ACCEPTANCE_TEST_PASSWORD=$ACCEPTANCE_TEST_PASSWORD VERIFICATION_CODE=$VERIFICATION_CODE"
+             "CAPYBARA_DRIVER=${CAPYBARA_DRIVER}",
+             "ACCEPTANCE_TEST_USER=${ACCEPTANCE_TEST_USER}",
+             "ACCEPTANCE_TEST_PASSWORD=${ACCEPTANCE_TEST_PASSWORD}",
+             "VERIFICATION_CODE=${VERIFICATION_CODE}"]) {
+          sh "docker-compose run acceptance_test exec -T --env ACCEPTANCE_TEST_USER=$ACCEPTANCE_TEST_USER ACCEPTANCE_TEST_PASSWORD=$ACCEPTANCE_TEST_PASSWORD VERIFICATION_CODE=$VERIFICATION_CODE"
         }
       }
     }
