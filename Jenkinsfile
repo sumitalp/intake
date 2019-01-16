@@ -249,7 +249,7 @@ def deployToStage(environment, version) {
   stage("Deploy to $environment") {
     ws {
       git branch: "master", credentialsId: GITHUB_CREDENTIALS_ID, url: DE_ANSIBLE_GITHUB_URL
-      sh "ansible-playbook -e NEW_RELIC_AGENT=true -e INTAKE_APP_VERSION=$version -i inventories/$environment/hosts.yml deploy-intake.yml --vault-password-file ~/.ssh/vault.txt "
+      sh "ansible-playbook -e NEW_RELIC_AGENT=true -e INTAKE_APP_VERSION=$version -i inventories/$environment/hosts.yml deploy-intake.yml --vault-password-file ~/.ssh/vault.txt -vv"
     }
   }
 }
