@@ -10,7 +10,9 @@ import {
   selectSearchAddress,
   selectSearchCity,
   selectSearchCounty,
+  selectAkaFullName,
 } from 'selectors/peopleSearchSelectors'
+import Immutable from 'immutable'
 
 describe('peopleSearchSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
@@ -86,6 +88,7 @@ describe('peopleSearchSelectors', () => {
             middle_name: 'Jacqueline',
             name_suffix: 'md',
             gender: 'female',
+            akas: [],
             languages: [{id: '3'}, {id: '2'}],
             race_ethnicity: {
               hispanic_origin_code: 'Y',
@@ -140,6 +143,7 @@ describe('peopleSearchSelectors', () => {
           legacy_id: '1',
           fullName: 'Bart Jacqueline Simpson, MD',
           gender: 'female',
+          akaFullName: null,
           legacyDescriptor: {
             legacy_ui_id: '123-456-789',
             legacy_table_description: 'Client',
@@ -564,6 +568,102 @@ describe('peopleSearchSelectors', () => {
       }
       const state = fromJS({peopleSearch})
       expect(selectSearchCounty(state)).toEqual('Mariposa')
+    })
+  })
+
+  describe('selectAkaFullName', () => {
+    it('return akaFullName and name_type when searchTerm match the akas', () => {
+      const peopleSearch = {
+        'searchTerm': 'James Doolittle',
+      }
+      const akas = [
+        {
+          'name_type': 'AKA',
+          'last_name': 'Doolittle',
+          'id': 'MYl4QKc0Ki',
+          'first_name': 'James',
+        },
+        {
+          'name_type': 'Doe',
+          'last_name': 'Howland',
+          'id': 'OiRrdgc0Ki',
+          'first_name': 'John',
+        },
+        {
+          'name_type': 'Doe',
+          'last_name': 'Fratelli',
+          'id': 'H3TYeHO0Ki',
+          'first_name': 'Gino',
+        },
+        {
+          'name_type': 'AKA',
+          'last_name': 'Hunley',
+          'id': 'ToGs5P40Ki',
+          'first_name': 'Alan',
+        },
+        {
+          'name_type': 'Legal',
+          'last_name': 'Aldrich',
+          'id': '7MqLPlO0Ki',
+          'middle_name': 'Allison',
+          'first_name': 'Billy',
+        },
+      ]
+      const state = fromJS({peopleSearch})
+      const result = Immutable.fromJS({akas})
+      expect(selectAkaFullName(state, result)).toEqual(' (AKA James Doolittle)')
+    })
+
+    it('return null when searchTerm doesnot match', () => {
+      const peopleSearch = {
+        'searchTerm': 'xyzabcxyz',
+      }
+      const akas = [
+        {
+          'name_type': 'AKA',
+          'last_name': 'Doolittle',
+          'id': 'MYl4QKc0Ki',
+          'first_name': 'James',
+        },
+        {
+          'name_type': 'Doe',
+          'last_name': 'Howland',
+          'id': 'OiRrdgc0Ki',
+          'first_name': 'John',
+        },
+        {
+          'name_type': 'Doe',
+          'last_name': 'Fratelli',
+          'id': 'H3TYeHO0Ki',
+          'first_name': 'Gino',
+        },
+        {
+          'name_type': 'AKA',
+          'last_name': 'Hunley',
+          'id': 'ToGs5P40Ki',
+          'first_name': 'Alan',
+        },
+        {
+          'name_type': 'Legal',
+          'last_name': 'Aldrich',
+          'id': '7MqLPlO0Ki',
+          'middle_name': 'Allison',
+          'first_name': 'Billy',
+        },
+      ]
+      const state = fromJS({peopleSearch})
+      const result = Immutable.fromJS({akas})
+      expect(selectAkaFullName(state, result)).toEqual(null)
+    })
+
+    it('returns null when akas is empty array', () => {
+      const peopleSearch = {
+        'searchTerm': 'John Doe',
+      }
+      const akas = []
+      const state = fromJS({peopleSearch})
+      const result = Immutable.fromJS({akas})
+      expect(selectAkaFullName(state, result)).toEqual(null)
     })
   })
 })
