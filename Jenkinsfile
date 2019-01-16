@@ -197,7 +197,7 @@ def triggerReleasePipeline() {
 
 def reports() {
   stage ('Reports') {
-    step([$class: JUnitResultArchiver,  testResults: '**/reports/*.xml'])
+    JUnitResultArchiver testResults: '**/reports/*.xml'
 
     publishHTML (target: [
       allowMissing: false,
