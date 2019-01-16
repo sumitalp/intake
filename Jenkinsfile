@@ -268,10 +268,24 @@ def buildDocker() {
 
 def smokeTest(environment) {
   stage("Smoke Test on $environment") {
-    withEnv(["APP_URL=https://web.${environment}.cwds.io",
+    if (environment == 'preint') {
+      withEnv(["APP_URL=https://web.${environment}.cwds.io",
              "FEATURE_SET=${FEATURE_SET}",
              "CAPYBARA_DRIVER=${CAPYBARA_DRIVER}"]) {
-      sh 'docker-compose run acceptance_test'
+        sh 'docker-compose run acceptance_test'
+      }
+    } else {
+      withCredentials([
+        string(credentialsId: 'intake-smoke-email', variable: 'ACCEPTANCE_TEST_USER'),
+        string(credentialsId: 'intake-smoke-password', variable: 'ACCEPTANCE_TEST_PASSWORD'),
+        string(credentialsId: 'intake-smoke-mfa', variable: 'VERIFICATION_CODE')
+      ]) {
+        withEnv(["APP_URL=https://web.${environment}.cwds.io",
+             "FEATURE_SET=${FEATURE_SET}",
+             "CAPYBARA_DRIVER=${CAPYBARA_DRIVER}"]) {
+          sh "docker-compose run acceptance_test ACCEPTANCE_TEST_USER=$ACCEPTANCE_TEST_USER ACCEPTANCE_TEST_PASSWORD=$ACCEPTANCE_TEST_PASSWORD VERIFICATION_CODE=$VERIFICATION_CODE"
+        }
+      }
     }
   }
 }
