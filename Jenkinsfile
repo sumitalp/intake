@@ -7,9 +7,11 @@ def curStage = 'Start'
 def pipelineStatus = 'SUCCESS'
 def successColor = '11AB1B'
 def failureColor = '#FF0000'
+def VERSION
+def VCS_REF
 SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 def buildDate = dateFormatGmt.format(new Date())
-def docker_credentials_id = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
+DOCKER_CREDENTIALS_ID = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
 GITHUB_CREDENTIALS_ID = '433ac100-b3c2-4519-b4d6-207c029a103b'
 DE_ANSIBLE_GITHUB_URL = 'git@github.com:ca-cwds/de-ansible.git'
 
@@ -26,7 +28,7 @@ def buildPullRequest() {
       branch = scmInfo.GIT_BRANCH ?: env.GIT_BRANCH
       buildingTestBench()
       lintTest()
-      veriftySemVerLabel()
+      verifySemVerLabel()
       karmaTests()
       rspecTests()
       reports()
@@ -100,7 +102,7 @@ def lintTest() {
   }
 }
 
-def veriftySemVerLabel() {
+def verifySemVerLabel() {
   stage('Verify SemVer Label') {
     checkForLabel("intake")
   }
@@ -154,7 +156,7 @@ def release() {
 
 def acceptanceTestBubble() {
   stage('Acceptance test Bubble'){
-    withDockerRegistry([credentialsId: docker_credentials_id]){
+    withDockerRegistry([credentialsId: DOCKER_CREDENTIALS_ID]){
       withEnv(["INTAKE_IMAGE_VERSION=intakeaccelerator${BUILD_NUMBER}_app"]) {
         sh './scripts/ci/acceptance_test.rb'
       }
@@ -164,7 +166,7 @@ def acceptanceTestBubble() {
 
 def publish() {
   stage('Publish') {
-    withDockerRegistry([credentialsId: docker_credentials_id]) {
+    withDockerRegistry([credentialsId: DOCKER_CREDENTIALS_ID]) {
       curStage = 'Publish'
       withEnv(["VERSION=${VERSION}"]){
         sh './scripts/ci/publish.rb'
@@ -195,7 +197,7 @@ def triggerReleasePipeline() {
 
 def reports() {
   stage ('Reports') {
-    step([$class: 'JUnitResultArchiver', testResults: '**/reports/*.xml'])
+    step([JUnitResultArchiver testResults: '**/reports/*.xml'])
 
     publishHTML (target: [
       allowMissing: false,
