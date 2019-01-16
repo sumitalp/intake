@@ -1,5 +1,8 @@
 {
   "private": true,
+  "scripts": {
+    "licenses-report": "bundle exec license_finder report --save=legal/licenses.csv --format csv --columns=name version homepage licenses"
+  },
   "dependencies": {
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.25.0",
