@@ -79,17 +79,18 @@ const mapCounties = (counties, countyCodes) => counties.map((county) =>
 
 const hasActiveCsec = (_result) => false
 
-export const formatAkaFullName = (state, result) => {
+export const selectAkaFullName = (state, result) => {
   const akas = result.get('akas', List()).toJS()
   const searchTerm = selectSearchTermValue(state)
   const options = {
     keys: ['first_name', 'last_name', 'middle_name'],
   }
   const fuse = new Fuse(akas, options)
-  const aka = fuse.search(searchTerm)
-  if (aka[0] === [] || aka[0] === undefined) return null
-  const akaFullName = ` (${aka[0].name_type || ''} ${aka[0].first_name || ''} ${aka[0].last_name || ''})`
-  return akaFullName
+  const aka = fuse.search(searchTerm)[0]
+  if (!aka) {
+    return null
+  }
+  return ` (${aka.name_type || ''} ${aka.first_name || ''} ${aka.last_name || ''})`
 }
 
 export const selectPeopleResults = (state) => selectPeopleSearch(state)
@@ -98,7 +99,7 @@ export const selectPeopleResults = (state) => selectPeopleSearch(state)
     const result = fullResult.get('_source', Map())
     const highlight = fullResult.get('highlight', Map())
     return Map({
-      akaFullName: formatAkaFullName(state, result),
+      akaFullName: selectAkaFullName(state, result),
       legacy_id: result.get('id'),
       fullName: formatFullName(result, highlight),
       legacyDescriptor: result.get('legacy_descriptor'),

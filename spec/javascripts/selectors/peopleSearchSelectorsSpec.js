@@ -10,7 +10,7 @@ import {
   selectSearchAddress,
   selectSearchCity,
   selectSearchCounty,
-  formatAkaFullName,
+  selectAkaFullName,
 } from 'selectors/peopleSearchSelectors'
 import Immutable from 'immutable'
 
@@ -571,7 +571,7 @@ describe('peopleSearchSelectors', () => {
     })
   })
 
-  describe('formatAkaFullName', () => {
+  describe('selectAkaFullName', () => {
     it('return akaFullName and name_type when searchTerm match the akas', () => {
       const peopleSearch = {
         'searchTerm': 'James Doolittle',
@@ -611,7 +611,7 @@ describe('peopleSearchSelectors', () => {
       ]
       const state = fromJS({peopleSearch})
       const result = Immutable.fromJS({akas})
-      expect(formatAkaFullName(state, result)).toEqual(' (AKA James Doolittle)')
+      expect(selectAkaFullName(state, result)).toEqual(' (AKA James Doolittle)')
     })
 
     it('return null when searchTerm doesnot match', () => {
@@ -653,7 +653,7 @@ describe('peopleSearchSelectors', () => {
       ]
       const state = fromJS({peopleSearch})
       const result = Immutable.fromJS({akas})
-      expect(formatAkaFullName(state, result)).toEqual(null)
+      expect(selectAkaFullName(state, result)).toEqual(null)
     })
 
     it('returns null when akas is empty array', () => {
@@ -663,7 +663,7 @@ describe('peopleSearchSelectors', () => {
       const akas = []
       const state = fromJS({peopleSearch})
       const result = Immutable.fromJS({akas})
-      expect(formatAkaFullName(state, result)).toEqual(null)
+      expect(selectAkaFullName(state, result)).toEqual(null)
     })
   })
 })
