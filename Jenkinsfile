@@ -6,7 +6,9 @@ def scmInfo
 def branch
 def curStage = 'Start'
 def pipelineStatus = 'SUCCESS'
+@Field
 def successColor = '11AB1B'
+@Field
 def failureColor = '#FF0000'
 def VERSION
 def VCS_REF
