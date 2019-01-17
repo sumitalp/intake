@@ -74,7 +74,7 @@ def buildMaster() {
       throw exception
     } finally {
       cleanUpStage()
-      slackNotification('SUCESS')
+      slackNotification('SUCCESS')
     }
   }
 }
@@ -241,13 +241,14 @@ def cleanUpStage() {
 }
 
 def slackNotification(pipelineStatus) {
-  slackAlertColor = successColor
-  slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' completed for branch '${branch}' (${env.BUILD_URL})"
-
-  if(pipelineStatus == 'FAILED') {
+  if(pipelineStatus == 'SUCCESS') {
+    slackAlertColor = successColor
+    slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' completed for branch '${branch}' (${env.BUILD_URL})"
+  } else {
     slackAlertColor = failureColor
     slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' in stage '${curStage}' for branch '${branch}' (${env.BUILD_URL})"
   }
+
   slackSend channel: "#tech-intake", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', color: slackAlertColor, message: slackMessage
 }
 
