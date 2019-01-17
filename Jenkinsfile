@@ -1,4 +1,5 @@
 import java.text.SimpleDateFormat
+import groovy.transform.Field
 @Library('jenkins-pipeline-utils') _
 
 def scmInfo
@@ -11,8 +12,10 @@ def VERSION
 def VCS_REF
 SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 def buildDate = dateFormatGmt.format(new Date())
-DOCKER_CREDENTIALS_ID = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
-GITHUB_CREDENTIALS_ID = '433ac100-b3c2-4519-b4d6-207c029a103b'
+@Field
+def DOCKER_CREDENTIALS_ID = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
+@Field
+def GITHUB_CREDENTIALS_ID = '433ac100-b3c2-4519-b4d6-207c029a103b'
 
 switch(env.BUILD_JOB_TYPE) {
   case "master": buildMaster(); break;
