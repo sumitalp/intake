@@ -41,7 +41,7 @@ def buildPullRequest() {
       currentBuild.result = "FAILURE"
       throw exception
     } finally {
-      cleanUpStage()
+      cleanUpStage('')
     }
   }
 }
