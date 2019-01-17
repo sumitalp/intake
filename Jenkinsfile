@@ -53,7 +53,6 @@ def buildMaster() {
     try {
       buildingTestBench()
       lintTest()
-      veriftySemVerLabel()
       karmaTests()
       rspecTests()
       build()
