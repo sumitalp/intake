@@ -13,8 +13,6 @@ SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"
 def buildDate = dateFormatGmt.format(new Date())
 def docker_credentials_id = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
 GITHUB_CREDENTIALS_ID = '433ac100-b3c2-4519-b4d6-207c029a103b'
-DE_ANSIBLE_GITHUB_URL = 'git@github.com:ca-cwds/de-ansible.git'
-ACCEPTANCE_TEST_GITHUB_URL = 'git@github.com:ca-cwds/acceptance_testing.git'
 
 switch(env.BUILD_JOB_TYPE) {
   case "master": buildMaster(); break;
@@ -244,14 +242,14 @@ def slackNotification(pipelineStatus) {
 
 def checkOutStage() {
   stage('Check Out Stage') {
-    git branch: 'master', credentialsId: GITHUB_CREDENTIALS_ID, url: ACCEPTANCE_TEST_GITHUB_URL
+    git branch: 'master', credentialsId: GITHUB_CREDENTIALS_ID, url: 'git@github.com:ca-cwds/acceptance_testing.git'
   }
 }
 
 def deployToStage(environment, version) {
   stage("Deploy to $environment") {
     ws {
-      git branch: "master", credentialsId: GITHUB_CREDENTIALS_ID, url: DE_ANSIBLE_GITHUB_URL
+      git branch: "master", credentialsId: GITHUB_CREDENTIALS_ID, url: 'git@github.com:ca-cwds/de-ansible.git'
       sh "ansible-playbook -e NEW_RELIC_AGENT=true -e INTAKE_APP_VERSION=$version -i inventories/$environment/hosts.yml deploy-intake.yml --vault-password-file ~/.ssh/vault.txt -vv"
     }
   }
