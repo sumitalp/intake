@@ -11,9 +11,10 @@ def VERSION
 def VCS_REF
 SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 def buildDate = dateFormatGmt.format(new Date())
-DOCKER_CREDENTIALS_ID = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
+def docker_credentials_id = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
 GITHUB_CREDENTIALS_ID = '433ac100-b3c2-4519-b4d6-207c029a103b'
 DE_ANSIBLE_GITHUB_URL = 'git@github.com:ca-cwds/de-ansible.git'
+ACCEPTANCE_TEST_GITHUB_URL = 'git@github.com:ca-cwds/acceptance_testing.git'
 
 switch(env.BUILD_JOB_TYPE) {
   case "master": buildMaster(); break;
@@ -156,7 +157,7 @@ def release() {
 
 def acceptanceTestBubble() {
   stage('Acceptance test Bubble'){
-    withDockerRegistry([credentialsId: DOCKER_CREDENTIALS_ID]){
+    withDockerRegistry([credentialsId: docker_credentials_id]){
       withEnv(["INTAKE_IMAGE_VERSION=intakeaccelerator${BUILD_NUMBER}_app"]) {
         sh './scripts/ci/acceptance_test.rb'
       }
@@ -166,7 +167,7 @@ def acceptanceTestBubble() {
 
 def publish() {
   stage('Publish') {
-    withDockerRegistry([credentialsId: DOCKER_CREDENTIALS_ID]) {
+    withDockerRegistry([credentialsId: docker_credentials_id]) {
       curStage = 'Publish'
       withEnv(["VERSION=${VERSION}"]){
         sh './scripts/ci/publish.rb'
@@ -243,7 +244,7 @@ def slackNotification(pipelineStatus) {
 
 def checkOutStage() {
   stage('Check Out Stage') {
-    git branch: 'master', credentialsId: GITHUB_CREDENTIALS_ID, url: 'git@github.com:ca-cwds/acceptance_testing.git'
+    git branch: 'master', credentialsId: GITHUB_CREDENTIALS_ID, url: ACCEPTANCE_TEST_GITHUB_URL
   }
 }
 
