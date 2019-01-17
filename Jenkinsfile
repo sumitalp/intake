@@ -10,7 +10,9 @@ def successColor = '11AB1B'
 def failureColor = '#FF0000'
 def VERSION
 def VCS_REF
+@Field
 SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+@Field
 def buildDate = dateFormatGmt.format(new Date())
 @Field
 def DOCKER_CREDENTIALS_ID = '6ba8d05c-ca13-4818-8329-15d41a089ec0'
@@ -26,8 +28,7 @@ switch(env.BUILD_JOB_TYPE) {
 def buildPullRequest() {
   node('intake-slave') {
     try {
-      scmInfo = checkout scm
-      branch = scmInfo.GIT_BRANCH ?: env.GIT_BRANCH
+      scmCheckOut()
       buildingTestBench()
       lintTest()
       verifySemVerLabel()
@@ -51,6 +52,7 @@ def buildMaster() {
     ])
 
     try {
+      scmCheckOut()
       buildingTestBench()
       lintTest()
       karmaTests()
@@ -87,6 +89,11 @@ def releasePipeline() {
     currentBuild.result = "FAILURE"
     throw exception
   }
+}
+
+def scmCheckOut() {
+  scmInfo = checkout scm
+  branch = scmInfo.GIT_BRANCH ?: env.GIT_BRANCH
 }
 
 def buildingTestBench() {
