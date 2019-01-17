@@ -298,7 +298,7 @@ def smokeTest(environment) {
              "ACCEPTANCE_TEST_USER=${ACCEPTANCE_TEST_USER}",
              "ACCEPTANCE_TEST_PASSWORD=${ACCEPTANCE_TEST_PASSWORD}",
              "VERIFICATION_CODE=${VERIFICATION_CODE}"]) {
-          sh "docker-compose run acceptance_test exec -T --env ACCEPTANCE_TEST_USER=$ACCEPTANCE_TEST_USER ACCEPTANCE_TEST_PASSWORD=$ACCEPTANCE_TEST_PASSWORD VERIFICATION_CODE=$VERIFICATION_CODE"
+          sh 'docker-compose run acceptance_test'
         }
       }
     }
