@@ -67,7 +67,7 @@ def buildMaster() {
       triggerReleasePipeline()
       reports()
     } catch(Exception exception) {
-      slackNotification('FAILURE')
+      slackNotification('FAILED')
       currentBuild.result = "FAILURE"
       throw exception
     } finally {
