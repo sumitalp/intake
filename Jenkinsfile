@@ -238,7 +238,7 @@ def cleanUpStage(pipelineStatus) {
       echo 'Cleaning workspace'
       cleanWs()
     }
-    if(pipelineStatus == 'SUCcESS') {
+    if(pipelineStatus == 'SUCCESS') {
       slackNotification(pipelineStatus)
     }
   }
