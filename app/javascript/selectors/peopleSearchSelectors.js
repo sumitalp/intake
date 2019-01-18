@@ -83,6 +83,7 @@ export const selectAkaFullName = (state, result) => {
   const akas = result.get('akas', List()).toJS()
   const searchTerm = selectSearchTermValue(state)
   const options = {
+    threshold: 0.7,
     keys: ['first_name', 'last_name', 'middle_name'],
   }
   const fuse = new Fuse(akas, options)
@@ -90,7 +91,7 @@ export const selectAkaFullName = (state, result) => {
   if (!aka) {
     return null
   }
-  return ` (${aka.name_type || ''} ${aka.first_name || ''} ${aka.last_name || ''})`
+  return ` (${aka.name_type || ''}: ${aka.first_name || ''} ${aka.last_name || ''})`
 }
 
 export const selectPeopleResults = (state) => selectPeopleSearch(state)
