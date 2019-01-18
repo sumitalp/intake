@@ -41,7 +41,7 @@ def buildPullRequest() {
       currentBuild.result = "FAILURE"
       throw exception
     } finally {
-      cleanUpStage()
+      cleanUpStage('')
     }
   }
 }
@@ -69,12 +69,12 @@ def buildMaster() {
       triggerReleasePipeline()
       reports()
     } catch(Exception exception) {
-      slackNotification('FAILED')
+      pipelineStatus = "FAILED"
+      slackNotification(pipelineStatus)
       currentBuild.result = "FAILURE"
       throw exception
     } finally {
-      cleanUpStage()
-      slackNotification('SUCESS')
+      cleanUpStage(pipelineStatus)
     }
   }
 }
@@ -229,13 +229,16 @@ def reports() {
   }
 }
 
-def cleanUpStage() {
+def cleanUpStage(pipelineStatus) {
   stage('Clean') {
     withEnv(["GIT_BRANCH=${branch}"]){
       archiveArtifacts artifacts: 'tmp/*', excludes: '*/.keep', allowEmptyArchive: true
       sh './scripts/ci/clean.rb'
       echo 'Cleaning workspace'
       cleanWs()
+    }
+    if(pipelineStatus == 'SUCESS') {
+      slackNotification(pipelineStatus)
     }
   }
 }
@@ -248,6 +251,7 @@ def slackNotification(pipelineStatus) {
     slackAlertColor = failureColor
     slackMessage = "${pipelineStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' in stage '${curStage}' for branch '${branch}' (${env.BUILD_URL})"
   }
+
   slackSend channel: "#tech-intake", baseUrl: 'https://hooks.slack.com/services/', tokenCredentialId: 'slackmessagetpt2', color: slackAlertColor, message: slackMessage
 }
 
