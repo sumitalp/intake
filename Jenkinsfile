@@ -5,6 +5,7 @@ import groovy.transform.Field
 def scmInfo
 def branch
 def curStage = 'Start'
+@Field
 def pipelineStatus = 'SUCCESS'
 @Field
 def successColor = '11AB1B'
@@ -237,7 +238,7 @@ def cleanUpStage(pipelineStatus) {
       echo 'Cleaning workspace'
       cleanWs()
     }
-    if(pipelineStatus == 'SUCESS') {
+    if(pipelineStatus == 'SUCCESS') {
       slackNotification(pipelineStatus)
     }
   }
