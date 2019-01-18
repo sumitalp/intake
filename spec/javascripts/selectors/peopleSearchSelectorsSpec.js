@@ -611,7 +611,7 @@ describe('peopleSearchSelectors', () => {
       ]
       const state = fromJS({peopleSearch})
       const result = Immutable.fromJS({akas})
-      expect(selectAkaFullName(state, result)).toEqual(' (AKA James Doolittle)')
+      expect(selectAkaFullName(state, result)).toEqual(' (AKA: James Doolittle)')
     })
 
     it('return null when searchTerm doesnot match', () => {

@@ -10,9 +10,9 @@ describe('PersonSuggestion', () => {
   })
 
   it('renders aka full name', () => {
-    const props = {akaFullName: '(AKA James Doolittle)'}
+    const props = {akaFullName: '(AKA: James Doolittle)'}
     const component = shallow(<PersonSuggestion {...props} />, {disableLifecycleMethods: true})
-    expect(component.html()).toContain('<span>(AKA James Doolittle)</span>')
+    expect(component.html()).toContain('<span>(AKA: James Doolittle)</span>')
   })
 
   it('renders legacy source table and id', () => {
