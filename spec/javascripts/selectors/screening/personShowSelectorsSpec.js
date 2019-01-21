@@ -173,7 +173,7 @@ describe('personShowSelectors', () => {
 
     it('includes the formatted ethnicity for a person of hispanic/latino origin who has ethnicity details', () => {
       const participants = [
-        {id: '1', ethnicity: {hispanic_latino_origin: 'Yes', ethnicity_detail: ['Mexican']}},
+        {id: '1', ethnicity: [{hispanic_latino_origin: 'Yes', ethnicity_detail: ['Mexican']}]},
       ]
       const state = fromJS({participants})
       expect(getFormattedPersonInformationSelector(state, '1').get('ethnicity')).toEqual('Mexican - Yes')
@@ -181,7 +181,7 @@ describe('personShowSelectors', () => {
 
     it('includes the formatted ethnicity for a person of hispanic/latino origin but without ethnicity details', () => {
       const participants = [
-        {id: '1', ethnicity: {hispanic_latino_origin: 'Unknown', ethnicity_detail: []}},
+        {id: '1', ethnicity: [{hispanic_latino_origin: 'Unknown', ethnicity_detail: []}]},
       ]
       const state = fromJS({participants})
       expect(getFormattedPersonInformationSelector(state, '1').get('ethnicity')).toEqual('Unknown')

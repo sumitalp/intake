@@ -20,7 +20,7 @@ describe('PersonShowContainer', () => {
       last_name: 'Public',
       legacy_descriptor: {legacy_ui_id: '1-4', legacy_table_description: 'Client'},
       races: [{race: 'White', race_detail: 'Romanian'}, {race: 'Asian', race_detail: 'Chinese'}],
-      ethnicity: {hispanic_latino_origin: 'Yes', ethnicity_detail: ['Mexican']},
+      ethnicity: [{hispanic_latino_origin: 'Yes', ethnicity_detail: ['Mexican']}],
     }],
     systemCodes: {
       csecTypes: [
