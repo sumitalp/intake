@@ -46,7 +46,7 @@ describe Api::V1::ParticipantsController do
           legacy_table_name: 'CLIENT_T',
           legacy_ui_id: '0947-1946-9435-0081454'
         },
-        ethnicity: { hispanic_latino_origin: 'Yes', ethnicity_detail: %w[Mexican Hispanic] },
+        ethnicity: [{ hispanic_latino_origin: 'Yes', ethnicity_detail: %w[Mexican Hispanic] }],
         races: [
           { race: 'White', race_detail: 'Romanian' },
           { race: 'Asian', race_detail: 'Cambodian' }
@@ -94,7 +94,7 @@ describe Api::V1::ParticipantsController do
         id: '1',
         first_name: 'Margie',
         last_name: 'Simpson',
-        ethnicity: { hispanic_latino_origin: 'Yes', ethnicity_detail: ['Central American'] },
+        ethnicity: [{ hispanic_latino_origin: 'Yes', ethnicity_detail: ['Central American'] }],
         roles: ['Victim'],
         races: [
           { race: 'White', race_detail: 'Middle Eastern' },

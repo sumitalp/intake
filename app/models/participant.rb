@@ -24,7 +24,7 @@ class Participant
   attribute :roles, Array[String]
   attribute :languages, Array
   attribute :races, Array[Race]
-  attribute :ethnicity, Ethnicity, default: ->(_person, _attribute) { Ethnicity.new }
+  attribute :ethnicity, Array[Ethnicity]
   attribute :legacy_descriptor, LegacyDescriptor
   attribute :safely_surrendered_babies, SafelySurrenderedBabies
   attribute :csec_started_at

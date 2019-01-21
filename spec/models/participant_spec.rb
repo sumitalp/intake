@@ -45,10 +45,10 @@ describe Participant do
         legacy_source_table: 'CLIENT_T',
         screening_id: '2',
         roles: ['Victim'],
-        ethnicity: {
+        ethnicity: [{
           hispanic_latino_origin: 'Yes',
           ethnicity_detail: ['Mexican']
-        }
+        }]
       }.with_indifferent_access
       expect(
         described_class.new(attributes).as_json.with_indifferent_access

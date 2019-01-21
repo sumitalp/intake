@@ -31,10 +31,10 @@ feature 'Create participant' do
       ],
       roles: [],
       languages: ['English'],
-      ethnicity: {
+      ethnicity: [{
         hispanic_latino_origin: 'Yes',
         ethnicity_detail: ['Mexican']
-      }
+      }]
     )
   end
   let(:marge_response) do

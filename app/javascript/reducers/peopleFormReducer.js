@@ -45,8 +45,8 @@ const buildRaceDetails = (races = []) => races.reduce((racesValue, {race, race_d
   [race]: {value: race_detail},
 }), {})
 
-const buildEthnicity = (ethnicity = {}) => {
-  const {hispanic_latino_origin = null, ethnicity_detail = []} = ethnicity
+const buildEthnicity = (ethnicity = []) => {
+  const {hispanic_latino_origin = null, ethnicity_detail = []} = ethnicity[0] || []
   return {
     hispanic_latino_origin: {value: hispanic_latino_origin},
     ethnicity_detail: {value: ethnicity_detail},

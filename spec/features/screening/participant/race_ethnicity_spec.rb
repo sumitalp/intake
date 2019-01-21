@@ -8,7 +8,7 @@ feature 'Race & Ethnicity' do
       :participant,
       middle_name: 'Jacqueline',
       races: [{ race: 'Asian', race_detail: 'Hmong' }],
-      ethnicity: { hispanic_latino_origin: 'Yes', ethnicity_detail: ['Mexican'] }
+      ethnicity: [{ hispanic_latino_origin: 'Yes', ethnicity_detail: ['Mexican'] }]
     )
   end
   let(:homer) do
@@ -16,7 +16,7 @@ feature 'Race & Ethnicity' do
       :participant,
       middle_name: 'Jay',
       races: [{ race: 'Unknown', race_detail: nil }],
-      ethnicity: { hispanic_latino_origin: 'Declined to answer', ethnicity_detail: [] }
+      ethnicity: [{ hispanic_latino_origin: 'Declined to answer', ethnicity_detail: [] }]
     )
   end
   let(:screening) do
@@ -65,7 +65,7 @@ feature 'Race & Ethnicity' do
         end
 
         marge.races = [{ race: 'Unknown', race_detail: nil }]
-        marge.ethnicity = { hispanic_latino_origin: 'Declined to answer', ethnicity_detail: [] }
+        marge.ethnicity = [{ hispanic_latino_origin: 'Declined to answer', ethnicity_detail: [] }]
         stub_request(:put,
           ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
           .and_return(json_body(marge.to_json, status: 200))
@@ -117,7 +117,7 @@ feature 'Race & Ethnicity' do
         end
 
         homer.races = [{ race: 'Asian', race_detail: 'Hmong' }]
-        homer.ethnicity = { hispanic_latino_origin: 'Yes', ethnicity_detail: ['Mexican'] }
+        homer.ethnicity = [{ hispanic_latino_origin: 'Yes', ethnicity_detail: ['Mexican'] }]
         stub_request(:put,
           ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], homer.id)))
           .and_return(json_body(homer.to_json, status: 200))

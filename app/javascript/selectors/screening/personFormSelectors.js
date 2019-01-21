@@ -132,7 +132,7 @@ const getEthnicity = (person) => {
   const hispanic_latino_origin = person.getIn(['ethnicity', 'hispanic_latino_origin', 'value'])
   const ethnicity_detail = (hispanic_latino_origin === 'Yes') ?
     person.getIn(['ethnicity', 'ethnicity_detail', 'value']) : []
-  return {hispanic_latino_origin, ethnicity_detail}
+  return [{hispanic_latino_origin, ethnicity_detail}]
 }
 
 const getRaces = (person) => person.get('races', Map()).reduce((races, raceValue, raceKey) => {
