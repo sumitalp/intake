@@ -81,9 +81,11 @@ feature 'Race & Ethnicity' do
                 'race_detail' => nil
               )
             ),
-            'ethnicity' => hash_including(
-              'ethnicity_detail' => [],
-              'hispanic_latino_origin' => 'Declined to answer'
+            'ethnicity' => array_including(
+              hash_including(
+                'ethnicity_detail' => [],
+                'hispanic_latino_origin' => 'Declined to answer'
+              )
             )
           ))
         ).to have_been_made
@@ -133,9 +135,11 @@ feature 'Race & Ethnicity' do
                 'race_detail' => 'Hmong'
               )
             ),
-            'ethnicity' => hash_including(
-              'ethnicity_detail' => ['Mexican'],
-              'hispanic_latino_origin' => 'Yes'
+            'ethnicity' => array_including(
+              hash_including(
+                'ethnicity_detail' => ['Mexican'],
+                'hispanic_latino_origin' => 'Yes'
+              )
             )
           ))
         ).to have_been_made

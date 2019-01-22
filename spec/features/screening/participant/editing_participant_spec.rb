@@ -593,16 +593,18 @@ feature 'Edit Person' do
       click_button 'Save'
     end
 
-    # expect(
-    #   a_request(:put,
-    #     ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
-    #   .with(body: hash_including(
-    #     'ethnicity' => hash_including(
-    #         'ethnicity_detail' => [],
-    #         'hispanic_latino_origin' => nil
-    #     )
-    #   ))
-    # ).to have_been_made
+    expect(
+      a_request(:put,
+        ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
+      .with(body: hash_including(
+        'ethnicity' => array_including(
+          hash_including(
+            'ethnicity_detail' => [],
+            'hispanic_latino_origin' => nil
+          )
+        )
+      ))
+    ).to have_been_made
 
     within show_participant_card_selector(marge.id) do
       expect(page).to_not have_content('Mexican - Yes')
