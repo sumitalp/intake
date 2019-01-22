@@ -95,7 +95,15 @@ describe('Store', () => {
     const screening = fromJS({
       id: '1',
       name: 'Mock screening',
-      participants: [{id: '2', legacy_id: '3', screening_id: '1', addresses: []}],
+      participants: [
+        {id: '2',
+          legacy_id: '3',
+          screening_id: '1',
+          addresses: [],
+          ethnicity: [{
+            hispanic_latino_origin: 'Yes',
+            ethnicity_detail: ['Mexican'],
+          }]}],
       allegations: [],
       incident_address: {},
     })
@@ -164,7 +172,14 @@ describe('Store', () => {
 
     it('handles create participant', () => {
       spyOn(IntakeConfig, 'isFeatureActive').and.returnValue(false)
-      const participant = {id: '2', legacy_id: '3', screening_id: '1', addresses: []}
+      const participant = {id: '2',
+        legacy_id: '3',
+        screening_id: '1',
+        addresses: [],
+        ethnicity: [{
+          hispanic_latino_origin: 'Yes',
+          ethnicity_detail: ['Mexican'],
+        }]}
       const participants = fromJS([participant])
       const action = createPersonSuccess(participant)
       store.dispatch(action)

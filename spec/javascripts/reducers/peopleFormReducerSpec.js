@@ -59,10 +59,10 @@ describe('peopleFormReducer', () => {
             {race: 'race_1', race_detail: 'race_detail_1'},
             {race: 'race_2', race_detail: 'race_detail_2'},
           ],
-          ethnicity: {
+          ethnicity: [{
             ethnicity_detail: ['Mexican'],
             hispanic_latino_origin: 'Yes',
-          },
+          }],
         }, {
           id: 'participant_two',
           addresses: [{
@@ -98,10 +98,10 @@ describe('peopleFormReducer', () => {
           sealed: false,
           probation_youth: false,
           races: [],
-          ethnicity: {
+          ethnicity: [{
             ethnicity_detail: [],
             hispanic_latino_origin: null,
-          },
+          }],
         }],
       })
       expect(peopleFormReducer(Map(), action)).toEqualImmutable(
@@ -250,10 +250,10 @@ describe('peopleFormReducer', () => {
             {race: 'race_1', race_detail: 'race_detail_1'},
             {race: 'race_2', race_detail: 'race_detail_2'},
           ],
-          ethnicity: {
+          ethnicity: [{
             ethnicity_detail: ['Mexican'],
             hispanic_latino_origin: 'Yes',
-          },
+          }],
         }],
       })
       expect(
@@ -554,10 +554,10 @@ describe('peopleFormReducer', () => {
           type: 'Home',
         }],
         races: [],
-        ethnicity: {
+        ethnicity: [{
           hispanic_latino_origin: null,
           ethnicity_detail: [],
-        },
+        }],
       }
       const action = createPersonSuccess(newPerson)
       expect(peopleFormReducer(lastState, action)).toEqualImmutable(fromJS({
@@ -711,10 +711,10 @@ describe('peopleFormReducer', () => {
         }],
         races: [],
         race_details: {},
-        ethnicity: {
+        ethnicity: [{
           hispanic_latino_origin: 'Yes',
           ethnicity_detail: ['Mexican'],
-        },
+        }],
       }
       const action = updatePersonSuccess(modified_person)
       expect(peopleFormReducer(lastState, action)).toEqualImmutable(fromJS({

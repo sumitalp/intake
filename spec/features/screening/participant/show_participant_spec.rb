@@ -31,10 +31,10 @@ feature 'Show Screening' do
       { race: 'Native Hawaiian or Other Pacific Islander' }
     ],
     phone_numbers: [phone_number],
-    ethnicity: {
+    ethnicity: [{
       hispanic_latino_origin: 'Yes',
       ethnicity_detail: ['Mexican']
-    },
+    }],
     languages: %w[Korean Lao Hawaiian]
   )
   existing_screening = {
@@ -98,7 +98,7 @@ feature 'Show Screening' do
 
   context 'has participant of hispanic/latino origin but with no ethnicity details' do
     before do
-      existing_participant.ethnicity[:ethnicity_detail] = []
+      existing_participant.ethnicity[0][:ethnicity_detail] = []
       existing_screening[:participants] = [existing_participant]
       stub_request(
         :get, ferb_api_url(FerbRoutes.intake_screening_path(existing_screening[:id]))

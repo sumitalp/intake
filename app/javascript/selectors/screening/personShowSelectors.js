@@ -184,11 +184,10 @@ const selectRaces = (person) => (
 )
 
 const selectEthnicity = (person) => {
-  const {hispanic_latino_origin: hispanicLatinoOrigin, ethnicity_detail} = person.toJS().ethnicity || {}
-
+  const hispanicLatinoOrigin = person.getIn(['ethnicity', 0, 'hispanic_latino_origin'])
+  const ethnicityDetail = person.getIn(['ethnicity', 0, 'ethnicity_detail'])
   if (!hispanicLatinoOrigin) { return undefined }
-
-  const ethnicityText = ethnicity_detail.length > 0 ? `${ethnicity_detail} - ` : ''
+  const ethnicityText = ethnicityDetail.size > 0 ? `${ethnicityDetail.toJS().toString()} - ` : ''
   return `${ethnicityText}${hispanicLatinoOrigin}`
 }
 

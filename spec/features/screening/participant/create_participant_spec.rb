@@ -82,7 +82,7 @@ feature 'Create participant' do
         { race: 'White', race_detail: 'European' },
         { race: 'American Indian or Alaska Native', race_detail: 'Alaska Native' }
       ],
-      ethnicity: { hispanic_latino_origin: 'Yes', ethnicity_detail: ['Central American'] }
+      ethnicity: [{ hispanic_latino_origin: 'Yes', ethnicity_detail: ['Central American'] }]
     }
   end
   let(:homer) do
@@ -108,7 +108,7 @@ feature 'Create participant' do
         { race: 'Asian', race_detail: 'Chinese' },
         { race: 'American Indian or Alaska Native', race_detail: 'Alaska Native' }
       ],
-      ethnicity: { hispanic_latino_origin: 'Yes', ethnicity_detail: %w[Hispanic Mexican] }
+      ethnicity: [{ hispanic_latino_origin: 'Yes', ethnicity_detail: %w[Hispanic Mexican] }]
     }
   end
 

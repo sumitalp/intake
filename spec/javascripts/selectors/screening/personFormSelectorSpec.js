@@ -214,10 +214,10 @@ describe('personFormSelectors', () => {
           sensitive: true,
           sealed: true,
           probation_youth: true,
-          ethnicity: {
+          ethnicity: [{
             hispanic_latino_origin: 'Yes',
             ethnicity_detail: ['Mexican'],
-          },
+          }],
           races: [
             {race: 'Abandoned', race_detail: null},
           ],
@@ -257,10 +257,10 @@ describe('personFormSelectors', () => {
           sensitive: false,
           sealed: false,
           probation_youth: false,
-          ethnicity: {
+          ethnicity: [{
             hispanic_latino_origin: 'No',
             ethnicity_detail: [],
-          },
+          }],
           races: [
             {race: 'White', race_detail: 'Fuzzy Triangle'},
             {race: 'Asian', race_detail: 'Regular Circle'},
@@ -294,10 +294,10 @@ describe('personFormSelectors', () => {
           sensitive: true,
           sealed: true,
           probation_youth: true,
-          ethnicity: {
+          ethnicity: [{
             hispanic_latino_origin: null,
             ethnicity_detail: [],
-          },
+          }],
           races: [],
         },
       }))
@@ -425,10 +425,10 @@ describe('personFormSelectors', () => {
           sensitive: true,
           sealed: true,
           probation_youth: true,
-          ethnicity: {
+          ethnicity: [{
             hispanic_latino_origin: null,
             ethnicity_detail: [],
-          },
+          }],
           races: [],
         },
       }))
@@ -497,10 +497,10 @@ describe('personFormSelectors', () => {
           sensitive: true,
           sealed: true,
           probation_youth: true,
-          ethnicity: {
+          ethnicity: [{
             hispanic_latino_origin: null,
             ethnicity_detail: [],
-          },
+          }],
           races: [],
         },
       }))
@@ -1141,10 +1141,10 @@ describe('personFormSelectors', () => {
         sensitive: true,
         sealed: true,
         probation_youth: true,
-        ethnicity: {
+        ethnicity: [{
           hispanic_latino_origin: 'Yes',
           ethnicity_detail: ['Mexican'],
-        },
+        }],
         races: [
           {race: 'Abandoned', race_detail: null},
         ],
