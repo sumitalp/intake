@@ -26,9 +26,10 @@ const buildAddresses = (addresses) => fromJS(addresses || [])
 
 const buildPhoneNumbers = (phoneNumbers) => {
   if (phoneNumbers) {
-    return phoneNumbers.map(({id, number, type}) => ({
+    return phoneNumbers.map(({id, number, extension, type}) => ({
       id,
       number: {value: number},
+      extension: {value: extension},
       type: {value: type},
     }))
   } else {

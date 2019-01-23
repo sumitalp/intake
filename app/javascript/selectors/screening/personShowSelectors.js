@@ -242,6 +242,7 @@ export const getPersonFormattedPhoneNumbersSelector = (state, personId) => (
       Map({
         number: phoneNumberFormatter(phoneNumber.get('number')),
         type: phoneNumber.get('type'),
+        extension: phoneNumber.get('extension'),
         errors: getPhoneNumberErrors(phoneNumber.get('number')),
       })
     )
