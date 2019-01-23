@@ -30,4 +30,13 @@ describe('PhoneNumbersShow', () => {
     expect(phoneTypeShowFields.at(0).children().text()).toEqual('Home')
     expect(phoneTypeShowFields.at(1).children().text()).toEqual('Cell')
   })
+
+  it('renders a extension for each phoneNumber present', () => {
+    const phoneNumbers = [{extension: '1234'}, {extension: '5678'}]
+    const component = renderPhoneNumbersShow({phoneNumbers})
+    const phoneTypeShowFields = component.find('ShowField[label="Extension"]')
+    expect(phoneTypeShowFields.length).toEqual(2)
+    expect(phoneTypeShowFields.at(0).children().text()).toEqual('1234')
+    expect(phoneTypeShowFields.at(1).children().text()).toEqual('5678')
+  })
 })

@@ -4,11 +4,12 @@ import ShowField from 'common/ShowField'
 
 const PhoneNumbersShow = ({phoneNumbers}) => (
   <div>
-    { phoneNumbers.map(({number, type, errors}, index) => (
+    { phoneNumbers.map(({number, type, extension, errors}, index) => (
       <div key={index}>
         <div className='row gap-top'>
-          <ShowField gridClassName='col-md-6' label='Phone Number' errors={errors}>{number}</ShowField>
-          <ShowField gridClassName='col-md-6' label='Phone Number Type'>{type}</ShowField>
+          <ShowField gridClassName='col-md-4' label='Phone Number' errors={errors}>{number}</ShowField>
+          <ShowField gridClassName='col-md-4' label='Extension'>{extension}</ShowField>
+          <ShowField gridClassName='col-md-4' label='Phone Number Type'>{type}</ShowField>
         </div>
       </div>
     ))}

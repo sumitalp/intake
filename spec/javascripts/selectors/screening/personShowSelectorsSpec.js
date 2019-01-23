@@ -276,6 +276,13 @@ describe('personShowSelectors', () => {
       expect(getPersonFormattedPhoneNumbersSelector(state, '1').first().get('type'))
         .toEqual('Home')
     })
+
+    it('returns the extension for a number', () => {
+      const people = [{id: '1', phone_numbers: [{type: 'Home', extension: '1234'}]}]
+      const state = fromJS({participants: people})
+      expect(getPersonFormattedPhoneNumbersSelector(state, '1').first().get('extension'))
+        .toEqual('1234')
+    })
   })
 
   describe('getReadOnlyPersonFormattedAddressesSelector', () => {

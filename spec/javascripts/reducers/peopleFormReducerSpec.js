@@ -92,7 +92,7 @@ describe('peopleFormReducer', () => {
           middle_name: 'middle name two',
           last_name: 'last name two',
           name_suffix: 'name suffix two',
-          phone_numbers: [{id: 'DEF456', number: '1234567890', type: 'Home'}],
+          phone_numbers: [{id: 'DEF456', number: '1234567890', extension: '1234', type: 'Home'}],
           ssn: 'ssn two',
           sensitive: false,
           sealed: false,
@@ -181,6 +181,7 @@ describe('peopleFormReducer', () => {
             phone_numbers: [{
               id: 'DEF456',
               number: {value: '1234567890'},
+              extension: {value: '1234'},
               type: {value: 'Home'},
             }],
             ssn: {value: 'ssn two', touched: false},
@@ -544,7 +545,7 @@ describe('peopleFormReducer', () => {
         sensitive: false,
         sealed: false,
         probation_youth: false,
-        phone_numbers: [{id: 'DEF456', number: '1234567890', type: 'Home'}],
+        phone_numbers: [{id: 'DEF456', number: '1234567890', extension: '1234', type: 'Home'}],
         addresses: [{
           id: 'ABC123',
           street_address: '1234 Some Lane',
@@ -611,6 +612,7 @@ describe('peopleFormReducer', () => {
           phone_numbers: [{
             id: 'DEF456',
             number: {value: '1234567890'},
+            extension: {value: '1234'},
             type: {value: 'Home'},
           }],
           addresses: [{
@@ -699,6 +701,7 @@ describe('peopleFormReducer', () => {
         phone_numbers: [{
           id: 'pn1',
           number: '1231231212',
+          extension: '1234',
           type: 'Home',
         }],
         addresses: [{
@@ -742,6 +745,7 @@ describe('peopleFormReducer', () => {
           phone_numbers: [{
             id: 'pn1',
             number: {value: '1231231212'},
+            extension: {value: '1234'},
             type: {value: 'Home'},
             touched: {number: false},
           }],
