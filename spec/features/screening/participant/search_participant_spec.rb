@@ -59,7 +59,7 @@ feature 'searching a participant in autocompleter' do
       end
     end
 
-    context 'closes search results' do
+    context 'search results' do
       before do
         legacy_descriptor = FactoryBot.create(:legacy_descriptor)
         search_response = PersonSearchResponseBuilder.build do |response|
@@ -97,7 +97,7 @@ feature 'searching a participant in autocompleter' do
         end
       end
 
-      scenario 'when clicking search result' do
+      scenario 'closes when clicking search result' do
         within '#search-card', text: 'Search' do
           page.find('strong', text: 'Marge').click
         end
@@ -107,11 +107,11 @@ feature 'searching a participant in autocompleter' do
         end
       end
 
-      scenario 'when clicking outside search result' do
+      scenario 'does not close when clicking outside search result' do
         page.find('#screening-information-card').click
 
         within '#search-card', text: 'Search' do
-          expect(page).to_not have_button('Create a new person')
+          expect(page).to have_button('Create a new person')
         end
       end
     end
