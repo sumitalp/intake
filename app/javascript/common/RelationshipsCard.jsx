@@ -6,16 +6,25 @@ import RelationshipsScreeningContainer from 'screenings/RelationshipsContainer'
 import RelationshipsSnapshotContainer from 'containers/snapshot/RelationshipsContainer'
 import CardView from 'views/CardView'
 
-const getRelationshipsContainer = (isScreening) => (
-  isScreening ? <RelationshipsScreeningContainer /> : <RelationshipsSnapshotContainer />
-)
+const getRelationshipsContainer = isScreening =>
+  isScreening ? (
+    <RelationshipsScreeningContainer />
+  ) : (
+    <RelationshipsSnapshotContainer />
+  )
 
 const RelationshipsCard = ({areRelationshipsEmpty, isScreening}) => (
   <CardView
-    id='relationships-card'
-    title='Relationships'
+    id="relationships-card"
+    title="Relationships"
     mode={SHOW_MODE}
-    show={areRelationshipsEmpty ? <EmptyRelationships /> : getRelationshipsContainer(isScreening)}
+    show={
+      areRelationshipsEmpty ? (
+        <EmptyRelationships />
+      ) : (
+        getRelationshipsContainer(isScreening)
+      )
+    }
   />
 )
 
