@@ -164,6 +164,87 @@ feature 'Create Snapshot' do
         )
       end
 
+      context 'search results' do
+        before(:each) do
+          visit root_path(accessCode: access_code)
+          click_button 'Start Snapshot'
+
+          search_response = PersonSearchResponseBuilder.build do |response|
+            response.with_total(1)
+            response.with_hits do
+              [
+                PersonSearchResultBuilder.build do |builder|
+                  builder.with_first_name(person[:first_name])
+                  builder.with_legacy_descriptor(person[:legacy_descriptor])
+                end
+              ]
+            end
+          end
+
+          stub_person_search(person_response: search_response)
+
+          stub_request(
+            :get,
+            ferb_api_url(
+              FerbRoutes.client_authorization_path(
+                person.dig(:legacy_descriptor, :legacy_id)
+              )
+            )
+          ).and_return(json_body('', status: 200))
+
+          stub_person_find(
+            id: person.dig(:legacy_descriptor, :legacy_id),
+            person_response: person
+          )
+
+          stub_request(
+            :get,
+            ferb_api_url(
+              FerbRoutes.relationships_path
+            ) + "?clientIds=#{person.dig(:legacy_descriptor, :legacy_id)}"
+          ).and_return(json_body([].to_json, status: 200))
+
+          stub_empty_history_for_clients [person.dig(:legacy_descriptor, :legacy_id)]
+        end
+
+        scenario 'closes when clicking Start Over button' do
+          within '#search-card', text: 'Search' do
+            fill_in 'Search for clients', with: 'Ma'
+            page.find('strong', text: person[:first_name])
+          end
+
+          click_button 'Start Over'
+
+          within '#search-card', text: 'Search' do
+            expect(page).to_not have_content 'Client ID 1621-3598-1936-3000631 in CWS-CMS'
+          end
+        end
+
+        scenario 'closes when clicking search result' do
+          within '#search-card', text: 'Search' do
+            fill_in 'Search for clients', with: 'Ma'
+            page.find('strong', text: person[:first_name]).click
+          end
+
+          within '#search-card', text: 'Search' do
+            expect(page).to_not have_content('Showing 1-1 of 1 results for "Ma"')
+          end
+        end
+
+        scenario 'does not close when clicking outside search result' do
+          within '#search-card', text: 'Search' do
+            fill_in 'Search for clients', with: 'Ma'
+            page.find('strong', text: person[:first_name])
+          end
+
+          click_button 'CWDS'
+
+          within '#search-card', text: 'Search' do
+            expect(page).to have_content 'Client ID 1621-3598-1936-3000631 in CWS-CMS'
+          end
+        end
+      end
+
       scenario 'a new snapshot is created if the user visits the snapshot page directly' do
         visit snapshot_path(accessCode: access_code)
         expect(page).to have_content('The Child Welfare History Snapshot allows you to search')
