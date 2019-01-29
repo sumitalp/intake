@@ -1,7 +1,7 @@
 import AttachLink from 'common/relationship/AttachLink'
 import React from 'react'
-import { shallow } from 'enzyme'
-import { EmptyRelationships, Relationships } from 'common/Relationships'
+import {shallow} from 'enzyme'
+import {EmptyRelationships, Relationships} from 'common/Relationships'
 
 describe('Relationships for Screening', () => {
   const getProps = (component, cardNumber) =>
@@ -12,7 +12,7 @@ describe('Relationships for Screening', () => {
 
   let onClick
   let component
-  const relationshipsButtonStatus = { createRelationshipsButtonStatus: true }
+  const relationshipsButtonStatus = {createRelationshipsButtonStatus: true}
   const renderRelationships = props =>
     shallow(
       <Relationships
@@ -24,7 +24,7 @@ describe('Relationships for Screening', () => {
         onClick={onClick}
         relationshipsButtonStatus={relationshipsButtonStatus}
       />,
-      { disableLifecycleMethods: true }
+      {disableLifecycleMethods: true}
     )
 
   const candidates = [
@@ -97,7 +97,7 @@ describe('Relationships for Screening', () => {
           name: 'Jose Gomez',
           secondaryRelationship: 'son',
           person_card_exists: true,
-          legacy_descriptor: { legacy_id: '1' },
+          legacy_descriptor: {legacy_id: '1'},
         },
         {
           name: 'Julie Gomez',
@@ -125,7 +125,7 @@ describe('Relationships for Screening', () => {
 
   beforeEach(() => {
     onClick = jasmine.createSpy('onClick')
-    component = renderRelationships({ people, candidates })
+    component = renderRelationships({people, candidates})
   })
 
   describe('ScreeningCreateRelationshipContainer', () => {
@@ -192,7 +192,7 @@ describe('Relationships for Screening', () => {
             name: 'Jose Gomez',
             secondaryRelationship: 'son',
             person_card_exists: true,
-            legacy_descriptor: { legacy_id: '1' },
+            legacy_descriptor: {legacy_id: '1'},
           },
           {
             name: 'Julie Gomez',
@@ -231,16 +231,16 @@ describe('Relationships for Snapshot', () => {
   const renderRelationships = props =>
     shallow(
       <Relationships {...props} isScreening={false} onClick={onClick} />,
-      { disableLifecycleMethods: true }
+      {disableLifecycleMethods: true}
     )
 
   it('renders people with no relationships', () => {
     const people = [
-      { name: 'Sally Jones', relationships: [] },
-      { name: 'Nate Starbringer', relationships: [] },
-      { name: 'Jim Johnson', relationships: [] },
+      {name: 'Sally Jones', relationships: []},
+      {name: 'Nate Starbringer', relationships: []},
+      {name: 'Jim Johnson', relationships: []},
     ]
-    const component = renderRelationships({ people })
+    const component = renderRelationships({people})
 
     expect(
       component
@@ -273,7 +273,7 @@ describe('Relationships for Snapshot', () => {
             name: 'Jane Johnson',
             type: 'mother',
             person_card_exists: true,
-            legacy_descriptor: { legacy_id: '1' },
+            legacy_descriptor: {legacy_id: '1'},
           },
         ],
       },
@@ -284,7 +284,7 @@ describe('Relationships for Snapshot', () => {
             name: 'Jim Johnson',
             type: 'father',
             person_card_exists: false,
-            legacy_descriptor: { legacy_id: '2' },
+            legacy_descriptor: {legacy_id: '2'},
           },
         ],
       },
@@ -295,13 +295,13 @@ describe('Relationships for Snapshot', () => {
             name: 'Nate Starbringer',
             type: 'son',
             person_card_exists: true,
-            legacy_descriptor: { legacy_id: '4' },
+            legacy_descriptor: {legacy_id: '4'},
           },
           {
             name: 'Sally Jones',
             type: 'daughter',
             person_card_exists: true,
-            legacy_descriptor: { legacy_id: '3' },
+            legacy_descriptor: {legacy_id: '3'},
           },
         ],
       },
@@ -316,25 +316,25 @@ describe('Relationships for Snapshot', () => {
       name: 'Jane Johnson',
       type: 'mother',
       person_card_exists: true,
-      legacy_descriptor: { legacy_id: '1' },
+      legacy_descriptor: {legacy_id: '1'},
     })
     expect(component.at(1).prop('relationship')).toEqual({
       name: 'Jim Johnson',
       type: 'father',
       person_card_exists: false,
-      legacy_descriptor: { legacy_id: '2' },
+      legacy_descriptor: {legacy_id: '2'},
     })
     expect(component.at(2).prop('relationship')).toEqual({
       name: 'Nate Starbringer',
       type: 'son',
       person_card_exists: true,
-      legacy_descriptor: { legacy_id: '4' },
+      legacy_descriptor: {legacy_id: '4'},
     })
     expect(component.at(3).prop('relationship')).toEqual({
       name: 'Sally Jones',
       type: 'daughter',
       person_card_exists: true,
-      legacy_descriptor: { legacy_id: '3' },
+      legacy_descriptor: {legacy_id: '3'},
     })
   })
 
@@ -350,7 +350,7 @@ describe('Relationships for Snapshot', () => {
             type: 'mother',
             person_card_exists: true,
             isSealed: true,
-            legacy_descriptor: { legacy_id: '1' },
+            legacy_descriptor: {legacy_id: '1'},
           },
         ],
       },
@@ -370,7 +370,7 @@ describe('Relationships for Snapshot', () => {
       type: 'mother',
       person_card_exists: true,
       isSealed: true,
-      legacy_descriptor: { legacy_id: '1' },
+      legacy_descriptor: {legacy_id: '1'},
     })
     expect(component.at(0).html()).toContain(
       '<span class="information-flag search-result">Sealed</span>'
@@ -389,7 +389,7 @@ describe('Relationships for Snapshot', () => {
             type: 'mother',
             person_card_exists: true,
             isSealed: false,
-            legacy_descriptor: { legacy_id: '1' },
+            legacy_descriptor: {legacy_id: '1'},
           },
         ],
       },
@@ -410,7 +410,7 @@ describe('Relationships for Snapshot', () => {
       type: 'mother',
       person_card_exists: true,
       isSealed: false,
-      legacy_descriptor: { legacy_id: '1' },
+      legacy_descriptor: {legacy_id: '1'},
     })
     expect(component.at(0).html()).not.toContain(
       '<span class="information-flag search-result">Sealed</span>'
@@ -429,7 +429,7 @@ describe('Relationships for Snapshot', () => {
             type: 'mother',
             person_card_exists: true,
             isSensitive: true,
-            legacy_descriptor: { legacy_id: '1' },
+            legacy_descriptor: {legacy_id: '1'},
           },
         ],
       },
@@ -450,7 +450,7 @@ describe('Relationships for Snapshot', () => {
       type: 'mother',
       person_card_exists: true,
       isSensitive: true,
-      legacy_descriptor: { legacy_id: '1' },
+      legacy_descriptor: {legacy_id: '1'},
     })
     expect(component.at(0).html()).toContain(
       '<span class="information-flag search-result">Sensitive</span>'
@@ -469,7 +469,7 @@ describe('Relationships for Snapshot', () => {
             type: 'mother',
             person_card_exists: true,
             isSensitive: false,
-            legacy_descriptor: { legacy_id: '1' },
+            legacy_descriptor: {legacy_id: '1'},
           },
         ],
       },
@@ -490,7 +490,7 @@ describe('Relationships for Snapshot', () => {
       type: 'mother',
       person_card_exists: true,
       isSensitive: false,
-      legacy_descriptor: { legacy_id: '1' },
+      legacy_descriptor: {legacy_id: '1'},
     })
     expect(component.at(0).html()).not.toContain(
       '<span class="information-flag search-result">Sealed</span>'
@@ -509,7 +509,7 @@ describe('Relationships for Snapshot', () => {
             type: 'mother',
             age: '(30 yrs)',
             person_card_exists: true,
-            legacy_descriptor: { legacy_id: '1' },
+            legacy_descriptor: {legacy_id: '1'},
           },
         ],
       },
@@ -521,7 +521,7 @@ describe('Relationships for Snapshot', () => {
             type: 'father',
             age: '(30 yrs)',
             person_card_exists: false,
-            legacy_descriptor: { legacy_id: '2' },
+            legacy_descriptor: {legacy_id: '2'},
           },
         ],
       },
@@ -533,14 +533,14 @@ describe('Relationships for Snapshot', () => {
             type: 'son',
             age: '(20 yrs)',
             person_card_exists: true,
-            legacy_descriptor: { legacy_id: '4' },
+            legacy_descriptor: {legacy_id: '4'},
           },
           {
             name: 'Sally Jones',
             type: 'daughter',
             age: '(10 yrs)',
             person_card_exists: true,
-            legacy_descriptor: { legacy_id: '3' },
+            legacy_descriptor: {legacy_id: '3'},
           },
         ],
       },
@@ -557,28 +557,28 @@ describe('Relationships for Snapshot', () => {
       type: 'mother',
       age: '(30 yrs)',
       person_card_exists: true,
-      legacy_descriptor: { legacy_id: '1' },
+      legacy_descriptor: {legacy_id: '1'},
     })
     expect(component.at(1).prop('relationship')).toEqual({
       name: 'Jim Johnson',
       type: 'father',
       age: '(30 yrs)',
       person_card_exists: false,
-      legacy_descriptor: { legacy_id: '2' },
+      legacy_descriptor: {legacy_id: '2'},
     })
     expect(component.at(2).prop('relationship')).toEqual({
       name: 'Nate Starbringer',
       type: 'son',
       age: '(20 yrs)',
       person_card_exists: true,
-      legacy_descriptor: { legacy_id: '4' },
+      legacy_descriptor: {legacy_id: '4'},
     })
     expect(component.at(3).prop('relationship')).toEqual({
       name: 'Sally Jones',
       type: 'daughter',
       age: '(10 yrs)',
       person_card_exists: true,
-      legacy_descriptor: { legacy_id: '3' },
+      legacy_descriptor: {legacy_id: '3'},
     })
   })
 
@@ -593,7 +593,7 @@ describe('Relationships for Snapshot', () => {
             name: 'Jane Johnson',
             type: 'mother',
             person_card_exists: true,
-            legacy_descriptor: { legacy_id: '1' },
+            legacy_descriptor: {legacy_id: '1'},
           },
         ],
       },
@@ -604,7 +604,7 @@ describe('Relationships for Snapshot', () => {
             name: 'Jim Johnson',
             type: 'father',
             person_card_exists: true,
-            legacy_descriptor: { legacy_id: '2' },
+            legacy_descriptor: {legacy_id: '2'},
           },
         ],
       },
@@ -621,7 +621,7 @@ describe('Relationships for Snapshot', () => {
       name: 'Jim Johnson',
       type: 'father',
       person_card_exists: true,
-      legacy_descriptor: { legacy_id: '2' },
+      legacy_descriptor: {legacy_id: '2'},
     })
   })
 
@@ -636,7 +636,7 @@ describe('Relationships for Snapshot', () => {
             name: 'Jane Johnson',
             type: 'mother',
             person_card_exists: true,
-            legacy_descriptor: { legacy_id: '1' },
+            legacy_descriptor: {legacy_id: '1'},
           },
         ],
       },
@@ -647,7 +647,7 @@ describe('Relationships for Snapshot', () => {
             name: 'Jim Johnson',
             type: 'father',
             person_card_exists: true,
-            legacy_descriptor: { legacy_id: '2' },
+            legacy_descriptor: {legacy_id: '2'},
           },
         ],
       },
@@ -664,7 +664,7 @@ describe('Relationships for Snapshot', () => {
       name: 'Jane Johnson',
       type: 'mother',
       person_card_exists: true,
-      legacy_descriptor: { legacy_id: '1' },
+      legacy_descriptor: {legacy_id: '1'},
     })
   })
 })
