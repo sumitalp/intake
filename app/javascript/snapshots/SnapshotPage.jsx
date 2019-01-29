@@ -111,7 +111,7 @@ export const mapDispatchToProps = (dispatch) => ({
   createSnapshot: () => dispatch(createSnapshot()),
   createSnapshotPerson: (id) => dispatch(createSnapshotPerson(id)),
   startOver: () => {
-    dispatch(createSnapshot())
+    dispatch(clearSnapshot())
     dispatch(clearPeople())
     dispatch(clearHistoryOfInvolvement())
     dispatch(clearRelationships())

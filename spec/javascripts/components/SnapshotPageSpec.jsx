@@ -1,6 +1,10 @@
 import React from 'react'
 import {SnapshotPage, mapDispatchToProps} from 'snapshots/SnapshotPage'
 import {clear, setSearchTerm} from 'actions/peopleSearchActions'
+import {clearSnapshot} from 'actions/snapshotActions'
+import {clearPeople} from 'actions/personCardActions'
+import {clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
+import {clearRelationships} from 'actions/relationshipsActions'
 import {shallow} from 'enzyme'
 
 describe('SnapshotPage', () => {
@@ -71,7 +75,10 @@ describe('SnapshotPage', () => {
         const props = mapDispatchToProps(dispatch)
 
         props.startOver()
-
+        expect(dispatch).toHaveBeenCalledWith(clearSnapshot())
+        expect(dispatch).toHaveBeenCalledWith(clearPeople())
+        expect(dispatch).toHaveBeenCalledWith(clearHistoryOfInvolvement())
+        expect(dispatch).toHaveBeenCalledWith(clearRelationships())
         expect(dispatch).toHaveBeenCalledWith(clear())
         expect(dispatch).toHaveBeenCalledWith(setSearchTerm(''))
       })
