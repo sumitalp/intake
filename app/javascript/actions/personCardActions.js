@@ -13,7 +13,11 @@ export function updatePersonSuccess(person) {
   return {type: UPDATE_PERSON_COMPLETE, payload: {person}}
 }
 export function updatePersonFailure(error, personId) {
-  return {type: UPDATE_PERSON_COMPLETE, payload: {error, personId}, error: true}
+  return {
+    type: UPDATE_PERSON_COMPLETE,
+    payload: {error, personId},
+    error: true,
+  }
 }
 export function savePerson(personId) {
   return {type: UPDATE_PERSON, payload: {personId}}

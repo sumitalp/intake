@@ -3,7 +3,10 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {createSnapshot, clearSnapshot} from 'actions/snapshotActions'
 import {clearPeople, createSnapshotPerson} from 'actions/personCardActions'
-import {clear as clearSearch, setSearchTerm} from 'actions/peopleSearchActions'
+import {
+  clear as clearSearch,
+  setSearchTerm,
+} from 'actions/peopleSearchActions'
 import {clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
 import {clearRelationships} from 'actions/relationshipsActions'
 import PersonSearchFormContainer from 'containers/common/PersonSearchFormContainer'
@@ -19,9 +22,8 @@ import {selectParticipants} from 'selectors/participantSelectors'
 import BreadCrumb from 'containers/common/BreadCrumb'
 import {getHasGenericErrorValueSelector} from 'selectors/errorsSelectors'
 
-const isDuplicatePerson = (participants, id) => (
-  participants.some((x) => x.id === id)
-)
+const isDuplicatePerson = (participants, id) =>
+  participants.some(x => x.id === id)
 
 export class SnapshotPage extends React.Component {
   componentDidMount() {
@@ -35,8 +37,9 @@ export class SnapshotPage extends React.Component {
   startOverButton() {
     const {startOver} = this.props
     return (
-      <button type='button'
-        className='btn primary-btn pull-right'
+      <button
+        type="button"
+        className="btn primary-btn pull-right"
         disabled={false}
         onClick={startOver}
       >
@@ -54,20 +57,23 @@ export class SnapshotPage extends React.Component {
 
   renderBody(participants) {
     return (
-      <div className='col-md-9 col-md-offset-3 col-xs-8 col-xs-offset-4 snapshot-inner-container'>
-        <div className='row'>
+      <div className="col-md-9 col-md-offset-3 col-xs-8 col-xs-offset-4 snapshot-inner-container">
+        <div className="row">
           <SnapshotIntro />
           <PersonSearchFormContainer
-            onSelect={(person) => this.onSelectPerson(person)}
-            searchPrompt='Search for clients'
+            onSelect={person => this.onSelectPerson(person)}
+            searchPrompt="Search for clients"
             canCreateNewPerson={false}
             isClientOnly={true}
           />
-          {participants.map(({id}) =>
+          {participants.map(({id}) => (
             <PersonCardView key={id} personId={id} />
-          )}
+          ))}
           <RelationshipsCardContainer />
-          <HistoryOfInvolvementContainer empty={<EmptyHistory />} notEmpty={<HistoryTableContainer includesScreenings={false} />} />
+          <HistoryOfInvolvementContainer
+            empty={<EmptyHistory />}
+            notEmpty={<HistoryTableContainer includesScreenings={false} />}
+          />
         </div>
       </div>
     )
@@ -79,11 +85,11 @@ export class SnapshotPage extends React.Component {
     return (
       <div>
         <div>
-          <PageHeader pageTitle='Snapshot' button={this.startOverButton()} />
+          <PageHeader pageTitle="Snapshot" button={this.startOverButton()} />
           <BreadCrumb />
         </div>
         <div className={`container snapshot-container ${genericErrorClass}`}>
-          <div className='row'>
+          <div className="row">
             <SnapshotSideBar participants={participants} />
             {this.renderBody(participants)}
           </div>
@@ -102,14 +108,14 @@ SnapshotPage.propTypes = {
   unmount: PropTypes.func,
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   hasGenericErrors: getHasGenericErrorValueSelector(state),
   participants: selectParticipants(state).toJS(),
 })
 
-export const mapDispatchToProps = (dispatch) => ({
+export const mapDispatchToProps = dispatch => ({
   createSnapshot: () => dispatch(createSnapshot()),
-  createSnapshotPerson: (id) => dispatch(createSnapshotPerson(id)),
+  createSnapshotPerson: id => dispatch(createSnapshotPerson(id)),
   startOver: () => {
     dispatch(createSnapshot())
     dispatch(clearPeople())
@@ -126,4 +132,7 @@ export const mapDispatchToProps = (dispatch) => ({
   },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SnapshotPage)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SnapshotPage)

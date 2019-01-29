@@ -5,6 +5,33 @@ import RelationCard from 'common/relationship/RelationCard'
 import ScreeningCreateRelationshipContainer from 'containers/screenings/ScreeningCreateRelationshipContainer'
 import {CandidatesPropType} from 'data/candidates'
 
+const renderAttachLink = (
+  isScreening,
+  onClick,
+  participants,
+  pendingPeople,
+  relationship,
+  screeningId
+) => {
+  const relationshipLegacyId = relationship.legacy_descriptor ?
+    relationship.legacy_descriptor.legacy_id :
+    null
+  const shouldAttachLink =
+    relationshipLegacyId &&
+    !participants.includes(relationshipLegacyId) &&
+    !pendingPeople.includes(relationshipLegacyId)
+
+  return shouldAttachLink ? (
+    <AttachLink
+      isScreening={isScreening}
+      onClick={onClick}
+      pendingPeople={pendingPeople}
+      relationship={relationship}
+      screeningId={screeningId}
+    />
+  ) : null
+}
+
 export const Relationships = ({
   editFormRelationship,
   errors,
@@ -15,19 +42,19 @@ export const Relationships = ({
   onChange,
   onEdit,
   onSave,
+  participants = [],
   pendingPeople = [],
   people,
   relationshipsButtonStatus,
   screeningId,
 }) => (
-  <div className='card-body no-pad-top'>
-    {
-      isScreening && people.map((person, index) => (
+  <div className="card-body no-pad-top">
+    {isScreening &&
+      people.map((person, index) => (
         <div key={index}>
-          <div className='row' key={`new-${index}`}>
-            <div className='col-md-12'>
-              {
-                (person.relationships.length > 0) &&
+          <div className="row" key={`new-${index}`}>
+            <div className="col-md-12">
+              {person.relationships.length > 0 && (
                 <span>
                   <RelationCard
                     editFormRelationship={editFormRelationship}
@@ -44,55 +71,66 @@ export const Relationships = ({
                     pendingPeople={pendingPeople}
                   />
                 </span>
-              }
-              {
-                (person.relationships.length === 0) &&
-                <div className='no-relationships well'><strong>{person.name}</strong> has no known relationships</div>
-              }
+              )}
+              {person.relationships.length === 0 && (
+                <div className="no-relationships well">
+                  <strong>{person.name}</strong> has no known relationships
+                </div>
+              )}
             </div>
           </div>
-          <ScreeningCreateRelationshipContainer personId={person.id} relationshipsButtonStatus={relationshipsButtonStatus}/>
+          <ScreeningCreateRelationshipContainer
+            personId={person.id}
+            relationshipsButtonStatus={relationshipsButtonStatus}
+          />
         </div>
-      ))
-    }
-    {
-      !isScreening && people.map((person, index) => (
-        <div className='row' key={index}>
-          <div className='col-md-8 gap-top'>
-            <span className='person'>{person.name}</span>
-            {
-              (person.relationships.length > 0) &&
+      ))}
+    {!isScreening &&
+      people.map((person, index) => (
+        <div className="row" key={index}>
+          <div className="col-md-8 gap-top">
+            <span className="person">{person.name}</span>
+            {person.relationships.length > 0 && (
               <span>
                 <strong> is the...</strong>
-                <ul className='relationships'>
-                  {
-                    person.relationships.map((relationship, index) => (
-                      <li key={index} className='gap-top'>
-                        <strong>{ relationship.type }</strong> &nbsp; of { relationship.name }
-                        {relationship.isSealed && <span className='information-flag search-result'>Sealed</span>}
-                        {relationship.isSensitive && <span className='information-flag search-result'>Sensitive</span>}
-                        <AttachLink
-                          isScreening={isScreening}
-                          onClick={onClick}
-                          pendingPeople={pendingPeople}
-                          relationship={relationship}
-                          screeningId={screeningId}
-                        />
-                      </li>
-                    ))
-                  }
+                <ul className="relationships">
+                  {person.relationships.map((relationship, index) => (
+                    <li key={index} className="gap-top">
+                      <strong>{relationship.type}</strong> &nbsp; of{' '}
+                      {relationship.name}
+                      {relationship.isSealed && (
+                        <span className="information-flag search-result">
+                          Sealed
+                        </span>
+                      )}
+                      {relationship.isSensitive && (
+                        <span className="information-flag search-result">
+                          Sensitive
+                        </span>
+                      )}
+                      {renderAttachLink(
+                        isScreening,
+                        onClick,
+                        participants,
+                        pendingPeople,
+                        relationship,
+                        screeningId
+                      )}
+                    </li>
+                  ))}
                 </ul>
               </span>
-            }
-            {
-              (person.relationships.length === 0) &&
-              <strong className='relationships'> has no known relationships</strong>
-            }
-            <div id='relationships-list'/>
+            )}
+            {person.relationships.length === 0 && (
+              <strong className="relationships">
+                {' '}
+                has no known relationships
+              </strong>
+            )}
+            <div id="relationships-list" />
           </div>
         </div>
-      ))
-    }
+      ))}
   </div>
 )
 
@@ -118,27 +156,35 @@ Relationships.propTypes = {
   onClick: PropTypes.func,
   onEdit: PropTypes.func,
   onSave: PropTypes.func,
+  participants: PropTypes.arrayOf(PropTypes.string),
   pendingPeople: PropTypes.arrayOf(PropTypes.string),
-  people: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    relationships: PropTypes.arrayOf(PropTypes.shape({
+  people: PropTypes.arrayOf(
+    PropTypes.shape({
       name: PropTypes.string,
-      type: PropTypes.string,
-      secondaryRelationship: PropTypes.string,
-      age: PropTypes.string,
-    })),
-  })),
+      relationships: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          type: PropTypes.string,
+          secondaryRelationship: PropTypes.string,
+          age: PropTypes.string,
+        })
+      ),
+    })
+  ),
   relationshipsButtonStatus: PropTypes.shape({
-    createRelationshipsButtonStatus: PropTypes.bool}),
+    createRelationshipsButtonStatus: PropTypes.bool,
+  }),
   screeningId: PropTypes.string,
 }
 
 export const EmptyRelationships = () => (
-  <div className='card-body no-pad-top'>
-    <div className='row'>
-      <div className='col-md-12 empty-relationships'>
-        <div className='double-gap-top  centered'>
-          <span className='c-dark-grey'>Search for people and add them to see their relationships.</span>
+  <div className="card-body no-pad-top">
+    <div className="row">
+      <div className="col-md-12 empty-relationships">
+        <div className="double-gap-top  centered">
+          <span className="c-dark-grey">
+            Search for people and add them to see their relationships.
+          </span>
         </div>
       </div>
     </div>
