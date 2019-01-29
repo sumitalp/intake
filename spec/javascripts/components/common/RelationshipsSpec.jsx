@@ -609,20 +609,39 @@ describe('Relationships for Snapshot', () => {
         ],
       },
     ]
-
-    const component = renderRelationships({
+    const attachLinks = renderRelationships({
       people,
       participants,
       pendingPeople,
     }).find(AttachLink)
 
-    expect(component.length).toBe(1)
-    expect(component.at(0).prop('relationship')).toEqual({
+    expect(attachLinks.length).toBe(2)
+    expect(attachLinks.at(0).prop('relationship')).toEqual({
+      name: 'Jane Johnson',
+      type: 'mother',
+      person_card_exists: true,
+      legacy_descriptor: {legacy_id: '1'},
+    })
+    expect(attachLinks.at(1).prop('relationship')).toEqual({
       name: 'Jim Johnson',
       type: 'father',
       person_card_exists: true,
       legacy_descriptor: {legacy_id: '2'},
     })
+    expect(
+      attachLinks
+        .at(0)
+        .dive()
+        .find('a')
+        .exists()
+    ).toBe(false)
+    expect(
+      attachLinks
+        .at(1)
+        .dive()
+        .find('a')
+        .exists()
+    ).toBe(true)
   })
 
   it('hides Attach link for people in the participants list', () => {
@@ -653,19 +672,39 @@ describe('Relationships for Snapshot', () => {
       },
     ]
 
-    const component = renderRelationships({
+    const attachLinks = renderRelationships({
       people,
       participants,
       pendingPeople,
     }).find(AttachLink)
 
-    expect(component.length).toBe(1)
-    expect(component.at(0).prop('relationship')).toEqual({
+    expect(attachLinks.length).toBe(2)
+    expect(attachLinks.at(0).prop('relationship')).toEqual({
       name: 'Jane Johnson',
       type: 'mother',
       person_card_exists: true,
       legacy_descriptor: {legacy_id: '1'},
     })
+    expect(attachLinks.at(1).prop('relationship')).toEqual({
+      name: 'Jim Johnson',
+      type: 'father',
+      person_card_exists: true,
+      legacy_descriptor: {legacy_id: '2'},
+    })
+    expect(
+      attachLinks
+        .at(0)
+        .dive()
+        .find('a')
+        .exists()
+    ).toBe(true)
+    expect(
+      attachLinks
+        .at(1)
+        .dive()
+        .find('a')
+        .exists()
+    ).toBe(false)
   })
 })
 

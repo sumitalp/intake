@@ -35,3 +35,4 @@ package-lock.json
 # Ignore chrome driver helper files
 .chromedriver-helper
 .chromedriver-helper/*
+.vscode/settings.json

@@ -5,33 +5,6 @@ import RelationCard from 'common/relationship/RelationCard'
 import ScreeningCreateRelationshipContainer from 'containers/screenings/ScreeningCreateRelationshipContainer'
 import {CandidatesPropType} from 'data/candidates'
 
-const renderAttachLink = (
-  isScreening,
-  onClick,
-  participants,
-  pendingPeople,
-  relationship,
-  screeningId
-) => {
-  const relationshipLegacyId = relationship.legacy_descriptor ?
-    relationship.legacy_descriptor.legacy_id :
-    null
-  const shouldAttachLink =
-    relationshipLegacyId &&
-    !participants.includes(relationshipLegacyId) &&
-    !pendingPeople.includes(relationshipLegacyId)
-
-  return shouldAttachLink ? (
-    <AttachLink
-      isScreening={isScreening}
-      onClick={onClick}
-      pendingPeople={pendingPeople}
-      relationship={relationship}
-      screeningId={screeningId}
-    />
-  ) : null
-}
-
 export const Relationships = ({
   editFormRelationship,
   errors,
@@ -108,14 +81,14 @@ export const Relationships = ({
                           Sensitive
                         </span>
                       )}
-                      {renderAttachLink(
-                        isScreening,
-                        onClick,
-                        participants,
-                        pendingPeople,
-                        relationship,
-                        screeningId
-                      )}
+                      <AttachLink
+                        isScreening={isScreening}
+                        onClick={onClick}
+                        participants={participants}
+                        pendingPeople={pendingPeople}
+                        relationship={relationship}
+                        screeningId={screeningId}
+                      />
                     </li>
                   ))}
                 </ul>
