@@ -3,6 +3,8 @@
 # PeopleSearchQueryBuilder is a service class responsible for creation
 # of an elastic search person search query
 module PersonSearchQueryBuilder
+  attr_reader :is_client_only, :search_term
+
   include QueryBuilderHelper
   ATTRIBUTES = {
     'first_name' => MEDIUM_BOOST,
@@ -32,15 +34,15 @@ module PersonSearchQueryBuilder
   def must
     # the client_only_search config option overrides the @is_client_only value
     return [] unless Rails.configuration.intake[:client_only_search] ||
-                     @is_client_only
+                     is_client_only
 
     [client_only]
   end
 
   def should
-    [match_query('autocomplete_search_bar', formatted_query(@search_term),
+    [match_query('autocomplete_search_bar', formatted_query(search_term),
       operator: 'and', boost: MEDIUM_BOOST),
-     build_match_query(@search_term)].flatten.compact
+     build_match_query(search_term)].flatten.compact
   end
 
   def client_only
