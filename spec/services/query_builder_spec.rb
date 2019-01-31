@@ -55,6 +55,9 @@ describe QueryBuilder do
 
       it 'return match for legacy with table name "CLIENT_T" if is_client_only "false"' do
         qb = described_class.build(search_term: 'hello', is_client_only: 'false')
+        puts ''
+        puts qb.payload[:query].to_s
+        puts ''
         expect(qb.must.last.as_json).to  \
           include({ match: { "legacy_descriptor.legacy_table_name": 'CLIENT_T' } }.as_json)
       end

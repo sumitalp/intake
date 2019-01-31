@@ -9,16 +9,6 @@ module PersonSearchByAddress
     builder.payload[:query][:bool][:should].concat(should)
   end
 
-  def highlight
-    {
-      highlight: {
-        fields: { 'addresses.autocomplete_city' => {},
-                  'addresses.autocomplete_searchable_address' => {},
-                  'addresses.county.description' => {} }
-      }
-    }
-  end
-
   def query
     { bool: { should: should } }
   end
