@@ -19,6 +19,12 @@ export const AddressPropType = PropTypes.shape({
   zipError: PropTypes.arrayOf(PropTypes.string),
 })
 
+export const PhoneNumberPropType = PropTypes.shape({
+  number: PropTypes.string,
+  type: PropTypes.string,
+  errors: PropTypes.array,
+})
+
 const keySet = Set([
   'id',
   'street',
