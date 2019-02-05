@@ -93,6 +93,14 @@ module PersonSearchQueryBuilderHelper
               }
             },
             {
+              "match": {
+                "name_suffix": {
+                  'query' => 'person_search_term',
+                  'boost' => '4'
+                }
+              }
+            },
+            {
               "nested": {
                 "path": 'addresses',
                 "query": {
@@ -249,6 +257,14 @@ module PersonSearchQueryBuilderHelper
                 "ssn": {
                   "query": 'person_search_term',
                   "boost": '10'
+                }
+              }
+            },
+            {
+              "match": {
+                "name_suffix": {
+                  'query' => 'person_search_term',
+                  'boost' => '4'
                 }
               }
             }

@@ -14,7 +14,8 @@ module PersonSearchQueryBuilder
     'first_name.diminutive' => LOW_BOOST,
     'last_name.diminutive' => LOW_BOOST,
     'date_of_birth_as_text' => HIGH_BOOST,
-    'ssn' => HIGH_BOOST
+    'ssn' => HIGH_BOOST,
+    'name_suffix' => MEDIUM_BOOST
   }.freeze
 
   def build_match_query(string)
