@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import PhoneNumbersShow from 'views/people/screenings/PhoneNumbersShow'
+import PhoneNumbersShow from 'views/people/PhoneNumbersShow'
 
 describe('PhoneNumbersShow', () => {
   const renderPhoneNumbersShow = ({phoneNumbers = [], ...options}) => {

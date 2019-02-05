@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import PhoneNumbersShow from 'views/people/screenings/PhoneNumbersShow'
+import PhoneNumbersShow from 'views/people/PhoneNumbersShow'
 import {getPersonFormattedPhoneNumbersSelector} from 'selectors/screening/personShowSelectors'
 
 const mapStateToProps = (state, {personId}) => ({
