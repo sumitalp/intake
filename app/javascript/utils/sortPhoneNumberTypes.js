@@ -3,11 +3,15 @@ import PHONE_NUMBER_TYPE from 'enums/PhoneNumberType'
 const HOME = 2
 const CELL = 0
 const OTHER = 3
+const WORK = 1
+
 const phoneNumberOrder = [
   PHONE_NUMBER_TYPE[HOME],
   PHONE_NUMBER_TYPE[CELL],
   PHONE_NUMBER_TYPE[OTHER],
+  PHONE_NUMBER_TYPE[WORK],
 ]
+
 const flatten = array =>
   array.reduce(
     (flat, toFlatten) =>
