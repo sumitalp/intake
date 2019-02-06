@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-feature 'Relationship card' do
+feature 'Relationship card', :skip => true do
   let(:existing_screening) do
     {
       id: '1',
