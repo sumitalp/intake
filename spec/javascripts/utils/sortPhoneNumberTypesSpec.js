@@ -4,12 +4,8 @@ const phoneNumbers = [
   [
     {number: '(111) 111-1111', type: 'Home', extension: '1', errors: []},
     {number: '(222) 222-2222', type: 'Cell', extension: '2', errors: []},
-    {
-      number: '(333) 333-3333',
-      type: 'Other',
-      extension: '3',
-      errors: [],
-    },
+    {number: '(333) 333-3333', type: 'Other', extension: '3', errors: []},
+    {number: '(765) 823-6170', type: 'Work', extension: '100', errors: []},
   ],
   [
     {number: '(555) 555-5555', type: 'Cell', extension: '5', errors: []},
@@ -83,6 +79,179 @@ describe('Sort Phone Numbers by Type', () => {
     })
   })
 
+  it('sorts the Work type fourth', () => {
+    expect(sortedPhoneNumbers[3]).toEqual({
+      number: '(765) 823-6170',
+      type: 'Work',
+      extension: '100',
+      errors: [],
+    })
+  })
+
+  it('returns empty array when there are no phone numbers', () => {
+    const noPhoneNumbers = [[]]
+    const sortedPhoneNumbers = sortPhoneNumberTypes(noPhoneNumbers)
+    expect(sortedPhoneNumbers).toEqual([])
+  })
+
+  describe('phone number type value is falsey', () => {
+    describe('type value is empty string', () => {
+      it('sorts the phone numbers in the correct order', () => {
+        const phoneNumbers = [
+          [
+            {
+              number: '(111) 111-1111',
+              type: 'Home',
+              extension: '1',
+              errors: [],
+            },
+            {
+              number: '(222) 222-2222',
+              type: 'Cell',
+              extension: '2',
+              errors: [],
+            },
+            {number: '(333) 333-3333', type: '', extension: '3', errors: []},
+            {
+              number: '(765) 823-6170',
+              type: 'Work',
+              extension: '100',
+              errors: [],
+            },
+          ],
+        ]
+        const sortedPhoneNumbers = sortPhoneNumberTypes(phoneNumbers)
+        expect(sortedPhoneNumbers).toEqual([
+          {
+            number: '(111) 111-1111',
+            type: 'Home',
+            extension: '1',
+            errors: [],
+          },
+          {
+            number: '(222) 222-2222',
+            type: 'Cell',
+            extension: '2',
+            errors: [],
+          },
+          {
+            number: '(765) 823-6170',
+            type: 'Work',
+            extension: '100',
+            errors: [],
+          },
+        ])
+      })
+    })
+
+    describe('type value is null', () => {
+      it('sorts the phone numbers in the correct order', () => {
+        const phoneNumbers = [
+          [
+            {
+              number: '(111) 111-1111',
+              type: null,
+              extension: '1',
+              errors: [],
+            },
+            {
+              number: '(222) 222-2222',
+              type: 'Cell',
+              extension: '2',
+              errors: [],
+            },
+            {
+              number: '(333) 333-3333',
+              type: 'Other',
+              extension: '3',
+              errors: [],
+            },
+            {
+              number: '(765) 823-6170',
+              type: 'Work',
+              extension: '100',
+              errors: [],
+            },
+          ],
+        ]
+        const sortedPhoneNumbers = sortPhoneNumberTypes(phoneNumbers)
+        expect(sortedPhoneNumbers).toEqual([
+          {
+            number: '(222) 222-2222',
+            type: 'Cell',
+            extension: '2',
+            errors: [],
+          },
+          {
+            number: '(333) 333-3333',
+            type: 'Other',
+            extension: '3',
+            errors: [],
+          },
+          {
+            number: '(765) 823-6170',
+            type: 'Work',
+            extension: '100',
+            errors: [],
+          },
+        ])
+      })
+    })
+
+    describe('type key is undefined', () => {
+      it('sorts the phone numbers in the correct order', () => {
+        const phoneNumbers = [
+          [
+            {
+              number: '(111) 111-1111',
+              type: 'Home',
+              extension: '1',
+              errors: [],
+            },
+            {
+              number: '(222) 222-2222',
+              extension: '2',
+              errors: [],
+            },
+            {
+              number: '(333) 333-3333',
+              type: 'Other',
+              extension: '3',
+              errors: [],
+            },
+            {
+              number: '(765) 823-6170',
+              type: 'Work',
+              extension: '100',
+              errors: [],
+            },
+          ],
+        ]
+        const sortedPhoneNumbers = sortPhoneNumberTypes(phoneNumbers)
+        expect(sortedPhoneNumbers).toEqual([
+          {
+            number: '(111) 111-1111',
+            type: 'Home',
+            extension: '1',
+            errors: [],
+          },
+          {
+            number: '(333) 333-3333',
+            type: 'Other',
+            extension: '3',
+            errors: [],
+          },
+          {
+            number: '(765) 823-6170',
+            type: 'Work',
+            extension: '100',
+            errors: [],
+          },
+        ])
+      })
+    })
+  })
+
   it('sorts all numbers in the correct order', () => {
     expect(sortedPhoneNumbers).toEqual([
       {number: '(111) 111-1111', type: 'Home', extension: '1', errors: []},
@@ -93,6 +262,7 @@ describe('Sort Phone Numbers by Type', () => {
         extension: '3',
         errors: [],
       },
+      {number: '(765) 823-6170', type: 'Work', extension: '100', errors: []},
       {number: '(444) 444-4444', type: 'Home', extension: '4', errors: []},
       {number: '(555) 555-5555', type: 'Cell', extension: '5', errors: []},
       {

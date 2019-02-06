@@ -5,13 +5,6 @@ import {getZIPErrors} from 'utils/zipValidator'
 
 export const AddressPropType = PropTypes.shape({
   city: PropTypes.string,
-  phone_numbers: PropTypes.arrayOf(
-    PropTypes.shape({
-      number: PropTypes.string,
-      extension: PropTypes.string,
-      type: PropTypes.string,
-    })
-  ),
   state: PropTypes.string,
   street: PropTypes.string,
   type: PropTypes.string,
