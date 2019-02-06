@@ -7,6 +7,7 @@ import {
   selectRoles,
   selectAllRoles,
   selectFormattedAddresses,
+  getParticipantFormattedPhoneNumbersSelector,
 } from 'selectors/participantSelectors'
 import * as matchers from 'jasmine-immutable-matchers'
 
@@ -23,7 +24,9 @@ describe('participantSelectors', () => {
         ],
       })
 
-      expect(selectParticipants(state)).toEqualImmutable(state.get('participants'))
+      expect(selectParticipants(state)).toEqualImmutable(
+        state.get('participants')
+      )
     })
 
     it('should select an empty list if no participants', () => {
@@ -41,37 +44,49 @@ describe('participantSelectors', () => {
         ],
       })
 
-      expect(selectParticipantsForFerb(state)).toEqualImmutable(state.get('participants'))
+      expect(selectParticipantsForFerb(state)).toEqualImmutable(
+        state.get('participants')
+      )
     })
 
     it('should update address format for posting to Ferb', () => {
       const state = fromJS({
-        participants: [{
-          id: '1',
-          first_name: 'Mario',
-          addresses: [{
+        participants: [
+          {
             id: '1',
-            street: '1000 Peach Castle',
+            first_name: 'Mario',
+            addresses: [
+              {
+                id: '1',
+                street: '1000 Peach Castle',
+                city: 'World 1-1',
+                state: 'Mushroom Kingdom',
+                zip: '00001',
+                type: 'Home',
+                legacy_descriptor: {legacy_id: 'ABC123'},
+              },
+            ],
+          },
+        ],
+      })
+
+      expect(
+        selectParticipantsForFerb(state)
+          .first()
+          .get('addresses')
+      ).toEqualImmutable(
+        fromJS([
+          {
+            id: '1',
+            street_address: '1000 Peach Castle',
             city: 'World 1-1',
             state: 'Mushroom Kingdom',
             zip: '00001',
             type: 'Home',
             legacy_descriptor: {legacy_id: 'ABC123'},
-          }],
-        }],
-      })
-
-      expect(
-        selectParticipantsForFerb(state).first().get('addresses')
-      ).toEqualImmutable(fromJS([{
-        id: '1',
-        street_address: '1000 Peach Castle',
-        city: 'World 1-1',
-        state: 'Mushroom Kingdom',
-        zip: '00001',
-        type: 'Home',
-        legacy_descriptor: {legacy_id: 'ABC123'},
-      }]))
+          },
+        ])
+      )
     })
   })
 
@@ -103,9 +118,11 @@ describe('participantSelectors', () => {
   describe('selectClientIds', () => {
     it('should select ids from legacy_id field', () => {
       const state = fromJS({
-        participants: [{
-          legacy_id: 'ABC',
-        }],
+        participants: [
+          {
+            legacy_id: 'ABC',
+          },
+        ],
       })
 
       expect(selectClientIds(state)).toEqual(['ABC'])
@@ -113,11 +130,13 @@ describe('participantSelectors', () => {
 
     it('should select ids from legacy_descriptor', () => {
       const state = fromJS({
-        participants: [{
-          legacy_descriptor: {
-            legacy_id: 'DEF',
+        participants: [
+          {
+            legacy_descriptor: {
+              legacy_id: 'DEF',
+            },
           },
-        }],
+        ],
       })
 
       expect(selectClientIds(state)).toEqual(['DEF'])
@@ -125,12 +144,14 @@ describe('participantSelectors', () => {
 
     it('should bypass null legacy_ids', () => {
       const state = fromJS({
-        participants: [{
-          legacy_id: null,
-          legacy_descriptor: {
-            legacy_id: 'DEF',
+        participants: [
+          {
+            legacy_id: null,
+            legacy_descriptor: {
+              legacy_id: 'DEF',
+            },
           },
-        }],
+        ],
       })
 
       expect(selectClientIds(state)).toEqual(['DEF'])
@@ -138,14 +159,16 @@ describe('participantSelectors', () => {
 
     it('should select multiple clients', () => {
       const state = fromJS({
-        participants: [{
-          legacy_id: 'ABC',
-        },
-        {
-          legacy_descriptor: {
-            legacy_id: 'DEF',
+        participants: [
+          {
+            legacy_id: 'ABC',
           },
-        }],
+          {
+            legacy_descriptor: {
+              legacy_id: 'DEF',
+            },
+          },
+        ],
       })
 
       expect(selectClientIds(state)).toEqual(['ABC', 'DEF'])
@@ -174,11 +197,9 @@ describe('participantSelectors', () => {
         {roles: ['Master of the Universe']},
       ])
       const state = Map().set('participants', participants)
-      expect(selectAllRoles(state)).toEqualImmutable(List([
-        'Victim',
-        'Perpetrator',
-        'Master of the Universe',
-      ]))
+      expect(selectAllRoles(state)).toEqualImmutable(
+        List(['Victim', 'Perpetrator', 'Master of the Universe'])
+      )
     })
 
     it('should remove duplicate roles', () => {
@@ -188,27 +209,28 @@ describe('participantSelectors', () => {
         {roles: ['Master of the Universe']},
       ])
       const state = Map().set('participants', participants)
-      expect(selectAllRoles(state)).toEqualImmutable(List([
-        'Victim',
-        'Master of the Universe',
-      ]))
+      expect(selectAllRoles(state)).toEqualImmutable(
+        List(['Victim', 'Master of the Universe'])
+      )
     })
 
-    it('should include all of a person\'s roles', () => {
+    it("should include all of a person's roles", () => {
       const participants = fromJS([
         {roles: ['Victim', 'Perpetrator']},
         {roles: ['Judge', 'Jury', 'Executioner']},
         {roles: ['Master of the Universe']},
       ])
       const state = Map().set('participants', participants)
-      expect(selectAllRoles(state)).toEqualImmutable(List([
-        'Victim',
-        'Perpetrator',
-        'Judge',
-        'Jury',
-        'Executioner',
-        'Master of the Universe',
-      ]))
+      expect(selectAllRoles(state)).toEqualImmutable(
+        List([
+          'Victim',
+          'Perpetrator',
+          'Judge',
+          'Jury',
+          'Executioner',
+          'Master of the Universe',
+        ])
+      )
     })
 
     it('should handle people with no roles', () => {
@@ -218,15 +240,13 @@ describe('participantSelectors', () => {
         {roles: ['Master of the Universe']},
       ])
       const state = Map().set('participants', participants)
-      expect(selectAllRoles(state)).toEqualImmutable(List([
-        'Master of the Universe',
-      ]))
+      expect(selectAllRoles(state)).toEqualImmutable(
+        List(['Master of the Universe'])
+      )
     })
 
     it('should return an empty list by default', () => {
-      const participants = fromJS([
-        {},
-      ])
+      const participants = fromJS([{}])
       const state = Map().set('participants', participants)
       expect(selectAllRoles(state)).toEqualImmutable(List())
     })
@@ -239,8 +259,11 @@ describe('participantSelectors', () => {
         {id: '2', addresses: [{type: 'Cell'}]},
       ]
       const state = fromJS({participants: people})
-      expect(selectFormattedAddresses(state, '1').first().get('type'))
-        .toEqual('Residence')
+      expect(
+        selectFormattedAddresses(state, '1')
+          .first()
+          .get('type')
+      ).toEqual('Residence')
     })
 
     it('returns an empty array if no addresses exists for the person', () => {
@@ -252,50 +275,174 @@ describe('participantSelectors', () => {
     it('returns the street for an address', () => {
       const people = [{id: '1', addresses: [{street: '1234 Nowhere Lane'}]}]
       const state = fromJS({participants: people})
-      expect(selectFormattedAddresses(state, '1').first().get('street'))
-        .toEqual('1234 Nowhere Lane')
+      expect(
+        selectFormattedAddresses(state, '1')
+          .first()
+          .get('street')
+      ).toEqual('1234 Nowhere Lane')
     })
 
     it('returns the city for an address', () => {
       const people = [{id: '1', addresses: [{city: 'Somewhereville'}]}]
       const state = fromJS({participants: people})
-      expect(selectFormattedAddresses(state, '1').first().get('city'))
-        .toEqual('Somewhereville')
+      expect(
+        selectFormattedAddresses(state, '1')
+          .first()
+          .get('city')
+      ).toEqual('Somewhereville')
     })
 
     it('returns the formatted state for an address', () => {
       const people = [{id: '1', addresses: [{state: 'CA'}]}]
       const state = fromJS({participants: people})
-      expect(selectFormattedAddresses(state, '1').first().get('state'))
-        .toEqual('California')
+      expect(
+        selectFormattedAddresses(state, '1')
+          .first()
+          .get('state')
+      ).toEqual('California')
     })
 
     it('returns an empty string for an invalid state', () => {
       const people = [{id: '1', addresses: [{state: ''}]}]
       const state = fromJS({participants: people})
-      expect(selectFormattedAddresses(state, '1').first().get('state'))
-        .toEqual('')
+      expect(
+        selectFormattedAddresses(state, '1')
+          .first()
+          .get('state')
+      ).toEqual('')
     })
 
     it('returns the zip for an address', () => {
       const people = [{id: '1', addresses: [{zip: '12345'}]}]
       const state = fromJS({participants: people})
-      expect(selectFormattedAddresses(state, '1').first().get('zip'))
-        .toEqual('12345')
+      expect(
+        selectFormattedAddresses(state, '1')
+          .first()
+          .get('zip')
+      ).toEqual('12345')
     })
 
     it('returns the zip errors for an address', () => {
       const people = [{id: '1', addresses: [{zip: '1234'}]}]
       const state = fromJS({participants: people})
-      expect(selectFormattedAddresses(state, '1').first().get('zipError'))
-        .toEqualImmutable(List(['zip code should be 5 digits']))
+      expect(
+        selectFormattedAddresses(state, '1')
+          .first()
+          .get('zipError')
+      ).toEqualImmutable(List(['zip code should be 5 digits']))
     })
 
     it('returns the type for an address', () => {
       const people = [{id: '1', addresses: [{type: 'Residence'}]}]
-      const state = fromJS({participants: people, addressTypes: [{value: 'Residence'}]})
-      expect(selectFormattedAddresses(state, '1').first().get('type'))
-        .toEqual('Residence')
+      const state = fromJS({
+        participants: people,
+        addressTypes: [{value: 'Residence'}],
+      })
+      expect(
+        selectFormattedAddresses(state, '1')
+          .first()
+          .get('type')
+      ).toEqual('Residence')
+    })
+  })
+
+  describe('getParticipantFormattedPhoneNumbersSelector', () => {
+    it('returns info for the person with the passed id', () => {
+      const participants = [
+        {
+          id: '1',
+          addresses: [
+            {
+              phone_numbers: [
+                {type: 'Home'},
+                {type: 'Cell'},
+                {type: 'Other'},
+              ],
+            },
+          ],
+        },
+        {
+          id: '2',
+          phone_numbers: [
+            {type: 'Home'},
+            {type: 'Cell'},
+            {type: 'Other'},
+          ],
+        },
+      ]
+      const state = fromJS({participants})
+      expect(
+        getParticipantFormattedPhoneNumbersSelector(state, '1')
+          .first()
+          .first()
+          .get('type')
+      ).toEqual('Home')
+    })
+
+    it('returns an array with an empty array if no phone numbers exists for the person', () => {
+      const participants = [
+        {
+          id: '1',
+          addresses: [
+            {
+              phone_numbers: [],
+            },
+          ],
+        },
+      ]
+      const state = fromJS({participants})
+      expect(
+        getParticipantFormattedPhoneNumbersSelector(state, '1')
+      ).toEqualImmutable(List([List()]))
+    })
+
+    it('returns a formatted phone number for number', () => {
+      const participants = [
+        {
+          id: '1',
+          addresses: [
+            {
+              phone_numbers: [{number: '0123456789'}],
+            },
+          ],
+        },
+      ]
+      const state = fromJS({participants})
+      expect(
+        getParticipantFormattedPhoneNumbersSelector(state, '1')
+          .first()
+          .first()
+          .get('number')
+      ).toEqual('(012) 345-6789')
+    })
+
+    it('returns the type for a number', () => {
+      const participants = [
+        {id: '1', addresses: [{phone_numbers: [{type: 'Home'}]}]},
+      ]
+      const state = fromJS({participants})
+      expect(
+        getParticipantFormattedPhoneNumbersSelector(state, '1')
+          .first()
+          .first()
+          .get('type')
+      ).toEqual('Home')
+    })
+
+    it('returns the extension for a number', () => {
+      const participants = [
+        {
+          id: '1',
+          addresses: [{phone_numbers: [{type: 'Home', extension: '1234'}]}],
+        },
+      ]
+      const state = fromJS({participants})
+      expect(
+        getParticipantFormattedPhoneNumbersSelector(state, '1')
+          .first()
+          .first()
+          .get('extension')
+      ).toEqual('1234')
     })
   })
 })
