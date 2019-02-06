@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-feature 'Edit Person', :skip => true do
+feature 'Edit Person', skip: true do
   let(:new_ssn) { '123-23-1234' }
   let(:old_ssn) { '555-56-7895' }
   let(:marge_roles) { %w[Victim Perpetrator] }
