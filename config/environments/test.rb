@@ -45,4 +45,5 @@ Rails.application.configure do
 
   config.log_level = :fatal
   config.intake[:dora_api_url] = 'http://dora_api_url'
+  config.intake[:ferb_api_url] = 'http://ferb_api_url'
 end
