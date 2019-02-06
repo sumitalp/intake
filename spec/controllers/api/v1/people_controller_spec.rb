@@ -57,7 +57,9 @@ describe Api::V1::PeopleController do
 
   describe '#show' do
     let(:id) { '1' }
+
     before(:each) do
+      allow(ParticipantRepository).to receive(:authorize).with(token, nil, "1")
       person = instance_double('ActionDispatch::Response',
         body: 'search response')
       allow(PersonSearchRepository).to receive(:find)
@@ -67,10 +69,21 @@ describe Api::V1::PeopleController do
         .and_return(json_body('', status: 200))
     end
 
-    it 'searches for a person and renders a json with person attributes' do
-      get :show, params: { id: id }, session: session
-      expect(response).to be_successful
-      expect(response.body).to eq('"search response"')
+    context 'with authorized participant' do
+      it 'searches for a person and renders a json with person attributes' do
+        get :show, params: { id: id }, session: session
+        expect(response).to be_successful
+        expect(response.body).to eq('"search response"')
+      end
+    end
+
+    context 'with unauthorized participant' do
+      it 'searches for a person and renders a json with person attributes' do
+        allow(ParticipantRepository).to receive(:authorize).with(token, nil, "1")
+         .and_raise(ParticipantRepository::AuthorizationError.new)
+        get :show, params: { id: id }, session: session
+        expect(response.status).to eq 403
+      end
     end
   end
 end
