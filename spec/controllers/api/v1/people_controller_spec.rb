@@ -59,7 +59,7 @@ describe Api::V1::PeopleController do
     let(:id) { '1' }
 
     before(:each) do
-      allow(ParticipantRepository).to receive(:authorize).with(token, nil, "1")
+      allow(ParticipantRepository).to receive(:authorize).with(token, nil, '1')
       person = instance_double('ActionDispatch::Response',
         body: 'search response')
       allow(PersonSearchRepository).to receive(:find)
@@ -79,8 +79,9 @@ describe Api::V1::PeopleController do
 
     context 'with unauthorized participant' do
       it 'searches for a person and renders a json with person attributes' do
-        allow(ParticipantRepository).to receive(:authorize).with(token, nil, "1")
-         .and_raise(ParticipantRepository::AuthorizationError.new)
+        allow(ParticipantRepository).to receive(:authorize)
+          .with(token, nil, '1')
+          .and_raise(ParticipantRepository::AuthorizationError.new)
         get :show, params: { id: id }, session: session
         expect(response.status).to eq 403
       end
