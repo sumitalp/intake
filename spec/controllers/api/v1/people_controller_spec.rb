@@ -78,7 +78,7 @@ describe Api::V1::PeopleController do
     end
 
     context 'with unauthorized participant' do
-      it 'searches for a person and renders a json with person attributes' do
+      it 'returns a 403' do
         allow(ParticipantRepository).to receive(:authorize)
           .with(token, nil, '1')
           .and_raise(ParticipantRepository::AuthorizationError.new)
