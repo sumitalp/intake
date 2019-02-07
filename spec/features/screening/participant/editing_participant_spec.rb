@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-feature 'Edit Person', skip: true do
+feature 'Edit Person' do
   let(:new_ssn) { '123-23-1234' }
   let(:old_ssn) { '555-56-7895' }
   let(:marge_roles) { %w[Victim Perpetrator] }
@@ -611,7 +611,7 @@ feature 'Edit Person', skip: true do
     end
   end
 
-  scenario 'setting an approximate age' do
+  scenario 'setting an approximate age', skip: true do
     stub_request(:put,
       ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .and_return(json_body(marge.to_json, status: 201))

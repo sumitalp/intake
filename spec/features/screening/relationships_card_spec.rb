@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-feature 'Relationship card', skip: true do
+feature 'Relationship card' do
   let(:existing_screening) do
     {
       id: '1',
@@ -296,7 +296,7 @@ feature 'Relationship card', skip: true do
         ).to have_been_made
       end
 
-      scenario '3.adding a new person fetches new relationships' do
+      scenario '3.adding a new person fetches new relationships', skip: true do
         visit edit_screening_path(id: participants_screening[:id])
         screening_id = participants_screening[:id]
 
