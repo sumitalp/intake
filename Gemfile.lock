@@ -224,8 +224,8 @@ GEM
     nio4r (2.3.1)
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
-    parallel (1.12.1)
-    parallel_tests (2.21.2)
+    parallel (1.13.0)
+    parallel_tests (2.28.0)
       parallel
     parser (2.5.3.0)
       ast (~> 2.4.0)
@@ -453,7 +453,7 @@ DEPENDENCIES
   logstash-logger (~> 0.26.1)
   newrelic_rpm
   nokogiri (~> 1.8.1)
-  parallel_tests (= 2.21.2)
+  parallel_tests (= 2.28.0)
   pry
   pry-byebug
   pry-doc
