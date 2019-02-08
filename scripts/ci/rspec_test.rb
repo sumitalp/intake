@@ -5,7 +5,7 @@ test_args = "-p intake_accelerator#{ENV['BUILD_NAME']}_test -f docker/test/docke
 webpack = 'bin/webpack'
 
 rspec_cmd = "#{webpack} && bundle exec parallel_rspec --runtime-log parallel_runtime_rspec.log"
-if ENV['EXCLUDE_PATTERN'] then
+if ENV['EXCLUDE_PATTERN']
   rspec_cmd += " --exclude-pattern \"#{ENV['EXCLUDE_PATTERN']}\""
 end
 rspec_cmd += ' spec'
