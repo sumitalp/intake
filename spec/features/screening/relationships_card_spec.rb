@@ -296,7 +296,7 @@ feature 'Relationship card' do
         ).to have_been_made
       end
 
-      scenario '3.adding a new person fetches new relationships', skip: true do
+      scenario '3.adding a new person fetches new relationships' do
         visit edit_screening_path(id: participants_screening[:id])
         screening_id = participants_screening[:id]
 
