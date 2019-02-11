@@ -611,7 +611,7 @@ feature 'Edit Person' do
     end
   end
 
-  scenario 'setting an approximate age', skip: true do
+  scenario 'setting an approximate age' do
     stub_request(:put,
       ferb_api_url(FerbRoutes.screening_participant_path(screening[:id], marge.id)))
       .and_return(json_body(marge.to_json, status: 201))

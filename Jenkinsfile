@@ -36,7 +36,7 @@ def buildPullRequest() {
       lintTest()
       verifySemVerLabel()
       karmaTests()
-      rspecTests()
+      rspecTestsSnapshot()
       reports()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
@@ -60,6 +60,7 @@ def buildMaster() {
       lintTest()
       karmaTests()
       rspecTests()
+      rspecTestsSnapshot()
       build()
       incrementTag()
       tagRepo()
@@ -103,7 +104,7 @@ def buildingTestBench() {
   stage('Building testing bench') {
     curStage = 'Building testing bench'
     sh './scripts/ci/build_testing_bench.rb'
-    }
+  }
 }
 
 def lintTest() {
@@ -115,6 +116,7 @@ def lintTest() {
 
 def verifySemVerLabel() {
   stage('Verify SemVer Label') {
+    curStage = 'Verify SemVer Label'
     checkForLabel("intake")
   }
 }
@@ -123,13 +125,20 @@ def karmaTests() {
   stage('Karma tests') {
     curStage = 'Karma tests'
     sh './scripts/ci/karma_test.rb'
-      }
-    }
+  }
+}
 
 def rspecTests() {
   stage('Rspec tests') {
     curStage = 'Rspec tests'
-    sh './scripts/ci/rspec_test.rb'
+    sh script: './scripts/ci/rspec_test.rb', returnStatus: false
+  }
+}
+
+def rspecTestsSnapshot() {
+  stage('Rspec tests for Snapshot') {
+    curStage = 'Rspec tests for Snapshot'
+    sh 'EXCLUDE_PATTERN="features/screening" ./scripts/ci/rspec_test.rb'
   }
 }
       
@@ -142,16 +151,17 @@ def build() {
 
 def incrementTag() {
   stage('Increment Tag') {
+    curStage = 'Increment Tag'
     VERSION = newSemVer()
     VCS_REF = sh(
-    script: 'git rev-parse --short HEAD',
-    returnStdout: true
+      script: 'git rev-parse --short HEAD', returnStdout: true
     )
   }
 }
 
 def tagRepo() {
   stage('Tag Repo'){
+    curStage = 'Tag Repo'
     tagGithubRepo(VERSION, GITHUB_CREDENTIALS_ID)
   }
 }
@@ -167,6 +177,7 @@ def release() {
 
 def acceptanceTestBubble() {
   stage('Acceptance test Bubble'){
+    curStage = 'Acceptance test Bubble'
     withDockerRegistry([credentialsId: DOCKER_CREDENTIALS_ID]){
       withEnv(["INTAKE_IMAGE_VERSION=intakeaccelerator${BUILD_NUMBER}_app"]) {
         sh './scripts/ci/acceptance_test.rb'
@@ -188,6 +199,7 @@ def publish() {
 
 def triggerSecurityScan() {
   stage('Trigger Security scan') {
+    curStage = 'Trigger Security scan'
     build job: 'tenable-scan', parameters: [
       [$class: 'StringParameterValue', name: 'CONTAINER_NAME', value: 'intake'],
       [$class: 'StringParameterValue', name: 'CONTAINER_VERSION', value: VERSION]
@@ -197,6 +209,7 @@ def triggerSecurityScan() {
 
 def triggerReleasePipeline() {
   stage('Trigger Release Pipeline') {
+    curStage = 'Trigger Release Pipeline'
     withCredentials([usernameColonPassword(credentialsId: 'fa186416-faac-44c0-a2fa-089aed50ca17', variable: 'jenkinsauth')]) {
       sh "curl -v -u $jenkinsauth 'http://jenkins.mgmt.cwds.io:8080/job/PreInt-Integration/job/deploy-intake-app/buildWithParameters" +
       "?token=trigger-intake-deploy" +
