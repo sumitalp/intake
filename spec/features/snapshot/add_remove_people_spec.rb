@@ -223,8 +223,7 @@ feature 'Adding and removing a person from a snapshot' do
 
     within show_participant_card_selector(participant.dig(:legacy_descriptor, :legacy_id)) do
       within '.card-header' do
-        # TODO: DO NOT MERGE, temporary test failure to investigate Jenkins build
-        expect(page).to have_content("FAIL #{participant[:first_name]} #{participant[:last_name]}")
+        expect(page).to have_content("#{participant[:first_name]} #{participant[:last_name]}")
       end
     end
 
