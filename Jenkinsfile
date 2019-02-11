@@ -131,7 +131,10 @@ def karmaTests() {
 def rspecTests() {
   stage('Rspec tests') {
     curStage = 'Rspec tests'
-    sh script: './scripts/ci/rspec_test.rb', returnStatus: false
+    catchError {
+      sh script: './scripts/ci/rspec_test.rb'
+    }
+    echo currentBuild.result
   }
 }
 
