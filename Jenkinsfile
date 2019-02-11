@@ -36,6 +36,10 @@ def buildPullRequest() {
       lintTest()
       verifySemVerLabel()
       karmaTests()
+
+      // todo - DO NOT MERGE; temporary test failure to investigate Jenkins build, fix intentional test failure
+      rspecTests()
+
       rspecTestsSnapshot()
       reports()
     } catch(Exception exception) {
