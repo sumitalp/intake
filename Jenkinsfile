@@ -131,7 +131,11 @@ def karmaTests() {
 def rspecTests() {
   stage('Rspec tests') {
     curStage = 'Rspec tests'
-    sh script: './scripts/ci/rspec_test.rb', returnStatus: false
+    try {
+      sh './scripts/ci/rspec_test.rb'
+    } catch(Exception e) {
+      // ignore test results, because there will be also a run for Snapshot tests which we take into account
+    }
   }
 }
 
