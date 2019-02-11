@@ -36,7 +36,6 @@ def buildPullRequest() {
       lintTest()
       verifySemVerLabel()
       karmaTests()
-      rspecTests()
       rspecTestsSnapshot()
       reports()
     } catch(Exception exception) {
