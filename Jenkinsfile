@@ -37,7 +37,7 @@ def buildPullRequest() {
       verifySemVerLabel()
       karmaTests()
 
-      // todo - DO NOT MERGE; temporary test failure to investigate Jenkins build, fix intentional test failure
+      // TODO: DO NOT MERGE; temporary test failure to investigate Jenkins build, fix intentional test failure
       rspecTests()
 
       rspecTestsSnapshot()
