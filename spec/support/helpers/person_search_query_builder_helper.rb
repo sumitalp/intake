@@ -22,82 +22,80 @@ module PersonSearchQueryBuilderHelper
             {
               "match": {
                 "autocomplete_search_bar": {
-                  "query": 'person_search_term',
+                  "query": 'this is test search term',
                   "operator": 'and',
                   "boost": '4'
                 }
               }
             },
             {
-              "match": {
-                "first_name": {
-                  "query": 'person_search_term',
-                  "boost": '4'
-                }
+              "query_string": {
+                "boost": '10',
+                "default_field": 'autocomplete_search_bar',
+                "query": 'this is test search term'
               }
             },
             {
-              "match": {
-                "last_name": {
-                  "query": 'person_search_term',
-                  "boost": '4'
-                }
+              "query_string": {
+                "boost": '4',
+                "default_field": 'first_name',
+                "query": 'this is test search term'
               }
             },
             {
-              "match": {
-                "first_name.phonetic": {
-                  "query": 'person_search_term',
-                  "boost": '2'
-                }
+              "query_string": {
+                "boost": '4',
+                "default_field": 'last_name',
+                "query": 'this is test search term'
               }
             },
             {
-              "match": {
-                "last_name.phonetic": {
-                  "query": 'person_search_term',
-                  "boost": '2'
-                }
+              "query_string": {
+                "boost": '2',
+                "default_field": 'first_name.phonetic',
+                "query": 'this is test search term'
               }
             },
             {
-              "match": {
-                "first_name.diminutive": {
-                  "query": 'person_search_term',
-                  "boost": '2'
-                }
+              "query_string": {
+                "boost": '2',
+                "default_field": 'last_name.phonetic',
+                "query": 'this is test search term'
               }
             },
             {
-              "match": {
-                "last_name.diminutive": {
-                  "query": 'person_search_term',
-                  "boost": '2'
-                }
+              "query_string": {
+                "boost": '2',
+                "default_field": 'first_name.diminutive',
+                "query": 'this is test search term'
               }
             },
             {
-              "match": {
-                "date_of_birth_as_text": {
-                  "query": 'person_search_term',
-                  "boost": '10'
-                }
+              "query_string": {
+                "boost": '2',
+                "default_field": 'last_name.diminutive',
+                "query": 'this is test search term'
               }
             },
             {
-              "match": {
-                "ssn": {
-                  "query": 'person_search_term',
-                  "boost": '10'
-                }
+              "query_string": {
+                "boost": '10',
+                "default_field": 'date_of_birth_as_text',
+                "query": 'this is test search term'
               }
             },
             {
-              "match": {
-                "name_suffix": {
-                  'query' => 'person_search_term',
-                  'boost' => '4'
-                }
+              "query_string": {
+                "boost": '10',
+                "default_field": 'ssn',
+                "query": 'this is test search term'
+              }
+            },
+            {
+              "query_string": {
+                "boost": '4',
+                "default_field": 'name_suffix',
+                "query": 'this is test search term'
               }
             },
             {
@@ -109,49 +107,49 @@ module PersonSearchQueryBuilderHelper
                       {
                         "match": {
                           "addresses.autocomplete_searchable_address": {
-                            "query": 'street_number_and_name_search_term',
+                            "boost": '10',
                             "operator": 'and',
-                            "boost": '10'
+                            "query": 'street_number_and_name_search_term'
                           }
                         }
                       },
                       {
                         "match": {
                           "addresses.last_known": {
-                            "query": 'true',
-                            "boost": '10'
+                            "boost": '10',
+                            "query": 'true'
                           }
                         }
                       },
                       {
                         "match": {
                           "addresses.autocomplete_city": {
-                            "query": 'city_search_term',
-                            "boost": '10'
+                            "boost": '10',
+                            "query": 'city_search_term'
                           }
                         }
                       },
                       {
                         "match": {
                           "addresses.county.description": {
-                            "query": 'county_search_term',
-                            "boost": '10'
+                            "boost": '10',
+                            "query": 'county_search_term'
                           }
                         }
                       },
                       {
                         "match": {
                           "addresses.searchable_address": {
-                            "query": 'street_number_and_name_search_term',
-                            "boost": '10'
+                            "boost": '10',
+                            "query": 'street_number_and_name_search_term'
                           }
                         }
                       },
                       {
                         "match": {
                           "addresses.city": {
-                            "query": 'city_search_term',
-                            "boost": '10'
+                            "boost": '10',
+                            "query": 'city_search_term'
                           }
                         }
                       }
@@ -190,82 +188,80 @@ module PersonSearchQueryBuilderHelper
             {
               "match": {
                 "autocomplete_search_bar": {
-                  "query": 'person_search_term',
+                  "query": 'this is test search term',
                   "operator": 'and',
                   "boost": '4'
                 }
               }
             },
             {
-              "match": {
-                "first_name": {
-                  "query": 'person_search_term',
-                  "boost": '4'
-                }
+              "query_string": {
+                "default_field": 'autocomplete_search_bar',
+                "query": 'this is test search term',
+                "boost": '10'
               }
             },
             {
-              "match": {
-                "last_name": {
-                  "query": 'person_search_term',
-                  "boost": '4'
-                }
+              "query_string": {
+                "default_field": 'first_name',
+                "query": 'this is test search term',
+                "boost": '4'
               }
             },
             {
-              "match": {
-                "first_name.phonetic": {
-                  "query": 'person_search_term',
-                  "boost": '2'
-                }
+              "query_string": {
+                "default_field": 'last_name',
+                "query": 'this is test search term',
+                "boost": '4'
               }
             },
             {
-              "match": {
-                "last_name.phonetic": {
-                  "query": 'person_search_term',
-                  "boost": '2'
-                }
+              "query_string": {
+                "default_field": 'first_name.phonetic',
+                "query": 'this is test search term',
+                "boost": '2'
               }
             },
             {
-              "match": {
-                "first_name.diminutive": {
-                  "query": 'person_search_term',
-                  "boost": '2'
-                }
+              "query_string": {
+                "default_field": 'last_name.phonetic',
+                "query": 'this is test search term',
+                "boost": '2'
               }
             },
             {
-              "match": {
-                "last_name.diminutive": {
-                  "query": 'person_search_term',
-                  "boost": '2'
-                }
+              "query_string": {
+                "default_field": 'first_name.diminutive',
+                "query": 'this is test search term',
+                "boost": '2'
               }
             },
             {
-              "match": {
-                "date_of_birth_as_text": {
-                  "query": 'person_search_term',
-                  "boost": '10'
-                }
+              "query_string": {
+                "default_field": 'last_name.diminutive',
+                "query": 'this is test search term',
+                "boost": '2'
               }
             },
             {
-              "match": {
-                "ssn": {
-                  "query": 'person_search_term',
-                  "boost": '10'
-                }
+              "query_string": {
+                "default_field": 'date_of_birth_as_text',
+                "query": 'this is test search term',
+                "boost": '10'
               }
             },
             {
-              "match": {
-                "name_suffix": {
-                  'query' => 'person_search_term',
-                  'boost' => '4'
-                }
+              "query_string": {
+                "default_field": 'ssn',
+                "query": 'this is test search term',
+                "boost": '10'
+              }
+            },
+            {
+              "query_string": {
+                "default_field": 'name_suffix',
+                "query": 'this is test search term',
+                "boost": '4'
               }
             }
           ]
