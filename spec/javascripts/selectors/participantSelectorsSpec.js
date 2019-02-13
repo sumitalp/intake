@@ -356,7 +356,7 @@ describe('participantSelectors', () => {
               phone_numbers: [
                 {type: 'Home'},
                 {type: 'Cell'},
-                {type: 'Other'},
+                {type: 'Emergency'},
               ],
             },
           ],
@@ -366,7 +366,7 @@ describe('participantSelectors', () => {
           phone_numbers: [
             {type: 'Home'},
             {type: 'Cell'},
-            {type: 'Other'},
+            {type: 'Emergency'},
           ],
         },
       ]
