@@ -4,14 +4,14 @@ const phoneNumbers = [
   [
     {number: '(111) 111-1111', type: 'Home', extension: '1', errors: []},
     {number: '(222) 222-2222', type: 'Cell', extension: '2', errors: []},
-    {number: '(333) 333-3333', type: 'Other', extension: '3', errors: []},
+    {number: '(333) 333-3333', type: 'Emergency', extension: '3', errors: []},
     {number: '(765) 823-6170', type: 'Work', extension: '100', errors: []},
   ],
   [
     {number: '(555) 555-5555', type: 'Cell', extension: '5', errors: []},
     {
       number: '(777) 777-7777',
-      type: 'Other',
+      type: 'Emergency',
       extension: '2342342',
       errors: [],
     },
@@ -20,7 +20,7 @@ const phoneNumbers = [
   [
     {
       number: '(123) 456-7890',
-      type: 'Other',
+      type: 'Emergency',
       extension: '10',
       errors: [],
     },
@@ -30,7 +30,7 @@ const phoneNumbers = [
   [
     {
       number: '(123) 555-5555',
-      type: 'Other',
+      type: 'Emergency',
       extension: '12',
       errors: [],
     },
@@ -39,7 +39,7 @@ const phoneNumbers = [
   [
     {
       number: '(345) 999-9999',
-      type: 'Other',
+      type: 'Emergency',
       extension: '13',
       errors: [],
     },
@@ -70,10 +70,10 @@ describe('Sort Phone Numbers by Type', () => {
     })
   })
 
-  it('sorts the Other type third', () => {
+  it('sorts the Emergency type third', () => {
     expect(sortedPhoneNumbers[2]).toEqual({
       number: '(333) 333-3333',
-      type: 'Other',
+      type: 'Emergency',
       extension: '3',
       errors: [],
     })
@@ -162,7 +162,7 @@ describe('Sort Phone Numbers by Type', () => {
             },
             {
               number: '(333) 333-3333',
-              type: 'Other',
+              type: 'Emergency',
               extension: '3',
               errors: [],
             },
@@ -184,7 +184,7 @@ describe('Sort Phone Numbers by Type', () => {
           },
           {
             number: '(333) 333-3333',
-            type: 'Other',
+            type: 'Emergency',
             extension: '3',
             errors: [],
           },
@@ -215,7 +215,7 @@ describe('Sort Phone Numbers by Type', () => {
             },
             {
               number: '(333) 333-3333',
-              type: 'Other',
+              type: 'Emergency',
               extension: '3',
               errors: [],
             },
@@ -237,7 +237,7 @@ describe('Sort Phone Numbers by Type', () => {
           },
           {
             number: '(333) 333-3333',
-            type: 'Other',
+            type: 'Emergency',
             extension: '3',
             errors: [],
           },
@@ -258,7 +258,7 @@ describe('Sort Phone Numbers by Type', () => {
       {number: '(222) 222-2222', type: 'Cell', extension: '2', errors: []},
       {
         number: '(333) 333-3333',
-        type: 'Other',
+        type: 'Emergency',
         extension: '3',
         errors: [],
       },
@@ -267,7 +267,7 @@ describe('Sort Phone Numbers by Type', () => {
       {number: '(555) 555-5555', type: 'Cell', extension: '5', errors: []},
       {
         number: '(777) 777-7777',
-        type: 'Other',
+        type: 'Emergency',
         extension: '2342342',
         errors: [],
       },
@@ -275,20 +275,20 @@ describe('Sort Phone Numbers by Type', () => {
       {number: '(999) 999-9999', type: 'Cell', extension: '9', errors: []},
       {
         number: '(123) 456-7890',
-        type: 'Other',
+        type: 'Emergency',
         extension: '10',
         errors: [],
       },
       {number: '(234) 444-4444', type: 'Cell', extension: '11', errors: []},
       {
         number: '(123) 555-5555',
-        type: 'Other',
+        type: 'Emergency',
         extension: '12',
         errors: [],
       },
       {
         number: '(345) 999-9999',
-        type: 'Other',
+        type: 'Emergency',
         extension: '13',
         errors: [],
       },

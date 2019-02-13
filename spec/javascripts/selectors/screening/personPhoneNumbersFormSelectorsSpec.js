@@ -13,7 +13,7 @@ describe('personPhoneNumbersFormSelectors', () => {
         {value: 'Cell', label: 'Cell'},
         {value: 'Work', label: 'Work'},
         {value: 'Home', label: 'Home'},
-        {value: 'Other', label: 'Other'},
+        {value: 'Emergency', label: 'Emergency'},
       ]))
     })
   })
