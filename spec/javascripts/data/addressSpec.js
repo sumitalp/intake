@@ -25,46 +25,66 @@ describe('Address', () => {
     })
 
     it('handles an address persisted to legacy', () => {
-      const address = fromFerbAddress(fromJS({
-        id: '1',
-        street_address: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Work',
-        legacy_descriptor: {legacy_id: 'ABC123'},
-      }))
+      const address = fromFerbAddress(
+        fromJS({
+          id: '1',
+          street_address: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '95833',
+          type: 'Work',
+          legacy_descriptor: {legacy_id: 'ABC123'},
+          phone_numbers: [
+            {number: '1234567890', extension: '12', type: 'Home'},
+          ],
+        })
+      )
 
-      expect(address).toEqualImmutable(fromJS({
-        id: '1',
-        street: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Work',
-        legacy_descriptor: {legacy_id: 'ABC123'},
-      }))
+      expect(address).toEqualImmutable(
+        fromJS({
+          id: '1',
+          street: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '95833',
+          type: 'Work',
+          legacy_descriptor: {legacy_id: 'ABC123'},
+          phone_numbers: [
+            {number: '1234567890', extension: '12', type: 'Home'},
+          ],
+        })
+      )
     })
 
     it('handles an editable address from Postgres', () => {
-      const address = fromFerbAddress(fromJS({
-        id: '1',
-        street_address: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Work',
-      }))
+      const address = fromFerbAddress(
+        fromJS({
+          id: '1',
+          street_address: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '95833',
+          type: 'Work',
+          phone_numbers: [
+            {number: '1234567890', extension: '12', type: 'Home'},
+          ],
+        })
+      )
 
-      expect(address).toEqualImmutable(fromJS({
-        id: '1',
-        street: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Work',
-        legacy_descriptor: null,
-      }))
+      expect(address).toEqualImmutable(
+        fromJS({
+          id: '1',
+          street: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '95833',
+          type: 'Work',
+          legacy_descriptor: null,
+          phone_numbers: [
+            {number: '1234567890', extension: '12', type: 'Home'},
+          ],
+        })
+      )
     })
   })
 
@@ -74,89 +94,105 @@ describe('Address', () => {
     })
 
     it('handles an address persisted to legacy', () => {
-      const address = toFerbAddress(fromJS({
-        id: '1',
-        street: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Work',
-        legacy_descriptor: {legacy_id: 'ABC123'},
-      }))
+      const address = toFerbAddress(
+        fromJS({
+          id: '1',
+          street: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '95833',
+          type: 'Work',
+          legacy_descriptor: {legacy_id: 'ABC123'},
+        })
+      )
 
-      expect(address).toEqualImmutable(fromJS({
-        id: '1',
-        street_address: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Work',
-        legacy_descriptor: {legacy_id: 'ABC123'},
-      }))
+      expect(address).toEqualImmutable(
+        fromJS({
+          id: '1',
+          street_address: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '95833',
+          type: 'Work',
+          legacy_descriptor: {legacy_id: 'ABC123'},
+        })
+      )
     })
 
     it('handles an editable address from Postgres', () => {
-      const address = toFerbAddress(fromJS({
-        id: '1',
-        street: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Work',
-        legacy_descriptor: null,
-      }))
+      const address = toFerbAddress(
+        fromJS({
+          id: '1',
+          street: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '95833',
+          type: 'Work',
+          legacy_descriptor: null,
+        })
+      )
 
-      expect(address).toEqualImmutable(fromJS({
-        id: '1',
-        street_address: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Work',
-      }))
+      expect(address).toEqualImmutable(
+        fromJS({
+          id: '1',
+          street_address: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '95833',
+          type: 'Work',
+        })
+      )
     })
 
     it('handles a new address, including a new id', () => {
-      const address = toFerbAddress(fromJS({
-        id: null,
-        street: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Work',
-        legacy_descriptor: null,
-      }))
+      const address = toFerbAddress(
+        fromJS({
+          id: null,
+          street: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '95833',
+          type: 'Work',
+          legacy_descriptor: null,
+        })
+      )
 
-      expect(address).toEqualImmutable(fromJS({
-        id: null,
-        street_address: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Work',
-      }))
+      expect(address).toEqualImmutable(
+        fromJS({
+          id: null,
+          street_address: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '95833',
+          type: 'Work',
+        })
+      )
     })
 
     it('deletes touched fields information', () => {
-      const address = toFerbAddress(fromJS({
-        touched: {zip: true, street: false},
-        id: null,
-        street: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Work',
-        legacy_descriptor: null,
-      }))
+      const address = toFerbAddress(
+        fromJS({
+          touched: {zip: true, street: false},
+          id: null,
+          street: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '95833',
+          type: 'Work',
+          legacy_descriptor: null,
+        })
+      )
 
-      expect(address).toEqualImmutable(fromJS({
-        id: null,
-        street_address: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '95833',
-        type: 'Work',
-      }))
+      expect(address).toEqualImmutable(
+        fromJS({
+          id: null,
+          street_address: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '95833',
+          type: 'Work',
+        })
+      )
     })
   })
 
@@ -212,16 +248,18 @@ describe('Address', () => {
         legacy_descriptor: null,
       })
 
-      expect(setErrors(address)).toEqualImmutable(fromJS({
-        id: '1',
-        street: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '9',
-        type: 'Work',
-        legacy_descriptor: null,
-        zipError: ['zip code should be 5 digits'],
-      }))
+      expect(setErrors(address)).toEqualImmutable(
+        fromJS({
+          id: '1',
+          street: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '9',
+          type: 'Work',
+          legacy_descriptor: null,
+          zipError: ['zip code should be 5 digits'],
+        })
+      )
     })
 
     it('sets no errors for legacy addresses', () => {
@@ -235,16 +273,18 @@ describe('Address', () => {
         legacy_descriptor: {legacy_id: 'ABC123'},
       })
 
-      expect(setErrors(address)).toEqualImmutable(fromJS({
-        id: '1',
-        street: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '9',
-        type: 'Work',
-        legacy_descriptor: {legacy_id: 'ABC123'},
-        zipError: null,
-      }))
+      expect(setErrors(address)).toEqualImmutable(
+        fromJS({
+          id: '1',
+          street: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '9',
+          type: 'Work',
+          legacy_descriptor: {legacy_id: 'ABC123'},
+          zipError: null,
+        })
+      )
     })
   })
   describe('setVisibleErrors', () => {
@@ -260,17 +300,19 @@ describe('Address', () => {
         legacy_descriptor: null,
       })
 
-      expect(setVisibleErrors(address)).toEqualImmutable(fromJS({
-        touched: {zip: true},
-        id: '1',
-        street: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '9',
-        type: 'Work',
-        legacy_descriptor: null,
-        zipError: ['zip code should be 5 digits'],
-      }))
+      expect(setVisibleErrors(address)).toEqualImmutable(
+        fromJS({
+          touched: {zip: true},
+          id: '1',
+          street: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '9',
+          type: 'Work',
+          legacy_descriptor: null,
+          zipError: ['zip code should be 5 digits'],
+        })
+      )
     })
 
     it('sets no errors if zip is untouched', () => {
@@ -285,17 +327,19 @@ describe('Address', () => {
         legacy_descriptor: {legacy_id: 'ABC123'},
       })
 
-      expect(setVisibleErrors(address)).toEqualImmutable(fromJS({
-        touched: {zip: false},
-        id: '1',
-        street: '2870 Gateway Oaks Dr',
-        city: 'Sacramento',
-        state: 'CA',
-        zip: '9',
-        type: 'Work',
-        legacy_descriptor: {legacy_id: 'ABC123'},
-        zipError: [],
-      }))
+      expect(setVisibleErrors(address)).toEqualImmutable(
+        fromJS({
+          touched: {zip: false},
+          id: '1',
+          street: '2870 Gateway Oaks Dr',
+          city: 'Sacramento',
+          state: 'CA',
+          zip: '9',
+          type: 'Work',
+          legacy_descriptor: {legacy_id: 'ABC123'},
+          zipError: [],
+        })
+      )
     })
   })
 })

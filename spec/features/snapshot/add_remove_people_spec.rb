@@ -24,6 +24,7 @@ feature 'Adding and removing a person from a snapshot' do
         city: 'Pala',
         state: 'CA',
         zip: '92089',
+        phone_numbers: [{ id: '1', type: 'Home', number: '(971) 287-6774' }],
         legacy_descriptor: {
           legacy_id: '7OFBh9m2St',
           legacy_ui_id: '0419-8132-6960-2009479',
@@ -38,6 +39,7 @@ feature 'Adding and removing a person from a snapshot' do
         city: 'San Diego',
         state: 'CA',
         zip: '0',
+        phone_numbers: [{ id: '1', type: 'Home', number: '(971) 287-6774' }],
         legacy_descriptor: {
           legacy_id: 'C9dNEEl0AB',
           legacy_ui_id: '0690-4298-3587-5000631',
@@ -94,6 +96,7 @@ feature 'Adding and removing a person from a snapshot' do
                   address.with_state_code(participant[:addresses][0][:state])
                   address.with_city(participant[:addresses][0][:city])
                   address.with_zip(participant[:addresses][0][:zip])
+                  address.with_phone_number(participant[:addresses][0][:phone_numbers].first)
                   address.with_type do
                     AddressTypeSearchResultBuilder.build('Home')
                   end
@@ -158,8 +161,8 @@ feature 'Adding and removing a person from a snapshot' do
         expect(page).to have_content(participant[:legacy_descriptor][:legacy_ui_id])
         expect(page).to have_content(participant[:first_name])
         expect(page).to have_content(participant[:last_name])
-        expect(page).to have_content(participant[:phone_numbers].first[:number])
-        expect(page).to have_content(participant[:phone_numbers].first[:type])
+        expect(page).to have_content(participant[:addresses][0][:phone_numbers].first[:number])
+        expect(page).to have_content(participant[:addresses][0][:phone_numbers].first[:type])
         expect(page).to have_content(participant[:gender].capitalize)
         expect(page).to have_content(participant[:approximate_age])
         expect(page).to have_content(participant[:ssn])
