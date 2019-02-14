@@ -30,6 +30,13 @@ switch(env.BUILD_JOB_TYPE) {
 
 def buildPullRequest() {
   node('intake-slave') {
+    def triggerProperties = githubPullRequestBuilderTriggerProperties()
+    properties([
+      githubConfig(),
+      pipelineTriggers([triggerProperties]),
+      buildDiscarderDefaults()
+    ])
+
     try {
       scmCheckOut()
       buildingTestBench()
@@ -51,7 +58,8 @@ def buildMaster() {
   node('intake-slave') {
     triggerProperties = pullRequestMergedTriggerProperties('intake-master')
     properties([
-      pipelineTriggers([triggerProperties])
+      pipelineTriggers([triggerProperties]),
+      buildDiscarderDefaults('master')
     ])
 
     try {
@@ -319,4 +327,8 @@ def deployWithSmoke(environment) {
     smokeTest(environment)
     cleanWs()
   }
+}
+
+def githubConfig() {
+  githubConfigProperties('https://github.com/ca-cwds/intake')
 }
