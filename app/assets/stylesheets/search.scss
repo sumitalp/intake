@@ -1,35 +1,155 @@
 @import 'constants';
 
-.autocomplete-menu {
-  background-color: $white;
-  border: $thin-border solid $light-grey;
-  border-bottom-left-radius: $larger-border-radius;
-  border-bottom-right-radius: $larger-border-radius;
-  display: block;
-  font-family: Helvetica, sans-serif;
-  font-size: 1.6rem;
-  font-weight: $light-weight;
-  left: $base-spacing;
-  margin-top: $double-spacing;
-  max-height: 52rem;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  position: absolute;
-  top: 100%;
-  width: calc(100% - #{$double-spacing});
-  z-index: 2;
-}
+#search-card {
+  input#screening_participants {
+    display: none;
+  }
 
-.address-search-disabled .autocomplete-menu {
-  margin-top: 0;
-}
+  .autocomplete-menu {
+    background-color: $white;
+    border: $thin-border solid $light-grey;
+    border-bottom-left-radius: $larger-border-radius;
+    border-bottom-right-radius: $larger-border-radius;
+    display: block;
+    font-family: Helvetica, sans-serif;
+    font-size: 1.6rem;
+    font-weight: $light-weight;
+    left: $base-spacing;
+    margin-top: $double-spacing;
+    max-height: 52rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: absolute;
+    top: 100%;
+    width: calc(100% - #{$double-spacing});
+    z-index: 2;
+  }
 
-.search-item {
-  border-bottom: $regular-border solid $light-grey;
-  cursor: pointer;
-  padding: 1rem 2rem;
+  .search-item {
+    border-bottom: $regular-border solid $light-grey;
+    cursor: pointer;
+    padding: 1rem 2rem;
 
-  &.highlighted-search-item {
-    background-color: $light-grey;
+    &.highlighted-search-item {
+      background-color: $light-grey;
+    }
+  }
+
+  input,
+  select {
+    border-radius: 0.4rem;
+  }
+
+  select:disabled {
+    background-color: $lightest-grey;
+    cursor: not-allowed;
+  }
+
+  .person-search-field-group {
+    padding: 2rem 0 2rem 0;
+    border-bottom: 0.1rem solid $lightest-grey;
+  }
+
+  .person-search-field-group:first-child {
+    padding-top: 0;
+  }
+
+  .person-search-field-group:nth-child(3),
+  .person-search-field-group:nth-child(4) {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .person-search-field-title {
+    font-weight: bold;
+  }
+
+  .last-name-field,
+  .first-name-field,
+  .client-id-field,
+  .suffix-field,
+  .age-number-field,
+  .address-field,
+  .city-field,
+  .state-field,
+  .country-field {
+    padding-right: 0.75rem;
+  }
+
+  .first-name-field,
+  .middle-name-field,
+  .suffix-field,
+  .ssn-field,
+  .age-unit-field,
+  .city-field,
+  .county-field,
+  .country-field,
+  .zip-code-field {
+    padding-left: 0.75rem;
+  }
+
+  label.person-search-label-date-of-birth {
+    margin-right: 2.8rem;
+  }
+
+  label.person-search-label-approximate-age {
+    margin-top: 1.8rem;
+  }
+
+  input#search-approximate-age-number {
+    margin-top: 1.5rem;
+  }
+
+  select#search-approximate-age-units {
+    margin-top: 1.5rem;
+    color: $dark-grey;
+    font-size: 1.5rem;
+  }
+
+  select#search-approximate-age-units > option[value=''][disabled] {
+    display: none;
+  }
+
+  .person-search-gender-at-birth-wrapper {
+    padding-top: 1.5rem;
+  }
+
+  // see https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
+  // for more info about the placeholder pseudo element
+
+  // edge (it requries the -webkit-input- prefix)
+  input.rw-input::-webkit-input-placeholder {
+    font-size: 0.9em;
+  }
+
+  #search-zip-code::-webkit-input-placeholder {
+    font-size: 0.78em;
+  }
+
+  // ie 11
+  input.rw-input:-ms-input-placeholder {
+    font-size: 0.9em;
+  }
+
+  #search-zip-code:-ms-input-placeholder {
+    font-size: 0.78em;
+  }
+
+  // chrome v57+ and firefox v51+
+  input.rw-input::placeholder {
+    font-size: 0.9em;
+  }
+
+  #search-zip-code::placeholder {
+    font-size: 0.78em;
+  }
+
+  button.person-search-button-cancel {
+    float: right;
+  }
+
+  button.person-search-button-search {
+    float: right;
+    margin-left: 0.75rem;
   }
 }

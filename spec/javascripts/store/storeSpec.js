@@ -5,9 +5,7 @@ import {
   createScreeningSuccess,
   saveSuccess,
 } from 'actions/screeningActions'
-import {
-  createPersonSuccess,
-} from 'actions/personCardActions'
+import {createPersonSuccess} from 'actions/personCardActions'
 import {fromJS} from 'immutable'
 import rootReducer from 'reducers'
 import {createStore} from 'redux'
@@ -32,10 +30,22 @@ describe('Store', () => {
         results: [],
         searchTerm: '',
         total: 0,
-        isAddressIncluded: false,
-        searchCounty: '',
-        searchCity: '',
+        searchLastName: '',
+        searchFirstName: '',
+        searchMiddleName: '',
+        searchClientId: '',
+        searchSuffix: '',
+        searchSsn: '',
+        searchDateOfBirth: '',
+        searchApproximateAge: '',
+        searchApproximateAgeUnits: '',
+        searchGenderAtBirth: '',
         searchAddress: '',
+        searchCity: '',
+        searchCounty: '',
+        searchState: '',
+        searchCountry: '',
+        searchZipCode: '',
         defaultCounty: null,
       },
       relationshipForm: {isSaving: false},
@@ -96,14 +106,19 @@ describe('Store', () => {
       id: '1',
       name: 'Mock screening',
       participants: [
-        {id: '2',
+        {
+          id: '2',
           legacy_id: '3',
           screening_id: '1',
           addresses: [],
-          ethnicity: [{
-            hispanic_latino_origin: 'Yes',
-            ethnicity_detail: ['Mexican'],
-          }]}],
+          ethnicity: [
+            {
+              hispanic_latino_origin: 'Yes',
+              ethnicity_detail: ['Mexican'],
+            },
+          ],
+        },
+      ],
       allegations: [],
       incident_address: {},
     })
@@ -139,7 +154,12 @@ describe('Store', () => {
         incident_address: {id: '1111'},
       })
     )
-    expect(store.getState().get('participants').isEmpty()).toEqual(true)
+    expect(
+      store
+        .getState()
+        .get('participants')
+        .isEmpty()
+    ).toEqual(true)
   })
 
   describe('when a screening already exists in the store', () => {
@@ -156,8 +176,12 @@ describe('Store', () => {
     })
 
     it('handles update screening', () => {
-      const participants = fromJS([{id: '2', legacy_id: '3', screening_id: '1', addresses: []}])
-      const updatedScreening = initialState.get('screening').set('participants', participants)
+      const participants = fromJS([
+        {id: '2', legacy_id: '3', screening_id: '1', addresses: []},
+      ])
+      const updatedScreening = initialState
+        .get('screening')
+        .set('participants', participants)
       const action = saveSuccess(updatedScreening.toJS())
       store.dispatch(action)
       expect(store.getState().get('screening')).toEqualImmutable(
@@ -167,23 +191,31 @@ describe('Store', () => {
           fetch_status: 'FETCHED',
         })
       )
-      expect(store.getState().get('participants')).toEqualImmutable(participants)
+      expect(store.getState().get('participants')).toEqualImmutable(
+        participants
+      )
     })
 
     it('handles create participant', () => {
       spyOn(IntakeConfig, 'isFeatureActive').and.returnValue(false)
-      const participant = {id: '2',
+      const participant = {
+        id: '2',
         legacy_id: '3',
         screening_id: '1',
         addresses: [],
-        ethnicity: [{
-          hispanic_latino_origin: 'Yes',
-          ethnicity_detail: ['Mexican'],
-        }]}
+        ethnicity: [
+          {
+            hispanic_latino_origin: 'Yes',
+            ethnicity_detail: ['Mexican'],
+          },
+        ],
+      }
       const participants = fromJS([participant])
       const action = createPersonSuccess(participant)
       store.dispatch(action)
-      expect(store.getState().get('participants')).toEqualImmutable(participants)
+      expect(store.getState().get('participants')).toEqualImmutable(
+        participants
+      )
     })
   })
 })

@@ -1,11 +1,11 @@
-import CountyNameSelect from 'common/county/CountyNameSelect'
+import SuffixNameSelect from 'common/search/suffix/SuffixNameSelect'
 import React from 'react'
 import {shallow} from 'enzyme'
 
-describe('CountyNameSelect', () => {
+describe('SuffixNameSelect', () => {
   const render = ({
     gridClassName,
-    id = 'county-select',
+    id = 'suffix-select',
     onChange = () => {},
     value = '',
   } = {}) => {
@@ -15,13 +15,12 @@ describe('CountyNameSelect', () => {
       onChange,
       value,
     }
-    return shallow(<CountyNameSelect {...props} />)
+    return shallow(<SuffixNameSelect {...props} />)
   }
 
-  const findField = component =>
-    component.find('Connect(CountiesInjector) CountySelect')
+  const findField = component => component.find('SuffixSelect')
 
-  it('displays the select field with counties injected', () => {
+  it('displays the select field with suffixes', () => {
     const component = render()
     expect(findField(component).exists()).toEqual(true)
   })
@@ -40,14 +39,14 @@ describe('CountyNameSelect', () => {
     expect(field.props().value).toEqual('hello')
   })
 
-  it('calls back with the county name when the selection changes', () => {
+  it('calls back with the units when the selection changes', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = render({onChange})
 
     findField(component)
       .props()
-      .onChange({code: '123', value: 'Sacramento'}, 'county')
+      .onChange({value: 'Jr'})
 
-    expect(onChange).toHaveBeenCalledWith('Sacramento', 'county')
+    expect(onChange).toHaveBeenCalledWith({value: 'Jr'})
   })
 })

@@ -2,37 +2,28 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Autocompleter from 'common/search/Autocompleter'
 import {withRouter} from 'react-router'
-import {isSearchByAddressOn} from 'common/config'
 
 class PersonSearchForm extends React.Component {
   componentWillUnmount() {
-    this.props.onClear()
-    this.props.onChange('')
-    this.props.onResetAddressSearch()
+    this.props.onCancel()
   }
 
   render() {
-    const {
-      isAddressIncluded,
-      searchPrompt,
-      ...autocompleterProps
-    } = this.props
-
-    const classNameAddressSearchDisabled = isSearchByAddressOn(this.props.location) ?
-      '' : 'address-search-disabled'
-
     return (
       <div className="card-height">
-        <button className='anchor' aria-label='search-card-anchor' id='search-card-anchor'/>
-        <div className='card double-gap-bottom hidden-print' id='search-card'>
-          <div className='card-header'>
+        <button
+          className="anchor"
+          aria-label="search-card-anchor"
+          id="search-card-anchor"
+        />
+        <div className="card double-gap-bottom hidden-print" id="search-card">
+          <div className="card-header">
             <h2>Search</h2>
           </div>
-          <div className={`card-body ${classNameAddressSearchDisabled}`}>
-            <div className='row'>
-              <div className='col-md-12'>
-                <label className='pull-left' htmlFor='screening_participants'>{searchPrompt}</label>
-                <Autocompleter id='screening_participants' {...autocompleterProps} isAddressIncluded={isAddressIncluded} />
+          <div className={`card-body`}>
+            <div className="row">
+              <div className="col-md-12">
+                <Autocompleter id="screening_participants" {...this.props} />
               </div>
             </div>
           </div>
@@ -44,22 +35,34 @@ class PersonSearchForm extends React.Component {
 
 PersonSearchForm.propTypes = {
   canCreateNewPerson: PropTypes.bool.isRequired,
-  isAddressIncluded: PropTypes.bool,
   isSelectable: PropTypes.func,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
+  onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onChangeCounty: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func,
-  onResetAddressSearch: PropTypes.func,
   onSearch: PropTypes.func,
   onSelect: PropTypes.func,
   results: PropTypes.array,
+  searchAddress: PropTypes.string,
+  searchApproximateAge: PropTypes.string,
+  searchApproximateAgeUnits: PropTypes.string,
+  searchCity: PropTypes.string,
+  searchClientId: PropTypes.string,
+  searchCountry: PropTypes.string,
   searchCounty: PropTypes.string,
-  searchPrompt: PropTypes.string.isRequired,
+  searchDateOfBirth: PropTypes.string,
+  searchFirstName: PropTypes.string,
+  searchGenderAtBirth: PropTypes.string,
+  searchLastName: PropTypes.string,
+  searchMiddleName: PropTypes.string,
+  searchSsn: PropTypes.string,
+  searchState: PropTypes.string,
+  searchSuffix: PropTypes.string,
   searchTerm: PropTypes.string,
+  searchZipCode: PropTypes.string,
   staffId: PropTypes.string,
   total: PropTypes.number,
 }

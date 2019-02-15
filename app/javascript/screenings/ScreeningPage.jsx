@@ -21,20 +21,15 @@ import PageHeader from 'common/PageHeader'
 import BreadCrumb from 'containers/common/BreadCrumb'
 import {urlHelper} from 'common/url_helper.js.erb'
 
-const isDuplicatePerson = (participants, personOnScreening) => (
+const isDuplicatePerson = (participants, personOnScreening) =>
   participants
-    .filter((participant) => participant.legacy_id)
-    .some((x) => x.legacy_id === personOnScreening.legacy_descriptor.legacy_id)
-)
+    .filter(participant => participant.legacy_id)
+    .some(x => x.legacy_id === personOnScreening.legacy_descriptor.legacy_id)
 
 export class ScreeningPage extends React.Component {
   componentDidMount() {
     const {
-      actions: {
-        setPageMode,
-        fetchScreening,
-        fetchHistoryOfInvolvements,
-      },
+      actions: {setPageMode, fetchScreening, fetchHistoryOfInvolvements},
       params: {mode, id},
     } = this.props
     if (id) {
@@ -63,12 +58,17 @@ export class ScreeningPage extends React.Component {
   }
 
   onSelectPerson(person) {
-    const {participants, params: {id}, actions: {createPerson}} = this.props
+    const {
+      participants,
+      params: {id},
+      actions: {createPerson},
+    } = this.props
     const personOnScreening = {
       screening_id: id,
       legacy_descriptor: {
         legacy_id: person.legacyDescriptor && person.legacyDescriptor.legacy_id,
-        legacy_source_table: person.legacyDescriptor && person.legacyDescriptor.legacy_table_name,
+        legacy_source_table:
+          person.legacyDescriptor && person.legacyDescriptor.legacy_table_name,
       },
     }
     if (!isDuplicatePerson(participants, personOnScreening)) {
@@ -77,11 +77,17 @@ export class ScreeningPage extends React.Component {
   }
 
   submitButton() {
-    const {editable, disableSubmitButton, params: {id}, actions: {submitScreening}} = this.props
+    const {
+      editable,
+      disableSubmitButton,
+      params: {id},
+      actions: {submitScreening},
+    } = this.props
     if (editable) {
       return (
-        <button type='button'
-          className='btn primary-btn pull-right'
+        <button
+          type="button"
+          className="btn primary-btn pull-right"
           disabled={disableSubmitButton}
           onClick={() => submitScreening(id)}
         >
@@ -89,45 +95,63 @@ export class ScreeningPage extends React.Component {
         </button>
       )
     } else {
-      return (<div />)
+      return <div />
     }
   }
 
   renderPersonSearchForm() {
     return (
       <PersonSearchFormContainer
-        onSelect={(person) => this.onSelectPerson(person)}
-        searchPrompt='Search for any person (Children, parents, reporters, alleged perpetrators...)'
+        onSelect={person => this.onSelectPerson(person)}
         canCreateNewPerson={true}
         isClientOnly={false}
-      />)
+      />
+    )
   }
 
   renderScreeningFooter() {
     const {mode, editable} = this.props
-    return mode === SHOW_MODE && (
-      <div>
-        <Link to='/' className='gap-right'>Home</Link>
-        {editable && <Link to={`/screenings/${this.props.params.id}/edit`}>Edit</Link>}
-      </div>
+    return (
+      mode === SHOW_MODE && (
+        <div>
+          <Link to="/" className="gap-right">
+            Home
+          </Link>
+          {editable && (
+            <Link to={`/screenings/${this.props.params.id}/edit`}>Edit</Link>
+          )}
+        </div>
+      )
     )
   }
 
   renderBody() {
-    const {referralId, editable, hasApiValidationErrors, submitReferralErrors} = this.props
+    const {
+      referralId,
+      editable,
+      hasApiValidationErrors,
+      submitReferralErrors,
+    } = this.props
     return (
-      <div className='col-xs-8 col-xs-offset-4 col-md-9 col-md-offset-3 hotline-inner-container'>
+      <div className="col-xs-8 col-xs-offset-4 col-md-9 col-md-offset-3 hotline-inner-container">
         {referralId && <h1>Referral #{referralId}</h1>}
-        {hasApiValidationErrors && <ErrorDetail errors={submitReferralErrors} />}
+        {hasApiValidationErrors && (
+          <ErrorDetail errors={submitReferralErrors} />
+        )}
         <ScreeningInformationCard />
         {editable && this.renderPersonSearchForm()}
-        {this.props.participants.map(({id}) => <PersonCardView key={id} personId={id} />)}
+        {this.props.participants.map(({id}) => (
+          <PersonCardView key={id} personId={id} />
+        ))}
         <NarrativeCard />
         <IncidentInformationCard />
         <AllegationsCard />
         <RelationshipsCardContainer />
         <WorkerSafetyCard />
-        <HistoryOfInvolvementContainer empty={<EmptyHistory />} notEmpty={<HistoryTableContainer includesScreenings={true} />} />
+        <HistoryOfInvolvementContainer
+          empty={<EmptyHistory />}
+          notEmpty={<HistoryTableContainer includesScreenings={true} />}
+        />
         <CrossReportCard />
         <DecisionCard />
         {this.renderScreeningFooter()}
@@ -140,13 +164,13 @@ export class ScreeningPage extends React.Component {
 
     if (loaded) {
       return (
-        <div className='row'>
+        <div className="row">
           <ScreeningSideBar participants={participants} />
           {this.renderBody()}
         </div>
       )
     }
-    return (<div />)
+    return <div />
   }
 
   render() {
@@ -154,8 +178,17 @@ export class ScreeningPage extends React.Component {
     return (
       <div>
         <div>
-          <PageHeader pageTitle={this.props.screeningTitle} button={this.submitButton()} />
-          <BreadCrumb navigationElements={[<Link key={this.props.params.id} to={urlHelper('/')}>CaseLoad</Link>]}/>
+          <PageHeader
+            pageTitle={this.props.screeningTitle}
+            button={this.submitButton()}
+          />
+          <BreadCrumb
+            navigationElements={[
+              <Link key={this.props.params.id} to={urlHelper('/')}>
+                CaseLoad
+              </Link>,
+            ]}
+          />
         </div>
         <div className={`container hotline-container ${genericErrorClass}`}>
           {this.renderScreening()}
