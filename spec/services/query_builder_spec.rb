@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe QueryBuilder do
-  let(:search_term) { 'person_search_term' }
+  let(:search_term) { 'this is test search term' }
   let(:search_address) do
     { city: 'city_search_term',
       county: 'county_search_term',

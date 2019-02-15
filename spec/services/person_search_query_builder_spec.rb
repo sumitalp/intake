@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe PersonSearchQueryBuilder do
   describe '.build_query' do
-    let(:search_term) { 'person_search_term' }
+    let(:search_term) { 'this is test search term' }
     let(:person_only_query) { PersonSearchResultBuilder.new.person_only_query }
 
     context 'returns hash' do
