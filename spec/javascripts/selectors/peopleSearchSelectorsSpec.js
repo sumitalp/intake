@@ -6,22 +6,7 @@ import {
   selectLastResultsSortValue,
   selectStartTime,
   selectPersonCreatedAtTime,
-  selectSearchLastName,
-  selectSearchFirstName,
-  selectSearchMiddleName,
-  selectSearchClientId,
-  selectSearchSuffix,
-  selectSearchSsn,
-  selectSearchDateOfBirth,
-  selectSearchApproximateAge,
-  selectSearchApproximateAgeUnits,
-  selectSearchGenderAtBirth,
-  selectSearchAddress,
-  selectSearchCity,
-  selectSearchCounty,
-  selectSearchState,
-  selectSearchCountry,
-  selectSearchZipCode,
+  selectPersonSearchFields,
   selectAkaFullName,
 } from 'selectors/peopleSearchSelectors'
 import Immutable from 'immutable'
@@ -598,23 +583,23 @@ describe('peopleSearchSelectors', () => {
     })
   })
 
-  describe('selectSearchLastName', () => {
+  describe('selectPersonSearchFields', () => {
     it('gets the last name from the store', () => {
       const peopleSearch = {
         searchLastName: 'Flintstone',
       }
       const state = fromJS({peopleSearch})
-      expect(selectSearchLastName(state)).toEqual('Flintstone')
+      expect(selectPersonSearchFields(state).searchLastName).toEqual(
+        'Flintstone'
+      )
     })
-  })
 
-  describe('selectSearchFirstName', () => {
     it('gets the first name from the store', () => {
       const peopleSearch = {
         searchFirstName: 'Freddy',
       }
       const state = fromJS({peopleSearch})
-      expect(selectSearchFirstName(state)).toEqual('Freddy')
+      expect(selectPersonSearchFields(state).searchFirstName).toEqual('Freddy')
     })
   })
 
@@ -624,7 +609,9 @@ describe('peopleSearchSelectors', () => {
         searchMiddleName: 'Bedrock',
       }
       const state = fromJS({peopleSearch})
-      expect(selectSearchMiddleName(state)).toEqual('Bedrock')
+      expect(selectPersonSearchFields(state).searchMiddleName).toEqual(
+        'Bedrock'
+      )
     })
   })
 
@@ -632,7 +619,7 @@ describe('peopleSearchSelectors', () => {
     it('gets the client id from the store', () => {
       const peopleSearch = {searchClientId: '1'}
       const state = fromJS({peopleSearch})
-      expect(selectSearchClientId(state)).toEqual('1')
+      expect(selectPersonSearchFields(state).searchClientId).toEqual('1')
     })
   })
 
@@ -640,7 +627,7 @@ describe('peopleSearchSelectors', () => {
     it('gets the suffix from the store', () => {
       const peopleSearch = {searchSuffix: 'Jr'}
       const state = fromJS({peopleSearch})
-      expect(selectSearchSuffix(state)).toEqual('Jr')
+      expect(selectPersonSearchFields(state).searchSuffix).toEqual('Jr')
     })
   })
 
@@ -648,7 +635,7 @@ describe('peopleSearchSelectors', () => {
     it('gets the ssn from the store', () => {
       const peopleSearch = {searchSsn: '123456789'}
       const state = fromJS({peopleSearch})
-      expect(selectSearchSsn(state)).toEqual('123456789')
+      expect(selectPersonSearchFields(state).searchSsn).toEqual('123456789')
     })
   })
 
@@ -656,7 +643,9 @@ describe('peopleSearchSelectors', () => {
     it('gets the date of birth from the store', () => {
       const peopleSearch = {searchDateOfBirth: '01/01/2000'}
       const state = fromJS({peopleSearch})
-      expect(selectSearchDateOfBirth(state)).toEqual('01/01/2000')
+      expect(selectPersonSearchFields(state).searchDateOfBirth).toEqual(
+        '01/01/2000'
+      )
     })
   })
 
@@ -664,7 +653,7 @@ describe('peopleSearchSelectors', () => {
     it('gets the approximate age from the store', () => {
       const peopleSearch = {searchApproximateAge: '5'}
       const state = fromJS({peopleSearch})
-      expect(selectSearchApproximateAge(state)).toEqual('5')
+      expect(selectPersonSearchFields(state).searchApproximateAge).toEqual('5')
     })
   })
 
@@ -672,15 +661,17 @@ describe('peopleSearchSelectors', () => {
     it('gets the approximate age units from the store', () => {
       const peopleSearch = {searchApproximateAgeUnits: 'years'}
       const state = fromJS({peopleSearch})
-      expect(selectSearchApproximateAgeUnits(state)).toEqual('years')
+      expect(selectPersonSearchFields(state).searchApproximateAgeUnits).toEqual(
+        'years'
+      )
     })
   })
 
-  describe('selectSearchGenderAtBirth', () => {
-    it('gets the gender at birth from the store', () => {
-      const peopleSearch = {searchGenderAtBirth: 'Female'}
+  describe('selectSearchSexAtBirth', () => {
+    it('gets the sex at birth from the store', () => {
+      const peopleSearch = {searchSexAtBirth: 'Female'}
       const state = fromJS({peopleSearch})
-      expect(selectSearchGenderAtBirth(state)).toEqual('Female')
+      expect(selectPersonSearchFields(state).searchSexAtBirth).toEqual('Female')
     })
   })
 
@@ -690,7 +681,9 @@ describe('peopleSearchSelectors', () => {
         searchAddress: '123 Sunflower Way',
       }
       const state = fromJS({peopleSearch})
-      expect(selectSearchAddress(state)).toEqual('123 Sunflower Way')
+      expect(selectPersonSearchFields(state).searchAddress).toEqual(
+        '123 Sunflower Way'
+      )
     })
   })
 
@@ -700,7 +693,7 @@ describe('peopleSearchSelectors', () => {
         searchCity: 'Sweetwater',
       }
       const state = fromJS({peopleSearch})
-      expect(selectSearchCity(state)).toEqual('Sweetwater')
+      expect(selectPersonSearchFields(state).searchCity).toEqual('Sweetwater')
     })
   })
 
@@ -710,7 +703,7 @@ describe('peopleSearchSelectors', () => {
         searchCounty: 'Mariposa',
       }
       const state = fromJS({peopleSearch})
-      expect(selectSearchCounty(state)).toEqual('Mariposa')
+      expect(selectPersonSearchFields(state).searchCounty).toEqual('Mariposa')
     })
   })
 
@@ -718,7 +711,7 @@ describe('peopleSearchSelectors', () => {
     it('gets the selected US state from the store', () => {
       const peopleSearch = {searchState: 'California'}
       const state = fromJS({peopleSearch})
-      expect(selectSearchState(state)).toEqual('California')
+      expect(selectPersonSearchFields(state).searchState).toEqual('California')
     })
   })
 
@@ -726,7 +719,9 @@ describe('peopleSearchSelectors', () => {
     it('gets the selected country from the store', () => {
       const peopleSearch = {searchCountry: 'United States of America'}
       const state = fromJS({peopleSearch})
-      expect(selectSearchCountry(state)).toEqual('United States of America')
+      expect(selectPersonSearchFields(state).searchCountry).toEqual(
+        'United States of America'
+      )
     })
   })
 
@@ -734,7 +729,7 @@ describe('peopleSearchSelectors', () => {
     it('gets the selected zip code from the store', () => {
       const peopleSearch = {searchZipCode: '95695'}
       const state = fromJS({peopleSearch})
-      expect(selectSearchZipCode(state)).toEqual('95695')
+      expect(selectPersonSearchFields(state).searchZipCode).toEqual('95695')
     })
   })
 
@@ -783,7 +778,7 @@ describe('peopleSearchSelectors', () => {
       )
     })
 
-    it('return null when searchTerm doesnot match', () => {
+    it('return null when searchTerm does not match', () => {
       const peopleSearch = {
         searchTerm: 'xyzabcxyz',
       }

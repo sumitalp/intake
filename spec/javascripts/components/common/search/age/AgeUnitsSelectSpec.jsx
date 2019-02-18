@@ -41,15 +41,59 @@ describe('AgeUnitsSelect', () => {
     expect(component.find('SelectField').props().value).toEqual('Years')
   })
 
-  it('passes id, and gridClassName to select field', () => {
+  it('passes id to select field', () => {
     const component = render({
       gridClassName: 'my-class-name',
       id: 'my-id',
     })
-    expect(component.find('SelectField').props().gridClassName).toEqual(
-      'my-class-name'
-    )
+
     expect(component.find('SelectField').props().id).toEqual('my-id')
+  })
+
+  describe('gridClassName', () => {
+    describe('passes gridClassName to the select field', () => {
+      describe('when the SelectField value is month or year age', () => {
+        describe('when the value is month', () => {
+          it('does not add placeholder-option-selected to the gridClassName', () => {
+            const component = render({
+              gridClassName: 'my-class-name',
+              id: 'my-id',
+              value: 'Months',
+            })
+            expect(component.find('SelectField').props().gridClassName).toEqual(
+              'my-class-name'
+            )
+          })
+        })
+
+        describe('when the value is year', () => {
+          it('does not add placeholder-option-selected to the gridClassName', () => {
+            const component = render({
+              gridClassName: 'my-class-name',
+              id: 'my-id',
+              value: 'Years',
+            })
+            expect(component.find('SelectField').props().gridClassName).toEqual(
+              'my-class-name'
+            )
+          })
+        })
+      })
+
+      describe('when the SelectField value is falsy', () => {
+        it('concatenates placeholder-option-selected to the gridClassName', () => {
+          const component = render({
+            gridClassName: 'my-class-name',
+            id: 'my-id',
+            value: '',
+          })
+
+          expect(component.find('SelectField').props().gridClassName).toEqual(
+            'my-class-name placeholder-option-selected'
+          )
+        })
+      })
+    })
   })
 
   it('calls back with the age units value when selection changes', () => {
@@ -66,12 +110,12 @@ describe('AgeUnitsSelect', () => {
     component
       .find('SelectField')
       .props()
-      .onChange({target: {value: 'Years'}}, 'approximateageunits')
+      .onChange({target: {value: 'Years'}})
 
-    expect(onChange).toHaveBeenCalledWith('Years', 'approximateageunits')
+    expect(onChange).toHaveBeenCalledWith('searchApproximateAgeUnits', 'Years')
   })
 
-  it('calls back with null when selection changes to unknown value', () => {
+  it('calls back with empty string when selection changes to unknown value', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = render({
       units: {
@@ -85,8 +129,13 @@ describe('AgeUnitsSelect', () => {
     component
       .find('SelectField')
       .props()
-      .onChange({target: {value: 'Days'}}, 'approximateageunits')
+      .onChange({target: {value: 'Days'}})
 
-    expect(onChange).toHaveBeenCalledWith(null, 'approximateageunits')
+    expect(onChange).toHaveBeenCalledWith('searchApproximateAgeUnits', '')
+  })
+
+  it('sets Select Field disabled prop to true', () => {
+    const component = render({})
+    expect(component.find('SelectField').props().disabled).toEqual(true)
   })
 })

@@ -66,9 +66,9 @@ describe('SuffixSelect', () => {
     component
       .find('SelectField')
       .props()
-      .onChange({target: {value: 'Jr'}}, 'suffix')
+      .onChange({target: {value: 'Jr'}})
 
-    expect(onChange).toHaveBeenCalledWith('Jr', 'suffix')
+    expect(onChange).toHaveBeenCalledWith('searchSuffix', 'Jr')
   })
 
   it('calls back with null when selection changes to unknown value', () => {
@@ -85,8 +85,8 @@ describe('SuffixSelect', () => {
     component
       .find('SelectField')
       .props()
-      .onChange({target: {value: 'X'}}, 'suffix')
+      .onChange({target: {value: 'X'}})
 
-    expect(onChange).toHaveBeenCalledWith(null, 'suffix')
+    expect(onChange).toHaveBeenCalledWith('searchSuffix', '')
   })
 })

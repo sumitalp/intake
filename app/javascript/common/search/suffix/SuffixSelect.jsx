@@ -6,8 +6,7 @@ class SuffixSelect extends React.PureComponent {
   onChange({target: {value}}) {
     const {suffixes, onChange} = this.props
     const suffixList = Object.keys(suffixes).map(key => suffixes[key])
-    onChange(suffixList.find(suffix => suffix === value) || null, 'suffix')
-    onChange(value, 'suffix')
+    onChange('searchSuffix', suffixList.find(suffix => suffix === value) || '')
   }
 
   render() {

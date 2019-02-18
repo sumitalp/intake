@@ -20,7 +20,7 @@ describe('SuffixNameSelect', () => {
 
   const findField = component => component.find('SuffixSelect')
 
-  it('displays the select field with suffixes', () => {
+  it('displays the select field', () => {
     const component = render()
     expect(findField(component).exists()).toEqual(true)
   })
@@ -29,14 +29,22 @@ describe('SuffixNameSelect', () => {
     const component = render({
       gridClassName: 'foo',
       id: 'my-field',
-      value: 'hello',
+      value: 'Jr',
     })
 
     const field = findField(component)
 
     expect(field.props().gridClassName).toEqual('foo')
     expect(field.props().id).toEqual('my-field')
-    expect(field.props().value).toEqual('hello')
+    expect(field.props().value).toEqual('Jr')
+    expect(field.props().suffixes).toEqual({
+      2: 'II',
+      3: 'III',
+      4: 'IV',
+      5: 'V',
+      jr: 'Jr',
+      sr: 'Sr',
+    })
   })
 
   it('calls back with the units when the selection changes', () => {

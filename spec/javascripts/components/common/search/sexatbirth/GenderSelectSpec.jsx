@@ -1,4 +1,4 @@
-import GenderSelect from 'common/search/gender/GenderSelect'
+import GenderSelect from 'common/search/sexatbirth/GenderSelect'
 import React from 'react'
 import {shallow} from 'enzyme'
 
@@ -6,7 +6,7 @@ describe('GenderSelect', () => {
   function render({
     genders = {},
     gridClassName = 'gridClassName',
-    id = 'gender-select',
+    id = 'sex-at-birth-select',
     onChange = () => null,
     value = null,
   }) {
@@ -72,20 +72,22 @@ describe('GenderSelect', () => {
     component
       .find('SelectField')
       .props()
-      .onChange({target: {value: 'Female'}}, 'genderatbirth')
+      .onChange({target: {value: 'Female'}})
 
-    expect(onChange).toHaveBeenCalledWith('Female', 'genderatbirth')
+    expect(onChange).toHaveBeenCalledWith('searchSexAtBirth', 'Female')
   })
 
-  it('calls back with null when the selection changes to unknown value', () => {
+  it('calls back with empty string when the selection changes to unknown value', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = render({
-      units: {
-        months: 'Months',
-        years: 'Years',
+      genders: {
+        male: 'Male',
+        female: 'Female',
+        intersex: 'Intersex',
+        unknown: 'Unknown',
       },
       onChange,
-      value: 'Months',
+      value: 'Female',
     })
 
     component
@@ -93,6 +95,11 @@ describe('GenderSelect', () => {
       .props()
       .onChange({target: {value: 'Days'}})
 
-    expect(onChange).toHaveBeenCalledWith(null, 'genderatbirth')
+    expect(onChange).toHaveBeenCalledWith('searchSexAtBirth', '')
+  })
+
+  it('sets Select Field disabled prop to true', () => {
+    const component = render({})
+    expect(component.find('SelectField').props().disabled).toEqual(true)
   })
 })

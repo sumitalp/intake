@@ -7,8 +7,8 @@ class GenderSelect extends React.PureComponent {
     const {genders, onChange} = this.props
     const genderList = Object.keys(genders).map(key => genders[key])
     onChange(
-      genderList.find(gender => gender === value) || null,
-      'genderatbirth'
+      'searchSexAtBirth',
+      genderList.find(gender => gender === value) || ''
     )
   }
 

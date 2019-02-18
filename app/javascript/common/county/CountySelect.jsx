@@ -5,27 +5,26 @@ import PropTypes from 'prop-types'
 class CountySelect extends React.PureComponent {
   onChange({target: {value}}) {
     const {counties, onChange} = this.props
-    onChange(counties.find((county) => county.value === value) || null)
+    onChange(counties.find(county => county.value === value) || null)
   }
 
   render() {
-    const {
-      counties,
-      gridClassName,
-      id,
-      value,
-    } = this.props
+    const {counties, gridClassName, id, value} = this.props
 
     return (
       <SelectField
         gridClassName={gridClassName}
         id={id}
-        label='County'
+        label="County"
         onChange={this.onChange.bind(this)}
         value={value}
       >
-        <option key='' />
-        {counties.map((county) => <option key={county.code} value={county.value}>{county.value}</option>)}
+        <option key="" />
+        {counties.map(county => (
+          <option key={county.code} value={county.value}>
+            {county.value}
+          </option>
+        ))}
       </SelectField>
     )
   }

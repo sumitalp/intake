@@ -21,7 +21,7 @@ describe('StateNameSelect', () => {
   const findField = component =>
     component.find('Connect(StatesInjector) StateSelect')
 
-  it('displays the select field with states injected', () => {
+  it('displays the select field', () => {
     const component = render()
     expect(findField(component).exists()).toEqual(true)
   })
@@ -30,14 +30,14 @@ describe('StateNameSelect', () => {
     const component = render({
       gridClassName: 'foo',
       id: 'my-field',
-      value: 'hello',
+      value: 'California',
     })
 
     const field = findField(component)
 
     expect(field.props().gridClassName).toEqual('foo')
     expect(field.props().id).toEqual('my-field')
-    expect(field.props().value).toEqual('hello')
+    expect(field.props().value).toEqual('California')
   })
 
   it('calls back with the state name when the selection changes', () => {
@@ -46,8 +46,8 @@ describe('StateNameSelect', () => {
 
     findField(component)
       .props()
-      .onChange({code: '123', value: 'California'}, 'state')
+      .onChange({code: '123', value: 'California'})
 
-    expect(onChange).toHaveBeenCalledWith('California', 'state')
+    expect(onChange).toHaveBeenCalledWith('searchState', 'California')
   })
 })

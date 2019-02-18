@@ -4,44 +4,13 @@ import {selectParticipants} from 'selectors/participantSelectors'
 import {
   selectPeopleResults,
   selectResultsTotalValue,
-  selectSearchTermValue,
   selectStartTime,
-  selectSearchLastName,
-  selectSearchFirstName,
-  selectSearchMiddleName,
-  selectSearchClientId,
-  selectSearchSuffix,
-  selectSearchSsn,
-  selectSearchDateOfBirth,
-  selectSearchApproximateAge,
-  selectSearchApproximateAgeUnits,
-  selectSearchGenderAtBirth,
-  selectSearchAddress,
-  selectSearchCity,
-  selectSearchCounty,
-  selectSearchState,
-  selectSearchCountry,
-  selectSearchZipCode,
+  selectPersonSearchFields,
 } from 'selectors/peopleSearchSelectors'
 import {
   search,
   setSearchTerm,
-  setSearchLastName,
-  setSearchFirstName,
-  setSearchMiddleName,
-  setSearchClientId,
-  setSearchSuffix,
-  setSearchSsn,
-  setSearchDateOfBirth,
-  setSearchApproximateAge,
-  setSearchApproximateAgeUnits,
-  setSearchGenderAtBirth,
-  setSearchAddress,
-  setSearchCity,
-  setSearchCounty,
-  setSearchState,
-  setSearchCountry,
-  setSearchZipCode,
+  setPersonSearchField,
   clear,
   loadMoreResults,
   resetPersonSearch,
@@ -59,23 +28,7 @@ const mapStateToProps = state => {
   return {
     results: selectPeopleResults(state).toJS(),
     total: selectResultsTotalValue(state),
-    searchTerm: selectSearchTermValue(state),
-    searchLastName: selectSearchLastName(state),
-    searchFirstName: selectSearchFirstName(state),
-    searchMiddleName: selectSearchMiddleName(state),
-    searchClientId: selectSearchClientId(state),
-    searchSuffix: selectSearchSuffix(state),
-    searchSsn: selectSearchSsn(state),
-    searchDateOfBirth: selectSearchDateOfBirth(state),
-    searchApproximateAge: selectSearchApproximateAge(state),
-    searchApproximateAgeUnits: selectSearchApproximateAgeUnits(state),
-    searchGenderAtBirth: selectSearchGenderAtBirth(state),
-    searchAddress: selectSearchAddress(state),
-    searchCity: selectSearchCity(state),
-    searchCounty: selectSearchCounty(state),
-    searchState: selectSearchState(state),
-    searchCountry: selectSearchCountry(state),
-    searchZipCode: selectSearchZipCode(state),
+    personSearchFields: selectPersonSearchFields(state),
     staffId: getStaffIdSelector(state),
     startTime: selectStartTime(state),
     participants: selectParticipants(state).toJS(),
@@ -85,60 +38,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const onClear = () => dispatch(clear())
-  const onChange = (value, field) => {
-    switch (field) {
-      case 'lastname':
-        dispatch(setSearchLastName(value))
-        break
-      case 'firstname':
-        dispatch(setSearchFirstName(value))
-        break
-      case 'middlename':
-        dispatch(setSearchMiddleName(value))
-        break
-      case 'clientid':
-        dispatch(setSearchClientId(value))
-        break
-      case 'suffix':
-        dispatch(setSearchSuffix(value))
-        break
-      case 'ssn':
-        dispatch(setSearchSsn(value))
-        break
-      case 'dateofbirth':
-        dispatch(setSearchDateOfBirth(value))
-        break
-      case 'approximateage':
-        dispatch(setSearchApproximateAge(value))
-        break
-      case 'approximateageunits':
-        dispatch(setSearchApproximateAgeUnits(value))
-        break
-      case 'genderatbirth':
-        dispatch(setSearchGenderAtBirth(value))
-        break
-      case 'address':
-        dispatch(setSearchAddress(value))
-        break
-      case 'city':
-        dispatch(setSearchCity(value))
-        break
-      case 'county':
-        dispatch(setSearchCounty(value))
-        break
-      case 'state':
-        dispatch(setSearchState(value))
-        break
-      case 'country':
-        dispatch(setSearchCountry(value))
-        break
-      case 'zipcode':
-        dispatch(setSearchZipCode(value))
-        break
-      default:
-        break
-    }
-
+  const onChange = (field, value) => {
+    dispatch(setPersonSearchField(field, value))
     dispatch(setSearchTerm())
   }
   const onCancel = () => {

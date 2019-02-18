@@ -5,7 +5,7 @@ import StateSelect from 'common/search/state/StateSelect'
 
 class StateNameSelect extends React.PureComponent {
   onChange(systemCode) {
-    this.props.onChange(systemCode ? systemCode.value : '', 'state')
+    this.props.onChange('searchState', systemCode ? systemCode.value : '')
   }
 
   render() {

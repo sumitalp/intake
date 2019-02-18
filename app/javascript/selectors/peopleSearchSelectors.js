@@ -153,35 +153,28 @@ export const selectPersonCreatedAtTime = state =>
     .map(t => t.personCreatedAtTime)
     .pop()
 
-export const selectSearchLastName = state =>
-  selectPeopleSearch(state).get('searchLastName')
-export const selectSearchFirstName = state =>
-  selectPeopleSearch(state).get('searchFirstName')
-export const selectSearchMiddleName = state =>
-  selectPeopleSearch(state).get('searchMiddleName')
-export const selectSearchClientId = state =>
-  selectPeopleSearch(state).get('searchClientId')
-export const selectSearchSuffix = state =>
-  selectPeopleSearch(state).get('searchSuffix')
-export const selectSearchSsn = state =>
-  selectPeopleSearch(state).get('searchSsn')
-export const selectSearchDateOfBirth = state =>
-  selectPeopleSearch(state).get('searchDateOfBirth')
-export const selectSearchApproximateAge = state =>
-  selectPeopleSearch(state).get('searchApproximateAge')
-export const selectSearchApproximateAgeUnits = state =>
-  selectPeopleSearch(state).get('searchApproximateAgeUnits')
-export const selectSearchGenderAtBirth = state =>
-  selectPeopleSearch(state).get('searchGenderAtBirth')
-export const selectSearchAddress = state =>
-  selectPeopleSearch(state).get('searchAddress')
-export const selectSearchCity = state =>
-  selectPeopleSearch(state).get('searchCity')
-export const selectSearchCounty = state =>
-  selectPeopleSearch(state).get('searchCounty')
-export const selectSearchState = state =>
-  selectPeopleSearch(state).get('searchState')
-export const selectSearchCountry = state =>
-  selectPeopleSearch(state).get('searchCountry')
-export const selectSearchZipCode = state =>
-  selectPeopleSearch(state).get('searchZipCode')
+export const selectPersonSearchFields = state => {
+  const personSearchFields = {
+    searchTerm: selectPeopleSearch(state).get('searchTerm'),
+    searchLastName: selectPeopleSearch(state).get('searchLastName'),
+    searchFirstName: selectPeopleSearch(state).get('searchFirstName'),
+    searchMiddleName: selectPeopleSearch(state).get('searchMiddleName'),
+    searchClientId: selectPeopleSearch(state).get('searchClientId'),
+    searchSuffix: selectPeopleSearch(state).get('searchSuffix'),
+    searchSsn: selectPeopleSearch(state).get('searchSsn'),
+    searchDateOfBirth: selectPeopleSearch(state).get('searchDateOfBirth'),
+    searchApproximateAge: selectPeopleSearch(state).get('searchApproximateAge'),
+    searchApproximateAgeUnits: selectPeopleSearch(state).get(
+      'searchApproximateAgeUnits'
+    ),
+    searchSexAtBirth: selectPeopleSearch(state).get('searchSexAtBirth'),
+    searchAddress: selectPeopleSearch(state).get('searchAddress'),
+    searchCity: selectPeopleSearch(state).get('searchCity'),
+    searchCounty: selectPeopleSearch(state).get('searchCounty'),
+    searchState: selectPeopleSearch(state).get('searchState'),
+    searchCountry: selectPeopleSearch(state).get('searchCountry'),
+    searchZipCode: selectPeopleSearch(state).get('searchZipCode'),
+  }
+
+  return personSearchFields
+}

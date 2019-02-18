@@ -4,20 +4,12 @@ import APPROXIMATE_AGE_UNITS from 'enums/ApproximateAgeUnits'
 import AgeUnitsSelect from 'common/search/age/AgeUnitsSelect'
 
 class ApproximateAgeUnitsSelect extends React.Component {
-  onChange() {
-    this.props.onChange()
-  }
-
-  filterUnits = units => {
-    const {months, years} = units
-    return {months, years}
-  }
-
   render() {
-    const units = this.filterUnits(APPROXIMATE_AGE_UNITS)
-    return (
-      <AgeUnitsSelect units={units} onChange={this.onChange} {...this.props} />
-    )
+    const {onChange, ...rest} = this.props
+    const {months, years} = APPROXIMATE_AGE_UNITS
+    const units = {months, years}
+
+    return <AgeUnitsSelect units={units} onChange={onChange} {...rest} />
   }
 }
 

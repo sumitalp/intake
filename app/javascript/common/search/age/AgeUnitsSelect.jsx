@@ -6,9 +6,10 @@ class AgeUnitsSelect extends React.PureComponent {
   onChange({target: {value}}) {
     const {units, onChange} = this.props
     const unitsList = Object.keys(units).map(key => units[key])
+
     onChange(
-      unitsList.find(unit => unit === value) || null,
-      'approximateageunits'
+      'searchApproximateAgeUnits',
+      unitsList.find(unit => unit === value) || ''
     )
   }
 
@@ -18,7 +19,9 @@ class AgeUnitsSelect extends React.PureComponent {
     return (
       <SelectField
         id={id}
-        gridClassName={gridClassName}
+        gridClassName={`${gridClassName}${
+          value ? '' : ' placeholder-option-selected'
+        }`}
         label=""
         onChange={this.onChange.bind(this)}
         value={value}

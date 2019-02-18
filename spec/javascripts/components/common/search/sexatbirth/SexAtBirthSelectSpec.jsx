@@ -1,8 +1,8 @@
-import GenderAtBirthSelect from 'common/search/gender/GenderAtBirthSelect'
+import SexAtBirthSelect from 'common/search/sexatbirth/SexAtBirthSelect'
 import React from 'react'
 import {shallow} from 'enzyme'
 
-describe('GenderAtBirthSelect', () => {
+describe('SexAtBirthSelect', () => {
   const render = ({
     gridClassName,
     id = 'gender-select',
@@ -15,12 +15,12 @@ describe('GenderAtBirthSelect', () => {
       onChange,
       value,
     }
-    return shallow(<GenderAtBirthSelect {...props} />)
+    return shallow(<SexAtBirthSelect {...props} />)
   }
 
   const findField = component => component.find('GenderSelect')
 
-  it('displays the select field with genders', () => {
+  it('displays the select field', () => {
     const component = render()
     expect(findField(component).exists()).toEqual(true)
   })
@@ -29,14 +29,20 @@ describe('GenderAtBirthSelect', () => {
     const component = render({
       gridClassName: 'foo',
       id: 'my-field',
-      value: 'hello',
+      value: 'Female',
     })
 
     const field = findField(component)
 
     expect(field.props().gridClassName).toEqual('foo')
     expect(field.props().id).toEqual('my-field')
-    expect(field.props().value).toEqual('hello')
+    expect(field.props().value).toEqual('Female')
+    expect(field.props().genders).toEqual({
+      male: 'Male',
+      female: 'Female',
+      intersex: 'Intersex',
+      unknown: 'Unknown',
+    })
   })
 
   it('calls back with the units when the selection changes', () => {

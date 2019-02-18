@@ -21,7 +21,7 @@ describe('CountyNameSelect', () => {
   const findField = component =>
     component.find('Connect(CountiesInjector) CountySelect')
 
-  it('displays the select field with counties injected', () => {
+  it('displays the select field', () => {
     const component = render()
     expect(findField(component).exists()).toEqual(true)
   })
@@ -30,14 +30,14 @@ describe('CountyNameSelect', () => {
     const component = render({
       gridClassName: 'foo',
       id: 'my-field',
-      value: 'hello',
+      value: 'Yolo',
     })
 
     const field = findField(component)
 
     expect(field.props().gridClassName).toEqual('foo')
     expect(field.props().id).toEqual('my-field')
-    expect(field.props().value).toEqual('hello')
+    expect(field.props().value).toEqual('Yolo')
   })
 
   it('calls back with the county name when the selection changes', () => {
@@ -46,8 +46,8 @@ describe('CountyNameSelect', () => {
 
     findField(component)
       .props()
-      .onChange({code: '123', value: 'Sacramento'}, 'county')
+      .onChange({code: '123', value: 'Sacramento'})
 
-    expect(onChange).toHaveBeenCalledWith('Sacramento', 'county')
+    expect(onChange).toHaveBeenCalledWith('searchCounty', 'Sacramento')
   })
 })

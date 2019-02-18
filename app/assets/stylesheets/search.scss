@@ -1,7 +1,7 @@
 @import 'constants';
 
-#search-card {
-  input#screening_participants {
+.search-card {
+  input.autocomplete-search-bar {
     display: none;
   }
 
@@ -46,7 +46,7 @@
   }
 
   .person-search-field-group {
-    padding: 2rem 0 2rem 0;
+    padding: 2rem 0;
     border-bottom: 0.1rem solid $lightest-grey;
   }
 
@@ -96,21 +96,28 @@
     margin-top: 1.8rem;
   }
 
-  input#search-approximate-age-number {
+  .age-number-field input {
     margin-top: 1.5rem;
   }
 
-  select#search-approximate-age-units {
-    margin-top: 1.5rem;
-    color: $dark-grey;
-    font-size: 1.5rem;
+  .age-unit-field {
+    select {
+      margin-top: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    option[value=''][disabled] {
+      display: none;
+    }
   }
 
-  select#search-approximate-age-units > option[value=''][disabled] {
-    display: none;
+  .age-unit-field.placeholder-option-selected {
+    select {
+      color: $dark-grey;
+    }
   }
 
-  .person-search-gender-at-birth-wrapper {
+  .sex-at-birth-field {
     padding-top: 1.5rem;
   }
 
@@ -118,37 +125,50 @@
   // for more info about the placeholder pseudo element
 
   // edge (it requries the -webkit-input- prefix)
-  input.rw-input::-webkit-input-placeholder {
-    font-size: 0.9em;
-  }
-
-  #search-zip-code::-webkit-input-placeholder {
-    font-size: 0.78em;
+  .date-field input::-webkit-input-placeholder {
+    font-size: 1.4rem;
   }
 
   // ie 11
-  input.rw-input:-ms-input-placeholder {
-    font-size: 0.9em;
-  }
-
-  #search-zip-code:-ms-input-placeholder {
-    font-size: 0.78em;
+  .date-field {
+    input:-ms-input-placeholder {
+      font-size: 1.4rem;
+    }
   }
 
   // chrome v57+ and firefox v51+
-  input.rw-input::placeholder {
-    font-size: 0.9em;
+  .date-field {
+    input::placeholder {
+      font-size: 1.4rem;
+    }
   }
 
-  #search-zip-code::placeholder {
-    font-size: 0.78em;
+  // edge (it requries the -webkit-input- prefix)
+  .zip-code-field {
+    input::-webkit-input-placeholder {
+      font-size: 1.3rem;
+    }
   }
 
-  button.person-search-button-cancel {
+  // ie 11
+  .zip-code-field {
+    input:-ms-input-placeholder {
+      font-size: 1.3rem;
+    }
+  }
+
+  // chrome v57+ and firefox v51+
+  .zip-code-field {
+    input::placeholder {
+      font-size: 1.3rem;
+    }
+  }
+
+  .btn.person-search-button.cancel {
     float: right;
   }
 
-  button.person-search-button-search {
+  .btn.person-search-button.search {
     float: right;
     margin-left: 0.75rem;
   }

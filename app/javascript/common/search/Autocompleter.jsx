@@ -25,8 +25,8 @@ const itemClassName = isHighlighted =>
 export default class Autocompleter extends Component {
   constructor(props) {
     super(props)
+
     this.state = {menuVisible: false}
-    this.onFocus = this.onFocus.bind(this)
     this.hideMenu = this.hideMenu.bind(this)
     this.onItemSelect = this.onItemSelect.bind(this)
     this.renderMenu = this.renderMenu.bind(this)
@@ -35,14 +35,16 @@ export default class Autocompleter extends Component {
   }
 
   constructAddress() {
-    const {searchAddress, searchCity, searchCounty} = this.props
-    return searchAddress || searchCity || searchCounty ?
-      {
-        address: searchAddress,
-        city: searchCity,
-        county: searchCounty,
-      } :
-      {}
+    const {
+      searchAddress,
+      searchCity,
+      searchCounty,
+    } = this.props.personSearchFields
+    return {
+      address: searchAddress,
+      city: searchCity,
+      county: searchCounty,
+    }
   }
 
   searchAndFocus(...searchArgs) {
@@ -54,7 +56,8 @@ export default class Autocompleter extends Component {
   }
 
   handleSubmit() {
-    const {onClear, searchTerm} = this.props
+    const {onClear, personSearchFields} = this.props
+    const {searchTerm} = personSearchFields
     onClear()
     this.searchAndFocus(searchTerm, this.constructAddress())
   }
@@ -113,20 +116,13 @@ export default class Autocompleter extends Component {
     this.onSelect(item)
   }
 
-  onFocus() {
-    if (this.isSearchable(this.props.searchTerm) || this.props.searchAddress) {
-      this.setState({menuVisible: true})
-    } else {
-      this.hideMenu()
-    }
-  }
-
   renderMenu(items, _searchTerm, _style) {
     return <div className="autocomplete-menu">{items}</div>
   }
 
   renderEachItem(item, id, isHighlighted) {
-    const {total, results, searchTerm} = this.props
+    const {total, results, personSearchFields} = this.props
+    const {searchTerm} = personSearchFields
     const key = `${item.posInSet}-of-${item.setSize}`
     if (item.suggestionHeader) {
       return (
@@ -186,7 +182,14 @@ export default class Autocompleter extends Component {
   }
 
   renderAutocomplete() {
-    const {searchTerm, id, results, canCreateNewPerson, total} = this.props
+    const {
+      personSearchFields,
+      id,
+      results,
+      canCreateNewPerson,
+      total,
+    } = this.props
+    const {searchTerm} = personSearchFields
     const showMoreResults = {
       showMoreResults: 'Show More Results',
       posInSet: 'show-more',
@@ -211,7 +214,7 @@ export default class Autocompleter extends Component {
       <Autocomplete
         ref={el => (this.element_ref = el)}
         getItemValue={_ => searchTerm}
-        inputProps={{id, onFocus: this.onFocus}}
+        inputProps={{id, className: 'autocomplete-search-bar'}}
         items={newResults}
         onSelect={this.onItemSelect}
         renderItem={this.renderItem}
@@ -225,48 +228,14 @@ export default class Autocompleter extends Component {
   }
 
   renderPersonSearchFields() {
-    const {
-      searchLastName,
-      searchFirstName,
-      searchMiddleName,
-      searchClientId,
-      searchSuffix,
-      searchSsn,
-      searchDateOfBirth,
-      searchApproximateAge,
-      searchApproximateAgeUnits,
-      searchGenderAtBirth,
-      searchAddress,
-      searchCity,
-      searchCounty,
-      searchState,
-      searchCountry,
-      searchZipCode,
-      onChange,
-      onCancel,
-    } = this.props
+    const {onChange, onCancel, personSearchFields} = this.props
 
     return (
       <PersonSearchFields
         onChange={onChange}
         onCancel={onCancel}
         onSubmit={this.handleSubmit}
-        searchLastName={searchLastName}
-        searchFirstName={searchFirstName}
-        searchMiddleName={searchMiddleName}
-        searchClientId={searchClientId}
-        searchSuffix={searchSuffix}
-        searchSsn={searchSsn}
-        searchDateOfBirth={searchDateOfBirth}
-        searchApproximateAge={searchApproximateAge}
-        searchApproximateAgeUnits={searchApproximateAgeUnits}
-        searchGenderAtBirth={searchGenderAtBirth}
-        searchAddress={searchAddress}
-        searchCity={searchCity}
-        searchCounty={searchCounty}
-        searchState={searchState}
-        searchCountry={searchCountry}
-        searchZipCode={searchZipCode}
+        personSearchFields={personSearchFields}
       />
     )
   }
@@ -292,24 +261,26 @@ Autocompleter.propTypes = {
   onLoadMoreResults: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
+  personSearchFields: PropTypes.shape({
+    searchAddress: PropTypes.string,
+    searchApproximateAge: PropTypes.string,
+    searchApproximateAgeUnits: PropTypes.string,
+    searchCity: PropTypes.string,
+    searchClientId: PropTypes.string,
+    searchCountry: PropTypes.string,
+    searchCounty: PropTypes.string,
+    searchDateOfBirth: PropTypes.string,
+    searchFirstName: PropTypes.string,
+    searchSexAtBirth: PropTypes.string,
+    searchLastName: PropTypes.string,
+    searchMiddleName: PropTypes.string,
+    searchSsn: PropTypes.string,
+    searchState: PropTypes.string,
+    searchSuffix: PropTypes.string,
+    searchTerm: PropTypes.string,
+    searchZipCode: PropTypes.string,
+  }),
   results: PropTypes.array,
-  searchAddress: PropTypes.string,
-  searchApproximateAge: PropTypes.string,
-  searchApproximateAgeUnits: PropTypes.string,
-  searchCity: PropTypes.string,
-  searchClientId: PropTypes.string,
-  searchCountry: PropTypes.string,
-  searchCounty: PropTypes.string,
-  searchDateOfBirth: PropTypes.string,
-  searchFirstName: PropTypes.string,
-  searchGenderAtBirth: PropTypes.string,
-  searchLastName: PropTypes.string,
-  searchMiddleName: PropTypes.string,
-  searchSsn: PropTypes.string,
-  searchState: PropTypes.string,
-  searchSuffix: PropTypes.string,
-  searchTerm: PropTypes.string,
-  searchZipCode: PropTypes.string,
   staffId: PropTypes.string,
   startTime: PropTypes.string,
   total: PropTypes.number,

@@ -6,22 +6,7 @@ import {
   PEOPLE_SEARCH_FETCH_COMPLETE,
   RESET_PERSON_SEARCH,
   SET_SEARCH_TERM,
-  SET_SEARCH_LAST_NAME,
-  SET_SEARCH_FIRST_NAME,
-  SET_SEARCH_MIDDLE_NAME,
-  SET_SEARCH_CLIENT_ID,
-  SET_SEARCH_SUFFIX,
-  SET_SEARCH_SSN,
-  SET_SEARCH_ADDRESS,
-  SET_SEARCH_CITY,
-  SET_SEARCH_COUNTY,
-  SET_SEARCH_STATE,
-  SET_SEARCH_COUNTRY,
-  SET_SEARCH_ZIP_CODE,
-  SET_SEARCH_DATE_OF_BIRTH,
-  SET_SEARCH_APPROXIMATE_AGE,
-  SET_SEARCH_APPROXIMATE_AGE_UNITS,
-  SET_SEARCH_GENDER_AT_BIRTH,
+  SET_SEARCH_FIELD,
   LOAD_MORE_RESULTS_COMPLETE,
 } from 'actions/peopleSearchActions'
 import {FETCH_USER_INFO_COMPLETE} from 'actions/userInfoActions'
@@ -40,7 +25,7 @@ const initialState = fromJS({
   searchDateOfBirth: '',
   searchApproximateAge: '',
   searchApproximateAgeUnits: '',
-  searchGenderAtBirth: '',
+  searchSexAtBirth: '',
   searchAddress: '',
   searchCity: '',
   searchCounty: '',
@@ -75,7 +60,12 @@ const setSearchTerm = state => {
   }
 }
 
-const resetPersonSearch = state =>
+const setPersonSearchField = (state, {payload}) => {
+  const {field, value} = payload
+  return state.set(field, value)
+}
+
+const resetPersonSearchFields = state =>
   state
     .set('searchTerm', '')
     .set('searchLastName', '')
@@ -87,7 +77,7 @@ const resetPersonSearch = state =>
     .set('searchDateOfBirth', '')
     .set('searchApproximateAge', '')
     .set('searchApproximateAgeUnits', '')
-    .set('searchGenderAtBirth', '')
+    .set('searchSexAtBirth', '')
     .set('searchAddress', '')
     .set('searchCity', '')
     .set('searchCounty', state.get('defaultCounty') || '')
@@ -124,134 +114,7 @@ export default createReducer(initialState, {
       .set('total', null)
   },
   [SET_SEARCH_TERM]: setSearchTerm,
-  [SET_SEARCH_LAST_NAME](
-    state,
-    {
-      payload: {lastName},
-    }
-  ) {
-    return state.set('searchLastName', lastName)
-  },
-  [SET_SEARCH_FIRST_NAME](
-    state,
-    {
-      payload: {firstName},
-    }
-  ) {
-    return state.set('searchFirstName', firstName)
-  },
-  [SET_SEARCH_MIDDLE_NAME](
-    state,
-    {
-      payload: {middleName},
-    }
-  ) {
-    return state.set('searchMiddleName', middleName)
-  },
-  [SET_SEARCH_CLIENT_ID](
-    state,
-    {
-      payload: {clientId},
-    }
-  ) {
-    return state.set('searchClientId', clientId)
-  },
-  [SET_SEARCH_SUFFIX](
-    state,
-    {
-      payload: {suffix},
-    }
-  ) {
-    return state.set('searchSuffix', suffix)
-  },
-  [SET_SEARCH_SSN](
-    state,
-    {
-      payload: {ssn},
-    }
-  ) {
-    return state.set('searchSsn', ssn)
-  },
-  [SET_SEARCH_DATE_OF_BIRTH](
-    state,
-    {
-      payload: {dateOfBirth},
-    }
-  ) {
-    return state.set('searchDateOfBirth', dateOfBirth)
-  },
-  [SET_SEARCH_APPROXIMATE_AGE](
-    state,
-    {
-      payload: {approximateAge},
-    }
-  ) {
-    return state.set('searchApproximateAge', approximateAge)
-  },
-  [SET_SEARCH_APPROXIMATE_AGE_UNITS](
-    state,
-    {
-      payload: {approximateAgeUnits},
-    }
-  ) {
-    return state.set('searchApproximateAgeUnits', approximateAgeUnits)
-  },
-  [SET_SEARCH_GENDER_AT_BIRTH](
-    state,
-    {
-      payload: {genderAtBirth},
-    }
-  ) {
-    return state.set('searchGenderAtBirth', genderAtBirth)
-  },
-  [SET_SEARCH_ADDRESS](
-    state,
-    {
-      payload: {address},
-    }
-  ) {
-    return state.set('searchAddress', address)
-  },
-  [SET_SEARCH_CITY](
-    state,
-    {
-      payload: {city},
-    }
-  ) {
-    return state.set('searchCity', city)
-  },
-  [SET_SEARCH_COUNTY](
-    state,
-    {
-      payload: {county},
-    }
-  ) {
-    return state.set('searchCounty', county)
-  },
-  [SET_SEARCH_STATE](
-    state,
-    {
-      payload: {usState},
-    }
-  ) {
-    return state.set('searchState', usState)
-  },
-  [SET_SEARCH_COUNTRY](
-    state,
-    {
-      payload: {country},
-    }
-  ) {
-    return state.set('searchCountry', country)
-  },
-  [SET_SEARCH_ZIP_CODE](
-    state,
-    {
-      payload: {zipCode},
-    }
-  ) {
-    return state.set('searchZipCode', zipCode)
-  },
+  [SET_SEARCH_FIELD]: setPersonSearchField,
   [FETCH_USER_INFO_COMPLETE](
     state,
     {
@@ -281,5 +144,5 @@ export default createReducer(initialState, {
       return state.update('results', arr => arr.concat(fromJS(results)))
     }
   },
-  [RESET_PERSON_SEARCH]: resetPersonSearch,
+  [RESET_PERSON_SEARCH]: resetPersonSearchFields,
 })

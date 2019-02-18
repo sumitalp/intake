@@ -4,15 +4,11 @@ import SEARCH_NAME_SUFFIXES from 'enums/SearchNameSuffixes'
 import SuffixSelect from 'common/search/suffix/SuffixSelect'
 
 class SuffixNameSelect extends React.PureComponent {
-  onChange() {
-    this.props.onChange()
-  }
-
   render() {
     return (
       <SuffixSelect
         suffixes={SEARCH_NAME_SUFFIXES}
-        onChange={this.onChange}
+        onChange={this.props.onChange}
         {...this.props}
       />
     )
