@@ -8,8 +8,7 @@ import ShowMoreResults from 'common/ShowMoreResults'
 import {logEvent} from 'utils/analytics'
 import moment from 'moment'
 import PersonSearchFields from 'common/search/PersonSearchFields'
-
-const MIN_SEARCHABLE_CHARS = 2
+import {PersonSearchFieldsPropType} from 'data/personSearch'
 
 const addPosAndSetAttr = results => {
   const one = 1
@@ -25,7 +24,6 @@ const itemClassName = isHighlighted =>
 export default class Autocompleter extends Component {
   constructor(props) {
     super(props)
-
     this.state = {menuVisible: false}
     this.hideMenu = this.hideMenu.bind(this)
     this.onItemSelect = this.onItemSelect.bind(this)
@@ -60,10 +58,6 @@ export default class Autocompleter extends Component {
     const {searchTerm} = personSearchFields
     onClear()
     this.searchAndFocus(searchTerm, this.constructAddress())
-  }
-
-  isSearchable(value) {
-    return value && value.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS
   }
 
   hideMenu() {
@@ -142,31 +136,28 @@ export default class Autocompleter extends Component {
     )
   }
 
-  renderItem(item, isHighlighted, _styles) {
+  renderItemButtons(item, isHighlighted, id, key) {
     const {canCreateNewPerson, results, total} = this.props
     const canLoadMoreResults = results && total > results.length
-    const buttonClassName =
-      canLoadMoreResults && canCreateNewPerson ? ' col-md-6' : ''
+    const buttonClassName = canLoadMoreResults && canCreateNewPerson ? ' col-md-6' : ''
     const className = itemClassName(isHighlighted) + buttonClassName
+    const button = item.showMoreResults ? <ShowMoreResults /> : <CreateUnknownPerson />
+
+    return (<div id={id} key={key} className={className}>{button}</div>)
+  }
+
+  renderItem(item, isHighlighted, _styles) {
     const key = `${item.posInSet}-of-${item.setSize}`
     const id = `search-result-${key}`
+
     if (isHighlighted && this.inputRef) {
       this.inputRef.setAttribute('aria-activedescendant', id)
     }
-    if (item.showMoreResults) {
-      return (
-        <div id={id} key={key} className={className}>
-          {<ShowMoreResults />}
-        </div>
-      )
+
+    if (item.showMoreResults || item.createNewPerson) {
+      return this.renderItemButtons(item, isHighlighted, id, key)
     }
-    if (item.createNewPerson) {
-      return (
-        <div id={id} key={key} className={className}>
-          {<CreateUnknownPerson />}
-        </div>
-      )
-    }
+
     return this.renderEachItem(item, id, isHighlighted)
   }
 
@@ -181,14 +172,8 @@ export default class Autocompleter extends Component {
     return <input {...newProps} />
   }
 
-  renderAutocomplete() {
-    const {
-      personSearchFields,
-      id,
-      results,
-      canCreateNewPerson,
-      total,
-    } = this.props
+  prepareAutocomplete() {
+    const {personSearchFields, id, results, canCreateNewPerson, total} = this.props
     const {searchTerm} = personSearchFields
     const showMoreResults = {
       showMoreResults: 'Show More Results',
@@ -204,11 +189,14 @@ export default class Autocompleter extends Component {
     const canLoadMoreResults = results && total > results.length
     addPosAndSetAttr(results) // Sequentually numbering items
     const newResults = suggestionHeader.concat(
-      results.concat(
-        canLoadMoreResults ? showMoreResults : [],
-        canCreateNewPerson ? createNewPerson : []
-      )
+      results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
     )
+
+    return {id, searchTerm, newResults}
+  }
+
+  renderAutocomplete() {
+    const {id, searchTerm, newResults} = this.prepareAutocomplete()
 
     return (
       <Autocomplete
@@ -261,25 +249,7 @@ Autocompleter.propTypes = {
   onLoadMoreResults: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
-  personSearchFields: PropTypes.shape({
-    searchAddress: PropTypes.string,
-    searchApproximateAge: PropTypes.string,
-    searchApproximateAgeUnits: PropTypes.string,
-    searchCity: PropTypes.string,
-    searchClientId: PropTypes.string,
-    searchCountry: PropTypes.string,
-    searchCounty: PropTypes.string,
-    searchDateOfBirth: PropTypes.string,
-    searchFirstName: PropTypes.string,
-    searchSexAtBirth: PropTypes.string,
-    searchLastName: PropTypes.string,
-    searchMiddleName: PropTypes.string,
-    searchSsn: PropTypes.string,
-    searchState: PropTypes.string,
-    searchSuffix: PropTypes.string,
-    searchTerm: PropTypes.string,
-    searchZipCode: PropTypes.string,
-  }),
+  personSearchFields: PersonSearchFieldsPropType,
   results: PropTypes.array,
   staffId: PropTypes.string,
   startTime: PropTypes.string,

@@ -7,8 +7,11 @@ import CountyNameSelect from 'common/county/CountyNameSelect'
 import SuffixNameSelect from 'common/search/suffix/SuffixNameSelect'
 import SexAtBirthSelect from 'common/search/sexatbirth/SexAtBirthSelect'
 import ApproximateAgeUnitsSelect from 'common/search/age/ApproximateAgeUnitsSelect'
+import {PersonSearchFieldsPropType} from 'data/personSearch'
 
 const MIN_SEARCHABLE_CHARS = 2
+
+const isSearchable = value => value && value.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS
 
 const canSearch = ({
   searchLastName,
@@ -17,18 +20,11 @@ const canSearch = ({
   searchSsn,
   searchDateOfBirth,
   searchAddress,
-}) =>
-  (searchLastName &&
-    searchLastName.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS) ||
-  (searchFirstName &&
-    searchFirstName.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS) ||
-  (searchMiddleName &&
-    searchMiddleName.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS) ||
-  (searchSsn && searchSsn.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS) ||
-  (searchDateOfBirth &&
-    searchDateOfBirth.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS) ||
-  (searchAddress &&
-    searchAddress.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS)
+}) => {
+  const fields = [searchLastName, searchFirstName, searchMiddleName, searchSsn, searchDateOfBirth, searchAddress]
+  const searchableFields = fields.filter(field => isSearchable(field))
+  return Boolean(searchableFields.length)
+}
 
 const PersonSearchFields = ({
   onChange,
@@ -218,25 +214,7 @@ PersonSearchFields.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
-  personSearchFields: PropTypes.shape({
-    searchAddress: PropTypes.string,
-    searchApproximateAge: PropTypes.string,
-    searchApproximateAgeUnits: PropTypes.string,
-    searchCity: PropTypes.string,
-    searchClientId: PropTypes.string,
-    searchCountry: PropTypes.string,
-    searchCounty: PropTypes.string,
-    searchDateOfBirth: PropTypes.string,
-    searchFirstName: PropTypes.string,
-    searchSexAtBirth: PropTypes.string,
-    searchLastName: PropTypes.string,
-    searchMiddleName: PropTypes.string,
-    searchSsn: PropTypes.string,
-    searchState: PropTypes.string,
-    searchSuffix: PropTypes.string,
-    searchTerm: PropTypes.string,
-    searchZipCode: PropTypes.string,
-  }),
+  personSearchFields: PersonSearchFieldsPropType,
 }
 
 PersonSearchFields.defaultProps = {
