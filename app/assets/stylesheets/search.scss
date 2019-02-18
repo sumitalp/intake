@@ -37,7 +37,7 @@
 
   input,
   select {
-    border-radius: 0.4rem;
+    border-radius: .4rem;
   }
 
   select:disabled {
@@ -47,7 +47,7 @@
 
   .person-search-field-group {
     padding: 2rem 0;
-    border-bottom: 0.1rem solid $lightest-grey;
+    border-bottom: .1rem solid $lightest-grey;
   }
 
   .person-search-field-group:first-child {
@@ -73,7 +73,7 @@
   .city-field,
   .state-field,
   .country-field {
-    padding-right: 0.75rem;
+    padding-right: .75rem;
   }
 
   .first-name-field,
@@ -85,7 +85,7 @@
   .county-field,
   .country-field,
   .zip-code-field {
-    padding-left: 0.75rem;
+    padding-left: .75rem;
   }
 
   label.person-search-label-date-of-birth {
@@ -100,21 +100,17 @@
     margin-top: 1.5rem;
   }
 
-  .age-unit-field {
-    select {
-      margin-top: 1.5rem;
-      font-size: 1.5rem;
-    }
-
-    option[value=''][disabled] {
-      display: none;
-    }
+  .age-unit-field select {
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
   }
 
-  .age-unit-field.placeholder-option-selected {
-    select {
-      color: $dark-grey;
-    }
+  .age-unit-field option[value=''][disabled] {
+    display: none;
+  }
+
+  .age-unit-field.placeholder-option-selected select {
+    color: $dark-grey;
   }
 
   .sex-at-birth-field {
@@ -124,41 +120,34 @@
   // see https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
   // for more info about the placeholder pseudo element
 
-  // edge (it requries the -webkit-input- prefix)
-  .date-field input::-webkit-input-placeholder {
-    font-size: 1.4rem;
-  }
-
-  // ie 11
   .date-field {
+    // edge (it requries the -webkit-input- prefix)
+    input::-webkit-input-placeholder {
+      font-size: 1.4rem;
+    }
+
+    // ie 11
     input:-ms-input-placeholder {
       font-size: 1.4rem;
     }
-  }
 
-  // chrome v57+ and firefox v51+
-  .date-field {
+    // chrome v57+ and firefox v51+
     input::placeholder {
       font-size: 1.4rem;
     }
   }
 
-  // edge (it requries the -webkit-input- prefix)
   .zip-code-field {
+    // edge (it requries the -webkit-input- prefix)
     input::-webkit-input-placeholder {
       font-size: 1.3rem;
     }
-  }
-
-  // ie 11
-  .zip-code-field {
+    // ie 11
     input:-ms-input-placeholder {
       font-size: 1.3rem;
     }
-  }
 
-  // chrome v57+ and firefox v51+
-  .zip-code-field {
+    // chrome v57+ and firefox v51+
     input::placeholder {
       font-size: 1.3rem;
     }
@@ -170,6 +159,6 @@
 
   .btn.person-search-button.search {
     float: right;
-    margin-left: 0.75rem;
+    margin-left: .75rem;
   }
 }
