@@ -10,7 +10,7 @@ import moment from 'moment'
 import PersonSearchFields from 'common/search/PersonSearchFields'
 import {PersonSearchFieldsPropType} from 'data/personSearch'
 
-const addPosAndSetAttr = results => {
+const addPosAndSetAttr = (results) => {
   const one = 1
   for (let len = results.length, i = 0; i < len; ++i) {
     results[i].posInSet = i + one
@@ -18,8 +18,7 @@ const addPosAndSetAttr = results => {
   }
 }
 
-const itemClassName = isHighlighted =>
-  `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
+const itemClassName = (isHighlighted) => `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
 
 export default class Autocompleter extends Component {
   constructor(props) {
@@ -33,11 +32,7 @@ export default class Autocompleter extends Component {
   }
 
   constructAddress() {
-    const {
-      searchAddress,
-      searchCity,
-      searchCounty,
-    } = this.props.personSearchFields
+    const {searchAddress, searchCity, searchCounty} = this.props.personSearchFields
     return {
       address: searchAddress,
       city: searchCity,
@@ -48,9 +43,7 @@ export default class Autocompleter extends Component {
   searchAndFocus(...searchArgs) {
     this.props.onSearch(...searchArgs)
     this.setState({menuVisible: true})
-    if (this.inputRef) {
-      this.inputRef.focus()
-    }
+    if (this.inputRef) { this.inputRef.focus() }
   }
 
   handleSubmit() {
@@ -61,18 +54,14 @@ export default class Autocompleter extends Component {
   }
 
   hideMenu() {
-    if (this.inputRef) {
-      this.inputRef.setAttribute('aria-activedescendant', '')
-    }
+    if (this.inputRef) { this.inputRef.setAttribute('aria-activedescendant', '') }
     this.setState({menuVisible: false})
   }
 
   loadMoreResults() {
     this.props.onLoadMoreResults(this.constructAddress())
     this.element_ref.setIgnoreBlur(true)
-    if (this.inputRef) {
-      this.inputRef.focus()
-    }
+    if (this.inputRef) { this.inputRef.focus() }
   }
 
   onSelect(item) {
@@ -111,7 +100,7 @@ export default class Autocompleter extends Component {
   }
 
   renderMenu(items, _searchTerm, _style) {
-    return <div className="autocomplete-menu">{items}</div>
+    return (<div className='autocomplete-menu'>{items}</div>)
   }
 
   renderEachItem(item, id, isHighlighted) {
@@ -120,7 +109,7 @@ export default class Autocompleter extends Component {
     const key = `${item.posInSet}-of-${item.setSize}`
     if (item.suggestionHeader) {
       return (
-        <div id={id} key={key} aria-live="polite">
+        <div id={id} key={key} aria-live='polite'>
           <SuggestionHeader
             currentNumberOfResults={results.length}
             total={total}
@@ -162,35 +151,23 @@ export default class Autocompleter extends Component {
   }
 
   renderInput(props) {
-    const newProps = {
-      ...props,
-      ref: el => {
+    const newProps = {...props,
+      ref: (el) => {
         this.inputRef = el
         props.ref(el)
-      },
-    }
-    return <input {...newProps} />
+      }}
+    return <input {...newProps}/>
   }
 
   prepareAutocomplete() {
     const {personSearchFields, id, results, canCreateNewPerson, total} = this.props
     const {searchTerm} = personSearchFields
-    const showMoreResults = {
-      showMoreResults: 'Show More Results',
-      posInSet: 'show-more',
-      setSize: 'the-same',
-    }
-    const createNewPerson = {
-      createNewPerson: 'Create New Person',
-      posInSet: 'create-new',
-      setSize: 'the-same',
-    }
+    const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
+    const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
     const suggestionHeader = [{suggestionHeader: 'suggestion Header'}]
     const canLoadMoreResults = results && total > results.length
     addPosAndSetAttr(results) // Sequentually numbering items
-    const newResults = suggestionHeader.concat(
-      results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : [])
-    )
+    const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
 
     return {id, searchTerm, newResults}
   }
@@ -200,8 +177,8 @@ export default class Autocompleter extends Component {
 
     return (
       <Autocomplete
-        ref={el => (this.element_ref = el)}
-        getItemValue={_ => searchTerm}
+        ref={(el) => (this.element_ref = el)}
+        getItemValue={(_) => searchTerm}
         inputProps={{id, className: 'autocomplete-search-bar'}}
         items={newResults}
         onSelect={this.onItemSelect}
@@ -210,7 +187,7 @@ export default class Autocompleter extends Component {
         renderMenu={this.renderMenu}
         value={searchTerm}
         wrapperStyle={{display: 'block'}}
-        renderInput={props => this.renderInput(props)}
+        renderInput={(props) => this.renderInput(props)}
       />
     )
   }
@@ -229,12 +206,7 @@ export default class Autocompleter extends Component {
   }
 
   render() {
-    return (
-      <div>
-        {this.renderAutocomplete()}
-        {this.renderPersonSearchFields()}
-      </div>
-    )
+    return (<div>{this.renderAutocomplete()}{this.renderPersonSearchFields()}</div>)
   }
 }
 
