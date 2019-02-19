@@ -4,12 +4,14 @@ import {shallow} from 'enzyme'
 
 describe('CountyNameSelect', () => {
   const render = ({
+    counties = [],
     gridClassName,
     id = 'county-select',
     onChange = () => {},
     value = '',
   } = {}) => {
     const props = {
+      counties,
       gridClassName,
       id,
       onChange,
@@ -19,7 +21,7 @@ describe('CountyNameSelect', () => {
   }
 
   const findField = component =>
-    component.find('Connect(CountiesInjector) CountySelect')
+    component.find('CountySelect')
 
   it('displays the select field', () => {
     const component = render()
@@ -27,10 +29,12 @@ describe('CountyNameSelect', () => {
   })
 
   it('passes props to the select field', () => {
+    const counties = [{code: '1', value: 'Yolo'}]
     const component = render({
       gridClassName: 'foo',
       id: 'my-field',
       value: 'Yolo',
+      counties,
     })
 
     const field = findField(component)
@@ -38,6 +42,7 @@ describe('CountyNameSelect', () => {
     expect(field.props().gridClassName).toEqual('foo')
     expect(field.props().id).toEqual('my-field')
     expect(field.props().value).toEqual('Yolo')
+    expect(field.props().counties).toEqual(counties)
   })
 
   it('calls back with the county name when the selection changes', () => {

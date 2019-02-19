@@ -5,7 +5,7 @@ import CountyNameSelect from 'common/county/CountyNameSelect'
 import StateNameSelect from 'common/search/state/StateNameSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
-const PersonSearchLocationGroup = ({onChange, personSearchFields}) => (
+const PersonSearchLocationGroup = ({onChange, personSearchFields, states, counties}) => (
   <div className="row person-search-field-group">
     <div className="col-md-12 person-search-field-title">Location</div>
     <InputField
@@ -27,12 +27,14 @@ const PersonSearchLocationGroup = ({onChange, personSearchFields}) => (
       gridClassName="col-md-4 county-field"
       onChange={onChange}
       value={personSearchFields.searchCounty}
+      counties={counties}
     />
     <StateNameSelect
       id="search-state"
       gridClassName="col-md-4 state-field"
       onChange={onChange}
       value={personSearchFields.searchState}
+      states={states}
     />
     <InputField
       id="search-country"
@@ -55,8 +57,18 @@ const PersonSearchLocationGroup = ({onChange, personSearchFields}) => (
 )
 
 PersonSearchLocationGroup.propTypes = {
+  counties: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    value: PropTypes.string,
+  })),
   onChange: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
+  states: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
 }
 
 PersonSearchLocationGroup.defaultProps = PersonSearchFieldsDefaultProps

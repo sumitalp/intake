@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CountiesInjector from 'common/county/CountiesInjector'
 import CountySelect from 'common/county/CountySelect'
 
 class CountyNameSelect extends React.PureComponent {
@@ -10,14 +9,16 @@ class CountyNameSelect extends React.PureComponent {
 
   render() {
     return (
-      <CountiesInjector>
-        <CountySelect {...this.props} onChange={this.onChange.bind(this)} />
-      </CountiesInjector>
+      <CountySelect {...this.props} onChange={this.onChange.bind(this)} />
     )
   }
 }
 
 CountyNameSelect.propTypes = {
+  counties: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    value: PropTypes.string,
+  })),
   gridClassName: PropTypes.string,
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

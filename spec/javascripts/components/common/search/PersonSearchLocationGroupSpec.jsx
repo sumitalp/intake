@@ -4,9 +4,11 @@ import PersonSearchLocationGroup from 'common/search/PersonSearchLocationGroup'
 
 const defaultPersonSearchFields = {searchCounty: '', searchState: ''}
 
-const render = ({onChange = () => {}, personSearchFields = {}} = {}) =>
+const render = ({states = [], counties = [], onChange = () => {}, personSearchFields = {}} = {}) =>
   shallow(
     <PersonSearchLocationGroup
+      states={states}
+      counties={counties}
       onChange={onChange}
       personSearchFields={personSearchFields}
     />

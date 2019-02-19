@@ -38,6 +38,8 @@ describe('<Autocompleter />', () => {
     results = [],
     staffId = '0x3',
     total = 0,
+    states = [],
+    counties = [],
   }) {
     return mount(
       <Autocompleter
@@ -55,6 +57,8 @@ describe('<Autocompleter />', () => {
         staffId={staffId}
         startTime="2018-08-01T16:42:59.674Z"
         total={total}
+        states={states}
+        counties={counties}
       />
     )
   }
@@ -89,6 +93,8 @@ describe('<Autocompleter />', () => {
     results = [],
     staffId = '0x3',
     total = 0,
+    states = [],
+    counties = [],
   }) {
     return shallow(
       <Autocompleter
@@ -105,6 +111,8 @@ describe('<Autocompleter />', () => {
         staffId={staffId}
         startTime="2018-08-01T16:42:59.674Z"
         total={total}
+        states={states}
+        counties={counties}
       />,
       {disableLifecycleMethods: true}
     )
@@ -320,6 +328,7 @@ describe('<Autocompleter />', () => {
           onLoadMoreResults,
           total,
           personSearchFields: {
+            searchState: '',
             searchCounty: 'Colusa',
             searchCity: 'Central City',
             searchAddress: 'Star Labs',
@@ -584,7 +593,7 @@ describe('<Autocompleter />', () => {
     it('displays no results were found', () => {
       const autocompleter = mountAutocompleter({
         total: 0,
-        personSearchFields: {searchTerm: 'Simpson'},
+        personSearchFields: {searchTerm: 'Simpson', searchCounty: '', searchState: ''},
       })
       autocompleter.setState({menuVisible: true})
       const suggestionHeader = autocompleter.find('SuggestionHeader')
@@ -600,7 +609,7 @@ describe('<Autocompleter />', () => {
       const autocompleter = mountAutocompleter({
         results: fiveResults,
         total: 10,
-        personSearchFields: {searchTerm: 'Simpson'},
+        personSearchFields: {searchTerm: 'Simpson', searchCounty: '', searchState: ''},
       })
       autocompleter.setState({menuVisible: true})
       const suggestionHeader = autocompleter.find('SuggestionHeader')

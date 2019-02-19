@@ -17,6 +17,8 @@ describe('PersonSearchForm', () => {
     onSelect = () => null,
     onLoadMoreResults = () => null,
     onSearch = () => null,
+    counties = [],
+    states = [],
     ...args
   }) {
     const props = {
@@ -27,6 +29,8 @@ describe('PersonSearchForm', () => {
       onSelect,
       onLoadMoreResults,
       onSearch,
+      counties,
+      states,
       ...args,
     }
     return shallow(<PersonSearchForm {...props} />, {
@@ -62,12 +66,14 @@ describe('PersonSearchForm', () => {
     const component = renderPersonSearchForm({
       isSelectable,
       onSelect,
-      searchCounty: 'Orange',
+      personSearchFields: {searchCounty: 'Orange'},
     })
     const autocompleter = component.find('Autocompleter')
     expect(autocompleter.props().isSelectable).toEqual(isSelectable)
     expect(autocompleter.props().onSelect).toEqual(onSelect)
-    expect(autocompleter.props().searchCounty).toEqual('Orange')
+    expect(autocompleter.props().personSearchFields.searchCounty).toEqual('Orange')
+    expect(autocompleter.props().counties).toEqual([])
+    expect(autocompleter.props().states).toEqual([])
   })
 
   it('renders the card header', () => {

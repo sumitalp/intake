@@ -4,12 +4,14 @@ import {shallow} from 'enzyme'
 
 describe('StateNameSelect', () => {
   const render = ({
+    states = [],
     gridClassName,
     id = 'state-select',
     onChange = () => {},
     value = '',
   } = {}) => {
     const props = {
+      states,
       gridClassName,
       id,
       onChange,
@@ -19,7 +21,7 @@ describe('StateNameSelect', () => {
   }
 
   const findField = component =>
-    component.find('Connect(StatesInjector) StateSelect')
+    component.find('StateSelect')
 
   it('displays the select field', () => {
     const component = render()
@@ -27,10 +29,12 @@ describe('StateNameSelect', () => {
   })
 
   it('passes props to the select field', () => {
+    const states = [{code: '1', value: 'California'}]
     const component = render({
       gridClassName: 'foo',
       id: 'my-field',
       value: 'California',
+      states,
     })
 
     const field = findField(component)
@@ -38,6 +42,7 @@ describe('StateNameSelect', () => {
     expect(field.props().gridClassName).toEqual('foo')
     expect(field.props().id).toEqual('my-field')
     expect(field.props().value).toEqual('California')
+    expect(field.props().states).toEqual(states)
   })
 
   it('calls back with the state name when the selection changes', () => {

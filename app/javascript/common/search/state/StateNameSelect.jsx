@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import StatesInjector from 'common/search/state/StatesInjector'
 import StateSelect from 'common/search/state/StateSelect'
 
 class StateNameSelect extends React.PureComponent {
@@ -10,9 +9,7 @@ class StateNameSelect extends React.PureComponent {
 
   render() {
     return (
-      <StatesInjector>
-        <StateSelect {...this.props} onChange={this.onChange.bind(this)} />
-      </StatesInjector>
+      <StateSelect {...this.props} onChange={this.onChange.bind(this)} />
     )
   }
 }
@@ -21,6 +18,13 @@ StateNameSelect.propTypes = {
   gridClassName: PropTypes.string,
   id: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  states: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
   value: PropTypes.string.isRequired,
 }
+
 export default StateNameSelect

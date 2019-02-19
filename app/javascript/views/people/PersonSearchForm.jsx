@@ -36,6 +36,10 @@ class PersonSearchForm extends React.Component {
 
 PersonSearchForm.propTypes = {
   canCreateNewPerson: PropTypes.bool.isRequired,
+  counties: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    value: PropTypes.string,
+  })),
   isSelectable: PropTypes.func,
   location: PropTypes.shape({
     pathname: PropTypes.string,
@@ -49,6 +53,12 @@ PersonSearchForm.propTypes = {
   personSearchFields: PersonSearchFieldsPropType,
   results: PropTypes.array,
   staffId: PropTypes.string,
+  states: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
   total: PropTypes.number,
 }
 

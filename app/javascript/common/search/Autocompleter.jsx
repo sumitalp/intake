@@ -193,7 +193,7 @@ export default class Autocompleter extends Component {
   }
 
   renderPersonSearchFields() {
-    const {onChange, onCancel, personSearchFields} = this.props
+    const {states, counties, onChange, onCancel, personSearchFields} = this.props
 
     return (
       <PersonSearchFields
@@ -201,6 +201,8 @@ export default class Autocompleter extends Component {
         onCancel={onCancel}
         onSubmit={this.handleSubmit}
         personSearchFields={personSearchFields}
+        states={states}
+        counties={counties}
       />
     )
   }
@@ -212,6 +214,10 @@ export default class Autocompleter extends Component {
 
 Autocompleter.propTypes = {
   canCreateNewPerson: PropTypes.bool,
+  counties: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    value: PropTypes.string,
+  })),
   id: PropTypes.string,
   isSelectable: PropTypes.func,
   onCancel: PropTypes.func.isRequired,
@@ -224,6 +230,12 @@ Autocompleter.propTypes = {
   results: PropTypes.array,
   staffId: PropTypes.string,
   startTime: PropTypes.string,
+  states: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
   total: PropTypes.number,
 }
 

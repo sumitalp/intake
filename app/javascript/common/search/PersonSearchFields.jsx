@@ -11,6 +11,8 @@ const PersonSearchFields = ({
   onCancel,
   onSubmit,
   personSearchFields,
+  states,
+  counties,
 }) => {
   return (
     <div>
@@ -25,6 +27,8 @@ const PersonSearchFields = ({
       <PersonSearchLocationGroup
         onChange={onChange}
         personSearchFields={personSearchFields}
+        states={states}
+        counties={counties}
       />
       <PersonSearchButtonGroup
         onSubmit={onSubmit}
@@ -36,10 +40,20 @@ const PersonSearchFields = ({
 }
 
 PersonSearchFields.propTypes = {
+  counties: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    value: PropTypes.string,
+  })),
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
+  states: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
 }
 
 export default PersonSearchFields

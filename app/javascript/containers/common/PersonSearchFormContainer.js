@@ -17,6 +17,8 @@ import {
 } from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
+import {selectStates} from 'selectors/systemCodeSelectors'
+import {selectCountiesWithoutStateOfCalifornia} from 'selectors/systemCodeSelectors'
 
 const mapStateToProps = state => {
   const userInfo = state.get('userInfo').toJS()
@@ -26,6 +28,8 @@ const mapStateToProps = state => {
     canUserAddClient(userInfo, hasAddSensitivePerson, person, hasOverride)
 
   return {
+    states: selectStates(state).toJS(),
+    counties: selectCountiesWithoutStateOfCalifornia(state).toJS(),
     results: selectPeopleResults(state).toJS(),
     total: selectResultsTotalValue(state),
     personSearchFields: selectPersonSearchFields(state),
