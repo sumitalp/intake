@@ -26,7 +26,11 @@ const PersonSearchFields = ({
         onChange={onChange}
         personSearchFields={personSearchFields}
       />
-      <PersonSearchButtonGroup onSubmit={onSubmit} onCancel={onCancel} />
+      <PersonSearchButtonGroup
+        onSubmit={onSubmit}
+        onCancel={onCancel}
+        personSearchFields={personSearchFields}
+      />
     </div>
   )
 }
