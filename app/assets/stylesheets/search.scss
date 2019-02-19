@@ -64,28 +64,44 @@
     font-weight: bold;
   }
 
-  .last-name-field,
-  .first-name-field,
-  .client-id-field,
-  .suffix-field,
-  .age-number-field,
-  .address-field,
-  .city-field,
-  .state-field,
-  .country-field {
-    padding-right: .75rem;
+  @media only screen and (max-width: 991px) {
+    .date-field, .age-number-field, .age-unit-field {
+      padding: 0;
+    }
   }
 
-  .first-name-field,
-  .middle-name-field,
-  .suffix-field,
-  .ssn-field,
-  .age-unit-field,
-  .city-field,
-  .county-field,
-  .country-field,
-  .zip-code-field {
-    padding-left: .75rem;
+  @media only screen and (min-width: 992px) {  
+    .last-name-field,
+    .first-name-field,
+    .client-id-field,
+    .suffix-field,
+    .age-number-field,
+    .address-field,
+    .city-field,
+    .state-field,
+    .country-field {
+      padding-right: .75rem;
+    }
+
+    .first-name-field,
+    .middle-name-field,
+    .suffix-field,
+    .ssn-field,
+    .age-unit-field,
+    .city-field,
+    .county-field,
+    .country-field,
+    .zip-code-field {
+      padding-left: .75rem;
+    }
+
+    .person-search-label-date-of-birth {
+      float: left;
+    }
+
+    .person-search-label-approximate-age {
+      float: left;
+    }
   }
 
   label.person-search-label-date-of-birth {

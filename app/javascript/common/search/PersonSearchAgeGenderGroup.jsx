@@ -13,7 +13,7 @@ const PersonSearchAgeGenderGroup = ({onChange, personSearchFields}) => (
       <div className="row">
         <div className="col-md-12">
           <label
-            className="pull-left person-search-label-date-of-birth"
+            className="person-search-label-date-of-birth"
             htmlFor="search-date-of-birth"
           >
             Date of Birth
@@ -31,7 +31,7 @@ const PersonSearchAgeGenderGroup = ({onChange, personSearchFields}) => (
       <div className="row">
         <div className="col-md-12">
           <label
-            className="pull-left person-search-label-approximate-age"
+            className="person-search-label-approximate-age"
             htmlFor="search-approximate-age-number"
           >
             Approximate Age
