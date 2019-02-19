@@ -65,12 +65,14 @@
   }
 
   @media only screen and (max-width: 991px) {
-    .date-field, .age-number-field, .age-unit-field {
+    .date-field,
+    .age-number-field,
+    .age-unit-field {
       padding: 0;
     }
   }
 
-  @media only screen and (min-width: 992px) {  
+  @media only screen and (min-width: 992px) {
     .last-name-field,
     .first-name-field,
     .client-id-field,

@@ -42,7 +42,7 @@ describe('PersonSearchButtonGroup', () => {
   })
 
   describe('when there is an existing search terms', () => {
-    describe('when the search term has a valid length', () => {
+    describe('when the search terms has a valid length', () => {
       it('enables the search button with last name', () => {
         const component = render({
           personSearchFields: {searchLastName: 'Doe'},
@@ -96,7 +96,7 @@ describe('PersonSearchButtonGroup', () => {
       })
     })
 
-    describe('when the search term is too short', () => {
+    describe('when the search terms are too short', () => {
       it('disables the search button with last name', () => {
         const component = render({
           personSearchFields: {searchLastName: 'D'},
@@ -148,11 +148,37 @@ describe('PersonSearchButtonGroup', () => {
       })
     })
 
-    it('strips leading whitespace when deciding to enable search', () => {
-      const component = render({personSearchFields: {searchLastName: ' Y'}})
-      expect(
-        component.find('button.person-search-button.search').props().disabled
-      ).toBeTruthy()
+    describe('when the search term contains a character then a whitespace', () => {
+      it('enables the search button', () => {
+        const component = render({
+          personSearchFields: {searchFirstName: 'a '},
+        })
+        expect(
+          component.find('button.person-search-button.search').props().disabled
+        ).toBeFalsy()
+      })
+    })
+
+    describe('when the search term contains two whitespace characters', () => {
+      it('disables the search button', () => {
+        const component = render({
+          personSearchFields: {searchFirstName: '  '},
+        })
+        expect(
+          component.find('button.person-search-button.search').props().disabled
+        ).toBeTruthy()
+      })
+    })
+
+    describe('when search value contains a whitespace then a character', () => {
+      it('disables the search button', () => {
+        const component = render({
+          personSearchFields: {searchFirstName: ' a'},
+        })
+        expect(
+          component.find('button.person-search-button.search').props().disabled
+        ).toBeTruthy()
+      })
     })
   })
 
