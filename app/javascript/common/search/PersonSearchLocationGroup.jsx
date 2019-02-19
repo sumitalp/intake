@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import InputField from 'common/InputField'
 import CountyNameSelect from 'common/county/CountyNameSelect'
 import StateNameSelect from 'common/search/state/StateNameSelect'
-import {PersonSearchFieldsPropType} from 'data/personSearch'
+import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
 const PersonSearchLocationGroup = ({onChange, personSearchFields}) => (
   <div className="row person-search-field-group">
@@ -58,5 +58,7 @@ PersonSearchLocationGroup.propTypes = {
   onChange: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
 }
+
+PersonSearchLocationGroup.defaultProps = PersonSearchFieldsDefaultProps
 
 export default PersonSearchLocationGroup

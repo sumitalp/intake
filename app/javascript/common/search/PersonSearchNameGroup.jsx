@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import InputField from 'common/InputField'
 import SuffixNameSelect from 'common/search/suffix/SuffixNameSelect'
-import {PersonSearchFieldsPropType} from 'data/personSearch'
+import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
 const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
   <div className="row person-search-field-group">
@@ -56,5 +56,7 @@ PersonSearchNameGroup.propTypes = {
   onChange: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
 }
+
+PersonSearchNameGroup.defaultProps = PersonSearchFieldsDefaultProps
 
 export default PersonSearchNameGroup

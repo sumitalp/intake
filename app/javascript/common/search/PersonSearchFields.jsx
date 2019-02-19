@@ -38,25 +38,4 @@ PersonSearchFields.propTypes = {
   personSearchFields: PersonSearchFieldsPropType,
 }
 
-PersonSearchFields.defaultProps = {
-  personSearchFields: {
-    searchLastName: '',
-    searchFirstName: '',
-    searchMiddleName: '',
-    searchClientId: '',
-    searchSuffix: '',
-    searchSsn: '',
-    searchDateOfBirth: '',
-    searchApproximateAge: '',
-    searchApproximateAgeUnits: '',
-    searchSexAtBirth: '',
-    searchAddress: '',
-    searchCity: '',
-    searchCounty: '',
-    searchState: '',
-    searchCountry: '',
-    searchZipCode: '',
-  },
-}
-
 export default PersonSearchFields

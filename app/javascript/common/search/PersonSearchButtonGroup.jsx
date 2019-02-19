@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {PersonSearchFieldsPropType} from 'data/personSearch'
+import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
 const MIN_SEARCHABLE_CHARS = 2
 
@@ -15,14 +15,7 @@ const canSearch = ({
   searchDateOfBirth,
   searchAddress,
 }) => {
-  const fields = [
-    searchLastName,
-    searchFirstName,
-    searchMiddleName,
-    searchSsn,
-    searchDateOfBirth,
-    searchAddress,
-  ]
+  const fields = [searchLastName, searchFirstName, searchMiddleName, searchSsn, searchDateOfBirth, searchAddress]
   const searchableFields = fields.filter(field => isSearchable(field))
   return Boolean(searchableFields.length)
 }
@@ -56,5 +49,7 @@ PersonSearchButtonGroup.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
 }
+
+PersonSearchButtonGroup.defaultProps = PersonSearchFieldsDefaultProps
 
 export default PersonSearchButtonGroup

@@ -4,7 +4,7 @@ import InputField from 'common/InputField'
 import DateField from 'common/DateField'
 import ApproximateAgeUnitsSelect from 'common/search/age/ApproximateAgeUnitsSelect'
 import SexAtBirthSelect from 'common/search/sexatbirth/SexAtBirthSelect'
-import {PersonSearchFieldsPropType} from 'data/personSearch'
+import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
 const PersonSearchAgeGenderGroup = ({onChange, personSearchFields}) => (
   <div className="row person-search-field-group">
@@ -69,5 +69,7 @@ PersonSearchAgeGenderGroup.propTypes = {
   onChange: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
 }
+
+PersonSearchAgeGenderGroup.defaultProps = PersonSearchFieldsDefaultProps
 
 export default PersonSearchAgeGenderGroup

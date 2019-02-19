@@ -19,3 +19,24 @@ export const PersonSearchFieldsPropType = PropTypes.shape({
   searchTerm: PropTypes.string,
   searchZipCode: PropTypes.string,
 })
+
+export const PersonSearchFieldsDefaultProps = {
+  personSearchFields: {
+    searchLastName: '',
+    searchFirstName: '',
+    searchMiddleName: '',
+    searchClientId: '',
+    searchSuffix: '',
+    searchSsn: '',
+    searchDateOfBirth: '',
+    searchApproximateAge: '',
+    searchApproximateAgeUnits: '',
+    searchSexAtBirth: '',
+    searchAddress: '',
+    searchCity: '',
+    searchCounty: '',
+    searchState: '',
+    searchCountry: '',
+    searchZipCode: '',
+  },
+}
