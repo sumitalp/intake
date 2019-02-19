@@ -214,7 +214,6 @@ Autocompleter.propTypes = {
   canCreateNewPerson: PropTypes.bool,
   id: PropTypes.string,
   isSelectable: PropTypes.func,
-  location: PropTypes.shape({pathname: PropTypes.string}),
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
