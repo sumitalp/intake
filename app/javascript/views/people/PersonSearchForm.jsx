@@ -30,7 +30,7 @@ class PersonSearchForm extends React.Component {
             <div className="row">
               <div className="col-md-12">
                 {!advancedSearchFeatureFlag && <label className='pull-left autocompleter-label' htmlFor='screening_participants'>{searchPrompt}</label>}
-                <Autocompleter id="screening_participants" {...autocompleterProps} isAdvancedSearchOn={true} />
+                <Autocompleter id="screening_participants" {...autocompleterProps} isAdvancedSearchOn={advancedSearchFeatureFlag} />
               </div>
             </div>
           </div>

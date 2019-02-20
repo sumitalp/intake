@@ -202,13 +202,12 @@ export default class Autocompleter extends Component {
 
   renderAutocomplete() {
     const {id, searchTerm, newResults, isAdvancedSearchOn} = this.prepareAutocomplete()
-    const disabled = Boolean(isAdvancedSearchOn)
 
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
-        inputProps={{id, className: 'autocomplete-search-bar', disabled}}
+        inputProps={{id, className: 'autocomplete-search-bar', disabled: isAdvancedSearchOn}}
         items={newResults}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
