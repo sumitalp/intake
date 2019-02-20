@@ -26,10 +26,13 @@ function isHotline(location) {
   return location && location.pathname.indexOf('/screenings') >= 0
 }
 
-export function isSearchByAddressOn(location) {
-  return isHotline(location) ?
-    isFeatureActive('address_search_hotline') :
-    isFeatureActive('address_search_snapshot')
+function isSnapshot(location) {
+  return location && location.pathname.indexOf('/snapshot') >= 0
+}
+
+export function isAdvancedSearchOn(location) {
+  return isHotline(location) || isSnapshot(location) ?
+    isFeatureActive('advanced_search') : false
 }
 
 // Triggers page level error message on demand for tester to test error banner

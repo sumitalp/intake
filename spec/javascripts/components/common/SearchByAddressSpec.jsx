@@ -27,13 +27,13 @@ describe('SearchByAddress', () => {
   )
 
   beforeEach(() => {
-    spyOn(IntakeConfig, 'isSearchByAddressOn').and.returnValue(true)
+    spyOn(IntakeConfig, 'isAdvancedSearchOn').and.returnValue(true)
   })
-  describe('when is not Hotline', () => {
+  describe('when is not Hotline and Snapshot', () => {
     it('renders an empty string', () => {
-      IntakeConfig.isSearchByAddressOn.and.returnValue(false)
-      const searchByAddress = render({isAddressIncluded: false})
-      expect(searchByAddress.html()).toEqual(null)
+      IntakeConfig.isAdvancedSearchOn.and.returnValue(false)
+      const advancedSearch = render({isAddressIncluded: false})
+      expect(advancedSearch.html()).toEqual(null)
     })
   })
   describe('when isAddressIncluded flag is false', () => {

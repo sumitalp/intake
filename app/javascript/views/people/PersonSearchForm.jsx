@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Autocompleter from 'common/search/Autocompleter'
 import {withRouter} from 'react-router'
-import {isSearchByAddressOn} from 'common/config'
+import {isAdvancedSearchOn} from 'common/config'
 
 class PersonSearchForm extends React.Component {
   componentWillUnmount() {
@@ -18,8 +18,8 @@ class PersonSearchForm extends React.Component {
       ...autocompleterProps
     } = this.props
 
-    const classNameAddressSearchDisabled = isSearchByAddressOn(this.props.location) ?
-      '' : 'address-search-disabled'
+    const classNameAdvancedSearchDisabled = isAdvancedSearchOn(this.props.location) ?
+      '' : 'advanced-search-disabled'
 
     return (
       <div className="card-height">
@@ -28,7 +28,7 @@ class PersonSearchForm extends React.Component {
           <div className='card-header'>
             <h2>Search</h2>
           </div>
-          <div className={`card-body ${classNameAddressSearchDisabled}`}>
+          <div className={`card-body ${classNameAdvancedSearchDisabled}`}>
             <div className='row'>
               <div className='col-md-12'>
                 <label className='pull-left' htmlFor='screening_participants'>{searchPrompt}</label>
