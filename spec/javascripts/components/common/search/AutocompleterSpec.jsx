@@ -100,7 +100,7 @@ describe('<Autocompleter />', () => {
     states = [],
     counties = [],
     isAdvancedSearchOn = false,
-    onChangeAutocomplete = () => null
+    onChangeAutocomplete = () => null,
   }) {
     return shallow(
       <Autocompleter
@@ -310,7 +310,6 @@ describe('<Autocompleter />', () => {
       })
 
       describe('isAdvancedSearchOn feature toggle is On', () => {
-
         it('calls loadMoreResults', () => {
           const autocompleter = mountAutocompleter({
             results,
@@ -318,12 +317,12 @@ describe('<Autocompleter />', () => {
             onSelect,
             onLoadMoreResults,
             total,
-            isAdvancedSearchOn: true
+            isAdvancedSearchOn: true,
           })
           autocompleter
             .find('Autocomplete')
             .props()
-            .onSelect('_value', {showMoreResults: true })
+            .onSelect('_value', {showMoreResults: true})
           expect(onLoadMoreResults).toHaveBeenCalledWith({
             county: '',
             city: '',
@@ -344,12 +343,12 @@ describe('<Autocompleter />', () => {
               searchCity: 'Central City',
               searchAddress: 'Star Labs',
             },
-            isAdvancedSearchOn: true
+            isAdvancedSearchOn: true,
           })
           autocompleter
             .find('Autocomplete')
             .props()
-            .onSelect('_value', {showMoreResults: true })
+            .onSelect('_value', {showMoreResults: true})
           expect(onLoadMoreResults).toHaveBeenCalledWith({
             county: 'Colusa',
             city: 'Central City',
@@ -421,7 +420,7 @@ describe('<Autocompleter />', () => {
     it('searches when button is submitted', () => {
       const autocompleter = renderAutocompleter({
         onSearch,
-        personSearchFields: {searchLastName: 'Sandiego', searchFirstName: 'Carmen', searchAddress: '123 Main St', searchCity: 'Woodland', searchCounty: 'Yolo' },
+        personSearchFields: {searchLastName: 'Sandiego', searchFirstName: 'Carmen', searchAddress: '123 Main St', searchCity: 'Woodland', searchCounty: 'Yolo'},
       })
       const personSearchFields = autocompleter.find('PersonSearchFields')
       personSearchFields.props().onSubmit()

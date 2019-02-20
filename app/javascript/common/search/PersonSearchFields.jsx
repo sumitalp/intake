@@ -38,12 +38,12 @@ const PersonSearchFields = ({
   </div>
 ) : null
 
-
 PersonSearchFields.propTypes = {
   counties: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     value: PropTypes.string,
   })),
+  isAdvancedSearchOn: PropTypes.bool,
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -54,7 +54,6 @@ PersonSearchFields.propTypes = {
       value: PropTypes.string,
     })
   ),
-  isAdvancedSearchOn: PropTypes.bool,
 }
 
 export default PersonSearchFields

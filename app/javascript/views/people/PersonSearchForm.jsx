@@ -11,7 +11,7 @@ class PersonSearchForm extends React.Component {
   }
 
   render() {
-    const { searchPrompt, location, ...autocompleterProps } = this.props
+    const {searchPrompt, location, ...autocompleterProps} = this.props
     const advancedSearchFeatureFlag = isAdvancedSearchOn(location)
     const classNameAdvancedSearchDisabled = advancedSearchFeatureFlag ? 'advanced-search-enabled' : 'advanced-search-disabled'
 
@@ -51,14 +51,15 @@ PersonSearchForm.propTypes = {
     pathname: PropTypes.string,
   }),
   onCancel: PropTypes.func.isRequired,
-  onChangeAutocomplete: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onChangeAutocomplete: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func,
   onSearch: PropTypes.func,
   onSelect: PropTypes.func,
   personSearchFields: PersonSearchFieldsPropType,
   results: PropTypes.array,
+  searchPrompt: PropTypes.string.isRequired,
   staffId: PropTypes.string,
   states: PropTypes.arrayOf(
     PropTypes.shape({
@@ -67,7 +68,6 @@ PersonSearchForm.propTypes = {
     })
   ),
   total: PropTypes.number,
-  searchPrompt: PropTypes.string.isRequired,
 }
 
 export {PersonSearchForm}

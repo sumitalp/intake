@@ -25,7 +25,7 @@ describe('PersonSearchFields', () => {
   describe('isAdvancedSearchOn feature toggle is On', () => {
     let component
     beforeEach(() => {
-      component = render({ isAdvancedSearchOn: true })
+      component = render({isAdvancedSearchOn: true})
     })
 
     it('renders a PersonSearchNameGroup component', () => {
@@ -48,7 +48,7 @@ describe('PersonSearchFields', () => {
   describe('isAdvancedSearchOn feature toggle is Off', () => {
     let component
     beforeEach(() => {
-      component = render({ isAdvancedSearchOn: false })
+      component = render({isAdvancedSearchOn: false})
     })
 
     it('renders a PersonSearchNameGroup component', () => {

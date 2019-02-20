@@ -51,7 +51,7 @@ export default class Autocompleter extends Component {
 
   handleSubmit() {
     const {onClear, personSearchFields} = this.props
-    const { searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth } = personSearchFields
+    const {searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth} = personSearchFields
     const searchFields = [searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth]
     const searchTerm = searchFields.filter(field => field).join(' ')
     onClear()
@@ -71,8 +71,7 @@ export default class Autocompleter extends Component {
     const {isAdvancedSearchOn, onLoadMoreResults} = this.props
     if (isAdvancedSearchOn) {
       onLoadMoreResults(this.constructAddress())
-    }
-    else {
+    } else {
       onLoadMoreResults()
     }
     this.element_ref.setIgnoreBlur(true)
@@ -166,10 +165,10 @@ export default class Autocompleter extends Component {
   }
 
   onChangeInput(_, value) {
-    const { onSearch, onChangeAutocomplete, isAdvancedSearchOn } = this.props
+    const {onSearch, onChangeAutocomplete, isAdvancedSearchOn} = this.props
     if (this.isSearchable(value) && !isAdvancedSearchOn) {
       onSearch(value)
-      this.setState({ menuVisible: true })
+      this.setState({menuVisible: true})
     } else {
       this.hideMenu()
     }
@@ -182,13 +181,13 @@ export default class Autocompleter extends Component {
       ref: (el) => {
         this.inputRef = el
         props.ref(el)
-      }
+      },
     }
     return <input {...newProps} />
   }
 
   prepareAutocomplete() {
-    const { personSearchFields, id, results, canCreateNewPerson, total, isAdvancedSearchOn } = this.props
+    const {personSearchFields, id, results, canCreateNewPerson, total, isAdvancedSearchOn} = this.props
     const {searchTerm} = personSearchFields
     const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
@@ -197,7 +196,7 @@ export default class Autocompleter extends Component {
     addPosAndSetAttr(results) // Sequentually numbering items
     const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
 
-    return { id, searchTerm, newResults, isAdvancedSearchOn }
+    return {id, searchTerm, newResults, isAdvancedSearchOn}
   }
 
   renderAutocomplete() {
@@ -222,7 +221,7 @@ export default class Autocompleter extends Component {
   }
 
   renderPersonSearchFields() {
-    const { states, counties, onChange, onCancel, personSearchFields, isAdvancedSearchOn } = this.props
+    const {states, counties, onChange, onCancel, personSearchFields, isAdvancedSearchOn} = this.props
 
     return (
       <PersonSearchFields
@@ -249,10 +248,11 @@ Autocompleter.propTypes = {
     value: PropTypes.string,
   })),
   id: PropTypes.string,
+  isAdvancedSearchOn: PropTypes.bool,
   isSelectable: PropTypes.func,
   onCancel: PropTypes.func.isRequired,
-  onChangeAutocomplete: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onChangeAutocomplete: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
@@ -268,7 +268,6 @@ Autocompleter.propTypes = {
     })
   ),
   total: PropTypes.number,
-  isAdvancedSearchOn: PropTypes.bool,
 }
 
 Autocompleter.defaultProps = {
