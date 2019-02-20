@@ -13,31 +13,31 @@ const PersonSearchFields = ({
   personSearchFields,
   states,
   counties,
-}) => {
-  return (
-    <div>
-      <PersonSearchNameGroup
-        onChange={onChange}
-        personSearchFields={personSearchFields}
-      />
-      <PersonSearchAgeGenderGroup
-        onChange={onChange}
-        personSearchFields={personSearchFields}
-      />
-      <PersonSearchLocationGroup
-        onChange={onChange}
-        personSearchFields={personSearchFields}
-        states={states}
-        counties={counties}
-      />
-      <PersonSearchButtonGroup
-        onSubmit={onSubmit}
-        onCancel={onCancel}
-        personSearchFields={personSearchFields}
-      />
-    </div>
-  )
-}
+  isAdvancedSearchOn,
+}) => isAdvancedSearchOn ? (
+  <div>
+    <PersonSearchNameGroup
+      onChange={onChange}
+      personSearchFields={personSearchFields}
+    />
+    <PersonSearchAgeGenderGroup
+      onChange={onChange}
+      personSearchFields={personSearchFields}
+    />
+    <PersonSearchLocationGroup
+      onChange={onChange}
+      personSearchFields={personSearchFields}
+      states={states}
+      counties={counties}
+    />
+    <PersonSearchButtonGroup
+      onSubmit={onSubmit}
+      onCancel={onCancel}
+      personSearchFields={personSearchFields}
+    />
+  </div>
+) : null
+
 
 PersonSearchFields.propTypes = {
   counties: PropTypes.arrayOf(PropTypes.shape({
@@ -54,6 +54,7 @@ PersonSearchFields.propTypes = {
       value: PropTypes.string,
     })
   ),
+  isAdvancedSearchOn: PropTypes.bool,
 }
 
 export default PersonSearchFields

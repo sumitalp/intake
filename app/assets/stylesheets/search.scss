@@ -1,8 +1,10 @@
 @import 'constants';
 
 .search-card {
-  input.autocomplete-search-bar {
-    display: none;
+  .card-body.advanced-search-enabled {
+    .autocompleter-label, input.autocomplete-search-bar {
+      display: none;
+    }
   }
 
   .autocomplete-menu {

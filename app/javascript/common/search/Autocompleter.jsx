@@ -10,6 +10,8 @@ import moment from 'moment'
 import PersonSearchFields from 'common/search/PersonSearchFields'
 import {PersonSearchFieldsPropType} from 'data/personSearch'
 
+const MIN_SEARCHABLE_CHARS = 2
+
 const addPosAndSetAttr = (results) => {
   const one = 1
   for (let len = results.length, i = 0; i < len; ++i) {
@@ -27,6 +29,7 @@ export default class Autocompleter extends Component {
     this.hideMenu = this.hideMenu.bind(this)
     this.onItemSelect = this.onItemSelect.bind(this)
     this.renderMenu = this.renderMenu.bind(this)
+    this.onChangeInput = this.onChangeInput.bind(this)
     this.renderItem = this.renderItem.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -48,9 +51,15 @@ export default class Autocompleter extends Component {
 
   handleSubmit() {
     const {onClear, personSearchFields} = this.props
-    const {searchTerm} = personSearchFields
+    const { searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth } = personSearchFields
+    const searchFields = [searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth]
+    const searchTerm = searchFields.filter(field => field).join(' ')
     onClear()
     this.searchAndFocus(searchTerm, this.constructAddress())
+  }
+
+  isSearchable(value) {
+    return value && value.replace(/^\s+/, '').length >= MIN_SEARCHABLE_CHARS
   }
 
   hideMenu() {
@@ -59,7 +68,13 @@ export default class Autocompleter extends Component {
   }
 
   loadMoreResults() {
-    this.props.onLoadMoreResults(this.constructAddress())
+    const {isAdvancedSearchOn, onLoadMoreResults} = this.props
+    if (isAdvancedSearchOn) {
+      onLoadMoreResults(this.constructAddress())
+    }
+    else {
+      onLoadMoreResults()
+    }
     this.element_ref.setIgnoreBlur(true)
     if (this.inputRef) { this.inputRef.focus() }
   }
@@ -150,17 +165,30 @@ export default class Autocompleter extends Component {
     return this.renderEachItem(item, id, isHighlighted)
   }
 
+  onChangeInput(_, value) {
+    const { onSearch, onChangeAutocomplete, isAdvancedSearchOn } = this.props
+    if (this.isSearchable(value) && !isAdvancedSearchOn) {
+      onSearch(value)
+      this.setState({ menuVisible: true })
+    } else {
+      this.hideMenu()
+    }
+    onChangeAutocomplete(value)
+  }
+
   renderInput(props) {
-    const newProps = {...props,
+    const newProps = {
+      ...props,
       ref: (el) => {
         this.inputRef = el
         props.ref(el)
-      }}
-    return <input {...newProps}/>
+      }
+    }
+    return <input {...newProps} />
   }
 
   prepareAutocomplete() {
-    const {personSearchFields, id, results, canCreateNewPerson, total} = this.props
+    const { personSearchFields, id, results, canCreateNewPerson, total, isAdvancedSearchOn } = this.props
     const {searchTerm} = personSearchFields
     const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
@@ -169,18 +197,20 @@ export default class Autocompleter extends Component {
     addPosAndSetAttr(results) // Sequentually numbering items
     const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
 
-    return {id, searchTerm, newResults}
+    return { id, searchTerm, newResults, isAdvancedSearchOn }
   }
 
   renderAutocomplete() {
-    const {id, searchTerm, newResults} = this.prepareAutocomplete()
+    const {id, searchTerm, newResults, isAdvancedSearchOn} = this.prepareAutocomplete()
+    const disabled = Boolean(isAdvancedSearchOn)
 
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
-        inputProps={{id, className: 'autocomplete-search-bar'}}
+        inputProps={{id, className: 'autocomplete-search-bar', disabled}}
         items={newResults}
+        onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
         renderItem={this.renderItem}
         open={this.state.menuVisible}
@@ -193,7 +223,7 @@ export default class Autocompleter extends Component {
   }
 
   renderPersonSearchFields() {
-    const {states, counties, onChange, onCancel, personSearchFields} = this.props
+    const { states, counties, onChange, onCancel, personSearchFields, isAdvancedSearchOn } = this.props
 
     return (
       <PersonSearchFields
@@ -203,6 +233,7 @@ export default class Autocompleter extends Component {
         personSearchFields={personSearchFields}
         states={states}
         counties={counties}
+        isAdvancedSearchOn={isAdvancedSearchOn}
       />
     )
   }
@@ -221,6 +252,7 @@ Autocompleter.propTypes = {
   id: PropTypes.string,
   isSelectable: PropTypes.func,
   onCancel: PropTypes.func.isRequired,
+  onChangeAutocomplete: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func.isRequired,
@@ -237,6 +269,7 @@ Autocompleter.propTypes = {
     })
   ),
   total: PropTypes.number,
+  isAdvancedSearchOn: PropTypes.bool,
 }
 
 Autocompleter.defaultProps = {

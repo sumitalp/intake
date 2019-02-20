@@ -7,6 +7,9 @@ import {
   loadMoreResultsFailure,
   search,
   setSearchTerm,
+  resetPersonSearch,
+  setPersonSearchField,
+
 } from 'actions/peopleSearchActions'
 import {isFSA} from 'flux-standard-action'
 
@@ -76,6 +79,21 @@ describe('peopleSearchActions', () => {
 
   it('setSearchTerm is FSA compliant', () => {
     const action = setSearchTerm('hello')
+    expect(isFSA(action)).toEqual(true)
+  })
+
+  it('resetPersonSearch is FSA compliant', () => {
+    const action = resetPersonSearch()
+    expect(isFSA(action)).toEqual(true)
+  })
+
+  it('setPersonSearchField is FSA compliant', () => {
+    const action = setPersonSearchField()
+    expect(isFSA(action)).toEqual(true)
+  })
+
+  it('setPersonSearchField with field and value is FSA compliant', () => {
+    const action = setPersonSearchField('searchTerm', 'Jane Doe')
     expect(isFSA(action)).toEqual(true)
   })
 })

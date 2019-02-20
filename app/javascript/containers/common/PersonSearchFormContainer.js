@@ -9,7 +9,6 @@ import {
 } from 'selectors/peopleSearchSelectors'
 import {
   search,
-  setSearchTerm,
   setPersonSearchField,
   clear,
   loadMoreResults,
@@ -42,9 +41,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const onClear = () => dispatch(clear())
+  const onChangeAutocomplete = value => {
+    dispatch(setPersonSearchField('searchTerm', value))
+  }
   const onChange = (field, value) => {
     dispatch(setPersonSearchField(field, value))
-    dispatch(setSearchTerm())
   }
   const onCancel = () => {
     dispatch(clear())
@@ -59,6 +60,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onSearch,
     onClear,
     onChange,
+    onChangeAutocomplete,
     onCancel,
     onLoadMoreResults,
     dispatch,

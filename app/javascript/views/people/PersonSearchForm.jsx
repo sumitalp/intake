@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Autocompleter from 'common/search/Autocompleter'
 import {withRouter} from 'react-router'
 import {PersonSearchFieldsPropType} from 'data/personSearch'
+import {isAdvancedSearchOn} from 'common/config'
 
 class PersonSearchForm extends React.Component {
   componentWillUnmount() {
@@ -10,6 +11,10 @@ class PersonSearchForm extends React.Component {
   }
 
   render() {
+    const { searchPrompt, location, ...autocompleterProps } = this.props
+    const advancedSearchFeatureFlag = isAdvancedSearchOn(location)
+    const classNameAdvancedSearchDisabled = advancedSearchFeatureFlag ? 'advanced-search-enabled' : 'advanced-search-disabled'
+
     return (
       <div className="card-height">
         <button
@@ -21,10 +26,11 @@ class PersonSearchForm extends React.Component {
           <div className="card-header">
             <h2>Search</h2>
           </div>
-          <div className={`card-body`}>
+          <div className={`card-body ${classNameAdvancedSearchDisabled}`}>
             <div className="row">
               <div className="col-md-12">
-                <Autocompleter id="screening_participants" {...this.props} />
+                {!advancedSearchFeatureFlag && <label className='pull-left autocompleter-label' htmlFor='screening_participants'>{searchPrompt}</label>}
+                <Autocompleter id="screening_participants" {...autocompleterProps} isAdvancedSearchOn={true} />
               </div>
             </div>
           </div>
@@ -45,6 +51,7 @@ PersonSearchForm.propTypes = {
     pathname: PropTypes.string,
   }),
   onCancel: PropTypes.func.isRequired,
+  onChangeAutocomplete: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func,
@@ -60,6 +67,7 @@ PersonSearchForm.propTypes = {
     })
   ),
   total: PropTypes.number,
+  searchPrompt: PropTypes.string.isRequired,
 }
 
 export {PersonSearchForm}

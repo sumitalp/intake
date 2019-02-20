@@ -62,6 +62,7 @@ export class SnapshotPage extends React.Component {
           <SnapshotIntro />
           <PersonSearchFormContainer
             onSelect={person => this.onSelectPerson(person)}
+            searchPrompt="Search for clients"
             canCreateNewPerson={false}
             isClientOnly={true}
           />

@@ -17,8 +17,10 @@ describe('PersonSearchForm', () => {
     onSelect = () => null,
     onLoadMoreResults = () => null,
     onSearch = () => null,
+    onChangeAutocomplete = () => null,
     counties = [],
     states = [],
+    searchPrompt = '',
     ...args
   }) {
     const props = {
@@ -29,8 +31,10 @@ describe('PersonSearchForm', () => {
       onSelect,
       onLoadMoreResults,
       onSearch,
+      onChangeAutocomplete,
       counties,
       states,
+      searchPrompt,
       ...args,
     }
     return shallow(<PersonSearchForm {...props} />, {
@@ -84,5 +88,23 @@ describe('PersonSearchForm', () => {
         .children('h2')
         .text()
     ).toContain('Search')
+  })
+
+  it('renders the search prompt', () => {
+    const component = renderPersonSearchForm({searchPrompt: 'Search for any person'})
+    const label = component.find('label.pull-left')
+    expect(label.text()).toContain('Search for any person')
+  })
+
+  it('adds no class when address search is enabled', () => {
+    spyOn(IntakeConfig, 'isAdvancedSearchOn').and.returnValue(true)
+    const component = renderPersonSearchForm({})
+    expect(component.find('.advanced-search-disabled').exists()).toEqual(false)
+  })
+
+  it('adds a class when address search is disabled', () => {
+    spyOn(IntakeConfig, 'isAdvancedSearchOn').and.returnValue(false)
+    const component = renderPersonSearchForm({})
+    expect(component.find('.advanced-search-disabled').exists()).toEqual(true)
   })
 })

@@ -22,23 +22,49 @@ describe('PersonSearchFields', () => {
       />
     )
 
-  it('renders a PersonSearchNameGroup component', () => {
-    const component = render()
-    expect(component.find('PersonSearchNameGroup').exists()).toBe(true)
+  describe('isAdvancedSearchOn feature toggle is On', () => {
+    let component
+    beforeEach(() => {
+      component = render({ isAdvancedSearchOn: true })
+    })
+
+    it('renders a PersonSearchNameGroup component', () => {
+      expect(component.find('PersonSearchNameGroup').exists()).toBe(true)
+    })
+
+    it('renders a PersonSearchAgeGenderGroup component', () => {
+      expect(component.find('PersonSearchAgeGenderGroup').exists()).toBe(true)
+    })
+
+    it('renders a PersonSearchLocationGroup component', () => {
+      expect(component.find('PersonSearchLocationGroup').exists()).toBe(true)
+    })
+
+    it('renders a PersonSearchButtonGroup component', () => {
+      expect(component.find('PersonSearchButtonGroup').exists()).toBe(true)
+    })
   })
 
-  it('renders a PersonSearchAgeGenderGroup component', () => {
-    const component = render()
-    expect(component.find('PersonSearchAgeGenderGroup').exists()).toBe(true)
-  })
+  describe('isAdvancedSearchOn feature toggle is Off', () => {
+    let component
+    beforeEach(() => {
+      component = render({ isAdvancedSearchOn: false })
+    })
 
-  it('renders a PersonSearchLocationGroup component', () => {
-    const component = render()
-    expect(component.find('PersonSearchLocationGroup').exists()).toBe(true)
-  })
+    it('renders a PersonSearchNameGroup component', () => {
+      expect(component.find('PersonSearchNameGroup').exists()).toBe(false)
+    })
 
-  it('renders a PersonSearchButtonGroup component', () => {
-    const component = render()
-    expect(component.find('PersonSearchButtonGroup').exists()).toBe(true)
+    it('renders a PersonSearchAgeGenderGroup component', () => {
+      expect(component.find('PersonSearchAgeGenderGroup').exists()).toBe(false)
+    })
+
+    it('renders a PersonSearchLocationGroup component', () => {
+      expect(component.find('PersonSearchLocationGroup').exists()).toBe(false)
+    })
+
+    it('renders a PersonSearchButtonGroup component', () => {
+      expect(component.find('PersonSearchButtonGroup').exists()).toBe(false)
+    })
   })
 })
