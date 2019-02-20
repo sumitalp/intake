@@ -1,6 +1,6 @@
 import React from 'react'
 import {SnapshotPage, mapDispatchToProps} from 'snapshots/SnapshotPage'
-import {clear, setSearchTerm} from 'actions/peopleSearchActions'
+import {clear, resetPersonSearch} from 'actions/peopleSearchActions'
 import {shallow} from 'enzyme'
 
 describe('SnapshotPage', () => {
@@ -73,7 +73,7 @@ describe('SnapshotPage', () => {
         props.startOver()
 
         expect(dispatch).toHaveBeenCalledWith(clear())
-        expect(dispatch).toHaveBeenCalledWith(setSearchTerm(''))
+        expect(dispatch).toHaveBeenCalledWith(resetPersonSearch())
       })
     })
   })

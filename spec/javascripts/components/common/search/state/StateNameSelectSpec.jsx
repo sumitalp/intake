@@ -1,27 +1,27 @@
-import CountyNameSelect from 'common/county/CountyNameSelect'
+import StateNameSelect from 'common/search/state/StateNameSelect'
 import React from 'react'
 import {shallow} from 'enzyme'
 
-describe('CountyNameSelect', () => {
+describe('StateNameSelect', () => {
   const render = ({
-    counties = [],
+    states = [],
     gridClassName,
-    id = 'county-select',
+    id = 'state-select',
     onChange = () => {},
     value = '',
   } = {}) => {
     const props = {
-      counties,
+      states,
       gridClassName,
       id,
       onChange,
       value,
     }
-    return shallow(<CountyNameSelect {...props} />)
+    return shallow(<StateNameSelect {...props} />)
   }
 
   const findField = component =>
-    component.find('CountySelect')
+    component.find('StateSelect')
 
   it('displays the select field', () => {
     const component = render()
@@ -29,30 +29,30 @@ describe('CountyNameSelect', () => {
   })
 
   it('passes props to the select field', () => {
-    const counties = [{code: '1', value: 'Yolo'}]
+    const states = [{code: '1', value: 'California'}]
     const component = render({
       gridClassName: 'foo',
       id: 'my-field',
-      value: 'Yolo',
-      counties,
+      value: 'California',
+      states,
     })
 
     const field = findField(component)
 
     expect(field.props().gridClassName).toEqual('foo')
     expect(field.props().id).toEqual('my-field')
-    expect(field.props().value).toEqual('Yolo')
-    expect(field.props().counties).toEqual(counties)
+    expect(field.props().value).toEqual('California')
+    expect(field.props().states).toEqual(states)
   })
 
-  it('calls back with the county name when the selection changes', () => {
+  it('calls back with the state name when the selection changes', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = render({onChange})
 
     findField(component)
       .props()
-      .onChange({code: '123', value: 'Sacramento'})
+      .onChange({code: '123', value: 'California'})
 
-    expect(onChange).toHaveBeenCalledWith('searchCounty', 'Sacramento')
+    expect(onChange).toHaveBeenCalledWith('searchState', 'California')
   })
 })

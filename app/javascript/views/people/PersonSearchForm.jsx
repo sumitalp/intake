@@ -2,37 +2,31 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Autocompleter from 'common/search/Autocompleter'
 import {withRouter} from 'react-router'
+import {PersonSearchFieldsPropType} from 'data/personSearch'
 import {isAdvancedSearchOn} from 'common/config'
 
 class PersonSearchForm extends React.Component {
   componentWillUnmount() {
-    this.props.onClear()
-    this.props.onChange('')
-    this.props.onResetAddressSearch()
+    this.props.onCancel()
   }
 
   render() {
-    const {
-      isAddressIncluded,
-      searchPrompt,
-      ...autocompleterProps
-    } = this.props
-
-    const classNameAdvancedSearchDisabled = isAdvancedSearchOn(this.props.location) ?
-      '' : 'advanced-search-disabled'
+    const {searchPrompt, location, ...autocompleterProps} = this.props
+    const advancedSearchFeatureFlag = isAdvancedSearchOn(location)
+    const classNameAdvancedSearchDisabled = advancedSearchFeatureFlag ? 'advanced-search-enabled' : 'advanced-search-disabled'
 
     return (
       <div className="card-height">
-        <button className='anchor' aria-label='search-card-anchor' id='search-card-anchor'/>
-        <div className='card double-gap-bottom hidden-print' id='search-card'>
-          <div className='card-header'>
+        <button className="anchor" aria-label="search-card-anchor" id="search-card-anchor" />
+        <div id='search-card' className="card double-gap-bottom hidden-print person-search-card">
+          <div className="card-header">
             <h2>Search</h2>
           </div>
           <div className={`card-body ${classNameAdvancedSearchDisabled}`}>
-            <div className='row'>
-              <div className='col-md-12'>
-                <label className='pull-left' htmlFor='screening_participants'>{searchPrompt}</label>
-                <Autocompleter id='screening_participants' {...autocompleterProps} isAddressIncluded={isAddressIncluded} />
+            <div className="row">
+              <div className="col-md-12">
+                {!advancedSearchFeatureFlag && <label className='pull-left autocompleter-label' htmlFor='screening_participants'>{searchPrompt}</label>}
+                <Autocompleter id="screening_participants" {...autocompleterProps} isAdvancedSearchOn={advancedSearchFeatureFlag} />
               </div>
             </div>
           </div>
@@ -44,23 +38,31 @@ class PersonSearchForm extends React.Component {
 
 PersonSearchForm.propTypes = {
   canCreateNewPerson: PropTypes.bool.isRequired,
-  isAddressIncluded: PropTypes.bool,
+  counties: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    value: PropTypes.string,
+  })),
   isSelectable: PropTypes.func,
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
+  onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onChangeCounty: PropTypes.func.isRequired,
+  onChangeAutocomplete: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func,
-  onResetAddressSearch: PropTypes.func,
   onSearch: PropTypes.func,
   onSelect: PropTypes.func,
+  personSearchFields: PersonSearchFieldsPropType,
   results: PropTypes.array,
-  searchCounty: PropTypes.string,
   searchPrompt: PropTypes.string.isRequired,
-  searchTerm: PropTypes.string,
   staffId: PropTypes.string,
+  states: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
   total: PropTypes.number,
 }
 

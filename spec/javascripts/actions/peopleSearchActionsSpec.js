@@ -2,12 +2,13 @@ import {
   clear,
   fetchFailure,
   fetchSuccess,
-  toggleAddressSearch,
   loadMoreResults,
   loadMoreResultsSuccess,
   loadMoreResultsFailure,
   search,
   setSearchTerm,
+  resetPersonSearch,
+  setPersonSearchField,
 } from 'actions/peopleSearchActions'
 import {isFSA} from 'flux-standard-action'
 
@@ -80,8 +81,18 @@ describe('peopleSearchActions', () => {
     expect(isFSA(action)).toEqual(true)
   })
 
-  it('toggleAddressSearch is FSA compliant', () => {
-    const action = toggleAddressSearch({})
+  it('resetPersonSearch is FSA compliant', () => {
+    const action = resetPersonSearch()
+    expect(isFSA(action)).toEqual(true)
+  })
+
+  it('setPersonSearchField is FSA compliant', () => {
+    const action = setPersonSearchField()
+    expect(isFSA(action)).toEqual(true)
+  })
+
+  it('setPersonSearchField with field and value is FSA compliant', () => {
+    const action = setPersonSearchField('searchTerm', 'Jane Doe')
     expect(isFSA(action)).toEqual(true)
   })
 })

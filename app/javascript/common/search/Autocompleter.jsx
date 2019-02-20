@@ -7,7 +7,8 @@ import CreateUnknownPerson from 'screenings/CreateUnknownPerson'
 import ShowMoreResults from 'common/ShowMoreResults'
 import {logEvent} from 'utils/analytics'
 import moment from 'moment'
-import SearchByAddress from 'common/SearchByAddress'
+import PersonSearchFields from 'common/search/PersonSearchFields'
+import {PersonSearchFieldsPropType} from 'data/personSearch'
 
 const MIN_SEARCHABLE_CHARS = 2
 
@@ -25,18 +26,16 @@ export default class Autocompleter extends Component {
   constructor(props) {
     super(props)
     this.state = {menuVisible: false}
-    this.onFocus = this.onFocus.bind(this)
     this.hideMenu = this.hideMenu.bind(this)
     this.onItemSelect = this.onItemSelect.bind(this)
     this.renderMenu = this.renderMenu.bind(this)
     this.onChangeInput = this.onChangeInput.bind(this)
     this.renderItem = this.renderItem.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleToggleAddressSearch = this.handleToggleAddressSearch.bind(this)
   }
 
   constructAddress() {
-    const {searchAddress, searchCity, searchCounty} = this.props
+    const {searchAddress, searchCity, searchCounty} = this.props.personSearchFields
     return {
       address: searchAddress,
       city: searchCity,
@@ -51,17 +50,12 @@ export default class Autocompleter extends Component {
   }
 
   handleSubmit() {
-    const {onClear, searchTerm} = this.props
+    const {onClear, personSearchFields} = this.props
+    const {searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth} = personSearchFields
+    const searchFields = [searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth]
+    const searchTerm = searchFields.filter(field => field).join(' ')
     onClear()
     this.searchAndFocus(searchTerm, this.constructAddress())
-  }
-
-  handleToggleAddressSearch(event) {
-    const {onClear, searchTerm, onToggleAddressSearch} = this.props
-
-    onClear()
-    if (!event.target.checked && this.isSearchable(this.props.searchTerm)) { this.searchAndFocus(searchTerm) }
-    onToggleAddressSearch(event)
   }
 
   isSearchable(value) {
@@ -74,8 +68,8 @@ export default class Autocompleter extends Component {
   }
 
   loadMoreResults() {
-    const {isAddressIncluded, onLoadMoreResults} = this.props
-    if (isAddressIncluded) {
+    const {isAdvancedSearchOn, onLoadMoreResults} = this.props
+    if (isAdvancedSearchOn) {
       onLoadMoreResults(this.constructAddress())
     } else {
       onLoadMoreResults()
@@ -85,8 +79,7 @@ export default class Autocompleter extends Component {
   }
 
   onSelect(item) {
-    this.props.onClear()
-    this.props.onChange('')
+    this.props.onCancel()
     this.props.onSelect(item)
     this.hideMenu()
   }
@@ -120,20 +113,13 @@ export default class Autocompleter extends Component {
     this.onSelect(item)
   }
 
-  onFocus() {
-    if (this.isSearchable(this.props.searchTerm) || this.props.searchAddress) {
-      this.setState({menuVisible: true})
-    } else {
-      this.hideMenu()
-    }
-  }
-
   renderMenu(items, _searchTerm, _style) {
     return (<div className='autocomplete-menu'>{items}</div>)
   }
 
   renderEachItem(item, id, isHighlighted) {
-    const {total, results, searchTerm} = this.props
+    const {total, results, personSearchFields} = this.props
+    const {searchTerm} = personSearchFields
     const key = `${item.posInSet}-of-${item.setSize}`
     if (item.suggestionHeader) {
       return (
@@ -149,54 +135,60 @@ export default class Autocompleter extends Component {
     return (
       <div id={id} key={key} className={itemClassName(isHighlighted)}>
         <PersonSuggestion {...item} />
-      </div>)
+      </div>
+    )
   }
 
-  renderItem(item, isHighlighted, _styles) {
+  renderItemButtons(item, isHighlighted, id, key) {
     const {canCreateNewPerson, results, total} = this.props
     const canLoadMoreResults = results && total > results.length
     const buttonClassName = canLoadMoreResults && canCreateNewPerson ? ' col-md-6' : ''
     const className = itemClassName(isHighlighted) + buttonClassName
+    const button = item.showMoreResults ? <ShowMoreResults /> : <CreateUnknownPerson />
+
+    return (<div id={id} key={key} className={className}>{button}</div>)
+  }
+
+  renderItem(item, isHighlighted, _styles) {
     const key = `${item.posInSet}-of-${item.setSize}`
     const id = `search-result-${key}`
+
     if (isHighlighted && this.inputRef) {
       this.inputRef.setAttribute('aria-activedescendant', id)
     }
-    if (item.showMoreResults) {
-      return (<div id={id} key={key} className={className}>
-        {<ShowMoreResults />}
-      </div>)
+
+    if (item.showMoreResults || item.createNewPerson) {
+      return this.renderItemButtons(item, isHighlighted, id, key)
     }
-    if (item.createNewPerson) {
-      return (<div id={id} key={key} className={className}>
-        {<CreateUnknownPerson />}
-      </div>)
-    }
+
     return this.renderEachItem(item, id, isHighlighted)
   }
 
   onChangeInput(_, value) {
-    const {onSearch, onChange, isAddressIncluded} = this.props
-    if (this.isSearchable(value) && !isAddressIncluded) {
+    const {onSearch, onChangeAutocomplete, isAdvancedSearchOn} = this.props
+    if (this.isSearchable(value) && !isAdvancedSearchOn) {
       onSearch(value)
       this.setState({menuVisible: true})
     } else {
       this.hideMenu()
     }
-    onChange(value)
+    onChangeAutocomplete(value)
   }
 
   renderInput(props) {
-    const newProps = {...props,
+    const newProps = {
+      ...props,
       ref: (el) => {
         this.inputRef = el
         props.ref(el)
-      }}
-    return <input {...newProps}/>
+      },
+    }
+    return <input {...newProps} />
   }
 
-  renderAutocomplete() {
-    const {searchTerm, id, results, canCreateNewPerson, total} = this.props
+  prepareAutocomplete() {
+    const {personSearchFields, id, results, canCreateNewPerson, total, isAdvancedSearchOn} = this.props
+    const {searchTerm} = personSearchFields
     const showMoreResults = {showMoreResults: 'Show More Results', posInSet: 'show-more', setSize: 'the-same'}
     const createNewPerson = {createNewPerson: 'Create New Person', posInSet: 'create-new', setSize: 'the-same'}
     const suggestionHeader = [{suggestionHeader: 'suggestion Header'}]
@@ -204,11 +196,17 @@ export default class Autocompleter extends Component {
     addPosAndSetAttr(results) // Sequentually numbering items
     const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
 
+    return {id, searchTerm, newResults, isAdvancedSearchOn}
+  }
+
+  renderAutocomplete() {
+    const {id, searchTerm, newResults, isAdvancedSearchOn} = this.prepareAutocomplete()
+
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
         getItemValue={(_) => searchTerm}
-        inputProps={{id, onFocus: this.onFocus}}
+        inputProps={{id, className: 'autocomplete-search-bar', disabled: isAdvancedSearchOn}}
         items={newResults}
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
@@ -222,54 +220,53 @@ export default class Autocompleter extends Component {
     )
   }
 
-  renderAddressSearch() {
-    const {
-      isAddressIncluded, location, searchAddress, searchCity, searchCounty, searchTerm,
-      onChangeAddress, onChangeCity, onChangeCounty} = this.props
+  renderPersonSearchFields() {
+    const {states, counties, onChange, onCancel, personSearchFields, isAdvancedSearchOn} = this.props
+
     return (
-      <SearchByAddress
-        isAddressIncluded={isAddressIncluded}
-        location={location}
-        toggleAddressSearch={this.handleToggleAddressSearch}
+      <PersonSearchFields
+        onChange={onChange}
+        onCancel={onCancel}
         onSubmit={this.handleSubmit}
-        searchAddress={searchAddress}
-        searchCity={searchCity}
-        searchCounty={searchCounty}
-        searchTerm={searchTerm}
-        onChangeAddress={onChangeAddress}
-        onChangeCity={onChangeCity}
-        onChangeCounty={onChangeCounty}
+        personSearchFields={personSearchFields}
+        states={states}
+        counties={counties}
+        isAdvancedSearchOn={isAdvancedSearchOn}
       />
     )
   }
 
   render() {
-    return (<div>{this.renderAutocomplete()}{this.renderAddressSearch()}</div>)
+    return (<div>{this.renderAutocomplete()}{this.renderPersonSearchFields()}</div>)
   }
 }
 
 Autocompleter.propTypes = {
   canCreateNewPerson: PropTypes.bool,
+  counties: PropTypes.arrayOf(PropTypes.shape({
+    code: PropTypes.string,
+    value: PropTypes.string,
+  })),
   id: PropTypes.string,
-  isAddressIncluded: PropTypes.bool,
+  isAdvancedSearchOn: PropTypes.bool,
   isSelectable: PropTypes.func,
-  location: PropTypes.shape({pathname: PropTypes.string}),
+  onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onChangeAddress: PropTypes.func.isRequired,
-  onChangeCity: PropTypes.func.isRequired,
-  onChangeCounty: PropTypes.func.isRequired,
+  onChangeAutocomplete: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
-  onToggleAddressSearch: PropTypes.func,
+  personSearchFields: PersonSearchFieldsPropType,
   results: PropTypes.array,
-  searchAddress: PropTypes.string,
-  searchCity: PropTypes.string,
-  searchCounty: PropTypes.string,
-  searchTerm: PropTypes.string,
   staffId: PropTypes.string,
   startTime: PropTypes.string,
+  states: PropTypes.arrayOf(
+    PropTypes.shape({
+      code: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
   total: PropTypes.number,
 }
 

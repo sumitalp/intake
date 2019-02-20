@@ -1,27 +1,24 @@
-import CountyNameSelect from 'common/county/CountyNameSelect'
+import ApproximateAgeUnitsSelect from 'common/search/age/ApproximateAgeUnitsSelect'
 import React from 'react'
 import {shallow} from 'enzyme'
 
-describe('CountyNameSelect', () => {
+describe('ApproximateAgeUnitsSelect', () => {
   const render = ({
-    counties = [],
     gridClassName,
-    id = 'county-select',
+    id = 'age-units-select',
     onChange = () => {},
     value = '',
   } = {}) => {
     const props = {
-      counties,
       gridClassName,
       id,
       onChange,
       value,
     }
-    return shallow(<CountyNameSelect {...props} />)
+    return shallow(<ApproximateAgeUnitsSelect {...props} />)
   }
 
-  const findField = component =>
-    component.find('CountySelect')
+  const findField = component => component.find('AgeUnitsSelect')
 
   it('displays the select field', () => {
     const component = render()
@@ -29,30 +26,31 @@ describe('CountyNameSelect', () => {
   })
 
   it('passes props to the select field', () => {
-    const counties = [{code: '1', value: 'Yolo'}]
     const component = render({
       gridClassName: 'foo',
       id: 'my-field',
-      value: 'Yolo',
-      counties,
+      value: 'hello',
     })
 
     const field = findField(component)
 
     expect(field.props().gridClassName).toEqual('foo')
     expect(field.props().id).toEqual('my-field')
-    expect(field.props().value).toEqual('Yolo')
-    expect(field.props().counties).toEqual(counties)
+    expect(field.props().value).toEqual('hello')
+    expect(field.props().units).toEqual({
+      months: 'Months',
+      years: 'Years',
+    })
   })
 
-  it('calls back with the county name when the selection changes', () => {
+  it('calls back with the units when the selection changes', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = render({onChange})
 
     findField(component)
       .props()
-      .onChange({code: '123', value: 'Sacramento'})
+      .onChange({value: 'Months'})
 
-    expect(onChange).toHaveBeenCalledWith('searchCounty', 'Sacramento')
+    expect(onChange).toHaveBeenCalledWith({value: 'Months'})
   })
 })

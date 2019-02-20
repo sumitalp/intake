@@ -4,41 +4,34 @@ import {selectParticipants} from 'selectors/participantSelectors'
 import {
   selectPeopleResults,
   selectResultsTotalValue,
-  selectSearchTermValue,
-  selectSearchAddressValue,
   selectStartTime,
-  selectSearchAddress,
-  selectSearchCity,
-  selectSearchCounty,
+  selectPersonSearchFields,
 } from 'selectors/peopleSearchSelectors'
 import {
   search,
-  setSearchTerm,
-  setSearchAddress,
-  setSearchCity,
-  setSearchCounty,
+  setPersonSearchField,
   clear,
   loadMoreResults,
-  toggleAddressSearch,
-  resetAddressSearch,
+  resetPersonSearch,
 } from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
+import {selectStates} from 'selectors/systemCodeSelectors'
+import {selectCountiesWithoutStateOfCalifornia} from 'selectors/systemCodeSelectors'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const userInfo = state.get('userInfo').toJS()
   const hasAddSensitivePerson = state.getIn(['staff', 'add_sensitive_people'])
   const hasOverride = state.getIn(['staff', 'has_state_override'])
-  const isSelectable = (person) => canUserAddClient(userInfo, hasAddSensitivePerson, person, hasOverride)
+  const isSelectable = person =>
+    canUserAddClient(userInfo, hasAddSensitivePerson, person, hasOverride)
 
   return {
+    states: selectStates(state).toJS(),
+    counties: selectCountiesWithoutStateOfCalifornia(state).toJS(),
     results: selectPeopleResults(state).toJS(),
     total: selectResultsTotalValue(state),
-    searchTerm: selectSearchTermValue(state),
-    searchAddress: selectSearchAddress(state),
-    searchCity: selectSearchCity(state),
-    searchCounty: selectSearchCounty(state),
-    isAddressIncluded: selectSearchAddressValue(state),
+    personSearchFields: selectPersonSearchFields(state),
     staffId: getStaffIdSelector(state),
     startTime: selectStartTime(state),
     participants: selectParticipants(state).toJS(),
@@ -48,26 +41,33 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const onClear = () => dispatch(clear())
-  const onChange = (value) => dispatch(setSearchTerm(value))
-  const onChangeAddress = (value) => dispatch(setSearchAddress(value))
-  const onChangeCity = (value) => dispatch(setSearchCity(value))
-  const onChangeCounty = (value) => dispatch(setSearchCounty(value))
-  const onResetAddressSearch = () => dispatch(resetAddressSearch())
-  const onSearch = (value, address) => dispatch(search(value, ownProps.isClientOnly, address))
-  const onLoadMoreResults = (address) => dispatch(loadMoreResults(ownProps.isClientOnly, address))
-  const onToggleAddressSearch = () => dispatch(toggleAddressSearch())
+  const onChangeAutocomplete = value => {
+    dispatch(setPersonSearchField('searchTerm', value))
+  }
+  const onChange = (field, value) => {
+    dispatch(setPersonSearchField(field, value))
+  }
+  const onCancel = () => {
+    dispatch(clear())
+    dispatch(resetPersonSearch())
+  }
+  const onSearch = (value, address) =>
+    dispatch(search(value, ownProps.isClientOnly, address))
+  const onLoadMoreResults = address =>
+    dispatch(loadMoreResults(ownProps.isClientOnly, address))
+
   return {
     onSearch,
     onClear,
     onChange,
-    onChangeAddress,
-    onChangeCity,
-    onChangeCounty,
+    onChangeAutocomplete,
+    onCancel,
     onLoadMoreResults,
-    onToggleAddressSearch,
-    onResetAddressSearch,
     dispatch,
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PersonSearchForm)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PersonSearchForm)

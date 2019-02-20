@@ -34,7 +34,7 @@ feature 'Snapshot relationship card' do
     let(:participant) do
       {
         id: '1',
-        first_name: 'Marge',
+        first_name: 'Juan',
         last_name: 'Simpson',
         gender: 'female',
         ssn: '',
@@ -170,8 +170,9 @@ feature 'Snapshot relationship card' do
       visit snapshot_path
 
       within '#search-card', text: 'Search' do
-        fill_in 'Search for clients', with: 'Ma'
-        page.find('strong', text: 'Marge').click
+        fill_in 'First Name', with: 'Ju'
+        click_button 'Search'
+        page.find('strong', text: 'Juan').click
       end
     end
 

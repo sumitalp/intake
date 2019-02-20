@@ -10,51 +10,51 @@ describe('PersonSearchForm', () => {
   })
 
   function renderPersonSearchForm({
+    canCreateNewPerson = false,
+    onChange = () => null,
+    onClear = () => null,
+    onCancel = () => null,
     onSelect = () => null,
     onLoadMoreResults = () => null,
-    onChange = () => null,
-    onChangeAddress = () => null,
-    onChangeCity = () => null,
-    onChangeCounty = () => null,
-    onClear = () => null,
-    onResetAddressSearch = () => null,
     onSearch = () => null,
+    onChangeAutocomplete = () => null,
+    counties = [],
+    states = [],
     searchPrompt = '',
-    canCreateNewPerson = false,
     ...args
   }) {
     const props = {
+      canCreateNewPerson,
+      onChange,
+      onClear,
+      onCancel,
       onSelect,
       onLoadMoreResults,
-      onChange,
-      onChangeAddress,
-      onChangeCity,
-      onChangeCounty,
-      onClear,
-      onResetAddressSearch,
       onSearch,
+      onChangeAutocomplete,
+      counties,
+      states,
       searchPrompt,
-      canCreateNewPerson,
       ...args,
     }
-    return shallow(<PersonSearchForm {...props}/>, {disableLifecycleMethods: true})
+    return shallow(<PersonSearchForm {...props} />, {
+      disableLifecycleMethods: true,
+    })
   }
 
   it('componentWillUnmount', () => {
-    const onClear = jasmine.createSpy('onClear')
-    const onChange = jasmine.createSpy('onChange')
-    const onResetAddressSearch = jasmine.createSpy('onResetAddressSearch')
-    const component = renderPersonSearchForm({onClear, onChange, onResetAddressSearch})
+    const onCancel = jasmine.createSpy('onCancel')
+    const component = renderPersonSearchForm({onCancel})
     component.unmount()
-    expect(onClear).toHaveBeenCalled()
-    expect(onChange).toHaveBeenCalled()
-    expect(onResetAddressSearch).toHaveBeenCalled()
+    expect(onCancel).toHaveBeenCalled()
   })
 
   it('renders a card anchor', () => {
     const component = renderPersonSearchForm({})
     expect(component.find('.anchor').exists()).toBe(true)
-    expect(component.find('button').props()['aria-label']).toEqual('search-card-anchor')
+    expect(component.find('button').props()['aria-label']).toEqual(
+      'search-card-anchor'
+    )
   })
 
   it('renders the autocompleter', () => {
@@ -70,42 +70,39 @@ describe('PersonSearchForm', () => {
     const component = renderPersonSearchForm({
       isSelectable,
       onSelect,
-      searchCounty: 'Orange',
+      personSearchFields: {searchCounty: 'Orange'},
     })
     const autocompleter = component.find('Autocompleter')
     expect(autocompleter.props().isSelectable).toEqual(isSelectable)
     expect(autocompleter.props().onSelect).toEqual(onSelect)
-    expect(autocompleter.props().searchCounty).toEqual('Orange')
+    expect(autocompleter.props().personSearchFields.searchCounty).toEqual('Orange')
+    expect(autocompleter.props().counties).toEqual([])
+    expect(autocompleter.props().states).toEqual([])
   })
 
   it('renders the card header', () => {
     const component = renderPersonSearchForm({})
-    expect(component.find('.card-header').children('h2').text()).toContain('Search')
+    expect(
+      component
+        .find('.card-header')
+        .children('h2')
+        .text()
+    ).toContain('Search')
   })
 
   it('renders the search prompt', () => {
     const component = renderPersonSearchForm({searchPrompt: 'Search for any person'})
-    const searchCard = component.find('#search-card')
-    const label = searchCard.children('.card-body').children('div').children('div').children('label')
+    const label = component.find('label.pull-left')
     expect(label.text()).toContain('Search for any person')
   })
 
-  it('calls onChangeCounty when new county is selected', () => {
-    const onChangeCounty = jasmine.createSpy('onChangeCounty')
-    const component = renderPersonSearchForm({onChangeCounty})
-
-    component.find('Autocompleter').props().onChangeCounty('Shasta')
-
-    expect(onChangeCounty).toHaveBeenCalledWith('Shasta')
-  })
-
-  it('adds no class when advanced search is enabled', () => {
+  it('adds a class when address search is enabled', () => {
     spyOn(IntakeConfig, 'isAdvancedSearchOn').and.returnValue(true)
     const component = renderPersonSearchForm({})
-    expect(component.find('.advanced-search-disabled').exists()).toEqual(false)
+    expect(component.find('.advanced-search-enabled').exists()).toEqual(true)
   })
 
-  it('adds a class when advanced search is disabled', () => {
+  it('adds a class when address search is disabled', () => {
     spyOn(IntakeConfig, 'isAdvancedSearchOn').and.returnValue(false)
     const component = renderPersonSearchForm({})
     expect(component.find('.advanced-search-disabled').exists()).toEqual(true)

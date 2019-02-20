@@ -5,7 +5,7 @@ import {createSnapshot, clearSnapshot} from 'actions/snapshotActions'
 import {clearPeople, createSnapshotPerson} from 'actions/personCardActions'
 import {
   clear as clearSearch,
-  setSearchTerm,
+  resetPersonSearch,
 } from 'actions/peopleSearchActions'
 import {clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
 import {clearRelationships} from 'actions/relationshipsActions'
@@ -122,7 +122,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(clearHistoryOfInvolvement())
     dispatch(clearRelationships())
     dispatch(clearSearch())
-    dispatch(setSearchTerm(''))
+    dispatch(resetPersonSearch())
   },
   unmount: () => {
     dispatch(clearPeople())

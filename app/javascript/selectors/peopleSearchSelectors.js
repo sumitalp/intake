@@ -1,7 +1,4 @@
-import {
-  List,
-  Map,
-} from 'immutable'
+import {List, Map} from 'immutable'
 import {
   selectCounties,
   systemCodeDisplayValue,
@@ -20,42 +17,51 @@ import {isCommaSuffix, formatHighlightedSuffix} from 'utils/nameFormatter'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import Fuse from 'fuse.js'
 
-const selectPeopleSearch = (state) => state.get('peopleSearch')
-export const selectSearchTermValue = (state) => (
+const selectPeopleSearch = state => state.get('peopleSearch')
+export const selectSearchTermValue = state =>
   selectPeopleSearch(state).get('searchTerm')
-)
-export const selectSearchAddressValue = (state) => (
-  selectPeopleSearch(state).get('isAddressIncluded')
-)
-export const selectResultsTotalValue = (state) => (
+export const selectResultsTotalValue = state =>
   selectPeopleSearch(state).get('total')
-)
-export const selectLastResultsSortValue = (state) => {
-  const lastResult = selectPeopleSearch(state).get('results').last()
+export const selectLastResultsSortValue = state => {
+  const lastResult = selectPeopleSearch(state)
+    .get('results')
+    .last()
   return lastResult.get('sort').toJS()
 }
 
-const formatSSN = (ssn) => ssn && ssn.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3')
-const formatDOB = (dob, highlight) => (highlight ? '<em>'.concat(dob, '</em>') : dob)
-const formatPhoneNumber = (phoneNumber) => (phoneNumber ? Map({
-  number: phoneNumberFormatter(phoneNumber.get('number')),
-  type: phoneNumber.get('type'),
-}) : null)
+const formatSSN = ssn => ssn && ssn.replace(/(\d{3})(\d{2})(\d{4})/, '$1-$2-$3')
+const formatDOB = (dob, highlight) =>
+  highlight ? '<em>'.concat(dob, '</em>') : dob
+const formatPhoneNumber = phoneNumber =>
+  phoneNumber ?
+    Map({
+      number: phoneNumberFormatter(phoneNumber.get('number')),
+      type: phoneNumber.get('type'),
+    }) :
+    null
 
 // Try to find a match from a list of highlights by stripping out <em> tags
-const highlightNameField = (exactName, highlights) => (highlights.find(
-  (highlight) => highlight.replace(/<(\/)?em>/g, '') === exactName
-))
-
-const maybeHighlightedField = (result, highlight, key) => highlight.getIn(
-  [key, 0],
-  highlightNameField(
-    result.get(key),
-    highlight.get('autocomplete_search_bar', List())
+const highlightNameField = (exactName, highlights) =>
+  highlights.find(
+    highlight => highlight.replace(/<(\/)?em>/g, '') === exactName
   )
-)
 
-const combineFullName = (firstName, middleName, lastName, nameSuffix, isCommaSuffix) => {
+const maybeHighlightedField = (result, highlight, key) =>
+  highlight.getIn(
+    [key, 0],
+    highlightNameField(
+      result.get(key),
+      highlight.get('autocomplete_search_bar', List())
+    )
+  )
+
+const combineFullName = (
+  firstName,
+  middleName,
+  lastName,
+  nameSuffix,
+  isCommaSuffix
+) => {
   const nameStem = [firstName, middleName, lastName].filter(Boolean).join(' ')
 
   if (nameSuffix) {
@@ -65,19 +71,25 @@ const combineFullName = (firstName, middleName, lastName, nameSuffix, isCommaSuf
   return nameStem
 }
 
-const formatFullName = (result, highlight) => combineFullName(
-  maybeHighlightedField(result, highlight, 'first_name') || result.get('first_name'),
-  maybeHighlightedField(result, highlight, 'middle_name') || result.get('middle_name'),
-  maybeHighlightedField(result, highlight, 'last_name') || result.get('last_name'),
-  formatHighlightedSuffix(maybeHighlightedField(result, highlight, 'name_suffix') || result.get('name_suffix')),
-  isCommaSuffix(result.get('name_suffix'))
-)
+const formatFullName = (result, highlight) =>
+  combineFullName(
+    maybeHighlightedField(result, highlight, 'first_name') ||
+    result.get('first_name'),
+    maybeHighlightedField(result, highlight, 'middle_name') ||
+    result.get('middle_name'),
+    maybeHighlightedField(result, highlight, 'last_name') ||
+    result.get('last_name'),
+    formatHighlightedSuffix(
+      maybeHighlightedField(result, highlight, 'name_suffix') ||
+      result.get('name_suffix')
+    ),
+    isCommaSuffix(result.get('name_suffix'))
+  )
 
-const mapCounties = (counties, countyCodes) => counties.map((county) =>
-  systemCodeDisplayValue(county.get('id'), countyCodes)
-)
+const mapCounties = (counties, countyCodes) =>
+  counties.map(county => systemCodeDisplayValue(county.get('id'), countyCodes))
 
-const hasActiveCsec = (_result) => false
+const hasActiveCsec = _result => false
 
 export const selectAkaFullName = (state, result) => {
   const akas = result.get('akas', List()).toJS()
@@ -91,7 +103,8 @@ export const selectAkaFullName = (state, result) => {
   if (!aka) {
     return null
   }
-  return ` (${aka.name_type || ''}: ${aka.first_name || ''} ${aka.last_name || ''})`
+  return ` (${aka.name_type || ''}: ${aka.first_name || ''} ${aka.last_name ||
+    ''})`
 }
 
 export const selectPeopleResults = (state) => selectPeopleSearch(state)
@@ -121,17 +134,38 @@ export const selectPeopleResults = (state) => selectPeopleSearch(state)
     })
   })
 
-export const selectStartTime = (state) => selectPeopleSearch(state)
-  .get('startTime')
+export const selectStartTime = state =>
+  selectPeopleSearch(state).get('startTime')
 
-export const selectPersonCreatedAtTime = (state) =>
-  state.get('relationshipsQueryCycleTime').toJS()
-    .map((t) => t.personCreatedAtTime)
+export const selectPersonCreatedAtTime = state =>
+  state
+    .get('relationshipsQueryCycleTime')
+    .toJS()
+    .map(t => t.personCreatedAtTime)
     .pop()
 
-export const selectSearchAddress = (state) => selectPeopleSearch(state)
-  .get('searchAddress')
-export const selectSearchCity = (state) => selectPeopleSearch(state)
-  .get('searchCity')
-export const selectSearchCounty = (state) => selectPeopleSearch(state)
-  .get('searchCounty')
+export const selectPersonSearchFields = state => {
+  const personSearchFields = {
+    searchTerm: selectPeopleSearch(state).get('searchTerm'),
+    searchLastName: selectPeopleSearch(state).get('searchLastName'),
+    searchFirstName: selectPeopleSearch(state).get('searchFirstName'),
+    searchMiddleName: selectPeopleSearch(state).get('searchMiddleName'),
+    searchClientId: selectPeopleSearch(state).get('searchClientId'),
+    searchSuffix: selectPeopleSearch(state).get('searchSuffix'),
+    searchSsn: selectPeopleSearch(state).get('searchSsn'),
+    searchDateOfBirth: selectPeopleSearch(state).get('searchDateOfBirth'),
+    searchApproximateAge: selectPeopleSearch(state).get('searchApproximateAge'),
+    searchApproximateAgeUnits: selectPeopleSearch(state).get(
+      'searchApproximateAgeUnits'
+    ),
+    searchSexAtBirth: selectPeopleSearch(state).get('searchSexAtBirth'),
+    searchAddress: selectPeopleSearch(state).get('searchAddress'),
+    searchCity: selectPeopleSearch(state).get('searchCity'),
+    searchCounty: selectPeopleSearch(state).get('searchCounty'),
+    searchState: selectPeopleSearch(state).get('searchState'),
+    searchCountry: selectPeopleSearch(state).get('searchCountry'),
+    searchZipCode: selectPeopleSearch(state).get('searchZipCode'),
+  }
+
+  return personSearchFields
+}
