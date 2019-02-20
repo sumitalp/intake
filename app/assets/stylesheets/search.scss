@@ -1,6 +1,6 @@
 @import 'constants';
 
-.search-card {
+.person-search-card {
   .card-body.advanced-search-enabled {
     input.autocomplete-search-bar {
       display: none;
@@ -173,11 +173,11 @@
     }
   }
 
-  .btn.person-search-button.cancel {
+  button.btn.person-search-button.cancel {
     float: right;
   }
 
-  .btn.person-search-button.search {
+  button.btn.person-search-button.search {
     float: right;
     margin-left: .75rem;
   }

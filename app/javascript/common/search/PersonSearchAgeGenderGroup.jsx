@@ -14,7 +14,7 @@ const PersonSearchAgeGenderGroup = ({onChange, personSearchFields}) => (
         <div className="col-md-12">
           <label
             className="person-search-label-date-of-birth"
-            htmlFor="search-date-of-birth"
+            htmlFor="search-date-of-birth_input"
           >
             Date of Birth
           </label>

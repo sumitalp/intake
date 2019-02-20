@@ -9,7 +9,6 @@ import {
   setSearchTerm,
   resetPersonSearch,
   setPersonSearchField,
-
 } from 'actions/peopleSearchActions'
 import {isFSA} from 'flux-standard-action'
 

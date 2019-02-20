@@ -17,12 +17,8 @@ class PersonSearchForm extends React.Component {
 
     return (
       <div className="card-height">
-        <button
-          className="anchor"
-          aria-label="search-card-anchor"
-          id="search-card-anchor"
-        />
-        <div className="card double-gap-bottom hidden-print search-card">
+        <button className="anchor" aria-label="search-card-anchor" id="search-card-anchor" />
+        <div id='search-card' className="card double-gap-bottom hidden-print person-search-card">
           <div className="card-header">
             <h2>Search</h2>
           </div>
