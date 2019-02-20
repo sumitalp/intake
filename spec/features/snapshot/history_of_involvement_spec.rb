@@ -7,7 +7,7 @@ feature 'Snapshot History of Involvement' do
   let(:person) do
     {
       id: '1',
-      first_name: 'Marge',
+      first_name: 'Juan',
       last_name: 'Simpson',
       gender: 'female',
       ssn: '',
@@ -310,8 +310,9 @@ feature 'Snapshot History of Involvement' do
       visit snapshot_path
 
       within '#search-card', text: 'Search' do
-        fill_in 'Search for clients', with: 'Mar'
-        find('strong', text: 'Marge').click
+        fill_in 'First Name', with: 'Ju'
+        click_button 'Search'
+        find('strong', text: 'Juan').click
       end
     end
 

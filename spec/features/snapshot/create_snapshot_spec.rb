@@ -20,7 +20,7 @@ feature 'Create Snapshot' do
     {
       id: '1',
       screening_id: new_screening[:id],
-      first_name: 'Marge',
+      first_name: 'Juan',
       last_name: 'Simpson',
       gender: 'female',
       ssn: '',
@@ -145,7 +145,8 @@ feature 'Create Snapshot' do
         stub_empty_history_for_clients [person.dig(:legacy_descriptor, :legacy_id)]
 
         within '#search-card', text: 'Search' do
-          fill_in 'Search for clients', with: 'Ma'
+          fill_in 'First Name', with: 'Ju'
+          click_button 'Search'
           page.find('strong', text: person[:first_name]).click
         end
 
@@ -209,7 +210,8 @@ feature 'Create Snapshot' do
 
         scenario 'closes when clicking Start Over button' do
           within '#search-card', text: 'Search' do
-            fill_in 'Search for clients', with: 'Ma'
+            fill_in 'First Name', with: 'Ju'
+            click_button 'Search'
             page.find('strong', text: person[:first_name])
           end
 
@@ -222,7 +224,8 @@ feature 'Create Snapshot' do
 
         scenario 'closes when clicking search result' do
           within '#search-card', text: 'Search' do
-            fill_in 'Search for clients', with: 'Ma'
+            fill_in 'First Name', with: 'Ju'
+            click_button 'Search'
             page.find('strong', text: person[:first_name]).click
           end
 
@@ -233,7 +236,8 @@ feature 'Create Snapshot' do
 
         scenario 'does not close when clicking outside search result' do
           within '#search-card', text: 'Search' do
-            fill_in 'Search for clients', with: 'Ma'
+            fill_in 'First Name', with: 'Ju'
+            click_button 'Search'
             page.find('strong', text: person[:first_name])
           end
 
@@ -289,7 +293,7 @@ feature 'Create Snapshot' do
           response.with_hits do
             [
               PersonSearchResultBuilder.build do |builder|
-                builder.with_first_name('Marge')
+                builder.with_first_name('Juan')
                 builder.with_legacy_descriptor(person[:legacy_descriptor])
               end
             ]
@@ -310,8 +314,9 @@ feature 'Create Snapshot' do
         ).and_return(json_body(person.to_json, status: 201))
 
         within '#search-card', text: 'Search' do
-          fill_in 'Search for any person', with: 'Ma'
-          click_with_js('strong', text: 'Marge')
+          fill_in 'First Name', with: 'Ju'
+          click_button 'Search'
+          click_with_js('strong', text: 'Juan')
         end
 
         within edit_participant_card_selector(person[:id]) do

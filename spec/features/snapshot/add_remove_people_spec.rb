@@ -138,7 +138,7 @@ feature 'Adding and removing a person from a snapshot' do
     visit snapshot_path
 
     within '#search-card', text: 'Search' do
-      fill_in 'Last Name', with: 'Ju'
+      fill_in 'First Name', with: 'Ju'
       click_button 'Search'
     end
 
@@ -204,7 +204,7 @@ feature 'Adding and removing a person from a snapshot' do
     visit snapshot_path
 
     within '#search-card', text: 'Search' do
-      fill_in 'Last Name', with: 'Ju'
+      fill_in 'First Name', with: 'Ju'
       click_button 'Search'
     end
 

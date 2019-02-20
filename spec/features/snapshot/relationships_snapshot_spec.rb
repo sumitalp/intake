@@ -170,7 +170,7 @@ feature 'Snapshot relationship card' do
       visit snapshot_path
 
       within '#search-card', text: 'Search' do
-        fill_in 'Last Name', with: 'Ju'
+        fill_in 'First Name', with: 'Ju'
         click_button 'Search'
         page.find('strong', text: 'Juan').click
       end
