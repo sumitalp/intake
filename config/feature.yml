@@ -9,6 +9,7 @@ development:
     enable_newrelic_analytics: true
     address_search_snapshot: false
     address_search_hotline: true
+    advanced_search: true
 
 test:
   features:
@@ -20,6 +21,7 @@ test:
     enable_newrelic_analytics: true
     address_search_snapshot: false
     address_search_hotline: true
+    advanced_search: true
 
 production:
   features:
@@ -31,3 +33,4 @@ production:
     enable_newrelic_analytics: <%= ENV.fetch('ENABLE_NEWRELIC_ANALYTICS', true) %>
     address_search_snapshot: <%= ENV.fetch('ADDRESS_SEARCH_SNAPSHOT', false) %>
     address_search_hotline: <%= ENV.fetch('ADDRESS_SEARCH_HOTLINE', true) %>
+    advanced_search: <%= ENV.fetch('ADVANCED_SEARCH', true) %>

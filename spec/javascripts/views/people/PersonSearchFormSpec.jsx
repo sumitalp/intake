@@ -96,10 +96,10 @@ describe('PersonSearchForm', () => {
     expect(label.text()).toContain('Search for any person')
   })
 
-  it('adds no class when address search is enabled', () => {
+  it('adds a class when address search is enabled', () => {
     spyOn(IntakeConfig, 'isAdvancedSearchOn').and.returnValue(true)
     const component = renderPersonSearchForm({})
-    expect(component.find('.advanced-search-disabled').exists()).toEqual(false)
+    expect(component.find('.advanced-search-enabled').exists()).toEqual(false)
   })
 
   it('adds a class when address search is disabled', () => {
