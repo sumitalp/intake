@@ -12,7 +12,7 @@ feature 'Adding and removing a person from a snapshot' do
 
   let(:participant) do
     {
-      first_name: 'Mar',
+      first_name: 'Juan',
       last_name: 'Simpson',
       gender: 'male',
       ssn: '',
@@ -138,7 +138,7 @@ feature 'Adding and removing a person from a snapshot' do
     visit snapshot_path
 
     within '#search-card', text: 'Search' do
-      fill_in 'Last Name', with: 'Ma'
+      fill_in 'Last Name', with: 'Ju'
       click_button 'Search'
     end
 
@@ -204,7 +204,7 @@ feature 'Adding and removing a person from a snapshot' do
     visit snapshot_path
 
     within '#search-card', text: 'Search' do
-      fill_in 'Last Name', with: 'Ma'
+      fill_in 'Last Name', with: 'Ju'
       click_button 'Search'
     end
 
