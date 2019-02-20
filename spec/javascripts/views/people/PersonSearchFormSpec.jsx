@@ -99,15 +99,15 @@ describe('PersonSearchForm', () => {
     expect(onChangeCounty).toHaveBeenCalledWith('Shasta')
   })
 
-  it('adds no class when address search is enabled', () => {
-    spyOn(IntakeConfig, 'isSearchByAddressOn').and.returnValue(true)
+  it('adds no class when advanced search is enabled', () => {
+    spyOn(IntakeConfig, 'isAdvancedSearchOn').and.returnValue(true)
     const component = renderPersonSearchForm({})
-    expect(component.find('.address-search-disabled').exists()).toEqual(false)
+    expect(component.find('.advanced-search-disabled').exists()).toEqual(false)
   })
 
-  it('adds a class when address search is disabled', () => {
-    spyOn(IntakeConfig, 'isSearchByAddressOn').and.returnValue(false)
+  it('adds a class when advanced search is disabled', () => {
+    spyOn(IntakeConfig, 'isAdvancedSearchOn').and.returnValue(false)
     const component = renderPersonSearchForm({})
-    expect(component.find('.address-search-disabled').exists()).toEqual(true)
+    expect(component.find('.advanced-search-disabled').exists()).toEqual(true)
   })
 })

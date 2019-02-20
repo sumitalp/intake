@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CheckboxField from 'common/CheckboxField'
 import AddressWithSearch from 'common/AddressWithSearch'
-import {isSearchByAddressOn} from 'common/config'
+import {isAdvancedSearchOn} from 'common/config'
 
 const SearchByAddress = ({
   isAddressIncluded,
@@ -17,7 +17,7 @@ const SearchByAddress = ({
   searchTerm,
   location,
 }) => (
-  isSearchByAddressOn(location) ? (
+  isAdvancedSearchOn(location) ? (
     <div>
       <div className='row'>
         <div className='col-md-3'>
