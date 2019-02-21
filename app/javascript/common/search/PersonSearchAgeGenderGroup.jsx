@@ -39,12 +39,13 @@ const PersonSearchAgeGenderGroup = ({onChange, personSearchFields}) => (
           <InputField
             id="search-approximate-age-number"
             gridClassName="col-md-3 age-number-field"
-            label="number"
+            label=""
             onChange={({target: {value}}) =>
               onChange('searchApproximateAge', value)
             }
             value={personSearchFields.searchApproximateAge}
             disabled={true}
+            placeholder='number'
           />
           <ApproximateAgeUnitsSelect
             id="search-approximate-age-units"
