@@ -45,6 +45,7 @@ const PersonSearchAgeGenderGroup = ({onChange, personSearchFields}) => (
             }
             value={personSearchFields.searchApproximateAge}
             disabled={true}
+            placeholder='number'
           />
           <ApproximateAgeUnitsSelect
             id="search-approximate-age-units"

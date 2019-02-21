@@ -28,7 +28,7 @@ class AgeUnitsSelect extends React.PureComponent {
         disabled={true}
       >
         <option key="age-unit-placeholder" value="" disabled>
-          Unit
+          unit
         </option>
         <option key="" />
         {Object.keys(units).map(key => (
