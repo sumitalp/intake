@@ -79,6 +79,7 @@ describe('PersonSearchLocationGroup', () => {
     expect(zipCode.props().id).toEqual('search-zip-code')
     expect(zipCode.props().value).toEqual('12345')
     expect(zipCode.props().disabled).toEqual(true)
+    expect(zipCode.props().placeholder).toEqual('Separate multiple zip codes with commas')
   })
 
   it('calls onChangeAddress when new address is entered', () => {
