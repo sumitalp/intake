@@ -50,7 +50,7 @@ const PersonSearchLocationGroup = ({onChange, personSearchFields, states, counti
       label="Zip Code"
       onChange={({target: {value}}) => onChange('searchZipCode', value)}
       value={personSearchFields.searchZipCode}
-      placeholder="Seperate multiple zip codes with commas"
+      placeholder="Separate multiple zip codes with commas"
       disabled={true}
     />
   </div>
