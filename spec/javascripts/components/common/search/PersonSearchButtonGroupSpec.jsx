@@ -70,6 +70,15 @@ describe('PersonSearchButtonGroup', () => {
         ).toBeFalsy()
       })
 
+      it('enables the search button with client id', () => {
+        const component = render({
+          personSearchFields: {searchClientId: '0965-9408-8355-7001109'},
+        })
+        expect(
+          component.find('button.person-search-button.search').props().disabled
+        ).toBeFalsy()
+      })
+
       it('enables the search button with ssn', () => {
         const component = render({personSearchFields: {searchSsn: '123'}})
         expect(
