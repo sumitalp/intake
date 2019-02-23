@@ -48,7 +48,6 @@ PersonSearchForm.propTypes = {
   }),
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onChangeAutocomplete: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func,
   onSearch: PropTypes.func,

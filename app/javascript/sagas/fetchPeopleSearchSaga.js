@@ -5,38 +5,81 @@ import {logEvent} from 'utils/analytics'
 import {PEOPLE_SEARCH_FETCH, fetchSuccess, fetchFailure} from 'actions/peopleSearchActions'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
 
-const addressParams = (searchAddress) => {
+const personSearchParams = (personSearchFields) => {
   const params = {}
-  if (!searchAddress) { return {} }
+  if (!personSearchFields) { return {} }
 
-  if (searchAddress.county) {
-    params.county = searchAddress.county
+  if (personSearchFields.searchTerm) {
+    params.search_term = personSearchFields.searchTerm
   }
-  if (searchAddress.city) {
-    params.city = searchAddress.city
+  if (personSearchFields.searchLastName) {
+    params.last_name = personSearchFields.searchLastName
   }
-  if (searchAddress.address) {
-    params.street = searchAddress.address
+  if (personSearchFields.searchFirstName) {
+    params.first_name = personSearchFields.searchFirstName
   }
-  return {search_address: params}
+  if (personSearchFields.searchMiddleName) {
+    params.middle_name = personSearchFields.searchMiddleName
+  }
+  if (personSearchFields.searchClientId) {
+    params.client_id = personSearchFields.searchClientId
+  }
+  if (personSearchFields.searchSuffix) {
+    params.suffix = personSearchFields.searchSuffix
+  }
+  if (personSearchFields.searchSsn) {
+    params.ssn = personSearchFields.searchSsn
+  }
+  if (personSearchFields.searchDateOfBirth) {
+    params.date_of_birth = personSearchFields.searchDateOfBirth
+  }
+  if (personSearchFields.searchApproximateAge) {
+    params.approximate_age = personSearchFields.searchApproximateAge
+  }
+  if (personSearchFields.searchApproximateAgeUnits) {
+    params.approximate_age_units = personSearchFields.searchApproximateAgeUnits
+  }
+  if (personSearchFields.searchSexAtBirth) {
+    params.sex_at_birth = personSearchFields.searchSexAtBirth
+  }
+  if (personSearchFields.searchAddress) {
+    params.street = personSearchFields.searchAddress
+  }
+  if (personSearchFields.searchCity) {
+    params.city = personSearchFields.searchCity
+  }
+  if (personSearchFields.searchCounty) {
+    params.county = personSearchFields.searchCounty
+  }
+  if (personSearchFields.searchState) {
+    params.state = personSearchFields.searchState
+  }
+  if (personSearchFields.searchCountry) {
+    params.country = personSearchFields.searchCountry
+  }
+  if (personSearchFields.searchZipCode) {
+    params.zip_code = personSearchFields.searchZipCode
+  }
+  
+  return {person_search_fields: params}
 }
 
 const searchAfterParams = (sort) => (sort ? {search_after: sort} : {})
 
-export function getPeopleEffect({searchTerm, isClientOnly, searchAddress, sort}) {
+export function getPeopleEffect({isClientOnly, isAdvancedSearchOn, personSearchFields, sort}) {
   return call(get, '/api/v1/people', {
-    search_term: searchTerm,
     is_client_only: isClientOnly,
-    ...addressParams(searchAddress),
+    is_advanced_search_on: isAdvancedSearchOn,
+    ...personSearchParams(personSearchFields),
     ...searchAfterParams(sort),
   })
 }
 
-export function* fetchPeopleSearch({payload: {searchTerm, isClientOnly, searchAddress}}) {
+export function* fetchPeopleSearch({payload: {isClientOnly, isAdvancedSearchOn, personSearchFields}}) {
   try {
     const TIME_TO_DEBOUNCE = 400
     yield call(delay, TIME_TO_DEBOUNCE)
-    const response = yield getPeopleEffect({searchTerm, isClientOnly, searchAddress})
+    const response = yield getPeopleEffect({isClientOnly, isAdvancedSearchOn, personSearchFields})
     const staffId = yield select(getStaffIdSelector)
     yield put(fetchSuccess(response))
     yield call(logEvent, 'personSearch', {

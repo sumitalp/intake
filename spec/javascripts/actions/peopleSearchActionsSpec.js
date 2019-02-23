@@ -6,7 +6,6 @@ import {
   loadMoreResultsSuccess,
   loadMoreResultsFailure,
   search,
-  setSearchTerm,
   resetPersonSearch,
   setPersonSearchField,
 } from 'actions/peopleSearchActions'
@@ -73,11 +72,6 @@ describe('peopleSearchActions', () => {
 
   it('clear is FSA compliant', () => {
     const action = clear()
-    expect(isFSA(action)).toEqual(true)
-  })
-
-  it('setSearchTerm is FSA compliant', () => {
-    const action = setSearchTerm('hello')
     expect(isFSA(action)).toEqual(true)
   })
 

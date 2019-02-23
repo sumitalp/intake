@@ -14,13 +14,16 @@ describe('fetchPeopleSearchSaga', () => {
 })
 
 describe('fetchPeopleSearch', () => {
-  const action = search('hello', true)
+  const isClientOnly = true
+  const isAdvancedSearchOn = true
+  const personSearchFields = {searchLastName: 'Doe'}
+  const action = search(isClientOnly, isAdvancedSearchOn, personSearchFields)
 
   it('finds some error during the process', () => {
     const error = 'Something went wrong'
     const peopleSeachGenerator = fetchPeopleSearch(action)
     expect(peopleSeachGenerator.next().value).toEqual(call(delay, 400))
-    expect(peopleSeachGenerator.next().value).toEqual(call(get, '/api/v1/people', {search_term: 'hello', is_client_only: true}))
+    expect(peopleSeachGenerator.next().value).toEqual(call(get, '/api/v1/people', {is_client_only: true, is_advanced_search_on: true, person_search_fields: {last_name: 'Doe'}}))
     expect(peopleSeachGenerator.throw(error).value).toEqual(put(fetchFailure('Something went wrong')))
   })
 
@@ -34,42 +37,7 @@ describe('fetchPeopleSearch', () => {
     }
     const peopleSearchGenerator = fetchPeopleSearch(action)
     expect(peopleSearchGenerator.next().value).toEqual(call(delay, 400))
-    expect(peopleSearchGenerator.next().value).toEqual(call(get, '/api/v1/people', {search_term: 'hello', is_client_only: true}))
-    expect(peopleSearchGenerator.next(searchResults).value).toEqual(
-      select(getStaffIdSelector)
-    )
-    expect(peopleSearchGenerator.next(staff_id).value).toEqual(put(fetchSuccess(searchResults)))
-    expect(peopleSearchGenerator.next().value).toEqual(call(logEvent, 'personSearch', {
-      staffId: staff_id,
-      totalResults: searchResults.hits.total,
-    }))
-  })
-
-  it('fetches people search results with address params', () => {
-    const staff_id = '0x4'
-    const searchResults = {
-      hits: {
-        total: 0,
-        hits: [],
-      },
-    }
-    const action = search('hello', true, {
-      county: 'Tuolumne',
-      city: 'Townville',
-      address: '5 Chive Drive',
-    })
-
-    const peopleSearchGenerator = fetchPeopleSearch(action)
-    expect(peopleSearchGenerator.next().value).toEqual(call(delay, 400))
-    expect(peopleSearchGenerator.next().value).toEqual(call(get, '/api/v1/people', {
-      search_term: 'hello',
-      is_client_only: true,
-      search_address: {
-        county: 'Tuolumne',
-        city: 'Townville',
-        street: '5 Chive Drive',
-      },
-    }))
+    expect(peopleSearchGenerator.next().value).toEqual(call(get, '/api/v1/people', {is_client_only: true, is_advanced_search_on: true, person_search_fields: {last_name: 'Doe'}}))
     expect(peopleSearchGenerator.next(searchResults).value).toEqual(
       select(getStaffIdSelector)
     )
@@ -84,40 +52,25 @@ describe('fetchPeopleSearch', () => {
 describe('getPeopleEffect', () => {
   it('is a call effect to the people search endpoint', () => {
     expect(getPeopleEffect({
-      searchTerm: 'foo',
       isClientOnly: true,
+      isAdvancedSearchOn: true,
+      personSearchFields: {searchFirstName: 'John'},
     })).toEqual(call(get, '/api/v1/people', {
-      search_term: 'foo',
       is_client_only: true,
-    }))
-  })
-  it('includes address params when present', () => {
-    expect(getPeopleEffect({
-      searchTerm: 'buzz',
-      isClientOnly: true,
-      searchAddress: {
-        address: 'Strawberry Fields',
-        city: 'Farmville',
-        county: 'Zynga',
-      },
-    })).toEqual(call(get, '/api/v1/people', {
-      search_term: 'buzz',
-      is_client_only: true,
-      search_address: {
-        street: 'Strawberry Fields',
-        city: 'Farmville',
-        county: 'Zynga',
-      },
+      is_advanced_search_on: true,
+      person_search_fields: {first_name: 'John'},
     }))
   })
   it('includes search_after param when present', () => {
     expect(getPeopleEffect({
-      searchTerm: 'fizz',
-      isClientOnly: false,
+      isClientOnly: true,
+      isAdvancedSearchOn: false,
+      personSearchFields: {searchAddress: '123 Main St', searchCity: 'Anywhereville', searchCounty: 'Oz'},
       sort: 'What even goes here?',
     })).toEqual(call(get, '/api/v1/people', {
-      search_term: 'fizz',
-      is_client_only: false,
+      is_client_only: true,
+      is_advanced_search_on: false,
+      person_search_fields: {street: '123 Main St', city: 'Anywhereville', county: 'Oz'},
       search_after: 'What even goes here?',
     }))
   })

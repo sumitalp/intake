@@ -5,7 +5,6 @@ import {
   fetchSuccess,
   resetPersonSearch,
   search,
-  setSearchTerm,
   setPersonSearchField,
   loadMoreResultsSuccess,
   loadMoreResultsFailure,
@@ -19,7 +18,7 @@ describe('peopleSearchReducer', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
   describe('on PEOPLE_SEARCH_FETCH', () => {
     it('updates the search term and total', () => {
-      const action = search('newSearchTerm')
+      const action = search(true, true, {searchTerm: 'newSearchTerm'})
       expect(peopleSearchReducer(Map(), action)).toEqualImmutable(
         fromJS({
           searchTerm: 'newSearchTerm',
@@ -77,47 +76,19 @@ describe('peopleSearchReducer', () => {
       )
     })
   })
-  describe('on SET_SEARCH_TERM', () => {
-    it('sets searchTerm and startTime', () => {
-      const action = setSearchTerm()
+  describe('on SET_SEARCH_FIELD', () => {
+    it('sets the search term', () => {
+      const action = setPersonSearchField('searchTerm', 'Annie Doe')
       const initialState = fromJS({
-        searchLastName: 'Bravo',
         searchTerm: '',
         total: 1,
         results: ['result_one'],
       })
-      const today = moment('2015-10-19').toDate()
-      jasmine.clock().mockDate(today)
-      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
-        fromJS({
-          searchLastName: 'Bravo',
-          searchTerm: 'Bravo',
-          total: 1,
-          results: ['result_one'],
-          startTime: today.toISOString(),
-        })
-      )
-      jasmine.clock().uninstall()
+      expect(
+        peopleSearchReducer(initialState, action).get('searchTerm')
+      ).toEqual('Annie Doe')
     })
 
-    it('resets the start time when there is no search term', () => {
-      const action = setSearchTerm('')
-      const initialState = fromJS({
-        searchTerm: '',
-        total: 0,
-        results: [],
-      })
-      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
-        fromJS({
-          searchTerm: '',
-          total: 0,
-          results: [],
-          startTime: null,
-        })
-      )
-    })
-  })
-  describe('on SET_SEARCH_LAST_NAME', () => {
     it('sets the last name', () => {
       const action = setPersonSearchField('searchLastName', 'Doe')
       const initialState = fromJS({
@@ -130,8 +101,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchLastName')
       ).toEqual('Doe')
     })
-  })
-  describe('on SET_SEARCH_FIRST_NAME', () => {
+
     it('sets the first name', () => {
       const action = setPersonSearchField('searchFirstName', 'Jane')
       const initialState = fromJS({
@@ -144,8 +114,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchFirstName')
       ).toEqual('Jane')
     })
-  })
-  describe('on SET_SEARCH_MIDDLE_NAME', () => {
+
     it('sets the middle name', () => {
       const action = setPersonSearchField('searchMiddleName', 'Bedrock')
       const initialState = fromJS({
@@ -158,8 +127,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchMiddleName')
       ).toEqual('Bedrock')
     })
-  })
-  describe('on SET_SEARCH_CLIENT_ID', () => {
+
     it('sets the client id', () => {
       const action = setPersonSearchField('searchClientId', '1')
       const initialState = fromJS({
@@ -172,8 +140,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchClientId')
       ).toEqual('1')
     })
-  })
-  describe('on SET_SEARCH_SUFFIX', () => {
+
     it('sets the suffix', () => {
       const action = setPersonSearchField('searchSuffix', 'Jr')
       const initialState = fromJS({
@@ -186,8 +153,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchSuffix')
       ).toEqual('Jr')
     })
-  })
-  describe('on SET_SEARCH_SSN', () => {
+
     it('sets the ssn', () => {
       const action = setPersonSearchField('searchSsn', '123456789')
       const initialState = fromJS({
@@ -200,8 +166,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchSsn')
       ).toEqual('123456789')
     })
-  })
-  describe('on SET_SEARCH_DATE_OF_BIRTH', () => {
+
     it('sets the date of birth', () => {
       const action = setPersonSearchField('searchDateOfBirth', '01/01/2000')
       const initialState = fromJS({
@@ -214,8 +179,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchDateOfBirth')
       ).toEqual('01/01/2000')
     })
-  })
-  describe('on SET_SEARCH_APPROXIMATE_AGE', () => {
+
     it('sets the approximate age', () => {
       const action = setPersonSearchField('searchApproximateAge', '5')
       const initialState = fromJS({
@@ -228,8 +192,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchApproximateAge')
       ).toEqual('5')
     })
-  })
-  describe('on SET_SEARCH_APPROXIMATE_AGE_UNITS', () => {
+
     it('sets the approximate age units', () => {
       const action = setPersonSearchField('searchApproximateAgeUnits', 'years')
       const initialState = fromJS({
@@ -244,8 +207,7 @@ describe('peopleSearchReducer', () => {
         )
       ).toEqual('years')
     })
-  })
-  describe('on SET_SEARCH_SEX_AT_BIRTH', () => {
+
     it('sets the sex at birth', () => {
       const action = setPersonSearchField('searchSexAtBirth', 'Female')
       const initialState = fromJS({
@@ -258,8 +220,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchSexAtBirth')
       ).toEqual('Female')
     })
-  })
-  describe('on SET_SEARCH_ADDRESS', () => {
+
     it('sets the address', () => {
       const action = setPersonSearchField('searchAddress', '123 Main St')
       const initialState = fromJS({
@@ -272,8 +233,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchAddress')
       ).toEqual('123 Main St')
     })
-  })
-  describe('on SET_SEARCH_CITY', () => {
+
     it('sets the city', () => {
       const action = setPersonSearchField('searchCity', 'Sac Town')
       const initialState = fromJS({
@@ -286,8 +246,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchCity')
       ).toEqual('Sac Town')
     })
-  })
-  describe('on SET_SEARCH_COUNTY', () => {
+
     it('sets the county', () => {
       const action = setPersonSearchField('searchCounty', 'Placer')
       const initialState = fromJS({
@@ -300,8 +259,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchCounty')
       ).toEqual('Placer')
     })
-  })
-  describe('on SET_SEARCH_STATE', () => {
+
     it('sets the US state', () => {
       const action = setPersonSearchField('searchState', 'California')
       const initialState = fromJS({
@@ -314,8 +272,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchState')
       ).toEqual('California')
     })
-  })
-  describe('on SET_SEARCH_COUNTRY', () => {
+
     it('sets the country', () => {
       const action = setPersonSearchField(
         'searchCountry',
@@ -331,8 +288,7 @@ describe('peopleSearchReducer', () => {
         peopleSearchReducer(initialState, action).get('searchCountry')
       ).toEqual('United States of America')
     })
-  })
-  describe('on SET_SEARCH_ZIP_CODE', () => {
+
     it('sets the zip code', () => {
       const action = setPersonSearchField('searchZipCode', '95776')
       const initialState = fromJS({
@@ -346,6 +302,7 @@ describe('peopleSearchReducer', () => {
       ).toEqual('95776')
     })
   })
+
   describe('on LOAD_MORE_RESULTS_COMPLETE', () => {
     const initialState = fromJS({
       searchTerm: 'newSearchTerm',
