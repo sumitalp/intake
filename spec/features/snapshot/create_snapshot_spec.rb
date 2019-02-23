@@ -314,8 +314,7 @@ feature 'Create Snapshot' do
         ).and_return(json_body(person.to_json, status: 201))
 
         within '#search-card', text: 'Search' do
-          fill_in 'First Name', with: 'Ju'
-          click_button 'Search'
+          fill_in 'Search for any person', with: 'Ju'
           click_with_js('strong', text: 'Juan')
         end
 
