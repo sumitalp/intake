@@ -49,6 +49,7 @@ module PersonSearchQueryBuilder
   def should
     [match_query('autocomplete_search_bar', formatted_query(search_term), operator: 'and',
                                                                           boost: MEDIUM_BOOST),
+     match_query('legacy_descriptor.legacy_ui_id', search_term, boost: HIGH_BOOST),
      query_string('autocomplete_search_bar', formatted_query(search_term), boost: HIGH_BOOST),
      build_query_string(search_term)].flatten.compact
   end

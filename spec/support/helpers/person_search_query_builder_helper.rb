@@ -29,6 +29,14 @@ module PersonSearchQueryBuilderHelper
               }
             },
             {
+              "match": {
+                "legacy_descriptor.legacy_ui_id": {
+                  "boost": '10',
+                  "query": 'this is test search term'
+                }
+              }
+            },
+            {
               "query_string": {
                 "boost": '10',
                 "default_field": 'autocomplete_search_bar',
@@ -191,6 +199,14 @@ module PersonSearchQueryBuilderHelper
                   "query": 'this is test search term',
                   "operator": 'and',
                   "boost": '4'
+                }
+              }
+            },
+            {
+              "match": {
+                "legacy_descriptor.legacy_ui_id": {
+                  "query": 'this is test search term',
+                  "boost": '10'
                 }
               }
             },

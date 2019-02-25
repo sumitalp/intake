@@ -48,7 +48,7 @@ describe Api::V1::PeopleController do
       end
 
       it 'returns response with the searched term' do
-        get :index, params: { search_term: 'This is test search term' }, session: session
+        get :index, params: { search_term: 'this is test search term' }, session: session
         expect(response).to be_successful
       end
     end
