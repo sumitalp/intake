@@ -40,11 +40,9 @@ const setPersonSearchField = (state, {payload}) => {
   if (state.get('startTime')) {
     return state.set(field, value)
   } else if (value) {
-    return state
-      .set(field, value)
-      .set('startTime', moment().toISOString())
+    return state.set(field, value).set('startTime', moment().toISOString())
   } else {
-    return set(field, value).set('startTime', null)
+    return state.set(field, value).set('startTime', null)
   }
 }
 
