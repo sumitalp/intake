@@ -5,12 +5,19 @@ class QueryBuilder
   include QueryBuilderHelper
 
   attr_reader :search_term, :search_after, :is_client_only,
-    :payload, :params, :city, :county, :street
+    :payload, :params, :city, :county, :street, :is_advanced_search_on,
+    :last_name, :first_name, :middle_name, :client_id, :suffix, :ssn,
+    :date_of_birth, :approximate_age, :approximate_age_units, :sex_at_birth,
+    :state, :country, :zip_code
 
   # class methods
   def self.build(params = {})
     builder = new(params)
-    builder.extend(PersonSearchQueryBuilder).build_query(builder)
+    if builder.is_advanced_search_on?
+      builder.extend(PersonAdvancedSearchQueryBuilder).build_query(builder)
+    else
+      builder.extend(PersonSearchQueryBuilder).build_query(builder)
+    end
     builder.extend(PersonSearchByAddress).build_query(builder) if builder.address_searched?
     builder
   end
@@ -24,21 +31,54 @@ class QueryBuilder
   end
 
   def initialize_search
-    @search_term    = params[:search_term]
-    @search_after   = params[:search_after]
-    @is_client_only = params.fetch(:is_client_only, 'true') == 'true'
+    @search_term              = params.dig(:person_search_fields, :search_term)
+    @last_name                = params.dig(:person_search_fields, :last_name)
+    @first_name               = params.dig(:person_search_fields, :first_name)
+    @middle_name              = params.dig(:person_search_fields, :middle_name)
+    @client_id                = params.dig(:person_search_fields, :client_id)
+    @suffix                   = params.dig(:person_search_fields, :suffix)
+    @ssn                      = params.dig(:person_search_fields, :ssn)
+    @date_of_birth            = params.dig(:person_search_fields, :date_of_birth)
+    @approximate_age          = params.dig(:person_search_fields, :approximate_age)
+    @approximate_age_units    = params.dig(:person_search_fields, :approximate_age_units)
+    @sex_at_birth             = params.dig(:person_search_fields, :sex_at_birth)
+    @search_after             = params[:search_after]
+    @is_client_only           = params.fetch(:is_client_only, 'true') == 'true'
+    @is_advanced_search_on    = params.fetch(:is_advanced_search_on, 'true') == 'true'
   end
 
   def initialize_address
     return unless address_searched?
 
-    @city = params.dig(:search_address, :city)
-    @county = params.dig(:search_address, :county)
-    @street = params.dig(:search_address, :street)
+    @street                   = params.dig(:person_search_fields, :street)
+    @city                     = params.dig(:person_search_fields, :city)
+    @county                   = params.dig(:person_search_fields, :county)
+    @state                    = params.dig(:person_search_fields, :state)
+    @country                  = params.dig(:person_search_fields, :country)
+    @zip_code                 = params.dig(:person_search_fields, :zip_code)
+  end
+
+  def is_advanced_search_on?
+    is_advanced_search_on = params.fetch(:is_advanced_search_on, 'true')
+    return is_advanced_search_on
   end
 
   def address_searched?
-    params[:search_address].to_h.values.any?(&:present?)
+    if params.dig(:person_search_fields, :street).present?
+      return true
+    elsif params.dig(:person_search_fields, :city).present?
+      return true
+    elsif params.dig(:person_search_fields, :county).present?
+      return true
+    elsif params.dig(:person_search_fields, :state).present?
+      return true
+    elsif params.dig(:person_search_fields, :country).present?
+      return true
+    elsif params.dig(:person_search_fields, :zip_code).present?
+      return true
+    else
+      return false
+    end
   end
 
   def build_query

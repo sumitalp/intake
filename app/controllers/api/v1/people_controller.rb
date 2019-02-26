@@ -37,8 +37,9 @@ module Api
       def search_params
         params.permit(:search_term,
           :is_client_only,
-          search_after: [],
-          search_address: %i[street city county])
+          :is_advanced_search_on,
+          person_search_fields: %i[search_term last_name first_name middle_name suffix ssn date_of_birth street city county],
+          search_after: [])
       end
     end
   end
