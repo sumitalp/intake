@@ -327,10 +327,10 @@ describe('<Autocompleter />', () => {
             county: '',
             city: '',
             address: '',
-          })
+          }, '')
         })
 
-        it('calls loadMoreResults with an address', () => {
+        it('calls loadMoreResults with an address and client Id', () => {
           const autocompleter = mountAutocompleter({
             results,
             onClear,
@@ -342,6 +342,7 @@ describe('<Autocompleter />', () => {
               searchCounty: 'Colusa',
               searchCity: 'Central City',
               searchAddress: 'Star Labs',
+              searchClientId: '0965-9408-8355-7001109',
             },
             isAdvancedSearchOn: true,
           })
@@ -353,7 +354,7 @@ describe('<Autocompleter />', () => {
             county: 'Colusa',
             city: 'Central City',
             address: 'Star Labs',
-          })
+          }, '0965-9408-8355-7001109')
         })
       })
     })
@@ -420,7 +421,7 @@ describe('<Autocompleter />', () => {
     it('searches when button is submitted', () => {
       const autocompleter = renderAutocompleter({
         onSearch,
-        personSearchFields: {searchLastName: 'Sandiego', searchFirstName: 'Carmen', searchAddress: '123 Main St', searchCity: 'Woodland', searchCounty: 'Yolo'},
+        personSearchFields: {searchLastName: 'Sandiego', searchFirstName: 'Carmen', searchClientId: '0965-9408-8355-7001109', searchAddress: '123 Main St', searchCity: 'Woodland', searchCounty: 'Yolo'},
       })
       const personSearchFields = autocompleter.find('PersonSearchFields')
       personSearchFields.props().onSubmit()
@@ -428,7 +429,8 @@ describe('<Autocompleter />', () => {
         address: '123 Main St',
         city: 'Woodland',
         county: 'Yolo',
-      })
+      },
+      '0965-9408-8355-7001109')
     })
 
     it('displays search results when button is submitted', () => {

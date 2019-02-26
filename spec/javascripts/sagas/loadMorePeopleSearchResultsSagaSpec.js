@@ -36,6 +36,7 @@ describe('loadMorePeopleSearch', () => {
     expect(peopleSeachGenerator.next(searchTerm).value).toEqual(select(selectLastResultsSortValue))
     expect(peopleSeachGenerator.next(lastResultSort).value).toEqual(call(get, '/api/v1/people', {
       search_term: searchTerm,
+      client_id: undefined,
       search_after: lastResultSort,
       is_client_only: false,
     }))
@@ -48,11 +49,12 @@ describe('loadMorePeopleSearch', () => {
         hits: [],
       },
     }
+    const searchClientId = '0965-9408-8355-7001109'
     const action = loadMoreResults(false, {
       county: 'Tuolumne',
       city: 'Townville',
       address: '5 Chive Drive',
-    })
+    }, searchClientId)
     const peopleSeachGenerator = loadMorePeopleSearch(action)
     expect(peopleSeachGenerator.next().value).toEqual(select(selectSearchTermValue))
     expect(peopleSeachGenerator.next(searchTerm).value).toEqual(select(selectLastResultsSortValue))
@@ -65,6 +67,7 @@ describe('loadMorePeopleSearch', () => {
         city: 'Townville',
         street: '5 Chive Drive',
       },
+      client_id: '0965-9408-8355-7001109',
     }))
     expect(peopleSeachGenerator.next(searchResults).value).toEqual(put(loadMoreResultsSuccess(searchResults)))
   })

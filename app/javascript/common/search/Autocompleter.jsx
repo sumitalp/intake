@@ -51,11 +51,11 @@ export default class Autocompleter extends Component {
 
   handleSubmit() {
     const {onClear, personSearchFields} = this.props
-    const {searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth} = personSearchFields
+    const {searchLastName, searchFirstName, searchMiddleName, searchClientId, searchSuffix, searchSsn, searchDateOfBirth} = personSearchFields
     const searchFields = [searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth]
     const searchTerm = searchFields.filter(field => field).join(' ')
     onClear()
-    this.searchAndFocus(searchTerm, this.constructAddress())
+    this.searchAndFocus(searchTerm, this.constructAddress(), searchClientId)
   }
 
   isSearchable(value) {
@@ -68,9 +68,10 @@ export default class Autocompleter extends Component {
   }
 
   loadMoreResults() {
+    const {searchClientId} = this.props.personSearchFields
     const {isAdvancedSearchOn, onLoadMoreResults} = this.props
     if (isAdvancedSearchOn) {
-      onLoadMoreResults(this.constructAddress())
+      onLoadMoreResults(this.constructAddress(), searchClientId)
     } else {
       onLoadMoreResults()
     }
