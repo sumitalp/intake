@@ -35,8 +35,8 @@ export default class Autocompleter extends Component {
   }
 
   searchAndFocus() {
-    const {isAdvancedSearchOn, personSearchFields} = this.props
-    this.props.onSearch(isAdvancedSearchOn, personSearchFields)
+    const {onSearch, isAdvancedSearchOn, personSearchFields} = this.props
+    onSearch(isAdvancedSearchOn, personSearchFields)
     this.setState({menuVisible: true})
     if (this.inputRef) { this.inputRef.focus() }
   }
@@ -151,7 +151,7 @@ export default class Autocompleter extends Component {
   onChangeInput(_, value) {
     const {onSearch, onChange, isAdvancedSearchOn} = this.props
     if (this.isSearchable(value) && !isAdvancedSearchOn) {
-      onSearch(value)
+      onSearch(isAdvancedSearchOn, {searchTerm: value})
       this.setState({menuVisible: true})
     } else {
       this.hideMenu()

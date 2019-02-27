@@ -67,13 +67,8 @@ const resetPersonSearchFields = state =>
     .set('searchZipCode', '')
 
 export default createReducer(initialState, {
-  [PEOPLE_SEARCH_FETCH](
-    state,
-    {
-      payload: {personSearchFields},
-    }
-  ) {
-    return state.set('searchTerm', personSearchFields.searchTerm).set('total', null)
+  [PEOPLE_SEARCH_FETCH](state) {
+    return state.set('total', null)
   },
   [PEOPLE_SEARCH_FETCH_COMPLETE](
     state,

@@ -17,11 +17,10 @@ import moment from 'moment'
 describe('peopleSearchReducer', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
   describe('on PEOPLE_SEARCH_FETCH', () => {
-    it('updates the search term and total', () => {
+    it('updates the total', () => {
       const action = search(true, true, {searchTerm: 'newSearchTerm'})
       expect(peopleSearchReducer(Map(), action)).toEqualImmutable(
         fromJS({
-          searchTerm: 'newSearchTerm',
           total: null,
         })
       )
@@ -77,6 +76,73 @@ describe('peopleSearchReducer', () => {
     })
   })
   describe('on SET_SEARCH_FIELD', () => {
+    describe('startTime', () => {
+      const today = moment('2015-10-19').toDate()
+
+      it('does not set the start time when it exists', () => {
+        const action = setPersonSearchField('searchLastName', 'Doe')
+        const initialState = fromJS({
+          searchTerm: '',
+          total: 1,
+          results: ['result_one'],
+          searchLastName: 'Flintstone',
+          startTime: today.toISOString(),
+        })
+        expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+          fromJS({
+            searchTerm: '',
+            total: 1,
+            results: ['result_one'],
+            searchLastName: 'Doe',
+            startTime: today.toISOString(),
+          })
+        )
+      })
+
+      it('sets the start time when the value is falsy', () => {
+        const action = setPersonSearchField('searchLastName', 'Doe')
+        const initialState = fromJS({
+          searchTerm: 'searchTerm',
+          total: 1,
+          results: ['result_one'],
+          searchLastName: 'Flintstone',
+        })
+        jasmine.clock().mockDate(today)
+        expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+          fromJS({
+            searchTerm: 'searchTerm',
+            total: 1,
+            results: ['result_one'],
+            searchLastName: 'Doe',
+            startTime: today.toISOString(),
+          })
+        )
+        jasmine.clock().uninstall()
+      })
+
+      it('resets the start time when the start time is falsy and value is falsy', () => {
+        const action = setPersonSearchField('searchLastName', '')
+        const initialState = fromJS({
+          searchTerm: '',
+          total: 0,
+          results: [],
+          searchLastName: '',
+        })
+        expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+          fromJS({
+            searchTerm: '',
+            total: 0,
+            results: [],
+            searchLastName: '',
+            startTime: null,
+          })
+        )
+      })
+    })
+
+
+    
+
     it('sets the search term', () => {
       const action = setPersonSearchField('searchTerm', 'Annie Doe')
       const initialState = fromJS({

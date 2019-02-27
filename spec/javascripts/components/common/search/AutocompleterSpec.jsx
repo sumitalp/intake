@@ -403,6 +403,81 @@ describe('<Autocompleter />', () => {
     })
   })
 
+  describe('onChangeInput', () => {
+    let searchInput
+    let onSearch
+    let onChange
+    beforeEach(() => {
+      onSearch = jasmine.createSpy('onSearch')
+      onChange = jasmine.createSpy('onChange')
+      searchInput = renderAutocompleter({onSearch, onChange})
+        .find('Autocomplete')
+        .dive()
+        .find('input')
+    })
+    describe('when user types two non whitespace characters', () => {
+      const value = 'aa'
+      beforeEach(() => searchInput.simulate('change', {target: {value}}))
+
+      it('performs a search', () => {
+        expect(onSearch).toHaveBeenCalledWith(false, {searchTerm: value})
+      })
+
+      it('calls props onChange', () => {
+        expect(onChange).toHaveBeenCalledWith('searchTerm', value)
+      })
+    })
+    describe('when search value contains a character then a whitespace', () => {
+      const value = 'a '
+      beforeEach(() => searchInput.simulate('change', {target: {value}}))
+
+      it('performs a search', () => {
+        expect(onSearch).toHaveBeenCalledWith(false, {searchTerm: value})
+      })
+
+      it('calls props onChange', () => {
+        expect(onChange).toHaveBeenCalledWith('searchTerm', value)
+      })
+    })
+    describe('when search value contains two whitespace characters', () => {
+      const value = '  '
+      beforeEach(() => searchInput.simulate('change', {target: {value}}))
+
+      it('does not perform a search', () => {
+        expect(onSearch).not.toHaveBeenCalled()
+      })
+
+      it('calls props onChange', () => {
+        expect(onChange).toHaveBeenCalledWith('searchTerm', value)
+      })
+    })
+    describe('when search value contains a whitespace then a character', () => {
+      const value = ' a'
+      beforeEach(() => searchInput.simulate('change', {target: {value}}))
+
+      it('does not perform a search', () => {
+        expect(onSearch).not.toHaveBeenCalled()
+      })
+
+      it('calls props onChange', () => {
+        expect(onChange).toHaveBeenCalledWith('searchTerm', value)
+      })
+    })
+    describe('when isAdvancedSearchOn flag is on', () => {
+      it('does not perform a search', () => {
+        const isAdvancedSearchOn = true
+        const value = 'Girish'
+        const searchInput = renderAutocompleter({onSearch, onChange, isAdvancedSearchOn})
+          .find('Autocomplete')
+          .dive()
+          .find('input')
+        searchInput.simulate('change', {target: {value}})
+
+        expect(onSearch).not.toHaveBeenCalled()
+      })
+    })
+  })
+
   describe('handleSubmit', () => {
     let onClear
     let onSearch
