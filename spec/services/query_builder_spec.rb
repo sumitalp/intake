@@ -9,8 +9,9 @@ describe QueryBuilder do
       county: 'county_search_term',
       street: 'street_number_and_name_search_term' }
   end
-
   let(:person_and_address) { PersonSearchResultBuilder.new.person_and_address }
+  let(:client_id) { '1111-1111-1111-1111111' }
+  let(:client_id_only_query) { PersonSearchResultBuilder.new.client_id_only_query }
 
   describe '.is_client_only?' do
     context 'is_client_only is true' do
@@ -108,6 +109,18 @@ describe QueryBuilder do
   end
 
   describe '#build' do
+    context 'when client_id is present' do
+      it 'returns query with client id only' do
+        result = described_class.build(client_id: client_id)
+                                .payload.as_json
+        expect(result['_source']).to eq client_id_only_query['_source']
+        expect(result['size']).to eq client_id_only_query['size']
+        expect(result['sort']).to eq client_id_only_query['sort']
+        expect(result['track_scores']).to eq client_id_only_query['track_scores']
+        expect(result['query']).to eq client_id_only_query['query']
+      end
+    end
+
     context 'when search_term and search_address are present' do
       it 'returns query with person and address' do
         result = described_class.build(search_term: search_term,

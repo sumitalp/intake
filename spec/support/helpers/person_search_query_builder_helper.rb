@@ -287,4 +287,30 @@ module PersonSearchQueryBuilderHelper
       "highlight": highlight
     }.as_json
   end
+
+  def client_id_only_query
+    {
+      "size": '10',
+      "track_scores": 'true',
+      "sort": [
+        {
+          "_score": 'desc',
+          "_uid": 'desc'
+        }
+      ],
+      "query": {
+        "bool": {
+          "must": [{
+            "match": {
+              "legacy_descriptor.legacy_ui_id": {
+                "query": '1111-1111-1111-1111111',
+                "boost": '10'
+              }
+            }
+          }]
+        }
+      },
+      "_source": source
+    }.as_json
+  end
 end

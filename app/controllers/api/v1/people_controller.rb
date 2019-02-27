@@ -35,7 +35,7 @@ module Api
       end
 
       def search_params
-        params.permit(:search_term,
+        params.permit(:search_term, :client_id,
           :is_client_only,
           search_after: [],
           search_address: %i[street city county])
