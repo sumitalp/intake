@@ -13,7 +13,7 @@ class QueryBuilder
   # class methods
   def self.build(params = {})
     builder = new(params)
-    if builder.is_advanced_search_on?
+    if builder.is_advanced_search_on
       builder.extend(PersonAdvancedSearchQueryBuilder).build_query(builder)
     else
       builder.extend(PersonSearchQueryBuilder).build_query(builder)
@@ -44,7 +44,7 @@ class QueryBuilder
     @sex_at_birth             = params.dig(:person_search_fields, :sex_at_birth)
     @search_after             = params[:search_after]
     @is_client_only           = params.fetch(:is_client_only, 'true') == 'true'
-    @is_advanced_search_on    = params.fetch(:is_advanced_search_on, 'true') == 'true'
+    @is_advanced_search_on    = params.fetch(:is_advanced_search_on, 'false') == 'false'
   end
 
   def initialize_address
@@ -58,9 +58,8 @@ class QueryBuilder
     @zip_code                 = params.dig(:person_search_fields, :zip_code)
   end
 
-  def is_advanced_search_on?
-    is_advanced_search_on = params.fetch(:is_advanced_search_on, 'true')
-    return is_advanced_search_on
+  def is_advanced_search_on
+    return params.fetch(:is_advanced_search_on, 'false') == 'true'
   end
 
   def address_searched?
