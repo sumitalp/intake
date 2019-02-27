@@ -51,8 +51,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     dispatch(clear())
     dispatch(resetPersonSearch())
   }
-  const onSearch = (value, address) =>
-    dispatch(search(value, ownProps.isClientOnly, address))
+  const onSearch = (value, address, searchDateOfBirth) =>
+    dispatch(search(value, ownProps.isClientOnly, address, searchDateOfBirth))
   const onLoadMoreResults = address =>
     dispatch(loadMoreResults(ownProps.isClientOnly, address))
 

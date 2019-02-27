@@ -11,6 +11,7 @@ class QueryBuilder
   def self.build(params = {})
     builder = new(params)
     builder.extend(PersonSearchQueryBuilder).build_query(builder)
+    # builder.extend(PersonSearchByDateOfBirth).build_query(builder)
     builder.extend(PersonSearchByAddress).build_query(builder) if builder.address_searched?
     builder
   end

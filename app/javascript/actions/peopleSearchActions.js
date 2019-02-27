@@ -14,9 +14,9 @@ export const setPersonSearchField = (field, value) => ({
   type: SET_SEARCH_FIELD,
   payload: {field, value},
 })
-export const search = (searchTerm, isClientOnly, searchAddress) => ({
+export const search = (searchTerm, isClientOnly, searchAddress, searchDateOfBirth) => ({
   type: PEOPLE_SEARCH_FETCH,
-  payload: {searchTerm, isClientOnly, searchAddress},
+  payload: {searchTerm, isClientOnly, searchAddress, searchDateOfBirth},
 })
 export const loadMoreResults = (isClientOnly, searchAddress) => ({
   type: LOAD_MORE_RESULTS,

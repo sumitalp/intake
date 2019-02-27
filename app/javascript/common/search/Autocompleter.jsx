@@ -52,10 +52,10 @@ export default class Autocompleter extends Component {
   handleSubmit() {
     const {onClear, personSearchFields} = this.props
     const {searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth} = personSearchFields
-    const searchFields = [searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth]
+    const searchFields = [searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn]
     const searchTerm = searchFields.filter(field => field).join(' ')
     onClear()
-    this.searchAndFocus(searchTerm, this.constructAddress())
+    this.searchAndFocus(searchTerm, this.constructAddress(), searchDateOfBirth)
   }
 
   isSearchable(value) {

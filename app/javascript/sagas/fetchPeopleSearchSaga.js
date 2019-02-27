@@ -23,20 +23,22 @@ const addressParams = (searchAddress) => {
 
 const searchAfterParams = (sort) => (sort ? {search_after: sort} : {})
 
-export function getPeopleEffect({searchTerm, isClientOnly, searchAddress, sort}) {
+export function getPeopleEffect({searchTerm, isClientOnly, searchAddress, searchDateOfBirth, sort}) {
+  console.log('searchDateOfBirth', searchDateOfBirth)
   return call(get, '/api/v1/people', {
     search_term: searchTerm,
+    date_of_birth: searchDateOfBirth,
     is_client_only: isClientOnly,
     ...addressParams(searchAddress),
     ...searchAfterParams(sort),
   })
 }
 
-export function* fetchPeopleSearch({payload: {searchTerm, isClientOnly, searchAddress}}) {
+export function* fetchPeopleSearch({payload: {searchTerm, isClientOnly, searchAddress, searchDateOfBirth}}) {
   try {
     const TIME_TO_DEBOUNCE = 400
     yield call(delay, TIME_TO_DEBOUNCE)
-    const response = yield getPeopleEffect({searchTerm, isClientOnly, searchAddress})
+    const response = yield getPeopleEffect({searchTerm, isClientOnly, searchAddress, searchDateOfBirth})
     const staffId = yield select(getStaffIdSelector)
     yield put(fetchSuccess(response))
     yield call(logEvent, 'personSearch', {

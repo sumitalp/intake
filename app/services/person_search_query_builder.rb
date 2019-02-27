@@ -3,7 +3,7 @@
 # PeopleSearchQueryBuilder is a service class responsible for creation
 # of an elastic search person search query
 module PersonSearchQueryBuilder
-  attr_reader :is_client_only, :search_term
+  attr_reader :is_client_only, :search_term, :date_of_birth
 
   include QueryBuilderHelper
   ATTRIBUTES = {
@@ -45,6 +45,7 @@ module PersonSearchQueryBuilder
 
     [client_only]
   end
+
 
   def should
     [match_query('autocomplete_search_bar', formatted_query(search_term), operator: 'and',
