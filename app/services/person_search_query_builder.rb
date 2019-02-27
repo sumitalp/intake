@@ -13,7 +13,6 @@ module PersonSearchQueryBuilder
     'last_name.phonetic' => LOW_BOOST,
     'first_name.diminutive' => LOW_BOOST,
     'last_name.diminutive' => LOW_BOOST,
-    'date_of_birth_as_text' => HIGH_BOOST,
     'ssn' => HIGH_BOOST,
     'name_suffix' => MEDIUM_BOOST
   }.freeze
@@ -40,10 +39,10 @@ module PersonSearchQueryBuilder
 
   def must
     # the client_only_search config option overrides the @is_client_only value
-    return [] unless Rails.configuration.intake[:client_only_search] ||
+    return [match: { 'date_of_birth_as_text' => search_term }] unless Rails.configuration.intake[:client_only_search] ||
                      is_client_only
 
-    [client_only]
+    [client_only,     { match: { 'date_of_birth_as_text' => search_term } }]
   end
 
 
