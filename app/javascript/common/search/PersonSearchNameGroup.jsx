@@ -34,7 +34,6 @@ const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
       onChange={({target: {value}}) => onChange('searchClientId', value)}
       value={personSearchFields.searchClientId}
       placeholder="xxxx - xxxx - xxxx - xxxxxxx"
-      disabled={true}
     />
     <SuffixNameSelect
       id="search-suffix"

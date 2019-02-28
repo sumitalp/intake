@@ -47,8 +47,9 @@ module PersonSearchQueryBuilder
   end
 
   def should
-    [query_string('autocomplete_search_bar', formatted_query(search_term), boost: HIGH_BOOST),
-     build_query_string(search_term)].flatten.compact
+    [match_query('autocomplete_search_bar', formatted_query(search_term), operator: 'and', boost: MEDIUM_BOOST),
+    query_string('autocomplete_search_bar', formatted_query(search_term), boost: HIGH_BOOST),
+    build_query_string(search_term)].flatten.compact
   end
 
   def client_only

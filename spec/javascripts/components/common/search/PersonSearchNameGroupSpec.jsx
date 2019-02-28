@@ -41,7 +41,6 @@ describe('PersonSearchNameGroup', () => {
     }).find('InputField[label="Client ID"]')
     expect(clientId.props().id).toEqual('search-client-id')
     expect(clientId.props().value).toEqual('1')
-    expect(clientId.props().disabled).toEqual(true)
   })
 
   it('renders suffix select', () => {
