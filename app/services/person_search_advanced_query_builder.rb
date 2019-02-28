@@ -39,7 +39,7 @@ module PersonAdvancedSearchQueryBuilder
       query_string('middle_name.diminutive', formatted_query(middle_name), boost: LOW_BOOST),
       query_string('name_suffix', formatted_query(suffix), boost: MEDIUM_BOOST),
       query_string('ssn', formatted_query(ssn), boost: HIGH_BOOST),
-      query_string('date_of_birth_as_text', formatted_query(date_of_birth), boost: HIGH_BOOST)
+      query_string('date_of_birth_as_text', formatted_date_of_birth(date_of_birth), boost: HIGH_BOOST)
     ].flatten.compact
   end
 
