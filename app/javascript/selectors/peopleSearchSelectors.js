@@ -16,6 +16,7 @@ import {
 import {isCommaSuffix, formatHighlightedSuffix} from 'utils/nameFormatter'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import Fuse from 'fuse.js'
+import {getClientIdErrors} from 'utils/clientIdValidator'
 
 const selectPeopleSearch = state => state.get('peopleSearch')
 export const selectSearchTermValue = state =>
@@ -144,6 +145,12 @@ export const selectPersonCreatedAtTime = state =>
     .map(t => t.personCreatedAtTime)
     .pop()
 
+export const selectClientIdError = (state) => {
+  const clientId = selectPeopleSearch(state).get('searchClientId') || ''
+  const clientIdWithoutHyphens = clientId.replace(/-|_/g, '')
+  return getClientIdErrors(clientIdWithoutHyphens)
+}
+
 export const selectPersonSearchFields = state => {
   const personSearchFields = {
     searchTerm: selectPeopleSearch(state).get('searchTerm'),
@@ -166,6 +173,5 @@ export const selectPersonSearchFields = state => {
     searchCountry: selectPeopleSearch(state).get('searchCountry'),
     searchZipCode: selectPeopleSearch(state).get('searchZipCode'),
   }
-
   return personSearchFields
 }

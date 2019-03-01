@@ -6,6 +6,7 @@ import {
   selectResultsTotalValue,
   selectStartTime,
   selectPersonSearchFields,
+  selectClientIdError,
 } from 'selectors/peopleSearchSelectors'
 import {
   search,
@@ -32,6 +33,7 @@ const mapStateToProps = state => {
     results: selectPeopleResults(state).toJS(),
     total: selectResultsTotalValue(state),
     personSearchFields: selectPersonSearchFields(state),
+    clientIdError: selectClientIdError(state),
     staffId: getStaffIdSelector(state),
     startTime: selectStartTime(state),
     participants: selectParticipants(state).toJS(),

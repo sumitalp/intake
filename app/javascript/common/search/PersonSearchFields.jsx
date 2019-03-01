@@ -11,6 +11,7 @@ const PersonSearchFields = ({
   onCancel,
   onSubmit,
   personSearchFields,
+  clientIdError,
   states,
   counties,
   isAdvancedSearchOn,
@@ -19,6 +20,7 @@ const PersonSearchFields = ({
     <PersonSearchNameGroup
       onChange={onChange}
       personSearchFields={personSearchFields}
+      clientIdError={clientIdError}
     />
     <PersonSearchAgeGenderGroup
       onChange={onChange}
@@ -39,6 +41,7 @@ const PersonSearchFields = ({
 ) : null
 
 PersonSearchFields.propTypes = {
+  clientIdError: PropTypes.array,
   counties: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     value: PropTypes.string,
