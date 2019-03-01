@@ -4,6 +4,7 @@ import {get} from 'utils/http'
 import {logEvent} from 'utils/analytics'
 import {PEOPLE_SEARCH_FETCH, fetchSuccess, fetchFailure} from 'actions/peopleSearchActions'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
+import {toAPIParams} from 'data/personSearch'
 
 const removeFalsy = (params) => {
   const newObj = {}
@@ -15,26 +16,7 @@ const removeFalsy = (params) => {
 
 const personSearchParams = (personSearchFields) => {
   if (!personSearchFields) { return {} }
-  const params = {
-    search_term: personSearchFields.searchTerm,
-    last_name: personSearchFields.searchLastName,
-    first_name: personSearchFields.searchFirstName,
-    middle_name: personSearchFields.searchMiddleName,
-    client_id: personSearchFields.searchClientId,
-    suffix: personSearchFields.searchSuffix,
-    ssn: personSearchFields.searchSsn,
-    date_of_birth: personSearchFields.searchDateOfBirth,
-    approximate_age: personSearchFields.searchApproximateAge,
-    approximate_age_units: personSearchFields.searchApproximateAgeUnits,
-    sex_at_birth: personSearchFields.searchSexAtBirth,
-    street: personSearchFields.searchAddress,
-    city: personSearchFields.searchCity,
-    county: personSearchFields.searchCounty,
-    state: personSearchFields.searchState,
-    country: personSearchFields.searchCountry,
-    zip_code: personSearchFields.searchZipCode,
-  }
-  return {person_search_fields: removeFalsy(params)}
+  return {person_search_fields: removeFalsy(toAPIParams(personSearchFields))}
 }
 
 const searchAfterParams = (sort) => (sort ? {search_after: sort} : {})
