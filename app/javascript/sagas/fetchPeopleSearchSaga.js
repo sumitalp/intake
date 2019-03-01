@@ -5,63 +5,36 @@ import {logEvent} from 'utils/analytics'
 import {PEOPLE_SEARCH_FETCH, fetchSuccess, fetchFailure} from 'actions/peopleSearchActions'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
 
+const removeFalsy = (params) => {
+  const newObj = {}
+  Object.keys(params).forEach((prop) => {
+    if (params[prop]) { newObj[prop] = params[prop] }
+  })
+  return newObj
+}
+
 const personSearchParams = (personSearchFields) => {
-  const params = {}
   if (!personSearchFields) { return {} }
-
-  if (personSearchFields.searchTerm) {
-    params.search_term = personSearchFields.searchTerm
+  const params = {
+    search_term: personSearchFields.searchTerm,
+    last_name: personSearchFields.searchLastName,
+    first_name: personSearchFields.searchFirstName,
+    middle_name: personSearchFields.searchMiddleName,
+    client_id: personSearchFields.searchClientId,
+    suffix: personSearchFields.searchSuffix,
+    ssn: personSearchFields.searchSsn,
+    date_of_birth: personSearchFields.searchDateOfBirth,
+    approximate_age: personSearchFields.searchApproximateAge,
+    approximate_age_units: personSearchFields.searchApproximateAgeUnits,
+    sex_at_birth: personSearchFields.searchSexAtBirth,
+    street: personSearchFields.searchAddress,
+    city: personSearchFields.searchCity,
+    county: personSearchFields.searchCounty,
+    state: personSearchFields.searchState,
+    country: personSearchFields.searchCountry,
+    zip_code: personSearchFields.searchZipCode,
   }
-  if (personSearchFields.searchLastName) {
-    params.last_name = personSearchFields.searchLastName
-  }
-  if (personSearchFields.searchFirstName) {
-    params.first_name = personSearchFields.searchFirstName
-  }
-  if (personSearchFields.searchMiddleName) {
-    params.middle_name = personSearchFields.searchMiddleName
-  }
-  if (personSearchFields.searchClientId) {
-    params.client_id = personSearchFields.searchClientId
-  }
-  if (personSearchFields.searchSuffix) {
-    params.suffix = personSearchFields.searchSuffix
-  }
-  if (personSearchFields.searchSsn) {
-    params.ssn = personSearchFields.searchSsn
-  }
-  if (personSearchFields.searchDateOfBirth) {
-    params.date_of_birth = personSearchFields.searchDateOfBirth
-  }
-  if (personSearchFields.searchApproximateAge) {
-    params.approximate_age = personSearchFields.searchApproximateAge
-  }
-  if (personSearchFields.searchApproximateAgeUnits) {
-    params.approximate_age_units = personSearchFields.searchApproximateAgeUnits
-  }
-  if (personSearchFields.searchSexAtBirth) {
-    params.sex_at_birth = personSearchFields.searchSexAtBirth
-  }
-  if (personSearchFields.searchAddress) {
-    params.street = personSearchFields.searchAddress
-  }
-  if (personSearchFields.searchCity) {
-    params.city = personSearchFields.searchCity
-  }
-  if (personSearchFields.searchCounty) {
-    params.county = personSearchFields.searchCounty
-  }
-  if (personSearchFields.searchState) {
-    params.state = personSearchFields.searchState
-  }
-  if (personSearchFields.searchCountry) {
-    params.country = personSearchFields.searchCountry
-  }
-  if (personSearchFields.searchZipCode) {
-    params.zip_code = personSearchFields.searchZipCode
-  }
-
-  return {person_search_fields: params}
+  return {person_search_fields: removeFalsy(params)}
 }
 
 const searchAfterParams = (sort) => (sort ? {search_after: sort} : {})
