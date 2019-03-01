@@ -36,7 +36,6 @@ module Api
 
       def search_params
         params.permit(
-          :search_term,
           :is_client_only,
           :is_advanced_search_on,
           search_after: [],

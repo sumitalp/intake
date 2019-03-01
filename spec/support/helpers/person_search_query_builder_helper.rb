@@ -20,15 +20,6 @@ module PersonSearchQueryBuilderHelper
           ],
           "should": [
             {
-              "match": {
-                "autocomplete_search_bar": {
-                  "query": 'this is test search term',
-                  "operator": 'and',
-                  "boost": '4'
-                }
-              }
-            },
-            {
               "query_string": {
                 "boost": '10',
                 "default_field": 'autocomplete_search_bar',
@@ -185,15 +176,6 @@ module PersonSearchQueryBuilderHelper
             }
           ],
           "should": [
-            {
-              "match": {
-                "autocomplete_search_bar": {
-                  "query": 'this is test search term',
-                  "operator": 'and',
-                  "boost": '4'
-                }
-              }
-            },
             {
               "query_string": {
                 "default_field": 'autocomplete_search_bar',

@@ -11,15 +11,6 @@ module QueryBuilderHelper
   TRACK_SCORES = 'true'
   REQUIRE_FIELD_MATCH = 'false'
 
-  def formatted_date_of_birth(string)
-    return if string.nil?
-    date = DateTime.parse(string)
-    formatted_date = date.strftime('%m-%d-%Y')
-    formatted_date.to_s.downcase
-          .gsub(%r{[-/]*(\d+)[-/]*}, '\1')
-          .gsub(/[_%]/, '_' => '?', '%' => '*')
-  end
-
   def formatted_query(string)
     string.to_s.downcase
           .gsub(%r{[-/]*(\d+)[-/]*}, '\1')

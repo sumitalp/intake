@@ -9,7 +9,7 @@ describe Api::V1::PeopleController do
   end
   let(:people) { double(:search_response, as_json: 'search response') }
   let(:params) do
-    { search_term: 'foobarbaz', search_address:  { street: '123 main street' } }
+    { person_search_fields: { search_term: 'foobarbaz', street: '123 main street' } }
   end
   let(:request_payload) { PersonSearchResultBuilder.new.person_only_query }
 
@@ -48,7 +48,7 @@ describe Api::V1::PeopleController do
       end
 
       it 'returns response with the searched term' do
-        get :index, params: { search_term: 'This is test search term' }, session: session
+        get :index, params: { person_search_fields: { search_term: 'This is test search term' } }, session: session
         expect(response).to be_successful
       end
     end

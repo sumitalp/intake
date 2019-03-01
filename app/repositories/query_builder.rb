@@ -14,7 +14,9 @@ class QueryBuilder
   def self.build(params = {})
     builder = new(params)
     if builder.is_advanced_search_on
-      builder.extend(PersonAdvancedSearchQueryBuilder).build_query(builder)
+      builder.extend(PersonSearchNameQueryBuilder).build_query(builder)
+      builder.extend(PersonSearchSsnQueryBuilder).build_query(builder)
+      builder.extend(PersonSearchAgeGenderQueryBuilder).build_query(builder)
     else
       builder.extend(PersonSearchQueryBuilder).build_query(builder)
     end

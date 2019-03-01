@@ -7,6 +7,7 @@ module PersonSearchQueryBuilder
 
   include QueryBuilderHelper
   ATTRIBUTES = {
+    'autocomplete_search_bar' => HIGH_BOOST,
     'first_name' => MEDIUM_BOOST,
     'last_name' => MEDIUM_BOOST,
     'first_name.phonetic' => LOW_BOOST,
@@ -47,8 +48,7 @@ module PersonSearchQueryBuilder
   end
 
   def should
-    [query_string('autocomplete_search_bar', formatted_query(search_term), boost: HIGH_BOOST),
-     build_query_string(search_term)].flatten.compact
+    [build_query_string(search_term)].flatten.compact
   end
 
   def client_only
