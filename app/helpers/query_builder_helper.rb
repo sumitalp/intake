@@ -16,8 +16,8 @@ module QueryBuilderHelper
     date = DateTime.parse(string)
     formatted_date = date.strftime('%m-%d-%Y')
     formatted_date.to_s.downcase
-          .gsub(%r{[-/]*(\d+)[-/]*}, '\1')
-          .gsub(/[_%]/, '_' => '?', '%' => '*')
+                  .gsub(%r{[-/]*(\d+)[-/]*}, '\1')
+                  .gsub(/[_%]/, '_' => '?', '%' => '*')
   end
 
   def formatted_query(string)

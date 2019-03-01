@@ -5,7 +5,6 @@ import {
   loadMorePeopleSearch,
 } from 'sagas/loadMorePeopleSearchResultsSaga'
 import {
-  selectSearchTermValue,
   selectLastResultsSortValue,
 } from 'selectors/peopleSearchSelectors'
 import {

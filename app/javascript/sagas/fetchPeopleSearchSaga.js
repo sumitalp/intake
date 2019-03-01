@@ -60,7 +60,7 @@ const personSearchParams = (personSearchFields) => {
   if (personSearchFields.searchZipCode) {
     params.zip_code = personSearchFields.searchZipCode
   }
-  
+
   return {person_search_fields: params}
 }
 

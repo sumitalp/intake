@@ -36,7 +36,7 @@ const initialState = fromJS({
 
 const setPersonSearchField = (state, {payload}) => {
   const {field, value} = payload
-  
+
   if (state.get('startTime')) {
     return state.set(field, value)
   } else if (value) {

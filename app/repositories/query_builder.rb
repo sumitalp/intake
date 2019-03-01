@@ -24,9 +24,9 @@ class QueryBuilder
   end
 
   def initialize_search
-    @search_term  = params.dig(:person_search_fields, :search_term)
-    @search_after  = params.dig(:person_search_fields, :search_after)
-    @is_client_only  = params.fetch(:is_client_only, 'true') == 'true'
+    @search_term = params.dig(:person_search_fields, :search_term)
+    @search_after = params.dig(:person_search_fields, :search_after)
+    @is_client_only = params.fetch(:is_client_only, 'true') == 'true'
   end
 
   def initialize_address
