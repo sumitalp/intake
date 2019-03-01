@@ -140,9 +140,6 @@ describe('peopleSearchReducer', () => {
       })
     })
 
-
-    
-
     it('sets the search term', () => {
       const action = setPersonSearchField('searchTerm', 'Annie Doe')
       const initialState = fromJS({
