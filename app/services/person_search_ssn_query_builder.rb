@@ -18,4 +18,4 @@ module PersonSearchSsnQueryBuilder
   def should
     [query_string('ssn', formatted_query(ssn), boost: HIGH_BOOST)].flatten.compact
   end
-  end
+end

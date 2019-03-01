@@ -8,6 +8,31 @@ module PersonSearchNameQueryBuilder
 
   include QueryBuilderHelper
 
+  ATTRIBUTES = {
+    'last_name' => MEDIUM_BOOST,
+    'first_name' => MEDIUM_BOOST,
+    'middle_name' => MEDIUM_BOOST,
+    'last_name.phonetic' => LOW_BOOST,
+    'first_name.phonetic' => LOW_BOOST,
+    'middle_name.phonetic' => LOW_BOOST,
+    'last_name.diminutive' => LOW_BOOST,
+    'first_name.diminutive' => LOW_BOOST,
+    'middle_name.diminutive' => LOW_BOOST
+  }.freeze
+
+  def build_query_string(last_name, first_name, middle_name)
+    ATTRIBUTES.map do |k, v|
+      if k.include? 'last_name'
+        value = last_name
+      elsif k.include? 'first_name'
+        value = first_name
+      elsif k.include? 'middle_name'
+        value = middle_name
+      end
+      query_string(k, formatted_query(value), boost: v)
+    end
+  end
+
   def build_query(builder)
     builder.payload[:query] = query
   end
@@ -26,15 +51,7 @@ module PersonSearchNameQueryBuilder
 
   def should
     [
-      query_string('last_name', formatted_query(last_name), boost: MEDIUM_BOOST),
-      query_string('first_name', formatted_query(first_name), boost: MEDIUM_BOOST),
-      query_string('middle_name', formatted_query(middle_name), boost: MEDIUM_BOOST),
-      query_string('last_name.phonetic', formatted_query(last_name), boost: LOW_BOOST),
-      query_string('first_name.phonetic', formatted_query(first_name), boost: LOW_BOOST),
-      query_string('middle_name.phonetic', formatted_query(middle_name), boost: LOW_BOOST),
-      query_string('last_name.diminutive', formatted_query(last_name), boost: LOW_BOOST),
-      query_string('first_name.diminutive', formatted_query(first_name), boost: LOW_BOOST),
-      query_string('middle_name.diminutive', formatted_query(middle_name), boost: LOW_BOOST),
+      build_query_string(last_name, first_name, middle_name),
       query_string('name_suffix', formatted_query(suffix), boost: MEDIUM_BOOST)
     ].flatten.compact
   end

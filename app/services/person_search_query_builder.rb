@@ -6,6 +6,7 @@ module PersonSearchQueryBuilder
   attr_reader :is_client_only, :search_term
 
   include QueryBuilderHelper
+
   ATTRIBUTES = {
     'autocomplete_search_bar' => HIGH_BOOST,
     'first_name' => MEDIUM_BOOST,
@@ -18,12 +19,6 @@ module PersonSearchQueryBuilder
     'ssn' => HIGH_BOOST,
     'name_suffix' => MEDIUM_BOOST
   }.freeze
-
-  def build_match_query(string)
-    ATTRIBUTES.map do |k, v|
-      match_query(k, formatted_query(string), boost: v)
-    end
-  end
 
   def build_query_string(string)
     ATTRIBUTES.map do |k, v|

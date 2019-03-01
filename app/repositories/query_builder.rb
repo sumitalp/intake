@@ -13,7 +13,7 @@ class QueryBuilder
   # class methods
   def self.build(params = {})
     builder = new(params)
-    if builder.is_advanced_search_on
+    if builder.advanced_search_on?
       builder.extend(PersonSearchNameQueryBuilder).build_query(builder)
       builder.extend(PersonSearchSsnQueryBuilder).build_query(builder)
       builder.extend(PersonSearchAgeGenderQueryBuilder).build_query(builder)
@@ -28,30 +28,37 @@ class QueryBuilder
   def initialize(params = {})
     @params = params.with_indifferent_access
     initialize_search
+    initialize_name_client_id_ssn
+    initialize_age_gender
     initialize_address
     @payload = build_query
   end
 
   def initialize_search
     @search_term              = params.dig(:person_search_fields, :search_term)
-    @last_name                = params.dig(:person_search_fields, :last_name)
-    @first_name               = params.dig(:person_search_fields, :first_name)
-    @middle_name              = params.dig(:person_search_fields, :middle_name)
-    @client_id                = params.dig(:person_search_fields, :client_id)
-    @suffix                   = params.dig(:person_search_fields, :suffix)
-    @ssn                      = params.dig(:person_search_fields, :ssn)
-    @date_of_birth            = params.dig(:person_search_fields, :date_of_birth)
-    @approximate_age          = params.dig(:person_search_fields, :approximate_age)
-    @approximate_age_units    = params.dig(:person_search_fields, :approximate_age_units)
-    @sex_at_birth             = params.dig(:person_search_fields, :sex_at_birth)
     @search_after             = params[:search_after]
     @is_client_only           = params.fetch(:is_client_only, 'true') == 'true'
     @is_advanced_search_on    = params.fetch(:is_advanced_search_on, 'false') == 'false'
   end
 
+  def initialize_name_client_id_ssn
+    @last_name                = params.dig(:person_search_fields, :last_name)
+    @first_name               = params.dig(:person_search_fields, :first_name)
+    @middle_name              = params.dig(:person_search_fields, :middle_name)
+    @suffix                   = params.dig(:person_search_fields, :suffix)
+    @client_id                = params.dig(:person_search_fields, :client_id)
+    @ssn                      = params.dig(:person_search_fields, :ssn)
+  end
+
+  def initialize_age_gender
+    @date_of_birth            = params.dig(:person_search_fields, :date_of_birth)
+    @approximate_age          = params.dig(:person_search_fields, :approximate_age)
+    @approximate_age_units    = params.dig(:person_search_fields, :approximate_age_units)
+    @sex_at_birth             = params.dig(:person_search_fields, :sex_at_birth)
+  end
+
   def initialize_address
     return unless address_searched?
-
     @street                   = params.dig(:person_search_fields, :street)
     @city                     = params.dig(:person_search_fields, :city)
     @county                   = params.dig(:person_search_fields, :county)
@@ -60,26 +67,19 @@ class QueryBuilder
     @zip_code                 = params.dig(:person_search_fields, :zip_code)
   end
 
-  def is_advanced_search_on
+  def advanced_search_on?
     params.fetch(:is_advanced_search_on, 'false') == 'true'
   end
 
   def address_searched?
-    if params.dig(:person_search_fields, :street).present?
-      true
-    elsif params.dig(:person_search_fields, :city).present?
-      true
-    elsif params.dig(:person_search_fields, :county).present?
-      true
-    elsif params.dig(:person_search_fields, :state).present?
-      true
-    elsif params.dig(:person_search_fields, :country).present?
-      true
-    elsif params.dig(:person_search_fields, :zip_code).present?
-      true
-    else
-      false
-    end
+    [
+      params.dig(:person_search_fields, :street),
+      params.dig(:person_search_fields, :city),
+      params.dig(:person_search_fields, :county),
+      params.dig(:person_search_fields, :state),
+      params.dig(:person_search_fields, :country),
+      params.dig(:person_search_fields, :zip_code)
+    ].any?(&:present?)
   end
 
   def build_query

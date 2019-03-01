@@ -17,6 +17,12 @@ module PersonSearchAgeGenderQueryBuilder
   end
 
   def should
-    [query_string('date_of_birth_as_text', formatted_query(format_date(date_of_birth)), boost: HIGH_BOOST)].flatten.compact
+    [
+      query_string(
+        'date_of_birth_as_text',
+        formatted_query(format_date(date_of_birth)),
+        boost: HIGH_BOOST
+      )
+    ].flatten.compact
   end
 end

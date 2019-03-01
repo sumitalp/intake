@@ -39,7 +39,10 @@ module Api
           :is_client_only,
           :is_advanced_search_on,
           search_after: [],
-          person_search_fields: %i[search_term last_name first_name middle_name suffix ssn date_of_birth street city county]
+          person_search_fields: %i[
+            search_term last_name first_name middle_name
+            suffix ssn date_of_birth street city county
+          ]
         )
       end
     end
