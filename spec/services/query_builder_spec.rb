@@ -3,9 +3,10 @@
 require 'rails_helper'
 
 describe QueryBuilder do
-  let(:search_term) { 'this is test search term' }
-  let(:search_address) do
-    { city: 'city_search_term',
+  # let(:search_term) { 'this is test search term' }
+  let(:person_search_fields) do
+    { search_term: 'this is test search term',
+      city: 'city_search_term',
       county: 'county_search_term',
       street: 'street_number_and_name_search_term' }
   end
@@ -110,8 +111,7 @@ describe QueryBuilder do
   describe '#build' do
     context 'when search_term and search_address are present' do
       it 'returns query with person and address' do
-        result = described_class.build(search_term: search_term,
-                                       search_address: search_address)
+        result = described_class.build(person_search_fields: person_search_fields)
                                 .payload.as_json
         expect(result['_source']).to eq person_and_address['_source']
         expect(result['size']).to eq person_and_address['size']
