@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ModuleLength
 module PersonSearchSsnQueryBuilderHelper
   def ssn_query
     {

@@ -61,24 +61,24 @@ class QueryBuilder
   end
 
   def is_advanced_search_on
-    return params.fetch(:is_advanced_search_on, 'false') == 'true'
+    params.fetch(:is_advanced_search_on, 'false') == 'true'
   end
 
   def address_searched?
     if params.dig(:person_search_fields, :street).present?
-      return true
+      true
     elsif params.dig(:person_search_fields, :city).present?
-      return true
+      true
     elsif params.dig(:person_search_fields, :county).present?
-      return true
+      true
     elsif params.dig(:person_search_fields, :state).present?
-      return true
+      true
     elsif params.dig(:person_search_fields, :country).present?
-      return true
+      true
     elsif params.dig(:person_search_fields, :zip_code).present?
-      return true
+      true
     else
-      return false
+      false
     end
   end
 

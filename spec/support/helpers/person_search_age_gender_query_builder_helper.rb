@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ModuleLength
 module PersonSearchAgeGenderQueryBuilderHelper
   def date_of_birth_query
     {
