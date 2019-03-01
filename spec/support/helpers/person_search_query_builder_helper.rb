@@ -20,6 +20,14 @@ module PersonSearchQueryBuilderHelper
           ],
           "should": [
             {
+              "match": {
+                "legacy_descriptor.legacy_ui_id": {
+                  "boost": '10',
+                  "query": 'this is test search term'
+                }
+              }
+            },
+            {
               "query_string": {
                 "boost": '10',
                 "default_field": 'autocomplete_search_bar',
@@ -177,6 +185,14 @@ module PersonSearchQueryBuilderHelper
           ],
           "should": [
             {
+              "match": {
+                "legacy_descriptor.legacy_ui_id": {
+                  "boost": '10',
+                  "query": 'this is test search term'
+                }
+              }
+            },
+            {
               "query_string": {
                 "default_field": 'autocomplete_search_bar',
                 "query": 'this is test search term',
@@ -251,6 +267,32 @@ module PersonSearchQueryBuilderHelper
       },
       "_source": source,
       "highlight": highlight
+    }.as_json
+  end
+
+  def client_id_only_query
+    {
+      "size": '10',
+      "track_scores": 'true',
+      "sort": [
+        {
+          "_score": 'desc',
+          "_uid": 'desc'
+        }
+      ],
+      "query": {
+        "bool": {
+          "must": [{
+            "match": {
+              "legacy_descriptor.legacy_ui_id": {
+                "query": '1111-1111-1111-1111111',
+                "boost": '10'
+              }
+            }
+          }]
+        }
+      },
+      "_source": source
     }.as_json
   end
 end

@@ -37,11 +37,13 @@ describe('PersonSearchNameGroup', () => {
 
   it('renders client id input field with label Client ID', () => {
     const clientId = render({
-      personSearchFields: {searchClientId: '1'},
-    }).find('InputField[label="Client ID"]')
+      personSearchFields: {searchClientId: '0965-9408-8355-7001109'},
+    }).find('MaskedInputField[label="Client ID"]')
     expect(clientId.props().id).toEqual('search-client-id')
-    expect(clientId.props().value).toEqual('1')
-    expect(clientId.props().disabled).toEqual(true)
+    expect(clientId.props().value).toEqual('0965-9408-8355-7001109')
+    expect(clientId.props().label).toEqual('Client ID')
+    expect(clientId.props().mask).toEqual('1111-1111-1111-1111111')
+    expect(clientId.props().maxLength).toEqual('19')
   })
 
   it('renders suffix select', () => {

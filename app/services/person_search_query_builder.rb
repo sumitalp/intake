@@ -43,7 +43,8 @@ module PersonSearchQueryBuilder
   end
 
   def should
-    [build_query_string(search_term)].flatten.compact
+     match_query('legacy_descriptor.legacy_ui_id', search_term, boost: HIGH_BOOST),
+     build_query_string(search_term)].flatten.compact
   end
 
   def client_only

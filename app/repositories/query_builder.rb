@@ -5,22 +5,21 @@ class QueryBuilder
   include QueryBuilderHelper
 
   attr_reader :search_term, :search_after, :is_client_only,
-    :payload, :params, :city, :county, :street, :is_advanced_search_on,
-    :last_name, :first_name, :middle_name, :client_id, :suffix, :ssn,
-    :date_of_birth, :approximate_age, :approximate_age_units, :sex_at_birth,
-    :state, :country, :zip_code
+    :payload, :params, :city, :county, :street
 
   # class methods
   def self.build(params = {})
     builder = new(params)
-    if builder.advanced_search_on?
+    if builder.client_id_searched?
+      builder.extend(PersonSearchByClientId).build_query(builder)
+    elsif builder.advanced_search_on?
       builder.extend(PersonSearchNameQueryBuilder).build_query(builder)
       builder.extend(PersonSearchSsnQueryBuilder).build_query(builder)
       builder.extend(PersonSearchByDateOfBirth).build_query(builder)
     else
       builder.extend(PersonSearchQueryBuilder).build_query(builder)
+      builder.extend(PersonSearchByAddress).build_query(builder) if builder.address_searched?
     end
-    builder.extend(PersonSearchByAddress).build_query(builder) if builder.address_searched?
     builder
   end
 
@@ -28,7 +27,8 @@ class QueryBuilder
   def initialize(params = {})
     @params = params.with_indifferent_access
     initialize_search
-    initialize_name_client_id_ssn
+    initialize_client_id
+    initialize_name_ssn
     initialize_age_gender
     initialize_address
     @payload = build_query
@@ -40,13 +40,17 @@ class QueryBuilder
     @is_client_only           = params.fetch(:is_client_only, 'true') == 'true'
     @is_advanced_search_on    = params.fetch(:is_advanced_search_on, 'false') == 'false'
   end
+  
+  def initialize_client_id
+    return unless client_id_searched?
+    @client_id = params.dig(:person_search_fields, :client_id)
+  end
 
-  def initialize_name_client_id_ssn
+  def initialize_name_ssn
     @last_name                = params.dig(:person_search_fields, :last_name)
     @first_name               = params.dig(:person_search_fields, :first_name)
     @middle_name              = params.dig(:person_search_fields, :middle_name)
     @suffix                   = params.dig(:person_search_fields, :suffix)
-    @client_id                = params.dig(:person_search_fields, :client_id)
     @ssn                      = params.dig(:person_search_fields, :ssn)
   end
 
@@ -80,6 +84,10 @@ class QueryBuilder
       params.dig(:person_search_fields, :country),
       params.dig(:person_search_fields, :zip_code)
     ].any?(&:present?)
+  end
+
+  def client_id_searched?
+    params.dig(:person_search_fields, :client_id).present?
   end
 
   def build_query

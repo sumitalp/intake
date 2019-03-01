@@ -3,7 +3,7 @@
 # PeopleSearchByAddress is a service class responsible for creation
 # of an elastic search person search query
 module PersonSearchByAddress
-  attr_reader :county, :city, :street, :state, :country, :zip_code
+  attr_reader :county, :city, :street
   include QueryBuilderHelper
 
   def build_query(builder)
