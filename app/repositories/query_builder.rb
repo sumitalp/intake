@@ -10,8 +10,12 @@ class QueryBuilder
   # class methods
   def self.build(params = {})
     builder = new(params)
-    builder.extend(PersonSearchQueryBuilder).build_query(builder)
-    builder.extend(PersonSearchByAddress).build_query(builder) if builder.address_searched?
+    if builder.client_id_searched?
+      builder.extend(PersonSearchByClientId).build_query(builder)
+    else
+      builder.extend(PersonSearchQueryBuilder).build_query(builder)
+      builder.extend(PersonSearchByAddress).build_query(builder) if builder.address_searched?
+    end
     builder
   end
 
@@ -19,6 +23,7 @@ class QueryBuilder
   def initialize(params = {})
     @params = params.with_indifferent_access
     initialize_search
+    initialize_client_id
     initialize_address
     @payload = build_query
   end
@@ -37,10 +42,20 @@ class QueryBuilder
     @county = params.dig(:person_search_fields, :county)
   end
 
+  def initialize_client_id
+    return unless client_id_searched?
+
+    @client_id = params.dig(:person_search_fields, :client_id)
+  end
+
   def address_searched?
-    params[:person_search_fields].key?(:street) ||
-      params[:person_search_fields].key?(:city) ||
-      params[:person_search_fields].key?(:county)
+    params.dig(:person_search_fields, :street).present? ||
+      params.dig(:person_search_fields, :city).present? ||
+      params.dig(:person_search_fields, :county).present?
+  end
+
+  def client_id_searched?
+    params.dig(:person_search_fields, :client_id).present?
   end
 
   def build_query
