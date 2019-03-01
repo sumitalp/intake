@@ -8,7 +8,7 @@ describe QueryBuilder do
       city: 'city_search_term',
       county: 'county_search_term',
       street: 'street_number_and_name_search_term',
-      client_id: '1111-1111-1111-1111111' }
+      client_id: '1111111111111111111' }
   end
 
   let(:person_search_fields) do
