@@ -5,6 +5,26 @@ import {shallow, mount} from 'enzyme'
 import * as Analytics from 'utils/analytics'
 import moment from 'moment'
 
+const defaultPersonSearchFields = {
+  searchTerm: '',
+  searchAddress: '',
+  searchApproximateAge: '',
+  searchApproximateAgeUnits: '',
+  searchCity: '',
+  searchClientId: '',
+  searchCountry: '',
+  searchCounty: '',
+  searchDateOfBirth: '',
+  searchFirstName: '',
+  searchSexAtBirth: '',
+  searchLastName: '',
+  searchMiddleName: '',
+  searchSsn: '',
+  searchState: '',
+  searchSuffix: '',
+  searchZipCode: '',
+}
+
 describe('<Autocompleter />', () => {
   function mountAutocompleter({
     canCreateNewPerson = true,
@@ -16,32 +36,13 @@ describe('<Autocompleter />', () => {
     onLoadMoreResults = () => null,
     onSearch = () => null,
     onSelect = () => null,
-    personSearchFields = {
-      searchTerm: '',
-      searchAddress: '',
-      searchApproximateAge: '',
-      searchApproximateAgeUnits: '',
-      searchCity: '',
-      searchClientId: '',
-      searchCountry: '',
-      searchCounty: '',
-      searchDateOfBirth: '',
-      searchFirstName: '',
-      searchSexAtBirth: '',
-      searchLastName: '',
-      searchMiddleName: '',
-      searchSsn: '',
-      searchState: '',
-      searchSuffix: '',
-      searchZipCode: '',
-    },
+    personSearchFields = defaultPersonSearchFields,
     results = [],
     staffId = '0x3',
     total = 0,
     states = [],
     counties = [],
     isAdvancedSearchOn = false,
-    onChangeAutocomplete = () => null,
   }) {
     return mount(
       <Autocompleter
@@ -62,7 +63,6 @@ describe('<Autocompleter />', () => {
         states={states}
         counties={counties}
         isAdvancedSearchOn={isAdvancedSearchOn}
-        onChangeAutocomplete={onChangeAutocomplete}
       />
     )
   }
@@ -100,7 +100,6 @@ describe('<Autocompleter />', () => {
     states = [],
     counties = [],
     isAdvancedSearchOn = false,
-    onChangeAutocomplete = () => null,
   }) {
     return shallow(
       <Autocompleter
@@ -120,7 +119,6 @@ describe('<Autocompleter />', () => {
         states={states}
         counties={counties}
         isAdvancedSearchOn={isAdvancedSearchOn}
-        onChangeAutocomplete={onChangeAutocomplete}
       />,
       {disableLifecycleMethods: true}
     )
@@ -237,7 +235,7 @@ describe('<Autocompleter />', () => {
             .simulate('click', null)
         })
 
-        it('calls loadMoreResults', () => {
+        it('calls onLoadMoreResults', () => {
           expect(onLoadMoreResults).toHaveBeenCalled()
         })
 
@@ -310,7 +308,7 @@ describe('<Autocompleter />', () => {
       })
 
       describe('isAdvancedSearchOn feature toggle is On', () => {
-        it('calls loadMoreResults', () => {
+        it('calls onLoadMoreResults', () => {
           const autocompleter = mountAutocompleter({
             results,
             onClear,
@@ -323,14 +321,10 @@ describe('<Autocompleter />', () => {
             .find('Autocomplete')
             .props()
             .onSelect('_value', {showMoreResults: true})
-          expect(onLoadMoreResults).toHaveBeenCalledWith({
-            county: '',
-            city: '',
-            address: '',
-          })
+          expect(onLoadMoreResults).toHaveBeenCalledWith(true, defaultPersonSearchFields)
         })
 
-        it('calls loadMoreResults with an address', () => {
+        it('calls onLoadMoreResults with an address', () => {
           const autocompleter = mountAutocompleter({
             results,
             onClear,
@@ -349,10 +343,11 @@ describe('<Autocompleter />', () => {
             .find('Autocomplete')
             .props()
             .onSelect('_value', {showMoreResults: true})
-          expect(onLoadMoreResults).toHaveBeenCalledWith({
-            county: 'Colusa',
-            city: 'Central City',
-            address: 'Star Labs',
+          expect(onLoadMoreResults).toHaveBeenCalledWith(true, {
+            searchState: '',
+            searchCounty: 'Colusa',
+            searchCity: 'Central City',
+            searchAddress: 'Star Labs',
           })
         })
       })
@@ -408,6 +403,81 @@ describe('<Autocompleter />', () => {
     })
   })
 
+  describe('onChangeInput', () => {
+    let searchInput
+    let onSearch
+    let onChange
+    beforeEach(() => {
+      onSearch = jasmine.createSpy('onSearch')
+      onChange = jasmine.createSpy('onChange')
+      searchInput = renderAutocompleter({onSearch, onChange})
+        .find('Autocomplete')
+        .dive()
+        .find('input')
+    })
+    describe('when user types two non whitespace characters', () => {
+      const value = 'aa'
+      beforeEach(() => searchInput.simulate('change', {target: {value}}))
+
+      it('performs a search', () => {
+        expect(onSearch).toHaveBeenCalledWith(false, {searchTerm: value})
+      })
+
+      it('calls props onChange', () => {
+        expect(onChange).toHaveBeenCalledWith('searchTerm', value)
+      })
+    })
+    describe('when search value contains a character then a whitespace', () => {
+      const value = 'a '
+      beforeEach(() => searchInput.simulate('change', {target: {value}}))
+
+      it('performs a search', () => {
+        expect(onSearch).toHaveBeenCalledWith(false, {searchTerm: value})
+      })
+
+      it('calls props onChange', () => {
+        expect(onChange).toHaveBeenCalledWith('searchTerm', value)
+      })
+    })
+    describe('when search value contains two whitespace characters', () => {
+      const value = '  '
+      beforeEach(() => searchInput.simulate('change', {target: {value}}))
+
+      it('does not perform a search', () => {
+        expect(onSearch).not.toHaveBeenCalled()
+      })
+
+      it('calls props onChange', () => {
+        expect(onChange).toHaveBeenCalledWith('searchTerm', value)
+      })
+    })
+    describe('when search value contains a whitespace then a character', () => {
+      const value = ' a'
+      beforeEach(() => searchInput.simulate('change', {target: {value}}))
+
+      it('does not perform a search', () => {
+        expect(onSearch).not.toHaveBeenCalled()
+      })
+
+      it('calls props onChange', () => {
+        expect(onChange).toHaveBeenCalledWith('searchTerm', value)
+      })
+    })
+    describe('when isAdvancedSearchOn flag is on', () => {
+      it('does not perform a search', () => {
+        const isAdvancedSearchOn = true
+        const value = 'Girish'
+        const searchInput = renderAutocompleter({onSearch, onChange, isAdvancedSearchOn})
+          .find('Autocomplete')
+          .dive()
+          .find('input')
+        searchInput.simulate('change', {target: {value}})
+
+        expect(onSearch).not.toHaveBeenCalled()
+      })
+    })
+  })
+
   describe('handleSubmit', () => {
     let onClear
     let onSearch
@@ -420,14 +490,17 @@ describe('<Autocompleter />', () => {
     it('searches when button is submitted', () => {
       const autocompleter = renderAutocompleter({
         onSearch,
+        isAdvancedSearchOn: true,
         personSearchFields: {searchLastName: 'Sandiego', searchFirstName: 'Carmen', searchAddress: '123 Main St', searchCity: 'Woodland', searchCounty: 'Yolo'},
       })
       const personSearchFields = autocompleter.find('PersonSearchFields')
       personSearchFields.props().onSubmit()
-      expect(onSearch).toHaveBeenCalledWith('Sandiego Carmen', {
-        address: '123 Main St',
-        city: 'Woodland',
-        county: 'Yolo',
+      expect(onSearch).toHaveBeenCalledWith(true, {
+        searchLastName: 'Sandiego',
+        searchFirstName: 'Carmen',
+        searchAddress: '123 Main St',
+        searchCity: 'Woodland',
+        searchCounty: 'Yolo',
       })
     })
 

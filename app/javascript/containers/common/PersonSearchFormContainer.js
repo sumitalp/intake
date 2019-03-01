@@ -41,9 +41,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const onClear = () => dispatch(clear())
-  const onChangeAutocomplete = value => {
-    dispatch(setPersonSearchField('searchTerm', value))
-  }
   const onChange = (field, value) => {
     dispatch(setPersonSearchField(field, value))
   }
@@ -51,16 +48,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     dispatch(clear())
     dispatch(resetPersonSearch())
   }
-  const onSearch = (value, address) =>
-    dispatch(search(value, ownProps.isClientOnly, address))
-  const onLoadMoreResults = address =>
-    dispatch(loadMoreResults(ownProps.isClientOnly, address))
+  const onSearch = (isAvancedSearchOn, personSearchFields) =>
+    dispatch(search(ownProps.isClientOnly, isAvancedSearchOn, personSearchFields))
+  const onLoadMoreResults = (isAvancedSearchOn, personSearchFields) =>
+    dispatch(loadMoreResults(ownProps.isClientOnly, isAvancedSearchOn, personSearchFields))
 
   return {
     onSearch,
     onClear,
     onChange,
-    onChangeAutocomplete,
     onCancel,
     onLoadMoreResults,
     dispatch,

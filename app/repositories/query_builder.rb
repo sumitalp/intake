@@ -10,8 +10,12 @@ class QueryBuilder
   # class methods
   def self.build(params = {})
     builder = new(params)
-    builder.extend(PersonSearchQueryBuilder).build_query(builder)
-    builder.extend(PersonSearchByAddress).build_query(builder) if builder.address_searched?
+    if builder.client_id_searched?
+      builder.extend(PersonSearchByClientId).build_query(builder)
+    else
+      builder.extend(PersonSearchQueryBuilder).build_query(builder)
+      builder.extend(PersonSearchByAddress).build_query(builder) if builder.address_searched?
+    end
     builder
   end
 
@@ -19,26 +23,39 @@ class QueryBuilder
   def initialize(params = {})
     @params = params.with_indifferent_access
     initialize_search
+    initialize_client_id
     initialize_address
     @payload = build_query
   end
 
   def initialize_search
-    @search_term    = params[:search_term]
-    @search_after   = params[:search_after]
+    @search_term = params.dig(:person_search_fields, :search_term)
+    @search_after = params[:search_after]
     @is_client_only = params.fetch(:is_client_only, 'true') == 'true'
   end
 
   def initialize_address
     return unless address_searched?
 
-    @city = params.dig(:search_address, :city)
-    @county = params.dig(:search_address, :county)
-    @street = params.dig(:search_address, :street)
+    @street = params.dig(:person_search_fields, :street)
+    @city = params.dig(:person_search_fields, :city)
+    @county = params.dig(:person_search_fields, :county)
+  end
+
+  def initialize_client_id
+    return unless client_id_searched?
+
+    @client_id = params.dig(:person_search_fields, :client_id)
   end
 
   def address_searched?
-    params[:search_address].to_h.values.any?(&:present?)
+    params.dig(:person_search_fields, :street).present? ||
+      params.dig(:person_search_fields, :city).present? ||
+      params.dig(:person_search_fields, :county).present?
+  end
+
+  def client_id_searched?
+    params.dig(:person_search_fields, :client_id).present?
   end
 
   def build_query

@@ -34,28 +34,16 @@ export default class Autocompleter extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  constructAddress() {
-    const {searchAddress, searchCity, searchCounty} = this.props.personSearchFields
-    return {
-      address: searchAddress,
-      city: searchCity,
-      county: searchCounty,
-    }
-  }
-
-  searchAndFocus(...searchArgs) {
-    this.props.onSearch(...searchArgs)
+  searchAndFocus() {
+    const {onSearch, isAdvancedSearchOn, personSearchFields} = this.props
+    onSearch(isAdvancedSearchOn, personSearchFields)
     this.setState({menuVisible: true})
     if (this.inputRef) { this.inputRef.focus() }
   }
 
   handleSubmit() {
-    const {onClear, personSearchFields} = this.props
-    const {searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth} = personSearchFields
-    const searchFields = [searchLastName, searchFirstName, searchMiddleName, searchSuffix, searchSsn, searchDateOfBirth]
-    const searchTerm = searchFields.filter(field => field).join(' ')
-    onClear()
-    this.searchAndFocus(searchTerm, this.constructAddress())
+    this.props.onClear()
+    this.searchAndFocus()
   }
 
   isSearchable(value) {
@@ -68,12 +56,8 @@ export default class Autocompleter extends Component {
   }
 
   loadMoreResults() {
-    const {isAdvancedSearchOn, onLoadMoreResults} = this.props
-    if (isAdvancedSearchOn) {
-      onLoadMoreResults(this.constructAddress())
-    } else {
-      onLoadMoreResults()
-    }
+    const {onLoadMoreResults, isAdvancedSearchOn, personSearchFields} = this.props
+    onLoadMoreResults(isAdvancedSearchOn, personSearchFields)
     this.element_ref.setIgnoreBlur(true)
     if (this.inputRef) { this.inputRef.focus() }
   }
@@ -165,14 +149,14 @@ export default class Autocompleter extends Component {
   }
 
   onChangeInput(_, value) {
-    const {onSearch, onChangeAutocomplete, isAdvancedSearchOn} = this.props
+    const {onSearch, onChange, isAdvancedSearchOn} = this.props
     if (this.isSearchable(value) && !isAdvancedSearchOn) {
-      onSearch(value)
+      onSearch(isAdvancedSearchOn, {searchTerm: value})
       this.setState({menuVisible: true})
     } else {
       this.hideMenu()
     }
-    onChangeAutocomplete(value)
+    onChange('searchTerm', value)
   }
 
   renderInput(props) {
@@ -252,7 +236,6 @@ Autocompleter.propTypes = {
   isSelectable: PropTypes.func,
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onChangeAutocomplete: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,

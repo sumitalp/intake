@@ -5,7 +5,6 @@ import {
   PEOPLE_SEARCH_FETCH,
   PEOPLE_SEARCH_FETCH_COMPLETE,
   RESET_PERSON_SEARCH,
-  SET_SEARCH_TERM,
   SET_SEARCH_FIELD,
   LOAD_MORE_RESULTS_COMPLETE,
 } from 'actions/peopleSearchActions'
@@ -35,34 +34,16 @@ const initialState = fromJS({
   defaultCounty: null,
 })
 
-const setSearchTerm = state => {
-  const searchCriteria = [
-    state.get('searchLastName'),
-    state.get('searchFirstName'),
-    state.get('searchMiddleName'),
-    state.get('searchSuffix'),
-    state.get('searchSsn'),
-    state.get('searchDateOfBirth'),
-  ]
-  const searchTerm = searchCriteria
-    .join(' ')
-    .trim()
-    .replace(/  +/g, ' ')
-
-  if (state.get('startTime')) {
-    return state.set('searchTerm', searchTerm)
-  } else if (searchTerm) {
-    return state
-      .set('searchTerm', searchTerm)
-      .set('startTime', moment().toISOString())
-  } else {
-    return state.set('searchTerm', searchTerm).set('startTime', null)
-  }
-}
-
 const setPersonSearchField = (state, {payload}) => {
   const {field, value} = payload
-  return state.set(field, value)
+
+  if (state.get('startTime')) {
+    return state.set(field, value)
+  } else if (value) {
+    return state.set(field, value).set('startTime', moment().toISOString())
+  } else {
+    return state.set(field, value).set('startTime', null)
+  }
 }
 
 const resetPersonSearchFields = state =>
@@ -86,13 +67,8 @@ const resetPersonSearchFields = state =>
     .set('searchZipCode', '')
 
 export default createReducer(initialState, {
-  [PEOPLE_SEARCH_FETCH](
-    state,
-    {
-      payload: {searchTerm},
-    }
-  ) {
-    return state.set('searchTerm', searchTerm).set('total', null)
+  [PEOPLE_SEARCH_FETCH](state) {
+    return state.set('total', null)
   },
   [PEOPLE_SEARCH_FETCH_COMPLETE](
     state,
@@ -113,7 +89,6 @@ export default createReducer(initialState, {
       .set('startTime', null)
       .set('total', null)
   },
-  [SET_SEARCH_TERM]: setSearchTerm,
   [SET_SEARCH_FIELD]: setPersonSearchField,
   [FETCH_USER_INFO_COMPLETE](
     state,
