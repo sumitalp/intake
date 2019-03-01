@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import InputField from 'common/InputField'
+import MaskedInputField from 'common/MaskedInputField'
 import SuffixNameSelect from 'common/search/suffix/SuffixNameSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
@@ -27,13 +28,15 @@ const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
       onChange={({target: {value}}) => onChange('searchMiddleName', value)}
       value={personSearchFields.searchMiddleName}
     />
-    <InputField
+    <MaskedInputField
       id="search-client-id"
       label="Client ID"
       gridClassName="col-md-4 client-id-field"
       onChange={({target: {value}}) => onChange('searchClientId', value)}
       value={personSearchFields.searchClientId}
-      placeholder="xxxx - xxxx - xxxx - xxxxxxx"
+      mask='1111-1111-1111-1111111'
+      placeholder='____-____-____-_______'
+      maxLength='19'
     />
     <SuffixNameSelect
       id="search-suffix"
