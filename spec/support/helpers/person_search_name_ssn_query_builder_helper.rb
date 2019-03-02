@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module PersonSearchNameQueryBuilderHelper
+module PersonSearchNameSsnQueryBuilderHelper
   def name_query
     {
       "size": '10',
@@ -89,6 +89,13 @@ module PersonSearchNameQueryBuilderHelper
                 "boost": '4',
                 "default_field": 'name_suffix',
                 "query": 'this is test search term'
+              }
+            },
+            {
+              "query_string": {
+                "default_field": 'ssn',
+                "query": '123456789',
+                "boost": '10'
               }
             }
           ]
