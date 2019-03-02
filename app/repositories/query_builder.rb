@@ -12,7 +12,8 @@ class QueryBuilder
     if builder.client_id_searched?
       builder.extend(PersonSearchByClientId).build_query(builder)
     elsif builder.advanced_search_on?
-      builder.extend(PersonSearchNameSsnQueryBuilder).build_query(builder)
+      builder.extend(PersonSearchNameQueryBuilder).build_query(builder)
+      builder.extend(PersonSearchSsnQueryBuilder).build_query(builder)
       builder.extend(PersonSearchByDateOfBirth).build_query(builder)
     else
       builder.extend(PersonSearchQueryBuilder).build_query(builder)
@@ -22,8 +23,8 @@ class QueryBuilder
   def self.build(params = {})
     builder = new(params)
     build_base(builder)
-    if builder.address_searched? && builder.client_id_searched?.blank?
-      builder.extend(PersonSearchByAddress).build_query(builder) if builder.address_searched?
+    if builder.client_id_searched?.blank? && builder.address_searched?
+      builder.extend(PersonSearchByAddress).build_query(builder)
     end
     builder
   end

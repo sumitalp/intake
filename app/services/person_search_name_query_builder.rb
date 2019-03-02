@@ -2,9 +2,8 @@
 
 # PeopleSearchQueryBuilder is a service class responsible for creation
 # of an elastic search person search query
-module PersonSearchNameSsnQueryBuilder
-  attr_reader :is_client_only, :last_name, :first_name,
-    :middle_name, :suffix, :ssn
+module PersonSearchNameQueryBuilder
+  attr_reader :is_client_only, :last_name, :first_name, :middle_name, :suffix
 
   include QueryBuilderHelper
 
@@ -52,8 +51,7 @@ module PersonSearchNameSsnQueryBuilder
   def should
     [
       build_query_string(last_name, first_name, middle_name),
-      query_string('name_suffix', formatted_query(suffix), boost: MEDIUM_BOOST),
-      query_string('ssn', formatted_query(ssn), boost: HIGH_BOOST)
+      query_string('name_suffix', formatted_query(suffix), boost: MEDIUM_BOOST)
     ].flatten.compact
   end
 
