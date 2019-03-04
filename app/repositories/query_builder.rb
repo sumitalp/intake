@@ -43,7 +43,6 @@ class QueryBuilder
     @search_term              = params.dig(:person_search_fields, :search_term)
     @search_after             = params[:search_after]
     @is_client_only           = params.fetch(:is_client_only, 'true') == 'true'
-    @is_advanced_search_on    = params.fetch(:is_advanced_search_on, 'false') == 'false'
   end
 
   def initialize_name_ssn_client_id

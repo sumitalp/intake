@@ -15,15 +15,43 @@ describe QueryBuilder do
   end
 
   let(:person_search_fields_with_name) do
-    { last_name: 'last_name',
-      first_name: 'first_name',
-      middle_name: 'middle_name',
+    { last_name: 'last name',
+      first_name: 'first name',
+      middle_name: 'middle name',
       suffix: 'suffix' }
+  end
+
+  let(:person_search_fields_with_name_ssn) do
+    { last_name: 'last name',
+      first_name: 'first name',
+      middle_name: 'middle name',
+      suffix: 'suffix',
+      ssn: '123-45-6789' }
+  end
+
+  let(:person_search_fields_with_name_dob) do
+    { last_name: 'last name',
+      first_name: 'first name',
+      middle_name: 'middle name',
+      suffix: 'suffix',
+      date_of_birth: '1989/05/05' }
+  end
+
+  let(:person_search_fields_with_name_ssn_dob) do
+    { last_name: 'last name',
+      first_name: 'first name',
+      middle_name: 'middle name',
+      suffix: 'suffix',
+      ssn: '123-45-6789',
+      date_of_birth: '1989/05/05' }
   end
 
   let(:person_and_address) { PersonSearchResultBuilder.new.person_and_address }
   let(:client_id_only_query) { PersonSearchResultBuilder.new.client_id_only_query }
   let(:name_query) { PersonSearchResultBuilder.new.name_query }
+  let(:name_ssn_query) { PersonSearchResultBuilder.new.name_ssn_query }
+  let(:name_date_of_birth_query) { PersonSearchResultBuilder.new.name_date_of_birth_query }
+  let(:name_ssn_date_of_birth_query) { PersonSearchResultBuilder.new.name_ssn_date_of_birth_query }
 
   describe '.is_client_only?' do
     context 'is_client_only is true' do
@@ -135,13 +163,51 @@ describe QueryBuilder do
 
     context 'when advanced search feature flag is on' do
       it 'returns query with name' do
-        result = described_class.build(person_search_fields: person_search_fields_with_name)
-                                .payload.as_json
+        result = described_class.build(
+          is_advanced_search_on: 'true',
+          person_search_fields: person_search_fields_with_name
+        ).payload.as_json
         expect(result['_source']).to eq name_query['_source']
         expect(result['size']).to eq name_query['size']
         expect(result['sort']).to eq name_query['sort']
         expect(result['track_scores']).to eq name_query['track_scores']
         expect(result['query']).to eq name_query['query']
+      end
+
+      it 'returns query with name and ssn' do
+        result = described_class.build(
+          is_advanced_search_on: 'true',
+          person_search_fields: person_search_fields_with_name_ssn
+        ).payload.as_json
+        expect(result['_source']).to eq name_ssn_query['_source']
+        expect(result['size']).to eq name_ssn_query['size']
+        expect(result['sort']).to eq name_ssn_query['sort']
+        expect(result['track_scores']).to eq name_ssn_query['track_scores']
+        expect(result['query']).to eq name_ssn_query['query']
+      end
+
+      it 'returns query with name and date of birth' do
+        result = described_class.build(
+          is_advanced_search_on: 'true',
+          person_search_fields: person_search_fields_with_name_dob
+        ).payload.as_json
+        expect(result['_source']).to eq name_date_of_birth_query['_source']
+        expect(result['size']).to eq name_date_of_birth_query['size']
+        expect(result['sort']).to eq name_date_of_birth_query['sort']
+        expect(result['track_scores']).to eq name_date_of_birth_query['track_scores']
+        expect(result['query']).to eq name_date_of_birth_query['query']
+      end
+
+      it 'returns query with name, ssn, and date of birth' do
+        result = described_class.build(
+          is_advanced_search_on: 'true',
+          person_search_fields: person_search_fields_with_name_ssn_dob
+        ).payload.as_json
+        expect(result['_source']).to eq name_ssn_date_of_birth_query['_source']
+        expect(result['size']).to eq name_ssn_date_of_birth_query['size']
+        expect(result['sort']).to eq name_ssn_date_of_birth_query['sort']
+        expect(result['track_scores']).to eq name_ssn_date_of_birth_query['track_scores']
+        expect(result['query']).to eq name_ssn_date_of_birth_query['query']
       end
     end
 

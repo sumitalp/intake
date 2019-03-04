@@ -4,10 +4,10 @@ require 'rails_helper'
 
 describe PersonSearchNameQueryBuilder do
   describe '.build_query' do
-    let(:last_name) { 'this is test search term' }
-    let(:first_name) { 'this is test search term' }
-    let(:middle_name) { 'this is test search term' }
-    let(:suffix) { 'this is test search term' }
+    let(:last_name) { 'last name' }
+    let(:first_name) { 'first name' }
+    let(:middle_name) { 'middle name' }
+    let(:suffix) { 'suffix' }
     let(:name_query) { PersonSearchResultBuilder.new.name_query }
     let(:params) do
       {
