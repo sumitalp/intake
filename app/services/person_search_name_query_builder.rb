@@ -2,27 +2,33 @@
 
 # PeopleSearchQueryBuilder is a service class responsible for creation
 # of an elastic search person search query
-module PersonSearchQueryBuilder
-  attr_reader :is_client_only, :search_term
+module PersonSearchNameQueryBuilder
+  attr_reader :is_client_only, :last_name, :first_name, :middle_name, :suffix
 
   include QueryBuilderHelper
 
   ATTRIBUTES = {
-    'autocomplete_search_bar' => HIGH_BOOST,
-    'first_name' => MEDIUM_BOOST,
     'last_name' => MEDIUM_BOOST,
-    'first_name.phonetic' => LOW_BOOST,
+    'first_name' => MEDIUM_BOOST,
+    'middle_name' => MEDIUM_BOOST,
     'last_name.phonetic' => LOW_BOOST,
-    'first_name.diminutive' => LOW_BOOST,
+    'first_name.phonetic' => LOW_BOOST,
+    'middle_name.phonetic' => LOW_BOOST,
     'last_name.diminutive' => LOW_BOOST,
-    'date_of_birth_as_text' => HIGH_BOOST,
-    'ssn' => HIGH_BOOST,
-    'name_suffix' => MEDIUM_BOOST
+    'first_name.diminutive' => LOW_BOOST,
+    'middle_name.diminutive' => LOW_BOOST
   }.freeze
 
-  def build_query_string(string)
+  def build_query_string(last_name, first_name, middle_name)
     ATTRIBUTES.map do |k, v|
-      query_string(k, formatted_query(string), boost: v)
+      if k.include? 'last_name'
+        value = last_name
+      elsif k.include? 'first_name'
+        value = first_name
+      elsif k.include? 'middle_name'
+        value = middle_name
+      end
+      query_string(k, formatted_query(value), boost: v)
     end
   end
 
@@ -44,8 +50,8 @@ module PersonSearchQueryBuilder
 
   def should
     [
-      match_query('legacy_descriptor.legacy_ui_id_flat', search_term, boost: HIGH_BOOST),
-      build_query_string(search_term)
+      build_query_string(last_name, first_name, middle_name),
+      query_string('name_suffix', formatted_query(suffix), boost: MEDIUM_BOOST)
     ].flatten.compact
   end
 

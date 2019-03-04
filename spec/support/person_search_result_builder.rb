@@ -3,12 +3,18 @@
 require 'support/helpers/system_code_helpers'
 require 'support/helpers/query_builder_helper'
 require 'support/helpers/person_search_query_builder_helper'
+require 'support/helpers/person_search_name_query_builder_helper'
+require 'support/helpers/person_search_ssn_query_builder_helper'
+require 'support/helpers/person_search_by_date_of_birth_query_builder_helper'
 require 'support/helpers/person_search_by_address_helper'
 
 class PersonSearchResultBuilder
   include QueryBuilderHelper
-  include PersonSearchByAddressHelper
   include PersonSearchQueryBuilderHelper
+  include PersonSearchNameQueryBuilderHelper
+  include PersonSearchSsnQueryBuilderHelper
+  include PersonSearchByDateOfBirthQueryBuilderHelper
+  include PersonSearchByAddressHelper
 
   attr_reader :search_result
 

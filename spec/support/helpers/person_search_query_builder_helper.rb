@@ -21,15 +21,6 @@ module PersonSearchQueryBuilderHelper
           "should": [
             {
               "match": {
-                "autocomplete_search_bar": {
-                  "query": 'this is test search term',
-                  "operator": 'and',
-                  "boost": '4'
-                }
-              }
-            },
-            {
-              "match": {
                 "legacy_descriptor.legacy_ui_id_flat": {
                   "boost": '10',
                   "query": 'this is test search term'
@@ -193,15 +184,6 @@ module PersonSearchQueryBuilderHelper
             }
           ],
           "should": [
-            {
-              "match": {
-                "autocomplete_search_bar": {
-                  "query": 'this is test search term',
-                  "operator": 'and',
-                  "boost": '4'
-                }
-              }
-            },
             {
               "match": {
                 "legacy_descriptor.legacy_ui_id_flat": {
