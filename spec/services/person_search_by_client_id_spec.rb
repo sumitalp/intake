@@ -5,7 +5,7 @@ require 'rails_helper'
 describe PersonSearchByClientId do
   describe '.build_query' do
     let(:person_search_fields) do
-      { client_id: '1111-1111-1111-1111111' }
+      { client_id: '1111111111111111111' }
     end
     let(:client_id_only_query) { PersonSearchResultBuilder.new.client_id_only_query }
 

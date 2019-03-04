@@ -21,7 +21,7 @@ module PersonSearchQueryBuilderHelper
           "should": [
             {
               "match": {
-                "legacy_descriptor.legacy_ui_id": {
+                "legacy_descriptor.legacy_ui_id_flat": {
                   "boost": '10',
                   "query": 'this is test search term'
                 }
@@ -186,7 +186,7 @@ module PersonSearchQueryBuilderHelper
           "should": [
             {
               "match": {
-                "legacy_descriptor.legacy_ui_id": {
+                "legacy_descriptor.legacy_ui_id_flat": {
                   "boost": '10',
                   "query": 'this is test search term'
                 }
@@ -284,8 +284,8 @@ module PersonSearchQueryBuilderHelper
         "bool": {
           "must": [{
             "match": {
-              "legacy_descriptor.legacy_ui_id": {
-                "query": '1111-1111-1111-1111111',
+              "legacy_descriptor.legacy_ui_id_flat": {
+                "query": '1111111111111111111',
                 "boost": '10'
               }
             }
