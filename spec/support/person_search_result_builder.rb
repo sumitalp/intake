@@ -7,6 +7,7 @@ require 'support/helpers/person_search_name_query_builder_helper'
 require 'support/helpers/person_search_ssn_query_builder_helper'
 require 'support/helpers/person_search_age_gender_query_builder_helper'
 require 'support/helpers/person_search_by_address_helper'
+require 'support/helpers/person_search_by_date_of_birth_query_builder_helper'
 
 class PersonSearchResultBuilder
   include QueryBuilderHelper
@@ -15,6 +16,8 @@ class PersonSearchResultBuilder
   include PersonSearchSsnQueryBuilderHelper
   include PersonSearchAgeGenderQueryBuilderHelper
   include PersonSearchByAddressHelper
+  include PersonSearchAgeGenderQueryBuilderHelper
+  include PersonSearchByDateOfBirthQueryBuilderHelper
 
   attr_reader :search_result
 

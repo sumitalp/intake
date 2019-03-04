@@ -2,7 +2,7 @@
 
 # PeopleSearchQueryBuilder is a service class responsible for creation
 # of an elastic search person search query
-module PersonSearchByDateOfBirth
+module PersonSearchByDateOfBirthQueryBuilder
   attr_reader :is_client_only, :date_of_birth
 
   include ApplicationHelper

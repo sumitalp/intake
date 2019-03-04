@@ -14,7 +14,7 @@ class QueryBuilder
     elsif builder.advanced_search_on?
       builder.extend(PersonSearchNameQueryBuilder).build_query(builder)
       builder.extend(PersonSearchSsnQueryBuilder).build_query(builder)
-      builder.extend(PersonSearchByDateOfBirth).build_query(builder)
+      builder.extend(PersonSearchByDateOfBirthQueryBuilder).build_query(builder)
     else
       builder.extend(PersonSearchQueryBuilder).build_query(builder)
     end
