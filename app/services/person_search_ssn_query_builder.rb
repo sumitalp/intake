@@ -3,7 +3,7 @@
 # PeopleSearchQueryBuilder is a service class responsible for creation
 # of an elastic search person search query
 module PersonSearchSsnQueryBuilder
-  attr_reader :is_client_only, :ssn
+  attr_reader :ssn
 
   include QueryBuilderHelper
 
