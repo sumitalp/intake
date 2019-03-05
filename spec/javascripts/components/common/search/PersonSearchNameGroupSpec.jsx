@@ -55,14 +55,14 @@ describe('PersonSearchNameGroup', () => {
       expect(component.props().errors).toEqual(['Client Id number must be 19 digits long.'])
     })
 
-    it('doesnot display error message if clientIdError is not present', () => {
+    it('does not display error message if clientIdError is not present', () => {
       const component = render({
         clientIdError: [],
       }).find('MaskedInputField[label="Client ID"]')
       expect(component.props().errors).toEqual([])
     })
 
-    it('doesnot display error message if clientIdError is undefined ', () => {
+    it('does not display error message if clientIdError is undefined ', () => {
       const component = render({
         clientIdError: undefined,
       }).find('MaskedInputField[label="Client ID"]')

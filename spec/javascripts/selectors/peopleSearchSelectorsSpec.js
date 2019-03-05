@@ -833,21 +833,21 @@ describe('peopleSearchSelectors', () => {
   })
 
   describe('selectClientIdError', () => {
-    it('doesnot returns error message if searchClientId is 19 digits.', () => {
+    it('does not return error message if searchClientId is 19 digits.', () => {
       const peopleSearch = {searchClientId: '1111-1111-1111-1111111'}
       const state = fromJS({peopleSearch})
       expect(selectClientIdError(state))
         .toEqual([])
     })
 
-    it('returns error message if it searchClientId is 12 digits.', () => {
+    it('returns error message if searchClientId is 12 digits.', () => {
       const peopleSearch = {searchClientId: '1111-1111-1111-_______'}
       const state = fromJS({peopleSearch})
       expect(selectClientIdError(state))
         .toEqual(['Client Id number must be 19 digits long.'])
     })
 
-    it('returns error message if it searchClientId less than 19 digits.', () => {
+    it('returns error message if searchClientId less than 19 digits.', () => {
       const peopleSearch = {searchClientId: '1111-1111-1111-1______'}
       const state = fromJS({peopleSearch})
       expect(selectClientIdError(state))

@@ -2,7 +2,7 @@ import {getClientIdErrors} from 'utils/clientIdValidator'
 
 describe('clientIdValidator', () => {
   describe('getClientIdErrors', () => {
-    it('doesnot returns error message if client id is 19 digits.', () => {
+    it('does not return error message if client id is 19 digits.', () => {
       expect(getClientIdErrors('1111111111111111111'))
         .toEqual([])
     })
