@@ -2,11 +2,12 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import PersonSearchNameGroup from 'common/search/PersonSearchNameGroup'
 
-const render = ({onChange = () => {}, personSearchFields = {}} = {}) =>
+const render = ({onChange = () => {}, personSearchFields = {}, clientIdError = []} = {}) =>
   shallow(
     <PersonSearchNameGroup
       onChange={onChange}
       personSearchFields={personSearchFields}
+      clientIdError={clientIdError}
     />
   )
 
@@ -44,6 +45,29 @@ describe('PersonSearchNameGroup', () => {
     expect(clientId.props().label).toEqual('Client ID')
     expect(clientId.props().mask).toEqual('1111-1111-1111-1111111')
     expect(clientId.props().maxLength).toEqual('19')
+  })
+
+  describe('clientIdError', () => {
+    it('display error message if clientIdError is present', () => {
+      const component = render({
+        clientIdError: ['Client Id number must be 19 digits long.'],
+      }).find('MaskedInputField[label="Client ID"]')
+      expect(component.props().errors).toEqual(['Client Id number must be 19 digits long.'])
+    })
+
+    it('does not display error message if clientIdError is not present', () => {
+      const component = render({
+        clientIdError: [],
+      }).find('MaskedInputField[label="Client ID"]')
+      expect(component.props().errors).toEqual([])
+    })
+
+    it('does not display error message if clientIdError is undefined ', () => {
+      const component = render({
+        clientIdError: undefined,
+      }).find('MaskedInputField[label="Client ID"]')
+      expect(component.props().errors).toEqual([])
+    })
   })
 
   it('renders suffix select', () => {

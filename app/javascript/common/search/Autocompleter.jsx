@@ -205,8 +205,7 @@ export default class Autocompleter extends Component {
   }
 
   renderPersonSearchFields() {
-    const {states, counties, onChange, onCancel, personSearchFields, isAdvancedSearchOn} = this.props
-
+    const {states, counties, onChange, onCancel, personSearchFields, isAdvancedSearchOn, clientIdError} = this.props
     return (
       <PersonSearchFields
         onChange={onChange}
@@ -216,6 +215,7 @@ export default class Autocompleter extends Component {
         states={states}
         counties={counties}
         isAdvancedSearchOn={isAdvancedSearchOn}
+        clientIdError={clientIdError}
       />
     )
   }
@@ -227,6 +227,7 @@ export default class Autocompleter extends Component {
 
 Autocompleter.propTypes = {
   canCreateNewPerson: PropTypes.bool,
+  clientIdError: PropTypes.array,
   counties: PropTypes.arrayOf(PropTypes.shape({
     code: PropTypes.string,
     value: PropTypes.string,

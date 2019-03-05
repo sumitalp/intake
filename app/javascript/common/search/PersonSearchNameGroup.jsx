@@ -5,7 +5,7 @@ import MaskedInputField from 'common/MaskedInputField'
 import SuffixNameSelect from 'common/search/suffix/SuffixNameSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
-const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
+const PersonSearchNameGroup = ({onChange, personSearchFields, clientIdError}) => (
   <div className="row person-search-field-group">
     <InputField
       id="search-last-name"
@@ -37,6 +37,7 @@ const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
       mask='1111-1111-1111-1111111'
       placeholder='____-____-____-_______'
       maxLength='19'
+      errors={clientIdError}
     />
     <SuffixNameSelect
       id="search-suffix"
@@ -55,6 +56,7 @@ const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
 )
 
 PersonSearchNameGroup.propTypes = {
+  clientIdError: PropTypes.array,
   onChange: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
 }
