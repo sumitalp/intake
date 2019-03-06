@@ -678,7 +678,7 @@ describe('<Autocompleter />', () => {
     it('displays no results were found', () => {
       const autocompleter = mountAutocompleter({
         total: 0,
-        personSearchFields: {searchTerm: 'Simpson', searchCounty: '', searchState: ''},
+        personSearchFields: {searchLastName: 'Simpson', searchCounty: '', searchState: ''},
       })
       autocompleter.setState({menuVisible: true})
       const suggestionHeader = autocompleter.find('SuggestionHeader')
@@ -694,12 +694,12 @@ describe('<Autocompleter />', () => {
       const autocompleter = mountAutocompleter({
         results: fiveResults,
         total: 10,
-        personSearchFields: {searchTerm: 'Simpson', searchCounty: '', searchState: ''},
+        personSearchFields: {searchLastName: 'Simpson', searchSuffix: 'Jr', searchCounty: '', searchState: ''},
       })
       autocompleter.setState({menuVisible: true})
       const suggestionHeader = autocompleter.find('SuggestionHeader')
       expect(suggestionHeader.html()).toContain(
-        'Showing 1-5 of 10 results for "Simpson"'
+        'Showing 1-5 of 10 results for "Simpson, Jr"'
       )
     })
   })

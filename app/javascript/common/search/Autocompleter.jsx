@@ -103,16 +103,15 @@ export default class Autocompleter extends Component {
 
   renderEachItem(item, id, isHighlighted) {
     const {total, results, personSearchFields} = this.props
-    const {searchTerm} = personSearchFields
+    const {searchLastName, searchFirstName, searchMiddleName, searchClientId, searchSuffix, searchSsn, searchDateOfBirth} = personSearchFields
+    const suffixWithComma = searchSuffix ? `, ${searchSuffix}` : ''
+    const lastNameWithSuffix = `${searchLastName}${suffixWithComma}`
+    const searchCriteria = [searchFirstName, searchMiddleName, lastNameWithSuffix, searchClientId, searchSsn, searchDateOfBirth].join(' ').trim()
     const key = `${item.posInSet}-of-${item.setSize}`
     if (item.suggestionHeader) {
       return (
         <div id={id} key={key} aria-live='polite'>
-          <SuggestionHeader
-            currentNumberOfResults={results.length}
-            total={total}
-            searchTerm={searchTerm}
-          />
+          <SuggestionHeader currentNumberOfResults={results.length} total={total} searchTerm={searchCriteria} />
         </div>
       )
     }
