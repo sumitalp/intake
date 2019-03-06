@@ -8,9 +8,9 @@ module PersonSearchNameQueryBuilder
   include QueryBuilderHelper
 
   ATTRIBUTES = {
-    'last_name' => MEDIUM_BOOST,
+    'last_name' => HIGH_BOOST,
     'first_name' => MEDIUM_BOOST,
-    'middle_name' => MEDIUM_BOOST,
+    'middle_name' => LOW_BOOST,
     'last_name.phonetic' => LOW_BOOST,
     'first_name.phonetic' => LOW_BOOST,
     'middle_name.phonetic' => LOW_BOOST,
@@ -51,8 +51,32 @@ module PersonSearchNameQueryBuilder
   def should
     [
       build_query_string(last_name, first_name, middle_name),
-      query_string('name_suffix', formatted_query(suffix), boost: MEDIUM_BOOST)
+      query_string('name_suffix', formatted_query(suffix), boost: MEDIUM_BOOST),
+      match_name_inverse(last_name, first_name),
+      fuzzy_match_first_name(first_name)
     ].flatten.compact
+  end
+
+  def fuzzy_match_first_name(first_name)
+    return if first_name.blank?
+    {
+      match: {
+        'first_name' => { query: first_name, operator: 'and', boost: NO_BOOST, fuzziness: '3' }
+      }
+    }
+  end
+
+  def match_name_inverse(last_name, first_name)
+    return if last_name.blank? || first_name.blank?
+    {
+      'multi_match' => {
+        'query'    => formatted_query("#{last_name} #{first_name}").strip,
+        'type'     => 'cross_fields',
+        'fields'   => %w[first_name last_name],
+        'operator' => 'and',
+        'boost' => HIGH_BOOST
+      }
+    }
   end
 
   def client_only
