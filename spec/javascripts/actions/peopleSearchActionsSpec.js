@@ -8,6 +8,7 @@ import {
   search,
   resetPersonSearch,
   setPersonSearchField,
+  setClientIdError,
 } from 'actions/peopleSearchActions'
 import {isFSA} from 'flux-standard-action'
 
@@ -87,6 +88,11 @@ describe('peopleSearchActions', () => {
 
   it('setPersonSearchField with field and value is FSA compliant', () => {
     const action = setPersonSearchField('searchTerm', 'Jane Doe')
+    expect(isFSA(action)).toEqual(true)
+  })
+
+  it('setClientIdError is FSA compliant', () => {
+    const action = setClientIdError()
     expect(isFSA(action)).toEqual(true)
   })
 })

@@ -8,6 +8,7 @@ import {
   setPersonSearchField,
   loadMoreResultsSuccess,
   loadMoreResultsFailure,
+  setClientIdError,
 } from 'actions/peopleSearchActions'
 import {fetchSuccess as fetchUserInfoSuccess} from 'actions/userInfoActions'
 import peopleSearchReducer from 'reducers/peopleSearchReducer'
@@ -480,6 +481,23 @@ describe('peopleSearchReducer', () => {
       const newState = peopleSearchReducer(initialState, action)
       expect(newState.get('searchCounty')).toEqual('')
       expect(newState.get('defaultCounty')).toEqual(null)
+    })
+  })
+  describe('on SET_CLIENT_ID_ERROR', () => {
+    const initialState = fromJS({
+      searchTerm: 'newSearchTerm',
+      total: 3,
+      clientIdError: false,
+    })
+    const action = setClientIdError()
+    it('set clientIdError to true', () => {
+      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+        fromJS({
+          searchTerm: 'newSearchTerm',
+          total: 3,
+          clientIdError: true,
+        })
+      )
     })
   })
 })

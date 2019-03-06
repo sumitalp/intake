@@ -5,6 +5,7 @@ export const SET_SEARCH_FIELD = 'PEOPLE_SEARCH/SET_SEARCH_FIELD'
 export const LOAD_MORE_RESULTS = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS'
 export const LOAD_MORE_RESULTS_COMPLETE = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS_COMPLETE'
 export const RESET_PERSON_SEARCH = 'RESET_PERSON_SEARCH'
+export const SET_CLIENT_ID_ERROR = 'SET_CLIENT_ID_ERROR'
 
 export const setPersonSearchField = (field, value) => ({
   type: SET_SEARCH_FIELD,
@@ -41,4 +42,7 @@ export const clear = () => ({
 })
 export const resetPersonSearch = () => ({
   type: RESET_PERSON_SEARCH,
+})
+export const setClientIdError = () => ({
+  type: SET_CLIENT_ID_ERROR,
 })

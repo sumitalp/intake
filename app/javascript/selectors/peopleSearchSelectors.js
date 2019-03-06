@@ -18,7 +18,9 @@ import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import Fuse from 'fuse.js'
 import {getClientIdErrors} from 'utils/clientIdValidator'
 
-const selectPeopleSearch = state => state.get('peopleSearch')
+const selectPeopleSearch = state => {
+  return state.get('peopleSearch')
+}
 export const selectSearchTermValue = state =>
   selectPeopleSearch(state).get('searchTerm')
 export const selectResultsTotalValue = state =>
@@ -146,9 +148,10 @@ export const selectPersonCreatedAtTime = state =>
     .pop()
 
 export const selectClientIdError = (state) => {
+  const clientIdError = selectPeopleSearch(state).get('clientIdError')
   const clientId = selectPeopleSearch(state).get('searchClientId') || ''
   const clientIdWithoutHyphens = clientId.replace(/-|_/g, '')
-  return getClientIdErrors(clientIdWithoutHyphens)
+  return clientIdError ? getClientIdErrors(clientIdWithoutHyphens) : []
 }
 
 export const selectPersonSearchFields = state => {
