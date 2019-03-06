@@ -47,6 +47,7 @@ describe('Store', () => {
         searchCountry: '',
         searchZipCode: '',
         defaultCounty: null,
+        clientIdError: false,
       },
       relationshipForm: {isSaving: false},
       relationships: [],
