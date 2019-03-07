@@ -481,27 +481,39 @@ describe('<Autocompleter />', () => {
   describe('handleSubmit', () => {
     let onClear
     let onSearch
+    let onChange
 
     beforeEach(() => {
       onClear = jasmine.createSpy('onClear')
       onSearch = jasmine.createSpy('onSearch')
+      onChange = jasmine.createSpy('onChange')
     })
 
     it('searches when button is submitted', () => {
       const autocompleter = renderAutocompleter({
+        onChange,
         onSearch,
         isAdvancedSearchOn: true,
-        personSearchFields: {searchLastName: 'Sandiego', searchFirstName: 'Carmen', searchAddress: '123 Main St', searchCity: 'Woodland', searchCounty: 'Yolo'},
+        personSearchFields: {
+          searchLastName: 'Sandiego',
+          searchFirstName: 'Carmen',
+          searchSuffix: 'Jr',
+          searchAddress: '123 Main St',
+          searchCity: 'Woodland',
+          searchCounty: 'Yolo',
+        },
       })
       const personSearchFields = autocompleter.find('PersonSearchFields')
       personSearchFields.props().onSubmit()
       expect(onSearch).toHaveBeenCalledWith(true, {
         searchLastName: 'Sandiego',
         searchFirstName: 'Carmen',
+        searchSuffix: 'Jr',
         searchAddress: '123 Main St',
         searchCity: 'Woodland',
         searchCounty: 'Yolo',
       })
+      expect(onChange).toHaveBeenCalledWith('searchTerm', 'Carmen Sandiego, Jr')
     })
 
     it('displays search results when button is submitted', () => {
@@ -675,32 +687,34 @@ describe('<Autocompleter />', () => {
       })
     })
 
-    it('displays no results were found', () => {
-      const autocompleter = mountAutocompleter({
-        total: 0,
-        personSearchFields: {searchTerm: 'Simpson', searchCounty: '', searchState: ''},
+    describe('suggestion header', () => {
+      it('displays no results were found', () => {
+        const autocompleter = mountAutocompleter({
+          total: 0,
+          personSearchFields: {searchTerm: 'Simpson', searchCounty: '', searchState: ''},
+        })
+        autocompleter.setState({menuVisible: true})
+        const suggestionHeader = autocompleter.find('SuggestionHeader')
+        expect(suggestionHeader.html()).toContain(
+          'No results were found for "Simpson"'
+        )
       })
-      autocompleter.setState({menuVisible: true})
-      const suggestionHeader = autocompleter.find('SuggestionHeader')
-      expect(suggestionHeader.html()).toContain(
-        'No results were found for "Simpson"'
-      )
-    })
 
-    it('displays number of results found', () => {
-      const fiveResults = Array.from(Array(5).keys()).map(id => ({
-        legacyDescriptor: {legacy_id: id},
-      }))
-      const autocompleter = mountAutocompleter({
-        results: fiveResults,
-        total: 10,
-        personSearchFields: {searchTerm: 'Simpson', searchCounty: '', searchState: ''},
+      it('displays number of results found', () => {
+        const fiveResults = Array.from(Array(5).keys()).map(id => ({
+          legacyDescriptor: {legacy_id: id},
+        }))
+        const autocompleter = mountAutocompleter({
+          results: fiveResults,
+          total: 10,
+          personSearchFields: {searchTerm: 'Simpson Jr', searchCounty: '', searchState: ''},
+        })
+        autocompleter.setState({menuVisible: true})
+        const suggestionHeader = autocompleter.find('SuggestionHeader')
+        expect(suggestionHeader.html()).toContain(
+          'Showing 1-5 of 10 results for "Simpson Jr"'
+        )
       })
-      autocompleter.setState({menuVisible: true})
-      const suggestionHeader = autocompleter.find('SuggestionHeader')
-      expect(suggestionHeader.html()).toContain(
-        'Showing 1-5 of 10 results for "Simpson"'
-      )
     })
   })
 

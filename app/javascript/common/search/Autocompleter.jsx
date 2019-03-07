@@ -35,8 +35,28 @@ export default class Autocompleter extends Component {
   }
 
   searchAndFocus() {
-    const {onSearch, isAdvancedSearchOn, personSearchFields} = this.props
+    const {onChange, onSearch, isAdvancedSearchOn, personSearchFields} = this.props
+    const {
+      searchLastName,
+      searchFirstName,
+      searchMiddleName,
+      searchClientId,
+      searchSuffix,
+      searchSsn,
+      searchDateOfBirth,
+    } = personSearchFields
+    const suffixWithComma = searchSuffix ? `, ${searchSuffix}` : ''
+    const lastNameWithSuffix = `${searchLastName}${suffixWithComma}`
+    const searchTerm = [
+      searchFirstName,
+      searchMiddleName,
+      lastNameWithSuffix,
+      searchClientId,
+      searchSsn,
+      searchDateOfBirth,
+    ].filter(Boolean).join(' ').trim()
     onSearch(isAdvancedSearchOn, personSearchFields)
+    onChange('searchTerm', searchTerm)
     this.setState({menuVisible: true})
     if (this.inputRef) { this.inputRef.focus() }
   }
