@@ -259,12 +259,12 @@ module PersonSearchNameQueryBuilderHelper
                 "legacy_descriptor.legacy_table_name": 'CLIENT_T'
               }
             },
-              {
-                  "query_string": {
+            {
+                "query_string": {
                   "default_field": 'ssn',
                   "query": '123456789',
                   "boost": '10'
-              }
+                }
             }
           ],
           "should": [
@@ -508,7 +508,7 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
-                    "query_string": {
+                "query_string": {
                     "default_field": 'ssn',
                     "query": '123456789',
                     "boost": '10'
@@ -639,7 +639,7 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
-                    "query_string": {
+                "query_string": {
                     "default_field": 'ssn',
                     "query": '123456789',
                     "boost": '10'
@@ -830,7 +830,7 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
-                    "query_string": {
+                "query_string": {
                     "default_field": 'ssn',
                     "query": '123456789',
                     "boost": '10'
@@ -960,7 +960,7 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
-                    "query_string": {
+                "query_string": {
                     "default_field": 'ssn',
                     "query": '123456789',
                     "boost": '10'
