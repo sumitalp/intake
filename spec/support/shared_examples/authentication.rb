@@ -32,7 +32,7 @@ shared_examples :authenticated do
   end
 
   around do |example|
-    Feature.run_with_activated(:authentication, :perry_version_two) do
+    Feature.run_with_activated(:authentication, :perry_version_two, :advanced_search) do
       with_config(
         authentication_base_url: auth_base_url,
         authentication_login_url: auth_login_url,
