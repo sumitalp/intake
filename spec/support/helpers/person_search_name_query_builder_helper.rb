@@ -644,7 +644,7 @@ module PersonSearchNameQueryBuilderHelper
                     "query": '123456789',
                     "boost": '10'
                 }
-            }
+            },
             {
               "query_string": {
                 "default_field": 'date_of_birth_as_text',

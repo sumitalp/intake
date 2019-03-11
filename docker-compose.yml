@@ -11,9 +11,12 @@ services:
     environment:
       RAILS_ENV: ${RAILS_ENV:-development}
       FERB_API_URL: "https://ferbapi.preint.cwds.io"
+#      FERB_API_URL: "http://localhost:18080"
       DORA_API_URL: "https://doraapi.preint.cwds.io"
+#      DORA_API_URL: "http://localhost:8080"
       NODE_ENV: development
       AUTHENTICATION_URL: ${AUTHENTICATION_URL:-https://web.preint.cwds.io/perry}
+#      AUTHENTICATION_URL: "http://localhost:8080/perry/"
       AUTHENTICATION: ${AUTHENTICATION:-true}
       REDIS_HOST: 'redis'
       REDIS_PORT: 6379
