@@ -260,11 +260,11 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
-                "query_string": {
-                  "default_field": 'ssn',
-                  "query": '123456789',
-                  "boost": '10'
-                }
+              "query_string": {
+                "default_field": 'ssn',
+                "query": '123456789',
+                "boost": '10'
+              }
             }
           ],
           "should": [
@@ -508,11 +508,11 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
-                "query_string": {
-                    "default_field": 'ssn',
-                    "query": '123456789',
-                    "boost": '10'
-                }
+              "query_string": {
+                "default_field": 'ssn',
+                "query": '123456789',
+                "boost": '10'
+              }
             },
             {
               "query_string": {
@@ -639,11 +639,11 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
-                "query_string": {
-                    "default_field": 'ssn',
-                    "query": '123456789',
-                    "boost": '10'
-                }
+              "query_string": {
+                "default_field": 'ssn',
+                "query": '123456789',
+                "boost": '10'
+              }
             },
             {
               "query_string": {
@@ -830,11 +830,11 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
-                "query_string": {
-                    "default_field": 'ssn',
-                    "query": '123456789',
-                    "boost": '10'
-                }
+              "query_string": {
+                "default_field": 'ssn',
+                "query": '123456789',
+                "boost": '10'
+              }
             },
             {
               "query_string": {
@@ -960,11 +960,11 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
-                "query_string": {
-                    "default_field": 'ssn',
-                    "query": '123456789',
-                    "boost": '10'
-                }
+              "query_string": {
+                "default_field": 'ssn',
+                "query": '123456789',
+                "boost": '10'
+              }
             },
             {
               "query_string": {
