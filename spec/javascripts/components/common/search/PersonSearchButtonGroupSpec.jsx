@@ -18,17 +18,17 @@ const render = ({
   )
 
 describe('PersonSearchButtonGroup', () => {
-  it('renders button for search', () => {
+  it('renders search button', () => {
     const component = render()
     expect(component.find('button.person-search-button.search').text()).toEqual(
       'Search'
     )
   })
 
-  it('renders button for cancel', () => {
+  it('renders clear all button', () => {
     const component = render()
-    expect(component.find('button.person-search-button.cancel').text()).toEqual(
-      'Cancel'
+    expect(component.find('button.person-search-button.clear').text()).toEqual(
+      'Clear All'
     )
   })
 
@@ -202,7 +202,7 @@ describe('PersonSearchButtonGroup', () => {
   it('calls onCancel when cancel button is clicked', () => {
     const onCancel = jasmine.createSpy('onCancel')
     const component = render({onCancel})
-    const cancelButton = component.find('.person-search-button.cancel')
+    const cancelButton = component.find('.person-search-button.clear')
     cancelButton.simulate('click')
     expect(onCancel).toHaveBeenCalled()
   })

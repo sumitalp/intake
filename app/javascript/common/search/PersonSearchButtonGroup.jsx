@@ -36,10 +36,10 @@ const PersonSearchButtonGroup = ({
         Search
       </button>
       <button
-        className="btn btn-primary person-search-button cancel"
+        className="btn btn-primary person-search-button clear"
         onClick={onCancel}
       >
-        Cancel
+        Clear All
       </button>
     </div>
   </div>

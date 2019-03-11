@@ -56,8 +56,8 @@
     padding-top: 0;
   }
 
-  .person-search-field-group:nth-child(3),
-  .person-search-field-group:nth-child(4) {
+  .person-search-field-group:nth-child(2),
+  .person-search-field-group:nth-child(3) {
     border-bottom: none;
     padding-bottom: 0;
   }
@@ -66,81 +66,38 @@
     font-weight: bold;
   }
 
-  @media only screen and (max-width: 991px) {
-    .date-field,
-    .age-number-field,
-    .age-unit-field {
-      padding: 0;
+  .client-age-form {
+    div.col-md-6:first-child {
+      padding-left: .3rem;
+    }
+
+    div.col-md-6:nth-child(2) {
+      padding-left: 1.7rem;
     }
   }
 
-  @media only screen and (min-width: 992px) {
-    .last-name-field,
-    .first-name-field,
-    .client-id-field,
-    .suffix-field,
-    .age-number-field,
-    .address-field,
-    .city-field,
-    .state-field,
-    .country-field {
-      padding-right: .75rem;
+  .date-of-birth-section {
+    padding-left: 2.8rem;
+  }
+
+  .approximate-age-section {
+    padding-right: 0;
+    
+    .col-md-6:first-child {
+      padding-left: 2.6rem;
     }
 
-    .first-name-field,
-    .middle-name-field,
-    .suffix-field,
-    .ssn-field,
-    .age-unit-field,
-    .city-field,
-    .county-field,
-    .country-field,
-    .zip-code-field {
-      padding-left: .75rem;
+    .col-md-6:nth-child(2) {
+      padding-right: 0;
     }
 
-    .person-search-label-date-of-birth {
-      float: left;
+    form {
+      padding-left: .2rem;
     }
-
-    .person-search-label-approximate-age {
-      float: left;
-    }
-  }
-
-  label.person-search-label-date-of-birth {
-    margin-right: 2.8rem;
-  }
-
-  label.person-search-label-approximate-age {
-    margin-top: 1.8rem;
-  }
-
-  .age-number-field input {
-    font-size: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .age-unit-field select {
-    font-size: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .age-unit-field option[value=''][disabled] {
-    display: none;
-  }
-
-  .age-unit-field.placeholder-option-selected select {
-    color: $dark-grey;
-  }
-
-  .sex-at-birth-field {
-    padding-top: 1.5rem;
   }
 
   // see https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
   // for more info about the placeholder pseudo element
-
   .date-field {
     // edge (it requries the -webkit-input- prefix)
     input::-webkit-input-placeholder {
@@ -158,28 +115,19 @@
     }
   }
 
-  .zip-code-field {
-    // edge (it requries the -webkit-input- prefix)
-    input::-webkit-input-placeholder {
-      font-size: 1.3rem;
-    }
-    // ie 11
-    input:-ms-input-placeholder {
-      font-size: 1.3rem;
-    }
-
-    // chrome v57+ and firefox v51+
-    input::placeholder {
-      font-size: 1.3rem;
-    }
-  }
-
-  button.btn.person-search-button.cancel {
+  button.btn.person-search-button.clear {
     float: right;
+    background-color: #FFF;
+    box-shadow: inset 0 0 0 0.2rem #09798e;
+    color: #09798e;
   }
 
   button.btn.person-search-button.search {
     float: right;
     margin-left: .75rem;
   }
+
+  @media only screen and (max-width: 991px) {}
+
+  @media only screen and (min-width: 992px) {}
 }
