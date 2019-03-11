@@ -26,7 +26,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
       expect(clientId.props().placeholder).toEqual('____-____-____-_______')
       expect(clientId.props().maxLength).toEqual('19')
     })
-  
+
     describe('clientIdError', () => {
       it('display error message if clientIdError is present', () => {
         const component = render({
@@ -34,14 +34,14 @@ describe('PersonSearchNumbersAgeGroup', () => {
         }).find('MaskedInputField[label="Client ID Number"]')
         expect(component.props().errors).toEqual(['Client Id number must be 19 digits long.'])
       })
-  
+
       it('does not display error message if clientIdError is not present', () => {
         const component = render({
           clientIdError: [],
         }).find('MaskedInputField[label="Client ID Number"]')
         expect(component.props().errors).toEqual([])
       })
-  
+
       it('does not display error message if clientIdError is undefined ', () => {
         const component = render({
           clientIdError: undefined,
@@ -67,7 +67,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
       expect(ageForm.props().dateOfBirthLabel).toEqual('Date of Birth')
       expect(ageForm.props().approximateAgeLabel).toEqual('Approximate Age')
     })
-    
+
     it('renders a DateField', () => {
       const component = render({personSearchFields: {searchDateOfBirth: '2019-03-01'}})
       const dateField = component.find('DateField')

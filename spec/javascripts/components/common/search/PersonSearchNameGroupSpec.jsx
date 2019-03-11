@@ -19,7 +19,7 @@ describe('PersonSearchNameGroup', () => {
       expect(lastName.props().id).toEqual('search-last-name')
       expect(lastName.props().value).toEqual('Bravo')
     })
-  
+
     it('renders first name input field with label First Name', () => {
       const firstName = render({
         personSearchFields: {searchFirstName: 'Armando'},
@@ -27,7 +27,7 @@ describe('PersonSearchNameGroup', () => {
       expect(firstName.props().id).toEqual('search-first-name')
       expect(firstName.props().value).toEqual('Armando')
     })
-  
+
     it('renders middle name input field with label Middle Name', () => {
       const middleName = render({
         personSearchFields: {searchMiddleName: 'Middle'},
@@ -35,28 +35,28 @@ describe('PersonSearchNameGroup', () => {
       expect(middleName.props().id).toEqual('search-middle-name')
       expect(middleName.props().value).toEqual('Middle')
     })
-  
+
     it('renders suffix select', () => {
       const component = render({personSearchFields: {searchSuffix: ''}})
       const suffixSelect = component.find('SuffixNameSelect')
       expect(suffixSelect.props().id).toEqual('search-suffix')
       expect(suffixSelect.props().value).toEqual('')
     })
-  
+
     it('renders suffix select when a suffix is selected', () => {
       const component = render({personSearchFields: {searchSuffix: 'Jr'}})
       const suffixSelect = component.find('SuffixNameSelect')
       expect(suffixSelect.props().id).toEqual('search-suffix')
       expect(suffixSelect.props().value).toEqual('Jr')
     })
-  
+
     it('renders sex at birth select', () => {
       const component = render({personSearchFields: {searchSexAtBirth: ''}})
       const sexAtBirthSelect = component.find('SexAtBirthSelect')
       expect(sexAtBirthSelect.props().id).toEqual('search-sex-at-birth')
       expect(sexAtBirthSelect.props().value).toEqual('')
     })
-  
+
     it('renders sex at birth select when a gender is selected', () => {
       const component = render({
         personSearchFields: {searchSexAtBirth: 'Female'},
@@ -75,10 +75,10 @@ describe('PersonSearchNameGroup', () => {
         .find('#search-last-name')
         .props()
         .onChange({target: {value: 'Bravo'}})
-  
+
       expect(onChange).toHaveBeenCalledWith('searchLastName', 'Bravo')
     })
-  
+
     it('calls onChange when a new first name is entered', () => {
       const onChange = jasmine.createSpy('onChange')
       const component = render({onChange})
@@ -86,10 +86,10 @@ describe('PersonSearchNameGroup', () => {
         .find('#search-first-name')
         .props()
         .onChange({target: {value: 'Armando'}})
-  
+
       expect(onChange).toHaveBeenCalledWith('searchFirstName', 'Armando')
     })
-  
+
     it('calls onChange when a new middle name is entered', () => {
       const onChange = jasmine.createSpy('onChange')
       const component = render({onChange})
@@ -97,10 +97,10 @@ describe('PersonSearchNameGroup', () => {
         .find('#search-middle-name')
         .props()
         .onChange({target: {value: 'Middle'}})
-  
+
       expect(onChange).toHaveBeenCalledWith('searchMiddleName', 'Middle')
     })
-  
+
     it('calls onChange when new suffix is selected', () => {
       const onChange = jasmine.createSpy('onChange')
       const component = render({onChange})
@@ -110,7 +110,7 @@ describe('PersonSearchNameGroup', () => {
         .onChange('searchSuffix', 'Jr')
       expect(onChange).toHaveBeenCalledWith('searchSuffix', 'Jr')
     })
-  
+
     it('calls onChange when new sex at birth is selected', () => {
       const onChange = jasmine.createSpy('onChange')
       const component = render({onChange})

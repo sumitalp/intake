@@ -21,8 +21,8 @@ class AgeNumberSelect extends React.PureComponent {
 }
 
 AgeNumberSelect.propTypes = {
-  id: PropTypes.string,
   gridClassName: PropTypes.string,
+  id: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
 }

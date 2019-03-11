@@ -76,16 +76,16 @@ const PersonSearchNumbersAgeGroup = ({onChange, personSearchFields, clientIdErro
               />
             </div>
           </div>
-        </div>      
+        </div>
       </div>
     </div>
   </div>
 )
 
 PersonSearchNumbersAgeGroup.propTypes = {
+  clientIdError: PropTypes.array,
   onChange: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
-  clientIdError: PropTypes.array,
 }
 
 PersonSearchNumbersAgeGroup.defaultProps = PersonSearchFieldsDefaultProps

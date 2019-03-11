@@ -10,8 +10,8 @@ class ApproximateAgeNumberSelect extends React.Component {
 }
 
 ApproximateAgeNumberSelect.propTypes = {
-  id: PropTypes.string,
   gridClassName: PropTypes.string,
+  id: PropTypes.string,
   onChange: PropTypes.func,
   value: PropTypes.string,
 }
