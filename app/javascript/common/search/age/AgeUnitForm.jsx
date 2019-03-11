@@ -7,14 +7,26 @@ const AgeUnitForm = ({formLabel, monthsLabel, yearsLabel}) => {
             <label htmlFor="age-unit-form">{formLabel}</label>
             <form className="age-unit-form" name="age-unit-form">
                 <div>
-                    <input type="radio" name="age-unit" id="age-unit-months" value="months"/>
+                    <input 
+                        type="radio" 
+                        name="age-unit" 
+                        id="age-unit-months" 
+                        value="months" 
+                        disabled={true}
+                    />
                     <label htmlFor="age-unit-months">{monthsLabel}</label> 
                 </div>
                 <div>
-                    <input type="radio" name="age-unit" id="age-unit-years" value="years"/>
+                    <input 
+                        type="radio" 
+                        name="age-unit" 
+                        id="age-unit-years" 
+                        value="years"
+                        disabled={true}
+                    />
                     <label htmlFor="age-unit-years">{yearsLabel}</label>
                 </div>
-            </form>            
+            </form>
         </Fragment>
     )
 }

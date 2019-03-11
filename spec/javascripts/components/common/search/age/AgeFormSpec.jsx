@@ -55,6 +55,7 @@ describe('AgeForm', () => {
                 expect(radioButton.props().name).toEqual('age')
                 expect(radioButton.props().id).toEqual('approximate-age')
                 expect(radioButton.props().value).toEqual('approximate-age')
+                expect(radioButton.props().disabled).toEqual(true)
             })
 
             it('renders a label for the radio button', () => {

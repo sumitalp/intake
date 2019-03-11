@@ -9,7 +9,13 @@ const AgeForm = ({dateOfBirthLabel, approximateAgeLabel}) => {
           <label htmlFor="date-of-birth">{dateOfBirthLabel}</label>
         </div>
         <div className="col-md-6">
-          <input type="radio" name="age" id="approximate-age" value="approximate-age" />
+          <input 
+            type="radio" 
+            id="approximate-age" 
+            name="age" 
+            value="approximate-age" 
+            disabled={true}
+          />
           <label htmlFor="approximate-age">{approximateAgeLabel}</label>
         </div>
       </form>
