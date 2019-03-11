@@ -258,6 +258,13 @@ module PersonSearchNameQueryBuilderHelper
               "match": {
                 "legacy_descriptor.legacy_table_name": 'CLIENT_T'
               }
+            },
+              {
+                  "query_string": {
+                  "default_field": 'ssn',
+                  "query": '123456789',
+                  "boost": '10'
+              }
             }
           ],
           "should": [
@@ -348,13 +355,6 @@ module PersonSearchNameQueryBuilderHelper
                   "boost": '1',
                   "fuzziness": '3'
                 }
-              }
-            },
-            {
-              "query_string": {
-                "default_field": 'ssn',
-                "query": '123456789',
-                "boost": '10'
               }
             }
           ]
@@ -508,6 +508,13 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
+                    "query_string": {
+                    "default_field": 'ssn',
+                    "query": '123456789',
+                    "boost": '10'
+                }
+            },
+            {
               "query_string": {
                 "default_field": 'date_of_birth_as_text',
                 "query": '05051989',
@@ -603,13 +610,6 @@ module PersonSearchNameQueryBuilderHelper
                   "boost": '1',
                   "fuzziness": '3'
                 }
-              }
-            },
-            {
-              "query_string": {
-                "default_field": 'ssn',
-                "query": '123456789',
-                "boost": '10'
               }
             }
           ]
@@ -639,6 +639,13 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
+                    "query_string": {
+                    "default_field": 'ssn',
+                    "query": '123456789',
+                    "boost": '10'
+                }
+            }
+            {
               "query_string": {
                 "default_field": 'date_of_birth_as_text',
                 "query": '05051989',
@@ -734,13 +741,6 @@ module PersonSearchNameQueryBuilderHelper
                   "boost": '1',
                   "fuzziness": '3'
                 }
-              }
-            },
-            {
-              "query_string": {
-                "default_field": 'ssn',
-                "query": '123456789',
-                "boost": '10'
               }
             },
             {
@@ -830,6 +830,13 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
+                    "query_string": {
+                    "default_field": 'ssn',
+                    "query": '123456789',
+                    "boost": '10'
+                }
+            }
+            {
               "query_string": {
                 "default_field": 'date_of_birth_as_text',
                 "query": '05051989',
@@ -864,13 +871,6 @@ module PersonSearchNameQueryBuilderHelper
                 "boost": '4',
                 "default_field": 'name_suffix',
                 "query": 'suffix'
-              }
-            },
-            {
-              "query_string": {
-                "default_field": 'ssn',
-                "query": '123456789',
-                "boost": '10'
               }
             },
             {
@@ -960,6 +960,13 @@ module PersonSearchNameQueryBuilderHelper
               }
             },
             {
+                    "query_string": {
+                    "default_field": 'ssn',
+                    "query": '123456789',
+                    "boost": '10'
+                }
+            }
+            {
               "query_string": {
                 "default_field": 'date_of_birth_as_text',
                 "query": '05051989',
@@ -1004,13 +1011,6 @@ module PersonSearchNameQueryBuilderHelper
                   "boost": '1',
                   "fuzziness": '3'
                 }
-              }
-            },
-            {
-              "query_string": {
-                "default_field": 'ssn',
-                "query": '123456789',
-                "boost": '10'
               }
             },
             {
