@@ -5,7 +5,13 @@ const AgeForm = ({dateOfBirthLabel, approximateAgeLabel}) => {
   return (
     <form className="client-age-form" name="client-age-form">
       <div className="col-md-6">
-        <input type="radio" name="age" id="date-of-birth" value="date-of-birth" />
+        <input
+          type="radio"
+          name="age"
+          id="date-of-birth"
+          value="date-of-birth"
+          disabled={true}
+        />
         <label htmlFor="date-of-birth">{dateOfBirthLabel}</label>
       </div>
       <div className="col-md-6">
