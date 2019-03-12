@@ -7,7 +7,6 @@ class QueryBuilder
   attr_reader :search_term, :search_after, :is_client_only, :payload,
     :params, :city, :county, :street, :client_id, :date_of_birth
 
-  # class methods
   def self.build_base(builder)
     if builder.client_id_searched?
       builder.extend(PersonSearchByClientId).build_query(builder)
@@ -30,7 +29,6 @@ class QueryBuilder
     builder
   end
 
-  # instance methods
   def initialize(params = {})
     @params = params.with_indifferent_access
     initialize_search
@@ -100,8 +98,8 @@ class QueryBuilder
   end
 
   def auto_bar_highlight
-    { 'matched_fields':['autocomplete_search_bar', 'autocomplete_search_bar.phonetic',
-        'autocomplete_search_bar.diminutive'] }
+    { 'matched_fields': ['autocomplete_search_bar', 'autocomplete_search_bar.phonetic',
+       'autocomplete_search_bar.diminutive'] }
   end
 
   def fields
