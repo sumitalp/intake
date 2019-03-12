@@ -130,6 +130,10 @@
     margin-left: .75rem;
   }
 
+  button.btn.person-search-button {
+    text-transform: none;
+  }
+
   .radio-choice-message-action {
     color: $green;
     cursor: not-allowed;
