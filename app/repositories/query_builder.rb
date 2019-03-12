@@ -16,5 +16,4 @@ class QueryBuilder < BaseQueryBuilder
       builder.extend(PersonSearchQueryBuilder).build_query(builder)
     end
   end
-
 end
