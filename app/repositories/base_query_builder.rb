@@ -5,7 +5,7 @@ class BaseQueryBuilder
   include QueryBuilderHelper
 
   attr_reader :search_term, :search_after, :is_client_only, :payload,
-              :params, :city, :county, :street, :client_id, :date_of_birth
+    :params, :city, :county, :street, :client_id, :date_of_birth
 
   def self.build(params = {})
     builder = new(params)
@@ -79,20 +79,15 @@ class BaseQueryBuilder
   end
 
   def build_query
-    {
-        size: SIZE, track_scores: TRACK_SCORES, sort: [{_score: 'desc', _uid: 'desc'}],
+    {size: SIZE, track_scores: TRACK_SCORES, sort: [{_score: 'desc', _uid: 'desc'}],
         _source: fields, highlight: highlight
     }.tap {|query| query[:search_after] = @search_after if @search_after}
   end
 
   def auto_bar_highlight
-    {
-        'matched_fields':
-          [
-            'autocomplete_search_bar',
-            'autocomplete_search_bar.phonetic',
-            'autocomplete_search_bar.diminutive'
-          ]
+    {'matched_fields':
+        ['autocomplete_search_bar', 'autocomplete_search_bar.phonetic',
+            'autocomplete_search_bar.diminutive']
     }
   end
 
