@@ -127,7 +127,46 @@
     margin-left: .75rem;
   }
 
-  @media only screen and (max-width: 991px) {}
+  @media only screen and (max-width: 991px) {
+    .person-search-age-section {
+      margin-top: 1.5rem;
+    }
 
-  @media only screen and (min-width: 992px) {}
+    .client-age-form {
+      div.col-md-6:nth-child(2) {
+        padding-left: .3rem;
+      }
+    }
+
+    .date-of-birth-section {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .approximate-age-section {
+      padding-left: 0;
+
+      .col-md-6:first-child {
+        padding-left: 0;
+      }
+
+      .col-md-6:nth-child(2) {
+        padding-left: 0;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 1199px) and (min-width: 992px) {
+    .approximate-age-section {
+      padding-left: 0;
+
+      .col-md-6:first-child {
+        padding-left: 0;
+      }
+
+      .col-md-6:nth-child(2) {
+        padding-left: 0;
+      }
+    }    
+  }
 }
