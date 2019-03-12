@@ -100,10 +100,7 @@ class QueryBuilder
   end
 
   def auto_bar_highlight
-    { 'matched_fields':
-      ['autocomplete_search_bar',
-       'autocomplete_search_bar.phonetic',
-       'autocomplete_search_bar.diminutive'] }
+    { 'matched_fields':['autocomplete_search_bar', 'autocomplete_search_bar.phonetic', 'autocomplete_search_bar.diminutive'] }
   end
 
   def fields
