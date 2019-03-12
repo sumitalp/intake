@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-# parent class for dora search
+# class for dora search
 class QueryBuilder < BaseQueryBuilder
 
+  # class methods
   def self.build_base(builder)
     if builder.client_id_searched?
       builder.extend(PersonSearchByClientId).build_query(builder)

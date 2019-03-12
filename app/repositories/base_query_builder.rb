@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# base class for dora search
+# parent class for dora search
 class BaseQueryBuilder
   include QueryBuilderHelper
 
@@ -16,6 +16,7 @@ class BaseQueryBuilder
     builder
   end
 
+  # instance methods
   def initialize(params = {})
     @params = params.with_indifferent_access
     initialize_search
@@ -86,7 +87,8 @@ class BaseQueryBuilder
 
   def auto_bar_highlight
     { 'matched_fields':
-        ['autocomplete_search_bar', 'autocomplete_search_bar.phonetic',
+        ['autocomplete_search_bar',
+      'autocomplete_search_bar.phonetic',
       'autocomplete_search_bar.diminutive'] }
   end
 
