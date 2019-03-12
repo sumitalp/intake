@@ -8,14 +8,15 @@ module PersonSearchSsnQueryBuilder
   include QueryBuilderHelper
 
   def build_query(builder)
-    builder.payload[:query][:bool][:should].concat(should)
+    builder.payload[:query] = query
   end
 
   def query
-    { bool: { should: should } }
+    { bool: { must: must } }
   end
 
-  def should
+  def must
     [query_string('ssn', formatted_query(ssn), boost: HIGH_BOOST)].flatten.compact
   end
+
 end
