@@ -120,6 +120,7 @@
     box-shadow: inset 0 0 0 .2rem $green;
     color: $green;
     float: right;
+    text-transform: none;
   }
 
   button.btn.person-search-button.search {
@@ -128,9 +129,6 @@
     color: $white;
     float: right;
     margin-left: .75rem;
-  }
-
-  button.btn.person-search-button {
     text-transform: none;
   }
 
