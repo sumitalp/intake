@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# base class for dora search
 class BaseQueryBuilder
   include QueryBuilderHelper
 
