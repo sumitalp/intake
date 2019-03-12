@@ -1,19 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import AgeNumberSelect from 'common/search/age/AgeNumberSelect'
 
-class ApproximateAgeNumberSelect extends React.Component {
-  render() {
-    const {onChange, ...rest} = this.props
-    return <AgeNumberSelect onChange={onChange} {...rest} />
-  }
+const ApproximateAgeNumberSelect = (props) => {
+  return (<AgeNumberSelect {...props} />)
 }
 
-ApproximateAgeNumberSelect.propTypes = {
-  gridClassName: PropTypes.string,
-  id: PropTypes.string,
-  onChange: PropTypes.func,
-  value: PropTypes.string,
-}
+ApproximateAgeNumberSelect.propTypes = AgeNumberSelect.propTypes
 
 export default ApproximateAgeNumberSelect
