@@ -5,7 +5,7 @@ require 'feature/testing'
 
 feature 'Adding and removing a person from a snapshot' do
   around do |example|
-    Feature.run_with_activated(:release_two) do
+    Feature.run_with_activated(:release_two, :advanced_search) do
       example.run
     end
   end
