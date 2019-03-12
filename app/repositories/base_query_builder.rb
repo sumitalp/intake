@@ -27,35 +27,36 @@ class BaseQueryBuilder
   end
 
   def initialize_search
-    @search_term = params.dig(:person_search_fields, :search_term)
-    @search_after = params[:search_after]
-    @is_client_only = params.fetch(:is_client_only, 'true') == 'true'
+    @search_term              = params.dig(:person_search_fields, :search_term)
+    @search_after             = params[:search_after]
+    @is_client_only           = params.fetch(:is_client_only, 'true') == 'true'
+    @is_advanced_search_on    = params.fetch(:is_advanced_search_on, 'false') == 'false'
   end
 
   def initialize_name_ssn_client_id
-    @client_id = params.dig(:person_search_fields, :client_id)
-    @last_name = params.dig(:person_search_fields, :last_name)
-    @first_name = params.dig(:person_search_fields, :first_name)
-    @middle_name = params.dig(:person_search_fields, :middle_name)
-    @suffix = params.dig(:person_search_fields, :suffix)
-    @ssn = params.dig(:person_search_fields, :ssn)
+    @client_id                = params.dig(:person_search_fields, :client_id)
+    @last_name                = params.dig(:person_search_fields, :last_name)
+    @first_name               = params.dig(:person_search_fields, :first_name)
+    @middle_name              = params.dig(:person_search_fields, :middle_name)
+    @suffix                   = params.dig(:person_search_fields, :suffix)
+    @ssn                      = params.dig(:person_search_fields, :ssn)
   end
 
   def initialize_age_gender
-    @date_of_birth = params.dig(:person_search_fields, :date_of_birth)
-    @approximate_age = params.dig(:person_search_fields, :approximate_age)
-    @approximate_age_units = params.dig(:person_search_fields, :approximate_age_units)
-    @sex_at_birth = params.dig(:person_search_fields, :sex_at_birth)
+    @date_of_birth            = params.dig(:person_search_fields, :date_of_birth)
+    @approximate_age          = params.dig(:person_search_fields, :approximate_age)
+    @approximate_age_units    = params.dig(:person_search_fields, :approximate_age_units)
+    @sex_at_birth             = params.dig(:person_search_fields, :sex_at_birth)
   end
 
   def initialize_address
     return unless address_searched?
-    @street = params.dig(:person_search_fields, :street)
-    @city = params.dig(:person_search_fields, :city)
-    @county = params.dig(:person_search_fields, :county)
-    @state = params.dig(:person_search_fields, :state)
-    @country = params.dig(:person_search_fields, :country)
-    @zip_code = params.dig(:person_search_fields, :zip_code)
+    @street                   = params.dig(:person_search_fields, :street)
+    @city                     = params.dig(:person_search_fields, :city)
+    @county                   = params.dig(:person_search_fields, :county)
+    @state                    = params.dig(:person_search_fields, :state)
+    @country                  = params.dig(:person_search_fields, :country)
+    @zip_code                 = params.dig(:person_search_fields, :zip_code)
   end
 
   def advanced_search_on?
@@ -64,9 +65,9 @@ class BaseQueryBuilder
 
   def address_searched?
     [
-        params.dig(:person_search_fields, :street), params.dig(:person_search_fields, :city),
-        params.dig(:person_search_fields, :county), params.dig(:person_search_fields, :state),
-        params.dig(:person_search_fields, :country), params.dig(:person_search_fields, :zip_code)
+      params.dig(:person_search_fields, :street), params.dig(:person_search_fields, :city),
+      params.dig(:person_search_fields, :county), params.dig(:person_search_fields, :state),
+      params.dig(:person_search_fields, :country), params.dig(:person_search_fields, :zip_code)
     ].any?(&:present?)
   end
 
@@ -79,16 +80,17 @@ class BaseQueryBuilder
   end
 
   def build_query
-    {size: SIZE, track_scores: TRACK_SCORES, sort: [{_score: 'desc', _uid: 'desc'}],
-        _source: fields, highlight: highlight
-    }.tap {|query| query[:search_after] = @search_after if @search_after}
+    {
+      size: SIZE, track_scores: TRACK_SCORES, sort: [{ _score: 'desc', _uid: 'desc' }],
+      _source: fields, highlight: highlight
+    }.tap { |query| query[:search_after] = @search_after if @search_after }
   end
 
   def auto_bar_highlight
-    {'matched_fields':
-        ['autocomplete_search_bar', 'autocomplete_search_bar.phonetic',
-            'autocomplete_search_bar.diminutive']
-    }
+    { 'matched_fields':
+      ['autocomplete_search_bar',
+       'autocomplete_search_bar.phonetic',
+       'autocomplete_search_bar.diminutive'] }
   end
 
   def fields
@@ -103,9 +105,9 @@ class BaseQueryBuilder
   end
 
   def highlight
-    {order: 'score',
-     number_of_fragments: NUMBER_OF_FRAGMENTS,
-     require_field_match: REQUIRE_FIELD_MATCH,
-     fields: {autocomplete_search_bar: auto_bar_highlight, searchable_date_of_birth: {}}}
+    { order: 'score',
+      number_of_fragments: NUMBER_OF_FRAGMENTS,
+      require_field_match: REQUIRE_FIELD_MATCH,
+      fields: { autocomplete_search_bar: auto_bar_highlight, searchable_date_of_birth: {} } }
   end
 end
