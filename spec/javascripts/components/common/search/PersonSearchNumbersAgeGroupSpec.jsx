@@ -61,6 +61,14 @@ describe('PersonSearchNumbersAgeGroup', () => {
       expect(ssn.props().value).toEqual('123456789')
     })
 
+    it('renders the radio choice message', () => {
+      const component = render({})
+      const message = component.find('div.radio-choice-message')
+      expect(message.exists()).toEqual(true)
+      expect(message.find('span.radio-choice-message-action').exists()).toEqual(true)
+      expect(message.text()).toEqual('Choose one: (clear)')
+    })
+
     it('renders AgeForm', () => {
       const component = render({personSearchFields: {}})
       const ageForm = component.find('AgeForm')

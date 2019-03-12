@@ -37,7 +37,9 @@ const PersonSearchNumbersAgeGroup = ({onChange, personSearchFields, clientIdErro
     </div>
     <div className="col-md-8 person-search-age-section">
       <div className="row">
-        <div className="col-md-12">Choose one: (<a href="#">clear</a>)</div>
+        <div className="col-md-12 radio-choice-message">
+          Choose one: (<span className="radio-choice-message-action">clear</span>)
+        </div>
       </div>
       <div className="row">
         <div className="col-md-12">

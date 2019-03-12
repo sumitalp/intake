@@ -29,14 +29,14 @@ const PersonSearchButtonGroup = ({
   <div className="row person-search-field-group">
     <div className="col-md-12">
       <button
-        className="btn btn-primary person-search-button search"
+        className="btn person-search-button search"
         onClick={onSubmit}
         disabled={!canSearch(personSearchFields)}
       >
         Search
       </button>
       <button
-        className="btn btn-primary person-search-button clear"
+        className="btn person-search-button clear"
         onClick={onCancel}
       >
         Clear All
