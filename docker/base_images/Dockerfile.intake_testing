@@ -33,7 +33,7 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
 # Credits to https://github.com/elgalu/docker-selenium
-ENV CHROME_DRIVER_VERSION="74.0.3729.6" \
+ENV CHROME_DRIVER_VERSION="2.42" \
   CHROME_DRIVER_BASE="chromedriver.storage.googleapis.com" \
   CPU_ARCH="64"
 ENV CHROME_DRIVER_FILE="chromedriver_linux${CPU_ARCH}.zip"
