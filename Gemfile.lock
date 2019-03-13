@@ -462,7 +462,7 @@ DEPENDENCIES
   pry-stack_explorer
   pry-theme
   puma
-  rails (~> 5.2)
+  rails (~> 5.2.2.1)
   rails-controller-testing
   responders
   rspec-rails (~> 3.4)
