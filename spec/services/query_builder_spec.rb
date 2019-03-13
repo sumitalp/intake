@@ -7,6 +7,10 @@ describe QueryBuilder do
     { client_id: '1111-1111-1111-1111111' }
   end
 
+  let(:person_search_fields_with_ssn) do
+    { ssn: '111223343' }
+  end
+
   let(:person_search_fields) do
     { search_term: 'this is test search term',
       city: 'city_search_term',
@@ -66,6 +70,7 @@ describe QueryBuilder do
       street: 'street_number_and_name_search_term' }
   end
 
+  let(:ssn_only_query) { PersonSearchResultBuilder.new.ssn_only_query }
   let(:person_and_address) { PersonSearchResultBuilder.new.person_and_address }
   let(:client_id_only_query) { PersonSearchResultBuilder.new.client_id_only_query }
   let(:full_name_query) { PersonSearchResultBuilder.new.full_name_query }
@@ -215,7 +220,7 @@ describe QueryBuilder do
         expect(result['query']).to eq full_name_date_of_birth_query['query']
       end
 
-      it 'returns query with full name, ssn, date of birth, and address' do
+      it 'returns query with full name, date of birth, and address' do
         result = described_class.build(
           is_advanced_search_on: 'true',
           person_search_fields: person_search_fields_with_full_name_dob_address
@@ -268,6 +273,18 @@ describe QueryBuilder do
         expect(result['track_scores']).to eq person_and_address['track_scores']
         expect(result['highlight']).to eq person_and_address['highlight']
         expect(result['query']).to eq person_and_address['query']
+      end
+    end
+
+    context 'when ssn is present' do
+      it 'returns query with ssn only' do
+        result = described_class.build(person_search_fields: person_search_fields_with_ssn)
+                     .payload.as_json
+        expect(result['_source']).to eq ssn_only_query['_source']
+        expect(result['size']).to eq ssn_only_query['size']
+        expect(result['sort']).to eq ssn_only_query['sort']
+        expect(result['track_scores']).to eq ssn_only_query['track_scores']
+        expect(result['query']).to eq ssn_only_query['query']
       end
     end
   end
