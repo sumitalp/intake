@@ -43,7 +43,7 @@ describe JsonAPI do
                 'Authorization' => token,
                 'Request-Id': request_id,
                 'Session-Id' => token,
-                'User-Agent' => 'Faraday v0.15.3'
+                'User-Agent' => 'Faraday v0.15.4'
               })
       api_class.make_api_call(
         token: token,
