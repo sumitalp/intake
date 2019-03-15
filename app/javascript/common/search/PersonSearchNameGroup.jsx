@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import InputField from 'common/InputField'
-import MaskedInputField from 'common/MaskedInputField'
 import SuffixNameSelect from 'common/search/suffix/SuffixNameSelect'
+import SexAtBirthSelect from 'common/search/sexatbirth/SexAtBirthSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
-const PersonSearchNameGroup = ({onChange, personSearchFields, clientIdError}) => (
+const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
   <div className="row person-search-field-group">
     <InputField
       id="search-last-name"
@@ -28,35 +28,22 @@ const PersonSearchNameGroup = ({onChange, personSearchFields, clientIdError}) =>
       onChange={({target: {value}}) => onChange('searchMiddleName', value)}
       value={personSearchFields.searchMiddleName}
     />
-    <MaskedInputField
-      id="search-client-id"
-      label="Client ID"
-      gridClassName="col-md-4 client-id-field"
-      onChange={({target: {value}}) => onChange('searchClientId', value)}
-      value={personSearchFields.searchClientId}
-      mask='1111-1111-1111-1111111'
-      placeholder='____-____-____-_______'
-      maxLength='19'
-      errors={clientIdError}
-    />
     <SuffixNameSelect
       id="search-suffix"
       gridClassName="col-md-4 suffix-field"
       onChange={onChange}
       value={personSearchFields.searchSuffix}
     />
-    <InputField
-      id="search-ssn"
-      gridClassName="col-md-4 ssn-field"
-      label="SSN"
-      onChange={({target: {value}}) => onChange('searchSsn', value)}
-      value={personSearchFields.searchSsn}
+    <SexAtBirthSelect
+      id="search-sex-at-birth"
+      gridClassName="col-md-4 sex-at-birth-field"
+      onChange={onChange}
+      value={personSearchFields.searchSexAtBirth}
     />
   </div>
 )
 
 PersonSearchNameGroup.propTypes = {
-  clientIdError: PropTypes.array,
   onChange: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
 }
