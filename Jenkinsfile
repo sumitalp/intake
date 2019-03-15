@@ -59,7 +59,10 @@ def buildMaster() {
     triggerProperties = pullRequestMergedTriggerProperties('intake-master')
     properties([
       pipelineTriggers([triggerProperties]),
-      buildDiscarderDefaults('master')
+      buildDiscarderDefaults('master'),
+      parameters([
+        string(name: 'INCREMENT_VERSION', defaultValue: '', description: 'major, minor, or patch')
+      ])
     ])
 
     try {
@@ -153,7 +156,7 @@ def rspecTestsSnapshot() {
     sh 'EXCLUDE_PATTERN="features/screening" ./scripts/ci/rspec_test.rb'
   }
 }
-      
+
 def build() {
   stage('Build') {
     curStage = 'Build'
@@ -164,7 +167,7 @@ def build() {
 def incrementTag() {
   stage('Increment Tag') {
     curStage = 'Increment Tag'
-    VERSION = newSemVer()
+    VERSION = newSemVer(env.INCREMENT_VERSION)
     VCS_REF = sh(
       script: 'git rev-parse --short HEAD', returnStdout: true
     )
