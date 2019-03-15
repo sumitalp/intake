@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import InputField from 'common/InputField'
-import SuffixNameSelect from 'common/search/suffix/SuffixNameSelect'
 import SexAtBirthSelect from 'common/search/sexatbirth/SexAtBirthSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
@@ -28,11 +27,13 @@ const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
       onChange={({target: {value}}) => onChange('searchMiddleName', value)}
       value={personSearchFields.searchMiddleName}
     />
-    <SuffixNameSelect
+    <InputField
       id="search-suffix"
       gridClassName="col-md-4 suffix-field"
-      onChange={onChange}
+      label="Suffix"
+      onChange={({target: {value}}) => onChange('searchSuffix', value)}
       value={personSearchFields.searchSuffix}
+      maxLength='4'
     />
     <SexAtBirthSelect
       id="search-sex-at-birth"
