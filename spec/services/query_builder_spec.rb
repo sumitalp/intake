@@ -279,7 +279,7 @@ describe QueryBuilder do
     context 'when ssn is present' do
       it 'returns query with ssn only' do
         result = described_class.build(person_search_fields: person_search_fields_with_ssn)
-                     .payload.as_json
+                                .payload.as_json
         expect(result['_source']).to eq ssn_only_query['_source']
         expect(result['size']).to eq ssn_only_query['size']
         expect(result['sort']).to eq ssn_only_query['sort']
