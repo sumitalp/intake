@@ -36,18 +36,13 @@ describe('PersonSearchNameGroup', () => {
       expect(middleName.props().value).toEqual('Middle')
     })
 
-    it('renders suffix select', () => {
-      const component = render({personSearchFields: {searchSuffix: ''}})
-      const suffixSelect = component.find('SuffixNameSelect')
-      expect(suffixSelect.props().id).toEqual('search-suffix')
-      expect(suffixSelect.props().value).toEqual('')
-    })
-
-    it('renders suffix select when a suffix is selected', () => {
-      const component = render({personSearchFields: {searchSuffix: 'Jr'}})
-      const suffixSelect = component.find('SuffixNameSelect')
-      expect(suffixSelect.props().id).toEqual('search-suffix')
-      expect(suffixSelect.props().value).toEqual('Jr')
+    it('renders suffix input field with label Suffix', () => {
+      const suffix = render({
+        personSearchFields: {searchSuffix: 'Jr'},
+      }).find('InputField[label="Suffix"]')
+      expect(suffix.props().id).toEqual('search-suffix')
+      expect(suffix.props().value).toEqual('Jr')
+      expect(suffix.props().maxLength).toEqual('4')
     })
 
     it('renders sex at birth select', () => {
@@ -101,13 +96,13 @@ describe('PersonSearchNameGroup', () => {
       expect(onChange).toHaveBeenCalledWith('searchMiddleName', 'Middle')
     })
 
-    it('calls onChange when new suffix is selected', () => {
+    it('calls onChange when new suffix is entered', () => {
       const onChange = jasmine.createSpy('onChange')
       const component = render({onChange})
       component
-        .find('SuffixNameSelect')
+        .find('#search-suffix')
         .props()
-        .onChange('searchSuffix', 'Jr')
+        .onChange({target: {value: 'Jr'}})
       expect(onChange).toHaveBeenCalledWith('searchSuffix', 'Jr')
     })
 
