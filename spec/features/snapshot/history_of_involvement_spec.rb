@@ -244,7 +244,7 @@ feature 'Snapshot History of Involvement' do
 
   context 'with no history of involvements' do
     around do |example|
-      Feature.run_with_activated(:release_two) do
+      Feature.run_with_activated(:release_two, :advanced_search) do
         example.run
       end
     end
@@ -260,7 +260,7 @@ feature 'Snapshot History of Involvement' do
 
   context 'a snapshot with HOI from FERB' do
     around do |example|
-      Feature.run_with_activated(:release_two) do
+      Feature.run_with_activated(:release_two, :advanced_search) do
         example.run
       end
     end

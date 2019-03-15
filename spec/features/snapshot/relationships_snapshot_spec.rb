@@ -26,7 +26,7 @@ feature 'Snapshot relationship card' do
 
   context 'load relationships' do
     around do |example|
-      Feature.run_with_activated(:release_two) do
+      Feature.run_with_activated(:release_two, :advanced_search) do
         example.run
       end
     end
