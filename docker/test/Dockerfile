@@ -13,5 +13,8 @@ RUN chmod +x /usr/local/bin/build.sh
 
 COPY . ./
 RUN bundle install -j8 --retry=3
+RUN CHROME_VERSION=$(google-chrome --version | sed -r 's/[^0-9]+([0-9]+\.[0-9]+\.[0-9]+).*/\1/g') && \
+    CHROMEDRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION) && \
+    bundle exec chromedriver-update $CHROMEDRIVER_VERSION
 RUN yarn
 RUN bin/webpack
