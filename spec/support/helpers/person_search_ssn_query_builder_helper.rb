@@ -13,7 +13,7 @@ module PersonSearchSsnQueryBuilderHelper
       ],
       "query": {
         "bool": {
-          "should": [
+          "must": [
             {
               "query_string": {
                 "default_field": 'ssn',
