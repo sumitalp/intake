@@ -26,7 +26,7 @@ module PersonSearchByAddressHelper
                           "addresses.autocomplete_searchable_address": {
                             "query": 'street_number_and_name_search_term',
                             "operator": 'and',
-                            "boost": '10'
+                            "boost": '14'
                           }
                         }
                       },
@@ -34,7 +34,7 @@ module PersonSearchByAddressHelper
                         "match": {
                           "addresses.last_known": {
                             "query": 'true',
-                            "boost": '10'
+                            "boost": '14'
                           }
                         }
                       },
@@ -42,7 +42,7 @@ module PersonSearchByAddressHelper
                         "match": {
                           "addresses.autocomplete_city": {
                             "query": 'city_search_term',
-                            "boost": '10'
+                            "boost": '14'
                           }
                         }
                       },
@@ -50,7 +50,7 @@ module PersonSearchByAddressHelper
                         "match": {
                           "addresses.county.description": {
                             "query": 'county_search_term',
-                            "boost": '10'
+                            "boost": '14'
                           }
                         }
                       },
@@ -58,7 +58,7 @@ module PersonSearchByAddressHelper
                         "match": {
                           "addresses.searchable_address": {
                             "query": 'street_number_and_name_search_term',
-                            "boost": '10'
+                            "boost": '14'
                           }
                         }
                       },
@@ -66,7 +66,7 @@ module PersonSearchByAddressHelper
                         "match": {
                           "addresses.city": {
                             "query": 'city_search_term',
-                            "boost": '10'
+                            "boost": '14'
                           }
                         }
                       }
@@ -98,7 +98,7 @@ module PersonSearchByAddressHelper
                         "match": {
                           "addresses.last_known": {
                             "query": 'true',
-                            "boost": '10'
+                            "boost": '14'
                           }
                         }
                       },
@@ -106,7 +106,7 @@ module PersonSearchByAddressHelper
                         "match": {
                           "addresses.autocomplete_city": {
                             "query": 'city_search_term',
-                            "boost": '10'
+                            "boost": '14'
                           }
                         }
                       },
@@ -114,7 +114,7 @@ module PersonSearchByAddressHelper
                         "match": {
                           "addresses.city": {
                             "query": 'city_search_term',
-                            "boost": '10'
+                            "boost": '14'
                           }
                         }
                       }

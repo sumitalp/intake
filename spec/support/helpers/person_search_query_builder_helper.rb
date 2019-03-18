@@ -29,7 +29,7 @@ module PersonSearchQueryBuilderHelper
             },
             {
               "query_string": {
-                "boost": '10',
+                "boost": '14',
                 "default_field": 'autocomplete_search_bar',
                 "query": 'this is test search term'
               }
@@ -78,14 +78,14 @@ module PersonSearchQueryBuilderHelper
             },
             {
               "query_string": {
-                "boost": '10',
+                "boost": '14',
                 "default_field": 'date_of_birth_as_text',
                 "query": 'this is test search term'
               }
             },
             {
               "query_string": {
-                "boost": '10',
+                "boost": '14',
                 "default_field": 'ssn',
                 "query": 'this is test search term'
               }
@@ -196,7 +196,7 @@ module PersonSearchQueryBuilderHelper
               "query_string": {
                 "default_field": 'autocomplete_search_bar',
                 "query": 'this is test search term',
-                "boost": '10'
+                "boost": '14'
               }
             },
             {
@@ -245,14 +245,14 @@ module PersonSearchQueryBuilderHelper
               "query_string": {
                 "default_field": 'date_of_birth_as_text',
                 "query": 'this is test search term',
-                "boost": '10'
+                "boost": '14'
               }
             },
             {
               "query_string": {
                 "default_field": 'ssn',
                 "query": 'this is test search term',
-                "boost": '10'
+                "boost": '14'
               }
             },
             {
