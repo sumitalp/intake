@@ -592,7 +592,7 @@ module PersonSearchNameQueryBuilderHelper
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'last_name.diminutive',
                 "query": 'last name'
               }
