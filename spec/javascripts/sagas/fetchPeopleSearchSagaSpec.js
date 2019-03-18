@@ -54,7 +54,7 @@ describe('getPeopleEffect', () => {
     expect(getPeopleEffect({
       isClientOnly: true,
       isAdvancedSearchOn: true,
-      personSearchFields: {searchFirstName: 'John'},
+      personSearchFields: {searchFirstName: 'John', searchCounty: 'Yolo'},
     })).toEqual(call(get, '/api/v1/people', {
       is_client_only: true,
       is_advanced_search_on: true,
@@ -65,12 +65,12 @@ describe('getPeopleEffect', () => {
     expect(getPeopleEffect({
       isClientOnly: true,
       isAdvancedSearchOn: false,
-      personSearchFields: {searchAddress: '123 Main St', searchCity: 'Anywhereville', searchCounty: 'Oz'},
+      personSearchFields: {searchFirstName: 'John', searchLastName: 'Doe', searchCounty: 'Yolo'},
       sort: 'What even goes here?',
     })).toEqual(call(get, '/api/v1/people', {
       is_client_only: true,
       is_advanced_search_on: false,
-      person_search_fields: {street: '123 Main St', city: 'Anywhereville', county: 'Oz'},
+      person_search_fields: {first_name: 'John', last_name: 'Doe'},
       search_after: 'What even goes here?',
     }))
   })
