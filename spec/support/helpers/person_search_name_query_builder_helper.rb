@@ -24,7 +24,7 @@ module PersonSearchNameQueryBuilderHelper
           "should": [
             {
               "query_string": {
-                "boost": '10',
+                "boost": '20',
                 "default_field": 'last_name',
                 "query": 'last name'
               }
@@ -66,21 +66,21 @@ module PersonSearchNameQueryBuilderHelper
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'last_name.diminutive',
                 "query": 'last name'
               }
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'first_name.diminutive',
                 "query": 'first name'
               }
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'middle_name.diminutive',
                 "query": 'middle name'
               }
@@ -98,7 +98,7 @@ module PersonSearchNameQueryBuilderHelper
                 "type": 'cross_fields',
                 "fields": %w[first_name last_name],
                 "operator": 'and',
-                "boost": '10'
+                "boost": '14'
               }
             },
             {
@@ -106,7 +106,7 @@ module PersonSearchNameQueryBuilderHelper
                 "first_name": {
                   "query": 'first name',
                   "operator": 'and',
-                  "boost": '1',
+                  "boost": '4',
                   "fuzziness": '3'
                 }
               }
@@ -141,7 +141,7 @@ module PersonSearchNameQueryBuilderHelper
           "should": [
             {
               "query_string": {
-                "boost": '10',
+                "boost": '20',
                 "default_field": 'last_name',
                 "query": 'last name'
               }
@@ -155,7 +155,7 @@ module PersonSearchNameQueryBuilderHelper
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'last_name.diminutive',
                 "query": 'last name'
               }
@@ -211,7 +211,7 @@ module PersonSearchNameQueryBuilderHelper
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'first_name.diminutive',
                 "query": 'first name'
               }
@@ -228,7 +228,7 @@ module PersonSearchNameQueryBuilderHelper
                 "first_name": {
                   "query": 'first name',
                   "operator": 'and',
-                  "boost": '1',
+                  "boost": '4',
                   "fuzziness": '3'
                 }
               }
@@ -263,14 +263,14 @@ module PersonSearchNameQueryBuilderHelper
               "query_string": {
                 "default_field": 'date_of_birth_as_text',
                 "query": '05051989',
-                "boost": '10'
+                "boost": '14'
               }
             }
           ],
           "should": [
             {
               "query_string": {
-                "boost": '10',
+                "boost": '20',
                 "default_field": 'last_name',
                 "query": 'last name'
               }
@@ -312,21 +312,21 @@ module PersonSearchNameQueryBuilderHelper
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'last_name.diminutive',
                 "query": 'last name'
               }
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'first_name.diminutive',
                 "query": 'first name'
               }
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'middle_name.diminutive',
                 "query": 'middle name'
               }
@@ -344,7 +344,7 @@ module PersonSearchNameQueryBuilderHelper
                 "type": 'cross_fields',
                 "fields": %w[first_name last_name],
                 "operator": 'and',
-                "boost": '10'
+                "boost": '14'
               }
             },
             {
@@ -352,7 +352,7 @@ module PersonSearchNameQueryBuilderHelper
                 "first_name": {
                   "query": 'first name',
                   "operator": 'and',
-                  "boost": '1',
+                  "boost": '4',
                   "fuzziness": '3'
                 }
               }
@@ -387,14 +387,14 @@ module PersonSearchNameQueryBuilderHelper
               "query_string": {
                 "default_field": 'date_of_birth_as_text',
                 "query": '05051989',
-                "boost": '10'
+                "boost": '14'
               }
             }
           ],
           "should": [
             {
               "query_string": {
-                "boost": '10',
+                "boost": '20',
                 "default_field": 'last_name',
                 "query": 'last name'
               }
@@ -436,21 +436,21 @@ module PersonSearchNameQueryBuilderHelper
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'last_name.diminutive',
                 "query": 'last name'
               }
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'first_name.diminutive',
                 "query": 'first name'
               }
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'middle_name.diminutive',
                 "query": 'middle name'
               }
@@ -468,7 +468,7 @@ module PersonSearchNameQueryBuilderHelper
                 "type": 'cross_fields',
                 "fields": %w[first_name last_name],
                 "operator": 'and',
-                "boost": '10'
+                "boost": '14'
               }
             },
             {
@@ -476,7 +476,7 @@ module PersonSearchNameQueryBuilderHelper
                 "first_name": {
                   "query": 'first name',
                   "operator": 'and',
-                  "boost": '1',
+                  "boost": '4',
                   "fuzziness": '3'
                 }
               }
@@ -490,7 +490,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.autocomplete_searchable_address": {
-                            "boost": '10',
+                            "boost": '14',
                             "operator": 'and',
                             "query": 'street_number_and_name_search_term'
                           }
@@ -499,7 +499,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.last_known": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'true'
                           }
                         }
@@ -507,7 +507,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.autocomplete_city": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'city_search_term'
                           }
                         }
@@ -515,7 +515,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.county.description": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'county_search_term'
                           }
                         }
@@ -523,7 +523,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.searchable_address": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'street_number_and_name_search_term'
                           }
                         }
@@ -531,7 +531,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.city": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'city_search_term'
                           }
                         }
@@ -571,14 +571,14 @@ module PersonSearchNameQueryBuilderHelper
               "query_string": {
                 "default_field": 'date_of_birth_as_text',
                 "query": '05051989',
-                "boost": '10'
+                "boost": '14'
               }
             }
           ],
           "should": [
             {
               "query_string": {
-                "boost": '10',
+                "boost": '20',
                 "default_field": 'last_name',
                 "query": 'last name'
               }
@@ -592,7 +592,7 @@ module PersonSearchNameQueryBuilderHelper
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'last_name.diminutive',
                 "query": 'last name'
               }
@@ -613,7 +613,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.autocomplete_searchable_address": {
-                            "boost": '10',
+                            "boost": '14',
                             "operator": 'and',
                             "query": 'street_number_and_name_search_term'
                           }
@@ -622,7 +622,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.last_known": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'true'
                           }
                         }
@@ -630,7 +630,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.autocomplete_city": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'city_search_term'
                           }
                         }
@@ -638,7 +638,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.county.description": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'county_search_term'
                           }
                         }
@@ -646,7 +646,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.searchable_address": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'street_number_and_name_search_term'
                           }
                         }
@@ -654,7 +654,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.city": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'city_search_term'
                           }
                         }
@@ -694,7 +694,7 @@ module PersonSearchNameQueryBuilderHelper
               "query_string": {
                 "default_field": 'date_of_birth_as_text',
                 "query": '05051989',
-                "boost": '10'
+                "boost": '14'
               }
             }
           ],
@@ -715,7 +715,7 @@ module PersonSearchNameQueryBuilderHelper
             },
             {
               "query_string": {
-                "boost": '2',
+                "boost": '4',
                 "default_field": 'first_name.diminutive',
                 "query": 'first name'
               }
@@ -732,7 +732,7 @@ module PersonSearchNameQueryBuilderHelper
                 "first_name": {
                   "query": 'first name',
                   "operator": 'and',
-                  "boost": '1',
+                  "boost": '4',
                   "fuzziness": '3'
                 }
               }
@@ -746,7 +746,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.autocomplete_searchable_address": {
-                            "boost": '10',
+                            "boost": '14',
                             "operator": 'and',
                             "query": 'street_number_and_name_search_term'
                           }
@@ -755,7 +755,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.last_known": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'true'
                           }
                         }
@@ -763,7 +763,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.autocomplete_city": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'city_search_term'
                           }
                         }
@@ -771,7 +771,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.county.description": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'county_search_term'
                           }
                         }
@@ -779,7 +779,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.searchable_address": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'street_number_and_name_search_term'
                           }
                         }
@@ -787,7 +787,7 @@ module PersonSearchNameQueryBuilderHelper
                       {
                         "match": {
                           "addresses.city": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'city_search_term'
                           }
                         }

@@ -8,15 +8,15 @@ module PersonSearchNameQueryBuilder
   include QueryBuilderHelper
 
   ATTRIBUTES = {
-    'last_name' => HIGH_BOOST,
+    'last_name' => SUPER_BOOST,
     'first_name' => MEDIUM_BOOST,
     'middle_name' => LOW_BOOST,
     'last_name.phonetic' => LOW_BOOST,
     'first_name.phonetic' => LOW_BOOST,
     'middle_name.phonetic' => LOW_BOOST,
-    'last_name.diminutive' => LOW_BOOST,
-    'first_name.diminutive' => LOW_BOOST,
-    'middle_name.diminutive' => LOW_BOOST
+    'last_name.diminutive' => MEDIUM_BOOST,
+    'first_name.diminutive' => MEDIUM_BOOST,
+    'middle_name.diminutive' => MEDIUM_BOOST
   }.freeze
 
   def build_query_string(last_name, first_name, middle_name)
@@ -61,7 +61,7 @@ module PersonSearchNameQueryBuilder
     return if first_name.blank?
     {
       match: {
-        'first_name' => { query: first_name, operator: 'and', boost: NO_BOOST, fuzziness: '3' }
+        'first_name' => { query: first_name, operator: 'and', boost: MEDIUM_BOOST, fuzziness: '3' }
       }
     }
   end

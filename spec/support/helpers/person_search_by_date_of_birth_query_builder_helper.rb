@@ -18,7 +18,7 @@ module PersonSearchByDateOfBirthQueryBuilderHelper
               "query_string": {
                 "default_field": 'date_of_birth_as_text',
                 "query": '05051989',
-                "boost": '10'
+                "boost": '14'
               }
             }
           ]

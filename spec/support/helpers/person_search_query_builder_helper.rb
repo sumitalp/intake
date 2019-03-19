@@ -22,14 +22,14 @@ module PersonSearchQueryBuilderHelper
             {
               "match": {
                 "legacy_descriptor.legacy_ui_id_flat": {
-                  "boost": '10',
+                  "boost": '14',
                   "query": 'this is test search term'
                 }
               }
             },
             {
               "query_string": {
-                "boost": '10',
+                "boost": '14',
                 "default_field": 'autocomplete_search_bar',
                 "query": 'this is test search term'
               }
@@ -78,14 +78,14 @@ module PersonSearchQueryBuilderHelper
             },
             {
               "query_string": {
-                "boost": '10',
+                "boost": '14',
                 "default_field": 'date_of_birth_as_text',
                 "query": 'this is test search term'
               }
             },
             {
               "query_string": {
-                "boost": '10',
+                "boost": '14',
                 "default_field": 'ssn',
                 "query": 'this is test search term'
               }
@@ -106,7 +106,7 @@ module PersonSearchQueryBuilderHelper
                       {
                         "match": {
                           "addresses.autocomplete_searchable_address": {
-                            "boost": '10',
+                            "boost": '14',
                             "operator": 'and',
                             "query": 'street_number_and_name_search_term'
                           }
@@ -115,7 +115,7 @@ module PersonSearchQueryBuilderHelper
                       {
                         "match": {
                           "addresses.last_known": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'true'
                           }
                         }
@@ -123,7 +123,7 @@ module PersonSearchQueryBuilderHelper
                       {
                         "match": {
                           "addresses.autocomplete_city": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'city_search_term'
                           }
                         }
@@ -131,7 +131,7 @@ module PersonSearchQueryBuilderHelper
                       {
                         "match": {
                           "addresses.county.description": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'county_search_term'
                           }
                         }
@@ -139,7 +139,7 @@ module PersonSearchQueryBuilderHelper
                       {
                         "match": {
                           "addresses.searchable_address": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'street_number_and_name_search_term'
                           }
                         }
@@ -147,7 +147,7 @@ module PersonSearchQueryBuilderHelper
                       {
                         "match": {
                           "addresses.city": {
-                            "boost": '10',
+                            "boost": '14',
                             "query": 'city_search_term'
                           }
                         }
@@ -187,7 +187,7 @@ module PersonSearchQueryBuilderHelper
             {
               "match": {
                 "legacy_descriptor.legacy_ui_id_flat": {
-                  "boost": '10',
+                  "boost": '14',
                   "query": 'this is test search term'
                 }
               }
@@ -196,7 +196,7 @@ module PersonSearchQueryBuilderHelper
               "query_string": {
                 "default_field": 'autocomplete_search_bar',
                 "query": 'this is test search term',
-                "boost": '10'
+                "boost": '14'
               }
             },
             {
@@ -245,14 +245,14 @@ module PersonSearchQueryBuilderHelper
               "query_string": {
                 "default_field": 'date_of_birth_as_text',
                 "query": 'this is test search term',
-                "boost": '10'
+                "boost": '14'
               }
             },
             {
               "query_string": {
                 "default_field": 'ssn',
                 "query": 'this is test search term',
-                "boost": '10'
+                "boost": '14'
               }
             },
             {
@@ -286,7 +286,7 @@ module PersonSearchQueryBuilderHelper
             "match": {
               "legacy_descriptor.legacy_ui_id_flat": {
                 "query": '1111111111111111111',
-                "boost": '10'
+                "boost": '14'
               }
             }
           }]
@@ -313,7 +313,7 @@ module PersonSearchQueryBuilderHelper
               "query_string": {
                 "default_field": 'ssn',
                 "query": '111223343',
-                "boost": '10'
+                "boost": '14'
               }
             }
           ]

@@ -18,7 +18,7 @@ module PersonSearchSsnQueryBuilderHelper
               "query_string": {
                 "default_field": 'ssn',
                 "query": '123456789',
-                "boost": '10'
+                "boost": '14'
               }
             }
           ]
