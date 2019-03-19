@@ -208,7 +208,7 @@ feature 'Create Snapshot' do
           stub_empty_history_for_clients [person.dig(:legacy_descriptor, :legacy_id)]
         end
 
-        scenario 'closes when clicking Start Over button' do
+        scenario 'closes when clicking Start Over button', inaccessible: true do
           within '#search-card', text: 'Search' do
             fill_in 'First Name', with: 'Ju'
             click_button 'Search'
