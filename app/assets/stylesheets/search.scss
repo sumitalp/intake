@@ -66,54 +66,61 @@
     font-weight: bold;
   }
 
-  .client-age-form {
-    div.col-md-6:first-child {
-      padding-left: .3rem;
-    }
-
-    div.col-md-6:nth-child(2) {
-      padding-left: 1.7rem;
-    }
-  }
-
   .person-search-age-section {
-    margin-top: 2rem;
+    padding-left: 6rem;
 
-    div.row:nth-child(3) {
-      margin-top: .3rem;
+    .client-age-form {
+      div.col-md-6:first-child {
+        padding-left: .3rem;
+      }
+  
+      div.col-md-6:nth-child(2) {
+        padding-left: 1.7rem;
+      }
     }
-  }
 
-  .date-of-birth-section {
-    padding-left: 0;
-  }
+    .date-of-birth-section {
+      padding-left: 2.8rem;
+  
+      label {
+        margin-top: 0;
+        padding-top: 0;
+      }
+    }
 
-  .approximate-age-section {
-    padding-left: 0;
-    padding-right: 0;
-
-    .col-md-6:nth-child(2) {
+    .approximate-age-section {
+      padding-left: 2.8rem;
       padding-right: 0;
-    }
-  }
-
-  // see https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
-  // for more info about the placeholder pseudo element
-  .date-field {
-    // edge (it requries the -webkit-input- prefix)
-    input::-webkit-input-placeholder {
-      font-size: 1.4rem;
-    }
-
-    // ie 11
-    input:-ms-input-placeholder {
-      font-size: 1.4rem;
+  
+      .col-md-6:nth-child(2) {
+        padding-left: 0;
+        padding-right: 0;
+      }
+  
+      label {
+        margin-top: 0;
+        padding-top: 0;
+      }
     }
 
-    // chrome v57+ and firefox v51+
-    input::placeholder {
-      font-size: 1.4rem;
-    }
+    // see https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
+    // for more info about the placeholder pseudo element
+    .date-field {
+      // edge (it requries the -webkit-input- prefix)
+      input::-webkit-input-placeholder {
+        font-size: 1.4rem;
+      }
+
+      // ie 11
+      input:-ms-input-placeholder {
+        font-size: 1.4rem;
+      }
+
+      // chrome v57+ and firefox v51+
+      input::placeholder {
+        font-size: 1.4rem;
+      }
+    }    
   }
 
   button.btn.person-search-button.clear {
@@ -122,6 +129,7 @@
     color: $green;
     float: right;
     text-transform: none;
+    padding: 1.5rem 2.2rem;
   }
 
   button.btn.person-search-button.search {
@@ -129,18 +137,61 @@
     border: none;
     color: $white;
     float: right;
-    margin-left: .75rem;
+    margin-left:3rem;
     text-transform: none;
   }
 
   .radio-choice-message-action {
     color: $green;
     cursor: not-allowed;
+    font-weight: 600;
   }
+
+  @media only screen and (max-width: 1199px) and (min-width: 992px) {
+    .person-search-age-section {
+      padding-left: 2rem;
+      
+      .client-age-form {
+        div.col-md-6:nth-child(2) {
+          padding-left: .4rem;
+        }
+      }
+    }
+
+    .approximate-age-section {
+      div.col-md-6:first-child {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
+
 
   @media only screen and (max-width: 991px) {
     .person-search-age-section {
       margin-top: 1.5rem;
+      padding-left: 1.5rem;
+
+      .client-age-form {
+        div.col-md-6:first-child {
+          padding-left: 0;
+        }
+
+        div.col-md-6:nth-child(2) {
+          padding-left: 0;
+        }
+      }
+
+      .date-of-birth-section, .approximate-age-section {
+        margin-top: 1.5rem;
+        padding-left: 0;
+      }
+
+      .approximate-age-section {
+        label {
+          margin-top: 1.5rem;
+        }
+      }
     }
 
     .client-age-form {
