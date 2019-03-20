@@ -62,14 +62,14 @@ const PersonSearchNumbersAgeGroup = ({onChange, personSearchFields, clientIdErro
             />
           </div>
           <div className="col-md-6 approximate-age-section">
-            <div className="col-md-6">
+            <div className="col-md-6 approximate-age-selector unit">
               <AgeUnitForm
                 formLabel = "Unit"
                 monthsLabel = "Months"
                 yearsLabel = "Years"
               />
             </div>
-            <div className="col-md-6">
+            <div className="col-md-6 approximate-age-selector number">
               <ApproximateAgeNumberSelect
                 id="search-approximate-age-number"
                 gridClassName="age-number-field"
