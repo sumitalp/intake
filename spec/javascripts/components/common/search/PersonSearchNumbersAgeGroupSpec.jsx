@@ -88,9 +88,22 @@ describe('PersonSearchNumbersAgeGroup', () => {
       expect(dateField.props().hasTime).toEqual(false)
     })
 
+    it('renders div.approximate-age-selector.unit', () => {
+      const component = render({personSearchFields: {}})
+      const selector = component.find('div.approximate-age-selector.unit')
+      expect(selector.exists()).toEqual(true)
+    })
+
+    it('renders div.approximate-age-selector.number', () => {
+      const component = render({personSearchFields: {}})
+      const selector = component.find('div.approximate-age-selector.number')
+      expect(selector.exists()).toEqual(true)
+    })
+
     it('renders AgeUnitForm', () => {
       const component = render({personSearchFields: {}})
       const ageUnitForm = component.find('AgeUnitForm')
+      expect(ageUnitForm.exists()).toEqual(true)
       expect(ageUnitForm.props().formLabel).toEqual('Unit')
       expect(ageUnitForm.props().monthsLabel).toEqual('Months')
       expect(ageUnitForm.props().yearsLabel).toEqual('Years')
