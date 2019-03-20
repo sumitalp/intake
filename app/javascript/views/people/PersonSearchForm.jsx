@@ -20,7 +20,7 @@ class PersonSearchForm extends React.Component {
         <button className="anchor" aria-label="search-card-anchor" id="search-card-anchor" />
         <div id='search-card' className="card double-gap-bottom hidden-print person-search-card">
           <div className="card-header">
-            <h2>Search</h2>
+            <h2>Snapshot Search</h2>
           </div>
           <div className={`card-body ${classNameAdvancedSearchDisabled}`}>
             <div className="row">
