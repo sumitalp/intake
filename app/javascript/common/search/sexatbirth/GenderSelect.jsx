@@ -22,7 +22,6 @@ class GenderSelect extends React.PureComponent {
         label="Sex at Birth"
         onChange={this.onChange.bind(this)}
         value={value}
-        disabled={true}
       >
         <option key="" />
         {Object.keys(genders).map(key => (

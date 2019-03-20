@@ -14,7 +14,7 @@ const SEARCH_PARAMS = Object.freeze({
   searchClientId: 'client_id',
   searchDateOfBirth: 'date_of_birth',
   searchFirstName: 'first_name',
-  searchSexAtBirth: 'sex_at_birth',
+  searchSexAtBirth: 'gender',
   searchLastName: 'last_name',
   searchMiddleName: 'middle_name',
   searchSsn: 'ssn',

@@ -97,9 +97,4 @@ describe('GenderSelect', () => {
 
     expect(onChange).toHaveBeenCalledWith('searchSexAtBirth', '')
   })
-
-  it('sets Select Field disabled prop to true', () => {
-    const component = render({})
-    expect(component.find('SelectField').props().disabled).toEqual(true)
-  })
 })

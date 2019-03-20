@@ -15,8 +15,9 @@ const canSearch = ({
   searchSsn,
   searchDateOfBirth,
   searchAddress,
+  searchSexAtBirth,
 }) => {
-  const fields = [searchLastName, searchFirstName, searchMiddleName, searchClientId, searchSsn, searchDateOfBirth, searchAddress]
+  const fields = [searchLastName, searchFirstName, searchMiddleName, searchClientId, searchSsn, searchDateOfBirth, searchAddress, searchSexAtBirth]
   const searchableFields = fields.filter(field => isSearchable(field))
   return Boolean(searchableFields.length)
 }

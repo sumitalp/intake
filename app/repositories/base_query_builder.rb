@@ -5,7 +5,7 @@ class BaseQueryBuilder
   include QueryBuilderHelper
 
   attr_reader :search_term, :search_after, :is_client_only, :payload,
-    :params, :city, :county, :street, :client_id, :date_of_birth
+    :params, :city, :county, :street, :client_id, :date_of_birth, :gender
 
   def self.build(params = {})
     builder = new(params)
@@ -46,7 +46,7 @@ class BaseQueryBuilder
     @date_of_birth            = params.dig(:person_search_fields, :date_of_birth)
     @approximate_age          = params.dig(:person_search_fields, :approximate_age)
     @approximate_age_units    = params.dig(:person_search_fields, :approximate_age_units)
-    @sex_at_birth             = params.dig(:person_search_fields, :sex_at_birth)
+    @gender                   = params.dig(:person_search_fields, :gender)
   end
 
   def initialize_address

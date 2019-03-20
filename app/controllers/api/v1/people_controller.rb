@@ -41,7 +41,7 @@ module Api
           search_after: [],
           person_search_fields: %i[
             search_term last_name first_name middle_name
-            suffix ssn date_of_birth street city county client_id
+            suffix ssn date_of_birth street city county client_id gender
           ]
         )
       end

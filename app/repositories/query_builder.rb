@@ -8,10 +8,15 @@ class QueryBuilder < BaseQueryBuilder
     elsif builder.ssn_searched?
       builder.extend(PersonSearchSsnQueryBuilder).build_query(builder)
     elsif builder.advanced_search_on?
-      builder.extend(PersonSearchNameQueryBuilder).build_query(builder)
-      builder.extend(PersonSearchByDateOfBirthQueryBuilder).build_query(builder)
+      build_advanced_search(builder)
     else
       builder.extend(PersonSearchQueryBuilder).build_query(builder)
     end
+  end
+
+  def self.build_advanced_search(builder)
+    builder.extend(PersonSearchNameQueryBuilder).build_query(builder)
+    builder.extend(PersonSearchByDateOfBirthQueryBuilder).build_query(builder)
+    builder.extend(PersonSearchBySexAtBirth).build_query(builder)
   end
 end
