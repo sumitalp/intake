@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 const AgeForm = ({dateOfBirthLabel, approximateAgeLabel}) => {
   return (
     <form className="client-age-form" name="client-age-form">
-      <div className="col-md-6">
+      <div className="col-md-6 client-age-selector date-of-birth">
         <input
           type="radio"
           name="age"
@@ -14,7 +14,7 @@ const AgeForm = ({dateOfBirthLabel, approximateAgeLabel}) => {
         />
         <label htmlFor="date-of-birth">{dateOfBirthLabel}</label>
       </div>
-      <div className="col-md-6">
+      <div className="col-md-6 client-age-selector approximate-age">
         <input
           type="radio"
           id="approximate-age"

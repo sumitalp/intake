@@ -21,10 +21,16 @@ describe('AgeForm', () => {
       expect(form.props().name).toEqual('client-age-form')
     })
 
-    it('renders two columns', () => {
-      const component = render()
-      const columns = component.find('.col-md-6')
-      expect(columns.length).toEqual(2)
+    it('renders div.client-age-selector.date-of-birth', () => {
+      const component = render({personSearchFields: {}})
+      const selector = component.find('div.client-age-selector.date-of-birth')
+      expect(selector.exists()).toEqual(true)
+    })
+
+    it('renders div.client-age-selector.approximate-age', () => {
+      const component = render({personSearchFields: {}})
+      const selector = component.find('div.client-age-selector.approximate-age')
+      expect(selector.exists()).toEqual(true)
     })
 
     describe('date of birth', () => {
