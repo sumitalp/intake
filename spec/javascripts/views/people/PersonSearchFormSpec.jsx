@@ -85,7 +85,7 @@ describe('PersonSearchForm', () => {
         .find('.card-header')
         .children('h2')
         .text()
-    ).toContain('Search')
+    ).toEqual('Snapshot Search')
   })
 
   it('renders the search prompt', () => {
