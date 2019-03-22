@@ -6,6 +6,7 @@ describe('PersonSearchFields', () => {
   const render = ({
     states = [],
     counties = [],
+    onBlur = () => {},
     onChange = () => {},
     onCancel = () => {},
     onSubmit = () => {},
@@ -15,6 +16,7 @@ describe('PersonSearchFields', () => {
       <PersonSearchFields
         states={states}
         counties={counties}
+        onBlur={onBlur}
         onChange={onChange}
         onSubmit={onSubmit}
         onCancel={onCancel}

@@ -46,6 +46,7 @@ PersonSearchForm.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),
+  onBlur: PropTypes.func,
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,

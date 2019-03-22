@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import InputField from 'common/InputField'
 import DateField from 'common/DateField'
 import MaskedInputField from 'common/MaskedInputField'
 import AgeForm from 'common/search/age/AgeForm'
@@ -8,7 +7,7 @@ import AgeUnitForm from 'common/search/age/AgeUnitForm'
 import ApproximateAgeNumberSelect from 'common/search/age/ApproximateAgeNumberSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
-const PersonSearchNumbersAgeGroup = ({onChange, personSearchFields, clientIdError}) => (
+const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clientIdError, ssnErrors}) => (
   <div className="row person-search-field-group">
     <div className="col-md-12 person-search-field-title">Identifying Numbers & Age</div>
     <div className="col-md-4 person-search-identifying-numbers-section">
@@ -17,6 +16,7 @@ const PersonSearchNumbersAgeGroup = ({onChange, personSearchFields, clientIdErro
           id="search-client-id"
           label="Client ID Number"
           gridClassName="col-md-12 client-id-field"
+          onBlur={onBlur}
           onChange={({target: {value}}) => onChange('searchClientId', value)}
           value={personSearchFields.searchClientId}
           mask='1111-1111-1111-1111111'
@@ -26,12 +26,17 @@ const PersonSearchNumbersAgeGroup = ({onChange, personSearchFields, clientIdErro
         />
       </div>
       <div className="row">
-        <InputField
+        <MaskedInputField
           id="search-ssn"
-          gridClassName="col-md-12 ssn-field"
           label="Social Security Number"
+          gridClassName="col-md-12 ssn-field"
+          onBlur={onBlur}
           onChange={({target: {value}}) => onChange('searchSsn', value)}
           value={personSearchFields.searchSsn}
+          mask='111-11-1111'
+          placeholder='___-__-____'
+          maxLength='9'
+          errors={ssnErrors}
         />
       </div>
     </div>
@@ -86,8 +91,10 @@ const PersonSearchNumbersAgeGroup = ({onChange, personSearchFields, clientIdErro
 
 PersonSearchNumbersAgeGroup.propTypes = {
   clientIdError: PropTypes.array,
+  onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
+  ssnErrors: PropTypes.array,
 }
 
 PersonSearchNumbersAgeGroup.defaultProps = PersonSearchFieldsDefaultProps

@@ -8,6 +8,7 @@ import {
   SET_SEARCH_FIELD,
   LOAD_MORE_RESULTS_COMPLETE,
   SET_CLIENT_ID_ERROR,
+  SET_SSN_ERRORS,
 } from 'actions/peopleSearchActions'
 import {FETCH_USER_INFO_COMPLETE} from 'actions/userInfoActions'
 import moment from 'moment'
@@ -34,6 +35,7 @@ const initialState = fromJS({
   searchZipCode: '',
   defaultCounty: null,
   clientIdError: false,
+  ssnErrors: false,
 })
 
 const setPersonSearchField = (state, {payload}) => {
@@ -124,5 +126,8 @@ export default createReducer(initialState, {
   [RESET_PERSON_SEARCH]: resetPersonSearchFields,
   [SET_CLIENT_ID_ERROR](state) {
     return state.set('clientIdError', true)
+  },
+  [SET_SSN_ERRORS](state) {
+    return state.set('ssnErrors', true)
   },
 })

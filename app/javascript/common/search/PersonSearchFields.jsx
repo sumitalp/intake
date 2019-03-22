@@ -6,11 +6,13 @@ import PersonSearchButtonGroup from 'common/search/PersonSearchButtonGroup'
 import {PersonSearchFieldsPropType} from 'data/personSearch'
 
 const PersonSearchFields = ({
+  onBlur,
   onChange,
   onCancel,
   onSubmit,
   personSearchFields,
   clientIdError,
+  ssnErrors,
   isAdvancedSearchOn,
 }) => isAdvancedSearchOn ? (
   <div>
@@ -19,9 +21,11 @@ const PersonSearchFields = ({
       personSearchFields={personSearchFields}
     />
     <PersonSearchNumbersAgeGroup
+      onBlur={onBlur}
       onChange={onChange}
       personSearchFields={personSearchFields}
       clientIdError={clientIdError}
+      ssnErrors={ssnErrors}
     />
     <PersonSearchButtonGroup
       onSubmit={onSubmit}
@@ -34,10 +38,12 @@ const PersonSearchFields = ({
 PersonSearchFields.propTypes = {
   clientIdError: PropTypes.array,
   isAdvancedSearchOn: PropTypes.bool,
+  onBlur: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
+  ssnErrors: PropTypes.array,
 }
 
 export default PersonSearchFields

@@ -17,6 +17,7 @@ import {isCommaSuffix, formatHighlightedSuffix} from 'utils/nameFormatter'
 import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import Fuse from 'fuse.js'
 import {getClientIdErrors} from 'utils/clientIdValidator'
+import {getSSNErrors} from 'utils/ssnValidator'
 
 const selectPeopleSearch = state => {
   return state.get('peopleSearch')
@@ -152,6 +153,13 @@ export const selectClientIdError = (state) => {
   const clientId = selectPeopleSearch(state).get('searchClientId') || ''
   const clientIdWithoutHyphens = clientId.replace(/-|_/g, '')
   return clientIdError ? getClientIdErrors(clientIdWithoutHyphens) : []
+}
+
+export const selectSsnErrors = (state) => {
+  const ssnError = selectPeopleSearch(state).get('ssnError')
+  const ssn = selectPeopleSearch(state).get('searchSsn')
+  const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
+  return ssnError ? getSSNErrors(ssnWithoutHyphens) : []
 }
 
 export const selectPersonSearchFields = state => {

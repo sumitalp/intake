@@ -11,6 +11,7 @@ describe('PersonSearchForm', () => {
 
   function renderPersonSearchForm({
     canCreateNewPerson = false,
+    onBlur = () => null,
     onChange = () => null,
     onClear = () => null,
     onCancel = () => null,
@@ -24,6 +25,7 @@ describe('PersonSearchForm', () => {
   }) {
     const props = {
       canCreateNewPerson,
+      onBlur,
       onChange,
       onClear,
       onCancel,
