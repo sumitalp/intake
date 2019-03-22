@@ -70,6 +70,9 @@ module.exports = (config) => {
       devtool: 'inline-source-map',
       module: webpackConfig.module,
       resolve: webpackConfig.resolve,
+      performance: {
+        hints: false,
+      },
       externals: {
         'react/addons': 'react/addons',
         'react/lib/ReactContext': 'react/lib/ReactContext',
