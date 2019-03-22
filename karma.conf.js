@@ -66,7 +66,7 @@ module.exports = (config) => {
       dir: `${process.env.CI_REPORTS}/coverage/js`,
     },
     webpack: {
-      mode: 'production',
+      mode: 'development',
       devtool: 'inline-source-map',
       module: webpackConfig.module,
       resolve: webpackConfig.resolve,
