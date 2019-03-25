@@ -12,7 +12,6 @@ const AgeUnitForm = ({formLabel, monthsLabel, yearsLabel}) => {
             name="age-unit"
             id="age-unit-months"
             value="months"
-            disabled={true}
           />
           <label htmlFor="age-unit-months">{monthsLabel}</label>
         </div>
@@ -22,7 +21,6 @@ const AgeUnitForm = ({formLabel, monthsLabel, yearsLabel}) => {
             name="age-unit"
             id="age-unit-years"
             value="years"
-            disabled={true}
           />
           <label htmlFor="age-unit-years">{yearsLabel}</label>
         </div>

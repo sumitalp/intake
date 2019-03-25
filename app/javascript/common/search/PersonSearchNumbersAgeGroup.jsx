@@ -71,6 +71,7 @@ const PersonSearchNumbersAgeGroup = ({onChange, personSearchFields, clientIdErro
             </div>
             <div className="col-md-6 approximate-age-selector number">
               <ApproximateAgeNumberSelect
+                ageUnit={'months'}
                 id="search-approximate-age-number"
                 gridClassName="age-number-field"
                 onChange={onChange}

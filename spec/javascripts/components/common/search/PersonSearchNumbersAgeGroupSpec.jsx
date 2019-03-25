@@ -113,6 +113,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
       const component = render({personSearchFields: {searchApproximateAge: '10'}})
       const ageNumberSelect = component.find('ApproximateAgeNumberSelect')
       expect(ageNumberSelect.exists()).toEqual(true)
+      expect(ageNumberSelect.props().ageUnit).toEqual('months')
       expect(ageNumberSelect.props().id).toEqual('search-approximate-age-number')
       expect(ageNumberSelect.props().gridClassName).toEqual('age-number-field')
       expect(typeof ageNumberSelect.props().onChange).toEqual('function')

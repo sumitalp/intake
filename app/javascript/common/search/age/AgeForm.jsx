@@ -10,7 +10,6 @@ const AgeForm = ({dateOfBirthLabel, approximateAgeLabel}) => {
           name="age"
           id="date-of-birth"
           value="date-of-birth"
-          disabled={true}
         />
         <label htmlFor="date-of-birth">{dateOfBirthLabel}</label>
       </div>
@@ -20,7 +19,6 @@ const AgeForm = ({dateOfBirthLabel, approximateAgeLabel}) => {
           id="approximate-age"
           name="age"
           value="approximate-age"
-          disabled={true}
         />
         <label htmlFor="approximate-age">{approximateAgeLabel}</label>
       </div>

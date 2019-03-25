@@ -44,7 +44,6 @@ describe('AgeUnitForm', () => {
         expect(radioButton.props().name).toEqual('age-unit')
         expect(radioButton.props().id).toEqual('age-unit-months')
         expect(radioButton.props().value).toEqual('months')
-        expect(radioButton.props().disabled).toEqual(true)
       })
 
       it('renders a label for the radio button', () => {
@@ -64,7 +63,6 @@ describe('AgeUnitForm', () => {
         expect(radioButton.props().name).toEqual('age-unit')
         expect(radioButton.props().id).toEqual('age-unit-years')
         expect(radioButton.props().value).toEqual('years')
-        expect(radioButton.props().disabled).toEqual(true)
       })
 
       it('renders a label for the radio button', () => {
