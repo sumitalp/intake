@@ -156,10 +156,10 @@ export const selectClientIdError = (state) => {
 }
 
 export const selectSsnErrors = (state) => {
-  const ssnError = selectPeopleSearch(state).get('ssnError')
+  const checkForSsnErrors = selectPeopleSearch(state).get('ssnErrorCheck')
   const ssn = selectPeopleSearch(state).get('searchSsn')
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
-  return ssnError ? getSSNErrors(ssnWithoutHyphens) : []
+  return checkForSsnErrors ? getSSNErrors(ssnWithoutHyphens) : []
 }
 
 export const selectPersonSearchFields = state => {

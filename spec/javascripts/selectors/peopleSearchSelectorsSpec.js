@@ -858,25 +858,25 @@ describe('peopleSearchSelectors', () => {
 
     describe('when ssnError is true', () => {
       it('returns an error message if searchSsn is less than 9 digits', () => {
-        const peopleSearch = {searchSsn: '12345', ssnError: true}
+        const peopleSearch = {searchSsn: '12345', ssnErrorCheck: true}
         const state = fromJS({peopleSearch})
         expect(selectSsnErrors(state)).toEqual(['Social security number must be 9 digits long.'])
       })
 
       it('returns an error message if searchSsn starts with 9', () => {
-        const peopleSearch = {searchSsn: '923456789', ssnError: true}
+        const peopleSearch = {searchSsn: '923456789', ssnErrorCheck: true}
         const state = fromJS({peopleSearch})
         expect(selectSsnErrors(state)).toEqual(['Social security number cannot begin with 9.'])
       })
 
       it('returns an error message if searchSsn starts with 666', () => {
-        const peopleSearch = {searchSsn: '666456789', ssnError: true}
+        const peopleSearch = {searchSsn: '666456789', ssnErrorCheck: true}
         const state = fromJS({peopleSearch})
         expect(selectSsnErrors(state)).toEqual(['Social security number cannot begin with 666.'])
       })
 
       it('returns an error message if searchSsn has all 0s in a group', () => {
-        const peopleSearch = {searchSsn: '123006789', ssnError: true}
+        const peopleSearch = {searchSsn: '123006789', ssnErrorCheck: true}
         const state = fromJS({peopleSearch})
         expect(selectSsnErrors(state)).toEqual(['Social security number cannot contain all 0s in a group.'])
       })

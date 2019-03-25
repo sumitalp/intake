@@ -16,7 +16,7 @@ import {
   loadMoreResults,
   resetPersonSearch,
   setClientIdError,
-  setSsnError,
+  setSsnErrorCheck,
 } from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
@@ -47,7 +47,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const onBlur = (id) => {
-    if (id === 'search-client-id') { dispatch(setClientIdError()) } else if (id === 'search-ssn') { dispatch(setSsnError()) }
+    if (id === 'search-client-id') { 
+      dispatch(setClientIdError()) 
+    } else if (id === 'search-ssn') { 
+      dispatch(setSsnErrorCheck()) 
+    }
   }
   const onClear = () => dispatch(clear())
   const onChange = (field, value) => {

@@ -9,7 +9,7 @@ import {
   resetPersonSearch,
   setPersonSearchField,
   setClientIdError,
-  setSsnErrors,
+  setSsnErrorCheck,
 } from 'actions/peopleSearchActions'
 import {isFSA} from 'flux-standard-action'
 
@@ -97,8 +97,8 @@ describe('peopleSearchActions', () => {
     expect(isFSA(action)).toEqual(true)
   })
 
-  it('setSsnErrors', () => {
-    const action = setSsnErrors()
+  it('setSsnErrorCheck', () => {
+    const action = setSsnErrorCheck()
     expect(isFSA(action)).toEqual(true)
   })
 })
