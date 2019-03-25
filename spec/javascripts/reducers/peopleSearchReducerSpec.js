@@ -9,6 +9,7 @@ import {
   loadMoreResultsSuccess,
   loadMoreResultsFailure,
   setClientIdError,
+  setSsnErrorCheck,
 } from 'actions/peopleSearchActions'
 import {fetchSuccess as fetchUserInfoSuccess} from 'actions/userInfoActions'
 import peopleSearchReducer from 'reducers/peopleSearchReducer'
@@ -490,12 +491,29 @@ describe('peopleSearchReducer', () => {
       clientIdError: false,
     })
     const action = setClientIdError()
-    it('set clientIdError to true', () => {
+    it('action sets clientIdError to true', () => {
       expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
         fromJS({
           searchTerm: 'newSearchTerm',
           total: 3,
           clientIdError: true,
+        })
+      )
+    })
+  })
+  describe('on SET_SSN_ERROR_CHECK', () => {
+    it('action sets ssnErrorCheck to true', () => {
+      const initialState = fromJS({
+        searchTerm: 'newSearchTerm',
+        total: 3,
+        ssnErrorCheck: false,
+      })
+      const action = setSsnErrorCheck()
+      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+        fromJS({
+          searchTerm: 'newSearchTerm',
+          total: 3,
+          ssnErrorCheck: true,
         })
       )
     })
