@@ -8,6 +8,7 @@ import {
   selectPersonSearchFields,
   selectClientIdError,
   selectSsnErrors,
+  selectDobErrors,
 } from 'selectors/peopleSearchSelectors'
 import {
   search,
@@ -17,6 +18,7 @@ import {
   resetPersonSearch,
   setClientIdError,
   setSsnErrorCheck,
+  setDobErrorCheck,
 } from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
@@ -38,6 +40,7 @@ const mapStateToProps = state => {
     personSearchFields: selectPersonSearchFields(state),
     clientIdError: selectClientIdError(state),
     ssnErrors: selectSsnErrors(state),
+    dobErrors: selectDobErrors(state),
     staffId: getStaffIdSelector(state),
     startTime: selectStartTime(state),
     participants: selectParticipants(state).toJS(),
@@ -47,7 +50,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const onBlur = (id) => {
-    if (id === 'search-client-id') { dispatch(setClientIdError()) } else if (id === 'search-ssn') { dispatch(setSsnErrorCheck()) }
+    if (id === 'search-client-id') { dispatch(setClientIdError()) } else if (id === 'search-ssn') { dispatch(setSsnErrorCheck()) } else if (id === 'search-date-of-birth') { dispatch(setDobErrorCheck()) }
   }
   const onClear = () => dispatch(clear())
   const onChange = (field, value) => {

@@ -218,7 +218,7 @@ export default class Autocompleter extends Component {
   }
 
   renderPersonSearchFields() {
-    const {states, counties, onChange, onCancel, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors} = this.props
+    const {states, counties, onChange, onCancel, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors, dobErrors} = this.props
     return (
       <PersonSearchFields
         onBlur={onBlur}
@@ -231,6 +231,7 @@ export default class Autocompleter extends Component {
         isAdvancedSearchOn={isAdvancedSearchOn}
         clientIdError={clientIdError}
         ssnErrors={ssnErrors}
+        dobErrors={dobErrors}
       />
     )
   }

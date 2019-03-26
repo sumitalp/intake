@@ -2,7 +2,7 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import PersonSearchNumbersAgeGroup from 'common/search/PersonSearchNumbersAgeGroup'
 
-const render = ({onBlur = () => {}, onChange = () => {}, personSearchFields = {}, clientIdError = [], ssnErrors = []} = {}) =>
+const render = ({onBlur = () => {}, onChange = () => {}, personSearchFields = {}, clientIdError = [], ssnErrors = [], dobErrors = []} = {}) =>
   shallow(
     <PersonSearchNumbersAgeGroup
       onBlur={onBlur}
@@ -10,6 +10,7 @@ const render = ({onBlur = () => {}, onChange = () => {}, personSearchFields = {}
       personSearchFields={personSearchFields}
       clientIdError={clientIdError}
       ssnErrors={ssnErrors}
+      dobErrors={dobErrors}
     />
   )
 
@@ -112,16 +113,40 @@ describe('PersonSearchNumbersAgeGroup', () => {
       expect(ageForm.props().approximateAgeLabel).toEqual('Approximate Age')
     })
 
-    it('renders a DateField', () => {
-      const component = render({personSearchFields: {searchDateOfBirth: '2019-03-01'}})
-      const dateField = component.find('DateField')
-      expect(dateField.exists()).toEqual(true)
-      expect(dateField.props().id).toEqual('search-date-of-birth')
-      expect(dateField.props().gridClassName).toEqual('date-field')
-      expect(dateField.props().label).toEqual('Date')
-      expect(dateField.props().value).toEqual('2019-03-01')
-      expect(typeof dateField.props().onChange).toEqual('function')
-      expect(dateField.props().hasTime).toEqual(false)
+    describe('DOB', () => {
+      it('renders a DateField', () => {
+        const component = render({personSearchFields: {searchDateOfBirth: '2019-03-01'}})
+        const dateField = component.find('DateField')
+        expect(dateField.exists()).toEqual(true)
+        expect(dateField.props().id).toEqual('search-date-of-birth')
+        expect(dateField.props().gridClassName).toEqual('date-field')
+        expect(dateField.props().label).toEqual('Date')
+        expect(dateField.props().value).toEqual('2019-03-01')
+        expect(typeof dateField.props().onChange).toEqual('function')
+        expect(dateField.props().hasTime).toEqual(false)
+      })
+      describe('errors', () => {
+        it('displays error messages if dobErrors are present', () => {
+          const dobErrors = [
+            'Date of Birth should not be in the future.',
+          ]
+          const component = render({dobErrors})
+          const dateField = component.find('DateField[label="Date"]')
+          expect(dateField.props().errors).toEqual(dobErrors)
+        })
+
+        it('does not display error messages if dobErrors are not present', () => {
+          const component = render({})
+          const dateField = component.find('DateField[label="Date"]')
+          expect(dateField.props().errors).toEqual([])
+        })
+
+        it('does not display error messages if dobErrors is undefined', () => {
+          const component = render({dobErrors: undefined})
+          const dateField = component.find('DateField[label="Date"]')
+          expect(dateField.props().errors).toEqual([])
+        })
+      })
     })
 
     it('renders div.approximate-age-selector.unit', () => {
