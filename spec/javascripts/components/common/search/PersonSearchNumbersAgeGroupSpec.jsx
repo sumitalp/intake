@@ -128,7 +128,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
       describe('errors', () => {
         it('displays error messages if dobErrors are present', () => {
           const dobErrors = [
-            'Date of Birth should not be in the future.',
+            'Please enter date as today or earlier',
           ]
           const component = render({dobErrors})
           const dateField = component.find('DateField[label="Date"]')

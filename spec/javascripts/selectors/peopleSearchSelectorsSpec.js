@@ -890,7 +890,7 @@ describe('peopleSearchSelectors', () => {
       const tomorrow = moment().add(1, 'days').toISOString()
       const peopleSearch = {searchDateOfBirth: tomorrow, dobErrorCheck: true}
       const state = fromJS({peopleSearch})
-      expect(selectDobErrors(state)).toEqual(['Date of Birth should not be in the future.'])
+      expect(selectDobErrors(state)).toEqual(['Please enter date as today or earlier'])
     })
 
     it('returns no error if date is current', () => {
