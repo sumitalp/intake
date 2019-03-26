@@ -10,6 +10,7 @@ import {
   loadMoreResultsFailure,
   setClientIdError,
   setSsnErrorCheck,
+  setDobErrorCheck,
 } from 'actions/peopleSearchActions'
 import {fetchSuccess as fetchUserInfoSuccess} from 'actions/userInfoActions'
 import peopleSearchReducer from 'reducers/peopleSearchReducer'
@@ -514,6 +515,23 @@ describe('peopleSearchReducer', () => {
           searchTerm: 'newSearchTerm',
           total: 3,
           ssnErrorCheck: true,
+        })
+      )
+    })
+  })
+  describe('on SET_DOB_ERROR_CHECK', () => {
+    it('action sets dobErrorCheck to true', () => {
+      const initialState = fromJS({
+        searchTerm: 'newSearchTerm',
+        total: 3,
+        dobErrorCheck: false,
+      })
+      const action = setDobErrorCheck()
+      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+        fromJS({
+          searchTerm: 'newSearchTerm',
+          total: 3,
+          dobErrorCheck: true,
         })
       )
     })

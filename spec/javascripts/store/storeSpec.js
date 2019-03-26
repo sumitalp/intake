@@ -49,6 +49,7 @@ describe('Store', () => {
         defaultCounty: null,
         clientIdError: false,
         ssnErrorCheck: false,
+        dobErrorCheck: false,
       },
       relationshipForm: {isSaving: false},
       relationships: [],
