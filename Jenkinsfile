@@ -14,7 +14,7 @@ def failureColor = '#FF0000'
 def VERSION
 def VCS_REF
 @Field
-SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+def SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 @Field
 def buildDate = dateFormatGmt.format(new Date())
 @Field
