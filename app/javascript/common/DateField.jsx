@@ -78,6 +78,7 @@ const DateField = ({
   onChange,
   required,
   value,
+  disabled,
 }) => {
   const dateValue = _.isEmpty(value) ? null : parseDate(value).toDate()
   const format = hasTime ? 'MM/DD/YYYY h:mm A' : 'MM/DD/YYYY'
@@ -100,6 +101,7 @@ const DateField = ({
         time={hasTime}
         max={max}
         min={min}
+        disabled={disabled}
       />
     </FormField>
   )
@@ -111,6 +113,7 @@ DateField.defaultProps = {
 }
 
 DateField.propTypes = {
+  disabled: PropTypes.bool,
   errors: PropTypes.array,
   gridClassName: PropTypes.string,
   hasCalendar: PropTypes.bool,

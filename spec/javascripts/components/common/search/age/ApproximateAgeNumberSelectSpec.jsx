@@ -8,6 +8,7 @@ const render = ({
   gridClassName = 'age-number-field',
   onChange = () => {},
   value = '',
+  searchByAgeMethod = '',
 }) => {
   const props = {
     ageUnit,
@@ -15,6 +16,7 @@ const render = ({
     gridClassName,
     onChange,
     value,
+    searchByAgeMethod,
   }
 
   return shallow(<ApproximateAgeNumberSelect {...props} />)
@@ -42,16 +44,54 @@ describe('ApproximateAgeNumberSelect', () => {
     })
 
     describe('range prop for AgeNumberSelect', () => {
-      it('sets the correct range object for "months" age unit', () => {
-        const component = render ({ageUnit: 'months'})
-        const numberSelect = component.find('AgeNumberSelect')
-        expect(numberSelect.props().range).toEqual({min: 0, max: 24})
+      describe('when the ageUnit is "months"', () => {
+        it('sets the range props to the correct range object', () => {
+          const component = render({ageUnit: 'months'})
+          const numberSelect = component.find('AgeNumberSelect')
+          expect(numberSelect.props().range).toEqual({min: 0, max: 24})
+        })
       })
 
-      it('sets the correct range object for "years" age unit', () => {
-        const component = render ({ageUnit: 'years'})
+      describe('when the ageUnit is "years', () => {
+        it('sets the range prop to the correct range object', () => {
+          const component = render({ageUnit: 'years'})
+          const numberSelect = component.find('AgeNumberSelect')
+          expect(numberSelect.props().range).toEqual({min: 0, max: 120})
+        })
+      })
+
+      describe('when the ageUnit has not been selected', () => {
+        it('sets the range prop to an empty object ', () => {
+          const component = render({ageUnit: ''})
+          const numberSelect = component.find('AgeNumberSelect')
+          expect(numberSelect.props().range).toEqual({})
+        })
+      })
+    })
+  })
+
+  describe('searchByAgeMethod', () => {
+    describe('when the value is empty string', () => {
+      it('does not disable the date field', () => {
+        const component = render({searchByAgeMethod: ''})
         const numberSelect = component.find('AgeNumberSelect')
-        expect(numberSelect.props().range).toEqual({min: 0, max: 120})
+        expect(numberSelect.props().disabled).toEqual(false)
+      })
+    })
+
+    describe('when the value is "approximateAge"', () => {
+      it('does not disable the date field', () => {
+        const component = render({searchByAgeMethod: 'approximateAge'})
+        const numberSelect = component.find('AgeNumberSelect')
+        expect(numberSelect.props().disabled).toEqual(false)
+      })
+    })
+
+    describe('when the value is not empty string or "approximateAge"', () => {
+      it('does not disable the date field', () => {
+        const component = render({searchByAgeMethod: 'dateOfBirth'})
+        const numberSelect = component.find('AgeNumberSelect')
+        expect(numberSelect.props().disabled).toEqual(true)
       })
     })
   })

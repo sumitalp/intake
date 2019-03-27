@@ -25,6 +25,7 @@ const initialState = fromJS({
   searchDateOfBirth: '',
   searchApproximateAge: '',
   searchApproximateAgeUnits: '',
+  searchByAgeMethod: '',
   searchSexAtBirth: '',
   searchAddress: '',
   searchCity: '',
@@ -60,6 +61,7 @@ const resetPersonSearchFields = state =>
     .set('searchDateOfBirth', '')
     .set('searchApproximateAge', '')
     .set('searchApproximateAgeUnits', '')
+    .set('searchByAgeMethod', '')
     .set('searchSexAtBirth', '')
     .set('searchAddress', '')
     .set('searchCity', '')

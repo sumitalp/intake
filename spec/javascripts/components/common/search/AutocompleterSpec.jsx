@@ -10,6 +10,7 @@ const defaultPersonSearchFields = {
   searchAddress: '',
   searchApproximateAge: '',
   searchApproximateAgeUnits: '',
+  searchByAgeMethod: '',
   searchCity: '',
   searchClientId: '',
   searchCountry: '',
@@ -80,6 +81,7 @@ describe('<Autocompleter />', () => {
       searchAddress: '',
       searchApproximateAge: '',
       searchApproximateAgeUnits: '',
+      searchByAgeMethod: '',
       searchCity: '',
       searchClientId: '',
       searchCountry: '',
@@ -719,10 +721,10 @@ describe('<Autocompleter />', () => {
   })
 
   it('renders PersonSearchFields with personSearchFields', () => {
-    const component = renderAutocompleter({personSearchFields: {}})
+    const component = renderAutocompleter({})
     const personSearchFields = component.find('PersonSearchFields')
     expect(personSearchFields.exists()).toBe(true)
-    expect(personSearchFields.props().personSearchFields).toEqual({})
+    expect(personSearchFields.props().personSearchFields).toEqual(defaultPersonSearchFields)
   })
 
   it('renders PersonSearchFields with selected county', () => {

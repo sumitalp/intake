@@ -168,6 +168,7 @@ export const selectPersonSearchFields = state => {
     searchApproximateAgeUnits: selectPeopleSearch(state).get(
       'searchApproximateAgeUnits'
     ),
+    searchByAgeMethod: selectPeopleSearch(state).get('searchByAgeMethod'),
     searchSexAtBirth: selectPeopleSearch(state).get('searchSexAtBirth'),
     searchAddress: selectPeopleSearch(state).get('searchAddress'),
     searchCity: selectPeopleSearch(state).get('searchCity'),

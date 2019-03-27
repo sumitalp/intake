@@ -266,10 +266,21 @@ describe('peopleSearchReducer', () => {
         searchApproximateAgeUnits: 'months',
       })
       expect(
-        peopleSearchReducer(initialState, action).get(
-          'searchApproximateAgeUnits'
-        )
+        peopleSearchReducer(initialState, action).get('searchApproximateAgeUnits')
       ).toEqual('years')
+    })
+
+    it('sets the search by age method', () => {
+      const action = setPersonSearchField('searchByAgeMethod', 'approximateAge')
+      const initialState = fromJS({
+        searchTerm: 'searchTerm',
+        total: 1,
+        results: ['result_one'],
+        searchByAgeMethod: 'dateOfBirth',
+      })
+      expect(
+        peopleSearchReducer(initialState, action).get('searchByAgeMethod')
+      ).toEqual('approximateAge')
     })
 
     it('sets the sex at birth', () => {
@@ -442,6 +453,7 @@ describe('peopleSearchReducer', () => {
         searchDateOfBirth: '2019-02-14',
         searchApproximateAge: '5',
         searchApproximateAgeUnits: 'Years',
+        searchByAgeMethod: 'dateOfBirth',
         searchSexAtBirth: 'Female',
         searchAddress: '123 Main St',
         searchCity: 'Woodland',
@@ -464,6 +476,7 @@ describe('peopleSearchReducer', () => {
           searchDateOfBirth: '',
           searchApproximateAge: '',
           searchApproximateAgeUnits: '',
+          searchByAgeMethod: '',
           searchSexAtBirth: '',
           searchAddress: '',
           searchCity: '',

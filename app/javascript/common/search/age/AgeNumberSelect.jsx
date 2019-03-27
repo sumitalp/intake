@@ -5,15 +5,15 @@ import SelectField from 'common/SelectField'
 class AgeNumberSelect extends React.Component {
   onChange({target: {value}}) {
     const {range, onChange} = this.props
-    const intValue = parseInt(value)
+    const number = Number(value)
     onChange(
       'searchApproximateAge',
-      intValue >= range.min && intValue <= range.max ? value : ''
+      number >= range.min && number <= range.max ? value : ''
     )
   }
 
   render() {
-    const {id, gridClassName, value, range} = this.props
+    const {id, gridClassName, value, range, disabled} = this.props
     const options = []
 
     for (let x = range.min; x <= range.max; x++) {
@@ -28,6 +28,7 @@ class AgeNumberSelect extends React.Component {
         label="Number"
         onChange={this.onChange.bind(this)}
         value={value}
+        disabled={disabled}
       >
         <option key="" />
         {options}
@@ -37,6 +38,7 @@ class AgeNumberSelect extends React.Component {
 }
 
 AgeNumberSelect.propTypes = {
+  disabled: PropTypes.bool,
   gridClassName: PropTypes.string,
   id: PropTypes.string,
   onChange: PropTypes.func.isRequired,

@@ -7,7 +7,7 @@ const APPROXIMATE_AGE_UNITS = Object.freeze({
 
 export const APPROXIMATE_AGE_UNIT_VALUES = Object.freeze({
   months: {
-    min: 0, 
+    min: 0,
     max: 24,
   },
   years: {

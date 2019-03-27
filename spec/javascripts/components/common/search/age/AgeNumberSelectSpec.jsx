@@ -8,6 +8,7 @@ const render = ({
   value = '',
   onChange = () => {},
   range = {},
+  disabled = false,
 }) => {
   const props = {
     id,
@@ -15,6 +16,7 @@ const render = ({
     value,
     onChange,
     range,
+    disabled,
   }
   return shallow(<AgeNumberSelect {...props} />)
 }
@@ -34,14 +36,15 @@ describe('AgeNumberSelect', () => {
       expect(selectField.children().length).toEqual(122)
     })
 
-    it('sets select field props', () => {
-      const component = render({})
+    it('sets select component props', () => {
+      const component = render({disabled: true})
       const selectField = component.find('SelectField')
       expect(selectField.props().id).toEqual('search-approximate-age-number')
       expect(selectField.props().gridClassName).toEqual('age-number-field')
       expect(selectField.props().label).toEqual('Number')
       expect(typeof selectField.props().onChange).toEqual('function')
       expect(selectField.props().value).toEqual('')
+      expect(selectField.props().disabled).toEqual(true)
     })
 
     it('selects the value passed in', () => {

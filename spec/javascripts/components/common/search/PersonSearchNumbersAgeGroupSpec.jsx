@@ -70,47 +70,67 @@ describe('PersonSearchNumbersAgeGroup', () => {
     })
 
     it('renders AgeForm', () => {
-      const component = render({personSearchFields: {}})
+      const component = render({})
       const ageForm = component.find('AgeForm')
       expect(ageForm.props().dateOfBirthLabel).toEqual('Date of Birth')
       expect(ageForm.props().approximateAgeLabel).toEqual('Approximate Age')
+      expect(typeof ageForm.props().onChange).toEqual('function')
     })
 
     it('renders a DateField', () => {
-      const component = render({personSearchFields: {searchDateOfBirth: '2019-03-01'}})
-      const dateField = component.find('DateField')
+      const personSearchFields = {
+        personSearchFields: {
+          searchDateOfBirth: '2019-03-01',
+          searchByAgeMethod: '',
+        },
+      }
+      const component = render(personSearchFields)
+      const dateField = component.find('DateOfBirthDateField')
       expect(dateField.exists()).toEqual(true)
-      expect(dateField.props().id).toEqual('search-date-of-birth')
-      expect(dateField.props().gridClassName).toEqual('date-field')
-      expect(dateField.props().label).toEqual('Date')
       expect(dateField.props().value).toEqual('2019-03-01')
       expect(typeof dateField.props().onChange).toEqual('function')
-      expect(dateField.props().hasTime).toEqual(false)
+      expect(dateField.props().searchByAgeMethod).toEqual('')
     })
 
     it('renders div.approximate-age-selector.unit', () => {
-      const component = render({personSearchFields: {}})
+      const component = render({})
       const selector = component.find('div.approximate-age-selector.unit')
       expect(selector.exists()).toEqual(true)
     })
 
     it('renders div.approximate-age-selector.number', () => {
-      const component = render({personSearchFields: {}})
+      const component = render({})
       const selector = component.find('div.approximate-age-selector.number')
       expect(selector.exists()).toEqual(true)
     })
 
     it('renders AgeUnitForm', () => {
-      const component = render({personSearchFields: {}})
+      const personSearchFields = {
+        personSearchFields: {
+          searchApproximateAgeUnits: 'months',
+          searchByAgeMethod: '',
+        },
+      }
+      const component = render(personSearchFields)
       const ageUnitForm = component.find('AgeUnitForm')
       expect(ageUnitForm.exists()).toEqual(true)
       expect(ageUnitForm.props().formLabel).toEqual('Unit')
       expect(ageUnitForm.props().monthsLabel).toEqual('Months')
       expect(ageUnitForm.props().yearsLabel).toEqual('Years')
+      expect(typeof ageUnitForm.props().onChange).toEqual('function')
+      expect(ageUnitForm.props().value).toEqual('months')
+      expect(ageUnitForm.props().searchByAgeMethod).toEqual('')
     })
 
     it('renders ApproximateAgeNumberSelect', () => {
-      const component = render({personSearchFields: {searchApproximateAge: '10'}})
+      const personSearchFields = {
+        personSearchFields: {
+          searchApproximateAgeUnits: 'months',
+          searchApproximateAge: '10',
+          searchByAgeMethod: '',
+        },
+      }
+      const component = render(personSearchFields)
       const ageNumberSelect = component.find('ApproximateAgeNumberSelect')
       expect(ageNumberSelect.exists()).toEqual(true)
       expect(ageNumberSelect.props().ageUnit).toEqual('months')
@@ -118,6 +138,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
       expect(ageNumberSelect.props().gridClassName).toEqual('age-number-field')
       expect(typeof ageNumberSelect.props().onChange).toEqual('function')
       expect(ageNumberSelect.props().value).toEqual('10')
+      expect(ageNumberSelect.props().searchByAgeMethod).toEqual('')
     })
   })
 
