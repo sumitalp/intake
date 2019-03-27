@@ -6,30 +6,34 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const CompressionPlugin = require('compression-webpack-plugin')
 const sharedConfig = require('./shared.js')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = merge(sharedConfig, {
-  output: { filename: '[name]-[chunkhash].js' },
+  output: {filename: '[name]-[chunkhash].js'},
   devtool: 'source-map',
   stats: 'normal',
+  optimization: {
+    minimizer: [
+      // we specify a custom UglifyJsPlugin here to get source maps in production
+      new UglifyJsPlugin({
+        minimize: true,
+        sourceMap: true,
 
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      sourceMap: true,
+        compress: {
+          warnings: false,
+        },
 
-      compress: {
-        warnings: false
-      },
+        output: {
+          comments: false,
+        },
+      }),
 
-      output: {
-        comments: false
-      }
-    }),
+      new CompressionPlugin({
+        asset: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: /\.(js|css|html|json|ico|svg|eot|otf|ttf)$/,
+      }),
+    ],
+  },
 
-    new CompressionPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'gzip',
-      test: /\.(js|css|html|json|ico|svg|eot|otf|ttf)$/
-    })
-  ]
 })
