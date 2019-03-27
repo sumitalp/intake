@@ -1,25 +1,25 @@
-/*eslint-env node*/
+/* eslint-env node */
 // Karma configuration
 // Generated on Thu Jun 30 2016 11:04:09 GMT-0400 (EDT)
 //
-var webpack = require('webpack')
-var webpackConfig = require('./config/webpack/test.js')
+const webpack = require('webpack')
+const webpackConfig = require('./config/webpack/test.js')
 const isDocker = require('is-docker')
 
-module.exports = function(config) {
+module.exports = (config) => {
   config.set({
     frameworks: ['jasmine-ajax', 'jasmine'],
     files: [
-      'spec/karma_tests.js'
+      'spec/karma_tests.js',
     ],
     preprocessors: {
-       './spec/karma_tests.js': ['webpack', 'sourcemap']
+      './spec/karma_tests.js': ['webpack', 'sourcemap'],
     },
     exclude: [
-      './node_modules/'
+      './node_modules/',
     ],
     client: {
-      captureConsole: true
+      captureConsole: true,
     },
     reporters: ['dots'],
     port: 9876,
@@ -39,7 +39,7 @@ module.exports = function(config) {
           '--headless',
           '--disable-gpu',
           '--disable-dev-shm-usage',
-          ' --remote-debugging-port=9222'
+          ' --remote-debugging-port=9222',
         ],
       },
       firefox_headless: {
@@ -63,17 +63,21 @@ module.exports = function(config) {
     coverageIstanbulReporter: {
       reports: ['html'],
       fixWebpackSourcePaths: true,
-      dir: `${process.env.CI_REPORTS}/coverage/js`
+      dir: `${process.env.CI_REPORTS}/coverage/js`,
     },
     webpack: {
+      mode: 'development',
       devtool: 'inline-source-map',
       module: webpackConfig.module,
       resolve: webpackConfig.resolve,
+      performance: {
+        hints: false,
+      },
       externals: {
         'react/addons': 'react/addons',
         'react/lib/ReactContext': 'react/lib/ReactContext',
         'react/lib/ExecutionEnvironment': 'react/lib/ExecutionEnvironment',
       },
-    }
+    },
   })
 }

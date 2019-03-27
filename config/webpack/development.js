@@ -2,22 +2,23 @@
 
 const merge = require('webpack-merge')
 const sharedConfig = require('./shared.js')
-const { settings, output } = require('./configuration.js')
+const {settings, output} = require('./configuration.js')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 
 module.exports = merge(sharedConfig, {
+  mode: process.env.NODE_ENV,
   devtool: 'source-map',
 
   stats: {
-    errorDetails: true
+    errorDetails: true,
   },
 
   output: {
-    pathinfo: true
+    pathinfo: true,
   },
 
   plugins: [
-    new CaseSensitivePathsPlugin()
+    new CaseSensitivePathsPlugin(),
   ],
 
   devServer: {
@@ -28,11 +29,11 @@ module.exports = merge(sharedConfig, {
     contentBase: output.path,
     publicPath: output.publicPath,
     compress: true,
-    headers: { 'Access-Control-Allow-Origin': '*' },
+    headers: {'Access-Control-Allow-Origin': '*'},
     historyApiFallback: true,
     disableHostCheck: true,
     watchOptions: {
-      ignored: /node_modules/
-    }
-  }
+      ignored: /node_modules/,
+    },
+  },
 })

@@ -45,8 +45,8 @@
 }
 
 .Select-arrow-zone {
-  background-image: url('arrow-down.png');
-  background-image: url('arrow-down.svg');
+  background-image: asset-path('/assets/images/arrow-down.png');
+  background-image: asset-path('/assets/images/arrow-down.svg');
   background-position: right center;
   background-repeat: no-repeat;
   background-size: 1.3rem;
