@@ -338,6 +338,7 @@ describe('<Autocompleter />', () => {
               searchCounty: 'Colusa',
               searchCity: 'Central City',
               searchAddress: 'Star Labs',
+              searchApproximateAgeUnits: '',
             },
             isAdvancedSearchOn: true,
           })
@@ -350,6 +351,7 @@ describe('<Autocompleter />', () => {
             searchCounty: 'Colusa',
             searchCity: 'Central City',
             searchAddress: 'Star Labs',
+            searchApproximateAgeUnits: '',
           })
         })
       })

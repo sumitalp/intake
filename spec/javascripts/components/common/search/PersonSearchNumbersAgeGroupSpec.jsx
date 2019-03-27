@@ -2,7 +2,7 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import PersonSearchNumbersAgeGroup from 'common/search/PersonSearchNumbersAgeGroup'
 
-const render = ({onChange = () => {}, personSearchFields = {}, clientIdError = []} = {}) =>
+const render = ({onChange = () => {}, personSearchFields = {searchApproximateAgeUnits: ''}, clientIdError = []} = {}) =>
   shallow(
     <PersonSearchNumbersAgeGroup
       onChange={onChange}
@@ -14,9 +14,13 @@ const render = ({onChange = () => {}, personSearchFields = {}, clientIdError = [
 describe('PersonSearchNumbersAgeGroup', () => {
   describe('layout', () => {
     it('renders client id masked input field with label Client ID', () => {
-      const clientId = render({
-        personSearchFields: {searchClientId: '0965-9408-8355-7001109'},
-      }).find('MaskedInputField[label="Client ID Number"]')
+      const personSearchFields = {
+        personSearchFields: {
+          searchClientId: '0965-9408-8355-7001109',
+          searchApproximateAgeUnits: '',
+        },
+      }
+      const clientId = render(personSearchFields).find('MaskedInputField[label="Client ID Number"]')
       expect(clientId.props().id).toEqual('search-client-id')
       expect(clientId.props().label).toEqual('Client ID Number')
       expect(clientId.props().gridClassName).toEqual('col-md-12 client-id-field')
@@ -51,9 +55,13 @@ describe('PersonSearchNumbersAgeGroup', () => {
     })
 
     it('renders ssn input field with label SSN', () => {
-      const ssn = render({personSearchFields: {searchSsn: '123456789'}}).find(
-        'InputField[label="Social Security Number"]'
-      )
+      const personSearchFields = {
+        personSearchFields: {
+          searchSsn: '123456789',
+          searchApproximateAgeUnits: '',
+        },
+      }
+      const ssn = render(personSearchFields).find('InputField[label="Social Security Number"]')
       expect(ssn.props().id).toEqual('search-ssn')
       expect(ssn.props().gridClassName).toEqual('col-md-12 ssn-field')
       expect(ssn.props().label).toEqual('Social Security Number')
@@ -82,6 +90,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
         personSearchFields: {
           searchDateOfBirth: '2019-03-01',
           searchByAgeMethod: '',
+          searchApproximateAgeUnits: '',
         },
       }
       const component = render(personSearchFields)
