@@ -248,6 +248,7 @@ Autocompleter.propTypes = {
     code: PropTypes.string,
     value: PropTypes.string,
   })),
+  dobErrors: PropTypes.array,
   id: PropTypes.string,
   isAdvancedSearchOn: PropTypes.bool,
   isSelectable: PropTypes.func,
