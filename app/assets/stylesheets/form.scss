@@ -56,8 +56,8 @@ select {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  background-image: url('/assets/images/arrow-down.png');
-  background-image: url('/assets/images/arrow-down.svg');
+  background-image: asset_path('/assets/images/arrow-down.png');
+  background-image: asset_path('/assets/images/arrow-down.svg');
   background-position: right 1.3rem center;
   background-repeat: no-repeat;
   background-size: 1.3rem;
@@ -130,8 +130,8 @@ input[type='radio']:focus + label::before {
 }
 
 input[type='checkbox']:checked + label::before {
-  background-image: url('/assets/images/correct8.png');
-  background-image: url('/assets/images/correct8.svg');
+  background-image: asset_path('/assets/images/correct8.png');
+  background-image: asset_path('/assets/images/correct8.svg');
   background-position: 50%;
   background-repeat: no-repeat;
 }
