@@ -40,6 +40,11 @@ def buildPullRequest() {
       verifySemVerLabel()
       karmaTests()
       rspecTestsSnapshot()
+      build()
+      incrementTag()
+      tagRepo()
+      release()
+      acceptanceTestBubble()
       reports()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
