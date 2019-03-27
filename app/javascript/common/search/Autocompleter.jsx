@@ -11,7 +11,6 @@ import PersonSearchFields from 'common/search/PersonSearchFields'
 import {PersonSearchFieldsPropType} from 'data/personSearch'
 
 const MIN_SEARCHABLE_CHARS = 2
-
 const addPosAndSetAttr = (results) => {
   const one = 1
   for (let len = results.length, i = 0; i < len; ++i) {
@@ -19,7 +18,6 @@ const addPosAndSetAttr = (results) => {
     results[i].setSize = len
   }
 }
-
 const itemClassName = (isHighlighted) => `search-item${isHighlighted ? ' highlighted-search-item' : ''}`
 
 export default class Autocompleter extends Component {
@@ -137,9 +135,7 @@ export default class Autocompleter extends Component {
       )
     }
     return (
-      <div id={id} key={key} className={itemClassName(isHighlighted)}>
-        <PersonSuggestion {...item} />
-      </div>
+      <div id={id} key={key} className={itemClassName(isHighlighted)}><PersonSuggestion {...item} /></div>
     )
   }
 
@@ -156,7 +152,6 @@ export default class Autocompleter extends Component {
   renderItem(item, isHighlighted, _styles) {
     const key = `${item.posInSet}-of-${item.setSize}`
     const id = `search-result-${key}`
-
     if (isHighlighted && this.inputRef) {
       this.inputRef.setAttribute('aria-activedescendant', id)
     }
@@ -199,13 +194,11 @@ export default class Autocompleter extends Component {
     const canLoadMoreResults = results && total > results.length
     addPosAndSetAttr(results) // Sequentually numbering items
     const newResults = suggestionHeader.concat(results.concat(canLoadMoreResults ? showMoreResults : [], canCreateNewPerson ? createNewPerson : []))
-
     return {id, searchTerm, newResults, isAdvancedSearchOn}
   }
 
   renderAutocomplete() {
     const {id, searchTerm, newResults, isAdvancedSearchOn} = this.prepareAutocomplete()
-
     return (
       <Autocomplete
         ref={(el) => (this.element_ref = el)}
@@ -225,9 +218,10 @@ export default class Autocompleter extends Component {
   }
 
   renderPersonSearchFields() {
-    const {states, counties, onChange, onCancel, personSearchFields, isAdvancedSearchOn, clientIdError} = this.props
+    const {states, counties, onChange, onCancel, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors} = this.props
     return (
       <PersonSearchFields
+        onBlur={onBlur}
         onChange={onChange}
         onCancel={onCancel}
         onSubmit={this.handleSubmit}
@@ -236,6 +230,7 @@ export default class Autocompleter extends Component {
         counties={counties}
         isAdvancedSearchOn={isAdvancedSearchOn}
         clientIdError={clientIdError}
+        ssnErrors={ssnErrors}
       />
     )
   }
@@ -255,6 +250,7 @@ Autocompleter.propTypes = {
   id: PropTypes.string,
   isAdvancedSearchOn: PropTypes.bool,
   isSelectable: PropTypes.func,
+  onBlur: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
@@ -263,6 +259,7 @@ Autocompleter.propTypes = {
   onSelect: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
   results: PropTypes.array,
+  ssnErrors: PropTypes.array,
   staffId: PropTypes.string,
   startTime: PropTypes.string,
   states: PropTypes.arrayOf(

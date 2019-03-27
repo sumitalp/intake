@@ -2,71 +2,109 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import PersonSearchNumbersAgeGroup from 'common/search/PersonSearchNumbersAgeGroup'
 
-const render = ({onChange = () => {}, personSearchFields = {searchApproximateAgeUnits: ''}, clientIdError = []} = {}) =>
+const render = ({onBlur = () => {}, onChange = () => {}, personSearchFields = {searchApproximateAgeUnits: ''}, clientIdError = [], ssnErrors = []} = {}) =>
   shallow(
     <PersonSearchNumbersAgeGroup
+      onBlur={onBlur}
       onChange={onChange}
       personSearchFields={personSearchFields}
       clientIdError={clientIdError}
+      ssnErrors={ssnErrors}
     />
   )
 
 describe('PersonSearchNumbersAgeGroup', () => {
   describe('layout', () => {
-    it('renders client id masked input field with label Client ID', () => {
-      const personSearchFields = {
-        personSearchFields: {
-          searchClientId: '0965-9408-8355-7001109',
-          searchApproximateAgeUnits: '',
-        },
-      }
-      const clientId = render(personSearchFields).find('MaskedInputField[label="Client ID Number"]')
-      expect(clientId.props().id).toEqual('search-client-id')
-      expect(clientId.props().label).toEqual('Client ID Number')
-      expect(clientId.props().gridClassName).toEqual('col-md-12 client-id-field')
-      expect(typeof clientId.props().onChange).toEqual('function')
-      expect(clientId.props().value).toEqual('0965-9408-8355-7001109')
-      expect(clientId.props().mask).toEqual('1111-1111-1111-1111111')
-      expect(clientId.props().placeholder).toEqual('____-____-____-_______')
-      expect(clientId.props().maxLength).toEqual('19')
+    describe('Client ID', () => {
+      it('renders masked input field with label', () => {
+        const personSearchFields = {
+          personSearchFields: {
+            searchClientId: '0965-9408-8355-7001109',
+            searchApproximateAgeUnits: '',
+          },
+        }
+        const clientId = render(personSearchFields).find('MaskedInputField[label="Client ID Number"]')
+        expect(clientId.props().id).toEqual('search-client-id')
+        expect(clientId.props().label).toEqual('Client ID Number')
+        expect(clientId.props().gridClassName).toEqual('col-md-12 client-id-field')
+        expect(typeof clientId.props().onBlur).toEqual('function')
+        expect(typeof clientId.props().onChange).toEqual('function')
+        expect(clientId.props().value).toEqual('0965-9408-8355-7001109')
+        expect(clientId.props().mask).toEqual('1111-1111-1111-1111111')
+        expect(clientId.props().placeholder).toEqual('____-____-____-_______')
+        expect(clientId.props().maxLength).toEqual('19')
+      })
+
+      describe('errors', () => {
+        it('display error message if clientIdError is present', () => {
+          const component = render({
+            clientIdError: ['Client Id number must be 19 digits long.'],
+          }).find('MaskedInputField[label="Client ID Number"]')
+          expect(component.props().errors).toEqual(['Client Id number must be 19 digits long.'])
+        })
+
+        it('does not display error message if clientIdError is not present', () => {
+          const component = render({
+            clientIdError: [],
+          }).find('MaskedInputField[label="Client ID Number"]')
+          expect(component.props().errors).toEqual([])
+        })
+
+        it('does not display error message if clientIdError is undefined ', () => {
+          const component = render({
+            clientIdError: undefined,
+          }).find('MaskedInputField[label="Client ID Number"]')
+          expect(component.props().errors).toEqual([])
+        })
+      })
     })
 
-    describe('clientIdError', () => {
-      it('display error message if clientIdError is present', () => {
-        const component = render({
-          clientIdError: ['Client Id number must be 19 digits long.'],
-        }).find('MaskedInputField[label="Client ID Number"]')
-        expect(component.props().errors).toEqual(['Client Id number must be 19 digits long.'])
+    describe('SSN', () => {
+      it('renders a masked input field with label', () => {
+        const personSearchFields = {
+          personSearchFields: {
+            searchSsn: '123456789',
+            searchApproximateAgeUnits: '',
+          },
+        }
+        const component = render(personSearchFields)
+        const ssn = component.find('MaskedInputField[label="Social Security Number"]')
+        expect(ssn.props().id).toEqual('search-ssn')
+        expect(ssn.props().label).toEqual('Social Security Number')
+        expect(ssn.props().gridClassName).toEqual('col-md-12 ssn-field')
+        expect(typeof ssn.props().onBlur).toEqual('function')
+        expect(typeof ssn.props().onChange).toEqual('function')
+        expect(ssn.props().value).toEqual('123456789')
+        expect(ssn.props().mask).toEqual('111-11-1111')
+        expect(ssn.props().placeholder).toEqual('___-__-____')
+        expect(ssn.props().maxLength).toEqual('9')
       })
 
-      it('does not display error message if clientIdError is not present', () => {
-        const component = render({
-          clientIdError: [],
-        }).find('MaskedInputField[label="Client ID Number"]')
-        expect(component.props().errors).toEqual([])
-      })
+      describe('errors', () => {
+        it('displays error messages if ssnErrors are present', () => {
+          const ssnErrors = [
+            'Social security number must be 9 digits long.',
+            'Social security number cannot begin with 9.',
+            'Social security number cannot begin with 666.',
+            'Social security number cannot contain all 0s in a group.',
+          ]
+          const component = render({ssnErrors})
+          const maskedInputField = component.find('MaskedInputField[label="Social Security Number"]')
+          expect(maskedInputField.props().errors).toEqual(ssnErrors)
+        })
 
-      it('does not display error message if clientIdError is undefined ', () => {
-        const component = render({
-          clientIdError: undefined,
-        }).find('MaskedInputField[label="Client ID Number"]')
-        expect(component.props().errors).toEqual([])
-      })
-    })
+        it('does not display error messages if ssnErrors are not present', () => {
+          const component = render({})
+          const maskedInputField = component.find('MaskedInputField[label="Social Security Number"]')
+          expect(maskedInputField.props().errors).toEqual([])
+        })
 
-    it('renders ssn input field with label SSN', () => {
-      const personSearchFields = {
-        personSearchFields: {
-          searchSsn: '123456789',
-          searchApproximateAgeUnits: '',
-        },
-      }
-      const ssn = render(personSearchFields).find('InputField[label="Social Security Number"]')
-      expect(ssn.props().id).toEqual('search-ssn')
-      expect(ssn.props().gridClassName).toEqual('col-md-12 ssn-field')
-      expect(ssn.props().label).toEqual('Social Security Number')
-      expect(typeof ssn.props().onChange).toEqual('function')
-      expect(ssn.props().value).toEqual('123456789')
+        it('does not display error messages if ssnErrors is undefined', () => {
+          const component = render({ssnErrors: undefined})
+          const maskedInputField = component.find('MaskedInputField[label="Social Security Number"]')
+          expect(maskedInputField.props().errors).toEqual([])
+        })
+      })
     })
 
     it('renders the radio choice message', () => {

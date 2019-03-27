@@ -2,8 +2,6 @@ import FormField from 'common/FormField'
 import MaskedInput from 'react-maskedinput'
 import PropTypes from 'prop-types'
 import React from 'react'
-import {setClientIdError} from 'actions/peopleSearchActions'
-import {store} from 'store/configureStore'
 
 const MaskedInputField = ({
   errors,
@@ -27,7 +25,6 @@ const MaskedInputField = ({
         placeholder={''} required={required} aria-required={required}
         onBlur={(event) => {
           event.target.placeholder = ''
-          store.dispatch(setClientIdError())
           if (onBlur) {
             onBlur(id, event.target.value)
           }

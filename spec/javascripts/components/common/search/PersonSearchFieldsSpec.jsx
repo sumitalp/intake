@@ -4,6 +4,7 @@ import {shallow} from 'enzyme'
 
 describe('PersonSearchFields', () => {
   const render = ({
+    onBlur = () => {},
     onChange = () => {},
     onCancel = () => {},
     onSubmit = () => {},
@@ -11,6 +12,7 @@ describe('PersonSearchFields', () => {
   } = {}) =>
     shallow(
       <PersonSearchFields
+        onBlur={onBlur}
         onChange={onChange}
         onSubmit={onSubmit}
         onCancel={onCancel}

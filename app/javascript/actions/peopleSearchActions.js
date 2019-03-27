@@ -6,6 +6,7 @@ export const LOAD_MORE_RESULTS = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS'
 export const LOAD_MORE_RESULTS_COMPLETE = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS_COMPLETE'
 export const RESET_PERSON_SEARCH = 'RESET_PERSON_SEARCH'
 export const SET_CLIENT_ID_ERROR = 'SET_CLIENT_ID_ERROR'
+export const SET_SSN_ERROR_CHECK = 'SET_SSN_ERROR_CHECK'
 
 export const setPersonSearchField = (field, value) => ({
   type: SET_SEARCH_FIELD,
@@ -45,4 +46,7 @@ export const resetPersonSearch = () => ({
 })
 export const setClientIdError = () => ({
   type: SET_CLIENT_ID_ERROR,
+})
+export const setSsnErrorCheck = () => ({
+  type: SET_SSN_ERROR_CHECK,
 })

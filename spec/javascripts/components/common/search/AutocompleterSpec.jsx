@@ -31,6 +31,7 @@ describe('<Autocompleter />', () => {
     canCreateNewPerson = true,
     id = null,
     isSelectable = () => true,
+    onBlur = () => null,
     onCancel = () => null,
     onChange = () => null,
     onClear = () => null,
@@ -50,6 +51,7 @@ describe('<Autocompleter />', () => {
         canCreateNewPerson={canCreateNewPerson}
         id={id}
         isSelectable={isSelectable}
+        onBlur={onBlur}
         onCancel={onCancel}
         onChange={onChange}
         onClear={onClear}
@@ -70,6 +72,7 @@ describe('<Autocompleter />', () => {
   function renderAutocompleter({
     id = null,
     isSelectable = () => true,
+    onBlur = () => null,
     onCancel = () => null,
     onChange = () => null,
     onClear = () => null,
@@ -107,6 +110,7 @@ describe('<Autocompleter />', () => {
       <Autocompleter
         id={id}
         isSelectable={isSelectable}
+        onBlur={onBlur}
         onCancel={onCancel}
         onChange={onChange}
         onClear={onClear}
