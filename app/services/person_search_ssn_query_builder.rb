@@ -16,6 +16,6 @@ module PersonSearchSsnQueryBuilder
   end
 
   def must
-    [query_string('ssn', formatted_query(ssn), boost: HIGH_BOOST)].flatten.compact
+    [match_query('ssn', formatted_query(ssn))].flatten.compact
   end
 end
