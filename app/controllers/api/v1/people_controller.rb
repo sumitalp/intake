@@ -42,6 +42,7 @@ module Api
           person_search_fields: %i[
             search_term last_name first_name middle_name
             suffix ssn date_of_birth street city county client_id gender
+            approximate_age approximate_age_units search_by_age_method
           ]
         )
       end
