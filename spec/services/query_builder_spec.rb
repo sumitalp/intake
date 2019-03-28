@@ -8,7 +8,7 @@ describe QueryBuilder do
   end
 
   let(:person_search_fields_with_ssn) do
-    { ssn: '111223343' }
+    { ssn: '123456789' }
   end
 
   let(:person_search_fields) do
