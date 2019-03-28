@@ -309,13 +309,7 @@ module PersonSearchQueryBuilderHelper
       "query": {
         "bool": {
           "must": [
-            {
-              "query_string": {
-                "default_field": 'ssn',
-                "query": '111223343',
-                "boost": '14'
-              }
-            }
+            { 'match' => { 'ssn' => { 'query' => '123456789' } } }
           ]
         }
       },
