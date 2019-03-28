@@ -41,9 +41,6 @@ def buildPullRequest() {
       karmaTests()
       rspecTestsSnapshot()
       build()
-      incrementTag()
-      tagRepo()
-      release()
       acceptanceTestBubble()
       reports()
     } catch(Exception exception) {

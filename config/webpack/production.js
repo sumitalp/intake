@@ -16,7 +16,6 @@ module.exports = merge(sharedConfig, {
     minimizer: [
       // we specify a custom UglifyJsPlugin here to get source maps in production
       new UglifyJsPlugin({
-        minimize: true,
         sourceMap: true,
 
         uglifyOptions: {
