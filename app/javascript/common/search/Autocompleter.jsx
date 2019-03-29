@@ -45,14 +45,8 @@ export default class Autocompleter extends Component {
     } = personSearchFields
     const suffixWithComma = searchSuffix ? `, ${searchSuffix}` : ''
     const lastNameWithSuffix = `${searchLastName}${suffixWithComma}`
-    const searchTerm = [
-      searchFirstName,
-      searchMiddleName,
-      lastNameWithSuffix,
-      searchClientId,
-      searchSsn,
-      searchDateOfBirth,
-    ].filter(Boolean).join(' ').trim()
+    const searchTerm = [searchFirstName, searchMiddleName, lastNameWithSuffix, searchClientId, searchSsn, searchDateOfBirth]
+      .filter(Boolean).join(' ').trim()
     onSearch(isAdvancedSearchOn, personSearchFields)
     onChange('searchTerm', searchTerm)
     this.setState({menuVisible: true})
