@@ -10,8 +10,10 @@ import {
   selectAkaFullName,
   selectClientIdError,
   selectSsnErrors,
+  selectDobErrors,
 } from 'selectors/peopleSearchSelectors'
 import Immutable from 'immutable'
+import moment from 'moment'
 
 describe('peopleSearchSelectors', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
@@ -880,6 +882,22 @@ describe('peopleSearchSelectors', () => {
         const state = fromJS({peopleSearch})
         expect(selectSsnErrors(state)).toEqual(['Social security number cannot contain all 0s in a group.'])
       })
+    })
+  })
+
+  describe('selectDobErrors', () => {
+    it('returns an error if date is in the future', () => {
+      const tomorrow = moment().add(1, 'days').toISOString()
+      const peopleSearch = {searchDateOfBirth: tomorrow, dobErrorCheck: true}
+      const state = fromJS({peopleSearch})
+      expect(selectDobErrors(state)).toEqual(['Please enter date as today or earlier'])
+    })
+
+    it('returns no error if date is current', () => {
+      const today = moment().toISOString()
+      const peopleSearch = {searchDateOfBirth: today, dobErrorCheck: true}
+      const state = fromJS({peopleSearch})
+      expect(selectDobErrors(state)).toEqual([])
     })
   })
 })

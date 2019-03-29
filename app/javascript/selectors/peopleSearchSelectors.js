@@ -18,6 +18,7 @@ import {phoneNumberFormatter} from 'utils/phoneNumberFormatter'
 import Fuse from 'fuse.js'
 import {getClientIdErrors} from 'utils/clientIdValidator'
 import {getSSNErrors} from 'utils/ssnValidator'
+import {isFutureDatetimeCreate, combineCompact} from 'utils/validator'
 
 const selectPeopleSearch = state => {
   return state.get('peopleSearch')
@@ -160,6 +161,12 @@ export const selectSsnErrors = (state) => {
   const ssn = selectPeopleSearch(state).get('searchSsn')
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
   return checkForSsnErrors ? getSSNErrors(ssnWithoutHyphens) : []
+}
+
+export const selectDobErrors = (state) => {
+  const checkForDobErrors = selectPeopleSearch(state).get('dobErrorCheck')
+  const dob = selectPeopleSearch(state).get('searchDateOfBirth') || ''
+  return checkForDobErrors ? combineCompact(isFutureDatetimeCreate(dob, 'Please enter date as today or earlier')) : []
 }
 
 export const selectPersonSearchFields = state => {
