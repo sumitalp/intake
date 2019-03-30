@@ -46,7 +46,7 @@ class AgeUnitForm extends React.Component {
 
   render() {
     const {formLabel, monthsLabel, yearsLabel, searchByAgeMethod} = this.props
-    const disableRadioButtons = !(searchByAgeMethod === '' || searchByAgeMethod === 'approximateAge')
+    const disableRadioButtons = !(searchByAgeMethod === '' || searchByAgeMethod === 'approximate')
 
     return (
       <Fragment>

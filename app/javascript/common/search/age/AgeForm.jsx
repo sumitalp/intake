@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 class AgeForm extends React.Component {
   handleInputClick({target: {value}}) {
     const {onChange} = this.props
-    const isValidValue = value === 'dateOfBirth' || value === 'approximateAge'
+    const isValidValue = value === 'dob' || value === 'approximate'
     onChange('searchByAgeMethod', isValidValue ? value : '')
   }
 
@@ -16,7 +16,7 @@ class AgeForm extends React.Component {
             type="radio"
             name="age"
             id="date-of-birth"
-            value="dateOfBirth"
+            value="dob"
             onClick={this.handleInputClick.bind(this)}
           />
           <label htmlFor="date-of-birth">{dateOfBirthLabel}</label>
@@ -26,7 +26,7 @@ class AgeForm extends React.Component {
             type="radio"
             id="approximate-age"
             name="age"
-            value="approximateAge"
+            value="approximate"
             onClick={this.handleInputClick.bind(this)}
           />
           <label htmlFor="approximate-age">{approximateAgeLabel}</label>

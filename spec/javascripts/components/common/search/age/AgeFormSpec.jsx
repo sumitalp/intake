@@ -42,7 +42,7 @@ describe('AgeForm', () => {
         expect(radioButton.props().type).toEqual('radio')
         expect(radioButton.props().name).toEqual('age')
         expect(radioButton.props().id).toEqual('date-of-birth')
-        expect(radioButton.props().value).toEqual('dateOfBirth')
+        expect(radioButton.props().value).toEqual('dob')
       })
 
       it('renders a label for the radio button', () => {
@@ -61,7 +61,7 @@ describe('AgeForm', () => {
         expect(radioButton.props().type).toEqual('radio')
         expect(radioButton.props().name).toEqual('age')
         expect(radioButton.props().id).toEqual('approximate-age')
-        expect(radioButton.props().value).toEqual('approximateAge')
+        expect(radioButton.props().value).toEqual('approximate')
       })
 
       it('renders a label for the radio button', () => {
@@ -80,9 +80,9 @@ describe('AgeForm', () => {
           const onChange = jasmine.createSpy('onChange')
           const component = render(onChange)
           const radioButton = component.find('input#date-of-birth')
-          const target = {target: {value: 'dateOfBirth'}}
+          const target = {target: {value: 'dob'}}
           radioButton.props().onClick(target)
-          expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'dateOfBirth')
+          expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'dob')
         })
       })
     })
@@ -93,9 +93,9 @@ describe('AgeForm', () => {
           const onChange = jasmine.createSpy('onChange')
           const component = render(onChange)
           const radioButton = component.find('input#approximate-age')
-          const target = {target: {value: 'approximateAge'}}
+          const target = {target: {value: 'approximate'}}
           radioButton.props().onClick(target)
-          expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximateAge')
+          expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
         })
       })
     })

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import DateField from 'common/DateField'
 
 const DateOfBirthDateField = ({value, onChange, searchByAgeMethod}) => {
-  const disableDateField = !(searchByAgeMethod === '' || searchByAgeMethod === 'dateOfBirth')
+  const disableDateField = !(searchByAgeMethod === '' || searchByAgeMethod === 'dob')
 
   return (
     <DateField

@@ -79,17 +79,17 @@ describe('ApproximateAgeNumberSelect', () => {
       })
     })
 
-    describe('when the value is "approximateAge"', () => {
+    describe('when the value is "approximate"', () => {
       it('does not disable the date field', () => {
-        const component = render({searchByAgeMethod: 'approximateAge'})
+        const component = render({searchByAgeMethod: 'approximate'})
         const numberSelect = component.find('AgeNumberSelect')
         expect(numberSelect.props().disabled).toEqual(false)
       })
     })
 
-    describe('when the value is not empty string or "approximateAge"', () => {
+    describe('when the value is not empty string or "approximate"', () => {
       it('does not disable the date field', () => {
-        const component = render({searchByAgeMethod: 'dateOfBirth'})
+        const component = render({searchByAgeMethod: 'dob'})
         const numberSelect = component.find('AgeNumberSelect')
         expect(numberSelect.props().disabled).toEqual(true)
       })

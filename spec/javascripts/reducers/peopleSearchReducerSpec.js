@@ -272,16 +272,16 @@ describe('peopleSearchReducer', () => {
     })
 
     it('sets the search by age method', () => {
-      const action = setPersonSearchField('searchByAgeMethod', 'approximateAge')
+      const action = setPersonSearchField('searchByAgeMethod', 'approximate')
       const initialState = fromJS({
         searchTerm: 'searchTerm',
         total: 1,
         results: ['result_one'],
-        searchByAgeMethod: 'dateOfBirth',
+        searchByAgeMethod: 'dob',
       })
       expect(
         peopleSearchReducer(initialState, action).get('searchByAgeMethod')
-      ).toEqual('approximateAge')
+      ).toEqual('approximate')
     })
 
     it('sets the sex at birth', () => {
@@ -454,7 +454,7 @@ describe('peopleSearchReducer', () => {
         searchDateOfBirth: '2019-02-14',
         searchApproximateAge: '5',
         searchApproximateAgeUnits: 'Years',
-        searchByAgeMethod: 'dateOfBirth',
+        searchByAgeMethod: 'dob',
         searchSexAtBirth: 'Female',
         searchAddress: '123 Main St',
         searchCity: 'Woodland',

@@ -36,17 +36,17 @@ describe('DateOfBirthDateField', () => {
       })
     })
 
-    describe('when the value is "dateOfBirth"', () => {
+    describe('when the value is "dob"', () => {
       it('does not disable the date field', () => {
-        const component = render({searchByAgeMethod: 'dateOfBirth'})
+        const component = render({searchByAgeMethod: 'dob'})
         const dateField = component.find('DateField')
         expect(dateField.props().disabled).toEqual(false)
       })
     })
 
-    describe('when the value is not empty string or "dateOfBirth"', () => {
+    describe('when the value is not empty string or "dob"', () => {
       it('does not disable the date field', () => {
-        const component = render({searchByAgeMethod: 'approximateAge'})
+        const component = render({searchByAgeMethod: 'approximate'})
         const dateField = component.find('DateField')
         expect(dateField.props().disabled).toEqual(true)
       })

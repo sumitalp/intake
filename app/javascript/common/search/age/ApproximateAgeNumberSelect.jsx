@@ -5,7 +5,7 @@ import {APPROXIMATE_AGE_UNIT_VALUES} from 'enums/ApproximateAgeUnits'
 
 const ApproximateAgeNumberSelect = (props) => {
   const {ageUnit, searchByAgeMethod} = props
-  const disableSelect = !(searchByAgeMethod === '' || searchByAgeMethod === 'approximateAge')
+  const disableSelect = !(searchByAgeMethod === '' || searchByAgeMethod === 'approximate')
   const isValidAgeUnit = ageUnit === 'months' || ageUnit === 'years'
   const ageUnitRange = isValidAgeUnit ? APPROXIMATE_AGE_UNIT_VALUES[ageUnit] : {}
   return (<AgeNumberSelect range={ageUnitRange} disabled={disableSelect} {...props} />)

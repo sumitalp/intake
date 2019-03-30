@@ -14,7 +14,6 @@ class BaseQueryBuilder
     if builder.client_id_searched?.blank? && builder.address_searched?
       builder.extend(PersonSearchByAddress).build_query(builder)
     end
-    puts "#{builder.payload}"
     builder
   end
 
@@ -32,7 +31,6 @@ class BaseQueryBuilder
     @search_term              = params.dig(:person_search_fields, :search_term)
     @search_after             = params[:search_after]
     @is_client_only           = params.fetch(:is_client_only, 'true') == 'true'
-    # @is_advanced_search_on    = params.fetch(:is_advanced_search_on, 'false') == 'false'
   end
 
   def initialize_name_ssn_client_id
@@ -79,6 +77,10 @@ class BaseQueryBuilder
 
   def ssn_searched?
     params.dig(:person_search_fields, :ssn).present?
+  end
+
+  def age_search_method
+    params.dig(:person_search_fields, :search_by_age_method)
   end
 
   def build_query
