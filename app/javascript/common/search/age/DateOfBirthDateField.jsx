@@ -9,9 +9,8 @@ class DateOfBirthDateField extends React.Component {
   }
 
   render() {
-    const {value, onChange, searchByAgeMethod} = this.props
+    const {value, onBlur, onChange, searchByAgeMethod, errors} = this.props
     const disableDateField = !(searchByAgeMethod === '' || searchByAgeMethod === 'dob')
-
     return (
       <div onClick={this.handleClick.bind(this)} role="presentation">
         <DateField
@@ -19,9 +18,11 @@ class DateOfBirthDateField extends React.Component {
           gridClassName="date-field"
           label="Date"
           value={value}
+          onBlur={onBlur}
           onChange={value => onChange('searchDateOfBirth', value)}
           hasTime={false}
           disabled={disableDateField}
+          errors={errors}
         />
       </div>
     )
@@ -29,6 +30,8 @@ class DateOfBirthDateField extends React.Component {
 }
 
 DateOfBirthDateField.propTypes = {
+  errors: PropTypes.array,
+  onBlur: PropTypes.func,
   onChange: PropTypes.func,
   searchByAgeMethod: PropTypes.string,
   value: PropTypes.string,
