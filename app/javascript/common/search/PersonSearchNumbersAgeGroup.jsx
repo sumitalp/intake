@@ -71,7 +71,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clie
                 monthsLabel = "Months"
                 yearsLabel = "Years"
                 onChange={onChange}
-                value={personSearchFields.searchApproximateAgeUnits}
+                searchApproximateAgeUnits={personSearchFields.searchApproximateAgeUnits}
                 searchByAgeMethod={personSearchFields.searchByAgeMethod}
               />
             </div>

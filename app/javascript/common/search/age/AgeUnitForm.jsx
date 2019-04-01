@@ -3,9 +3,13 @@ import PropTypes from 'prop-types'
 
 class AgeUnitForm extends React.Component {
   handleInputClick({target: {value}}) {
-    const {onChange} = this.props
-    const isValidValue = value === 'months' || value === 'years'
-    onChange('searchApproximateAgeUnits', isValidValue ? value : '')
+    const {onChange, searchApproximateAgeUnits} = this.props
+    const unitsHaveChanged = value !== searchApproximateAgeUnits
+    if (unitsHaveChanged) {
+      const isValidValue = value === 'months' || value === 'years'
+      onChange('searchApproximateAgeUnits', isValidValue ? value : '')
+      onChange('searchApproximateAge', '')
+    }
   }
 
   renderRadioMonths(monthsLabel, disabled) {
@@ -64,6 +68,7 @@ AgeUnitForm.propTypes = {
   formLabel: PropTypes.string.isRequired,
   monthsLabel: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  searchApproximateAgeUnits: PropTypes.string,
   searchByAgeMethod: PropTypes.string,
   yearsLabel: PropTypes.string.isRequired,
 }

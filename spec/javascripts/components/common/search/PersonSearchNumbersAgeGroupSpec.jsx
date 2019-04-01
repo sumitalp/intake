@@ -165,7 +165,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
       expect(ageUnitForm.props().monthsLabel).toEqual('Months')
       expect(ageUnitForm.props().yearsLabel).toEqual('Years')
       expect(typeof ageUnitForm.props().onChange).toEqual('function')
-      expect(ageUnitForm.props().value).toEqual('months')
+      expect(ageUnitForm.props().searchApproximateAgeUnits).toEqual('months')
       expect(ageUnitForm.props().searchByAgeMethod).toEqual('')
     })
 

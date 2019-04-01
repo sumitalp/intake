@@ -2,12 +2,13 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import AgeUnitForm from 'common/search/age/AgeUnitForm'
 
-const render = ({onChange = () => {}, searchByAgeMethod = ''}) => {
+const render = ({onChange = () => {}, searchApproximateAgeUnits = '', searchByAgeMethod = ''}) => {
   const props = {
     formLabel: 'Unit',
     monthsLabel: 'Months',
     yearsLabel: 'Years',
     onChange,
+    searchApproximateAgeUnits,
     searchByAgeMethod,
   }
 
@@ -82,26 +83,56 @@ describe('AgeUnitForm', () => {
     describe('radio buttons', () => {
       describe('months radio button', () => {
         describe('onClick', () => {
-          it('calls onChange to store the selection', () => {
-            const onChange = jasmine.createSpy('onChange')
-            const component = render({onChange})
-            const radioButton = component.find('input#age-unit-months')
-            const target = {target: {value: 'months'}}
-            radioButton.props().onClick(target)
-            expect(onChange).toHaveBeenCalledWith('searchApproximateAgeUnits', 'months')
+          describe('when the radio button has not been selected', () => {
+            it('calls onChange to store the age units and reset approximate age', () => {
+              const onChange = jasmine.createSpy('onChange')
+              const component = render({onChange, searchApproximateAgeUnits: 'years'})
+              const radioButton = component.find('input#age-unit-months')
+              const target = {target: {value: 'months'}}
+              radioButton.props().onClick(target)
+              expect(onChange).toHaveBeenCalledWith('searchApproximateAgeUnits', 'months')
+              expect(onChange).toHaveBeenCalledWith('searchApproximateAge', '')
+              expect(onChange).toHaveBeenCalledTimes(2)
+            })
+          })
+
+          describe('when the radio button is currently selected', () => {
+            it('does not call onChange', () => {
+              const onChange = jasmine.createSpy('onChange')
+              const component = render({onChange, searchApproximateAgeUnits: 'months'})
+              const radioButton = component.find('input#age-unit-months')
+              const target = {target: {value: 'months'}}
+              radioButton.props().onClick(target)
+              expect(onChange).not.toHaveBeenCalled()
+            })
           })
         })
       })
 
       describe('years radio button', () => {
         describe('onClick', () => {
-          it('calls onChange to store the selection', () => {
-            const onChange = jasmine.createSpy('onChange')
-            const component = render({onChange})
-            const radioButton = component.find('input#age-unit-years')
-            const target = {target: {value: 'years'}}
-            radioButton.props().onClick(target)
-            expect(onChange).toHaveBeenCalledWith('searchApproximateAgeUnits', 'years')
+          describe('when the radio button has not been selected', () => {
+            it('calls onChange to store the age units and reset approximate age', () => {
+              const onChange = jasmine.createSpy('onChange')
+              const component = render({onChange, searchApproximateAgeUnits: 'months'})
+              const radioButton = component.find('input#age-unit-months')
+              const target = {target: {value: 'years'}}
+              radioButton.props().onClick(target)
+              expect(onChange).toHaveBeenCalledWith('searchApproximateAgeUnits', 'years')
+              expect(onChange).toHaveBeenCalledWith('searchApproximateAge', '')
+              expect(onChange).toHaveBeenCalledTimes(2)
+            })
+          })
+
+          describe('when the radio button is currently selected', () => {
+            it('does not call onChange', () => {
+              const onChange = jasmine.createSpy('onChange')
+              const component = render({onChange, searchApproximateAgeUnits: 'years'})
+              const radioButton = component.find('input#age-unit-months')
+              const target = {target: {value: 'years'}}
+              radioButton.props().onClick(target)
+              expect(onChange).not.toHaveBeenCalled()
+            })
           })
         })
       })
