@@ -509,6 +509,8 @@ describe('<Autocompleter />', () => {
           searchAddress: '123 Main St',
           searchCity: 'Woodland',
           searchCounty: 'Yolo',
+          searchApproximateAge: '24',
+          searchApproximateAgeUnits: 'months',
         },
       })
       const personSearchFields = autocompleter.find('PersonSearchFields')
@@ -520,8 +522,65 @@ describe('<Autocompleter />', () => {
         searchAddress: '123 Main St',
         searchCity: 'Woodland',
         searchCounty: 'Yolo',
+        searchApproximateAge: '24',
+        searchApproximateAgeUnits: 'months',
       })
-      expect(onChange).toHaveBeenCalledWith('searchTerm', 'Carmen Sandiego, Jr')
+    })
+
+    describe('sets the search term', () => {
+      describe('search by age method is', () => {
+        const defaultFields = {
+          searchLastName: 'Sandiego',
+          searchFirstName: 'Carmen',
+          searchSuffix: 'Jr',
+          searchDateOfBirth: '1985/09/09',
+          searchApproximateAge: '120',
+          searchApproximateAgeUnits: 'years',
+        }
+
+        describe('date of birth', () => {
+          it('sets the search term with date of birth', () => {
+            const autocompleter = renderAutocompleter({
+              onChange,
+              onSearch,
+              isAdvancedSearchOn: true,
+              personSearchFields: {
+                searchLastName: 'Sandiego',
+                searchFirstName: 'Carmen',
+                searchSuffix: 'Jr',
+                searchByAgeMethod: 'dob',
+                searchDateOfBirth: '1985/09/09',
+                searchApproximateAge: '120',
+                searchApproximateAgeUnits: 'years',
+              },
+            })
+            const personSearchFields = autocompleter.find('PersonSearchFields')
+            personSearchFields.props().onSubmit()
+            expect(onChange).toHaveBeenCalledWith('searchTerm', 'Carmen Sandiego, Jr 1985/09/09')
+          })
+        })
+        describe('approximate age', () => {
+          it('sets the search term with approximate age and units', () => {
+            const autocompleter = renderAutocompleter({
+              onChange,
+              onSearch,
+              isAdvancedSearchOn: true,
+              personSearchFields: {
+                searchLastName: 'Sandiego',
+                searchFirstName: 'Carmen',
+                searchSuffix: 'Jr',
+                searchByAgeMethod: 'approximate',
+                searchDateOfBirth: '1985/09/09',
+                searchApproximateAge: '120',
+                searchApproximateAgeUnits: 'years',
+              },
+            })
+            const personSearchFields = autocompleter.find('PersonSearchFields')
+            personSearchFields.props().onSubmit()
+            expect(onChange).toHaveBeenCalledWith('searchTerm', 'Carmen Sandiego, Jr 120 years')
+          })
+        })
+      })
     })
 
     it('displays search results when button is submitted', () => {
@@ -709,18 +768,22 @@ describe('<Autocompleter />', () => {
       })
 
       it('displays number of results found', () => {
-        const fiveResults = Array.from(Array(5).keys()).map(id => ({
+        const tenResults = Array.from(Array(10).keys()).map(id => ({
           legacyDescriptor: {legacy_id: id},
         }))
         const autocompleter = mountAutocompleter({
-          results: fiveResults,
-          total: 10,
-          personSearchFields: {searchTerm: 'Simpson Jr', searchCounty: '', searchState: ''},
+          results: tenResults,
+          total: 20,
+          personSearchFields: {
+            searchTerm: 'Simpson Jr 120 years',
+            searchCounty: '',
+            searchState: '',
+          },
         })
         autocompleter.setState({menuVisible: true})
         const suggestionHeader = autocompleter.find('SuggestionHeader')
         expect(suggestionHeader.html()).toContain(
-          'Showing 1-5 of 10 results for "Simpson Jr"'
+          'Showing 1-10 of 20 results for "Simpson Jr 120 years"'
         )
       })
     })
