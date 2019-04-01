@@ -14,10 +14,12 @@ class AgeUnitForm extends React.Component {
   }
 
   renderRadioWithLabel({id, value, disabled, label}) {
+    const {searchApproximateAgeUnits} = this.props
     return (
       <Fragment>
         <div>
           <input
+            checked={searchApproximateAgeUnits === value}
             type="radio"
             name="age-unit"
             id={id}

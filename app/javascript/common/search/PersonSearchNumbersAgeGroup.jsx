@@ -7,7 +7,7 @@ import DateOfBirthDateField from 'common/search/age/DateOfBirthDateField'
 import ApproximateAgeNumberSelect from 'common/search/age/ApproximateAgeNumberSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
-const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clientIdError, ssnErrors, dobErrors}) => (
+const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFields, clientIdError, ssnErrors, dobErrors}) => (
   <div className="row person-search-field-group">
     <div className="col-md-12 person-search-field-title">Identifying Numbers & Age</div>
     <div className="col-md-4 person-search-identifying-numbers-section">
@@ -42,8 +42,8 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clie
     </div>
     <div className="col-md-8 person-search-age-section">
       <div className="row">
-        <div className="col-md-12 radio-choice-message">
-          Choose one: (<span className="radio-choice-message-action">clear</span>)
+        <div className="col-md-12 clear-search-ui-age-fields" onClick={() => {onClear('age')}}>
+          Choose one: (<span className="clear-search-ui-age-fields-action">clear</span>)
         </div>
       </div>
       <div className="row">
@@ -100,6 +100,7 @@ PersonSearchNumbersAgeGroup.propTypes = {
   dobErrors: PropTypes.array,
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
   ssnErrors: PropTypes.array,
 }

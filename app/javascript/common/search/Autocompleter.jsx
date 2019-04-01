@@ -54,7 +54,7 @@ export default class Autocompleter extends Component {
   }
 
   handleSubmit() {
-    this.props.onClear()
+    this.props.onClear('results')
     this.searchAndFocus()
   }
 
@@ -210,12 +210,13 @@ export default class Autocompleter extends Component {
   }
 
   renderPersonSearchFields() {
-    const {states, counties, onChange, onCancel, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors, dobErrors} = this.props
+    const {states, counties, onChange, onCancel, onClear, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors, dobErrors} = this.props
     return (
       <PersonSearchFields
         onBlur={onBlur}
         onChange={onChange}
         onCancel={onCancel}
+        onClear={onClear}
         onSubmit={this.handleSubmit}
         personSearchFields={personSearchFields}
         states={states}

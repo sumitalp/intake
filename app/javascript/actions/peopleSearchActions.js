@@ -1,6 +1,7 @@
 export const PEOPLE_SEARCH_FETCH = 'PEOPLE_SEARCH/FETCH'
 export const PEOPLE_SEARCH_FETCH_COMPLETE = 'PEOPLE_SEARCH/FETCH_COMPLETE'
-export const PEOPLE_SEARCH_CLEAR = 'PEOPLE_SEARCH/CLEAR'
+export const PEOPLE_SEARCH_CLEAR_RESULTS = 'PEOPLE_SEARCH/CLEAR_RESULTS'
+export const PEOPLE_SEARCH_CLEAR_AGE_FIELDS = 'PEOPLE_SEARCH/CLEAR_AGE_FIELDS'
 export const SET_SEARCH_FIELD = 'PEOPLE_SEARCH/SET_SEARCH_FIELD'
 export const LOAD_MORE_RESULTS = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS'
 export const LOAD_MORE_RESULTS_COMPLETE = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS_COMPLETE'
@@ -39,8 +40,11 @@ export const fetchFailure = (error) => ({
   payload: {error},
   error: true,
 })
-export const clear = () => ({
-  type: PEOPLE_SEARCH_CLEAR,
+export const clearSearchResults = () => ({
+  type: PEOPLE_SEARCH_CLEAR_RESULTS,
+})
+export const clearSearchAgeFields = () => ({
+  type: PEOPLE_SEARCH_CLEAR_AGE_FIELDS,
 })
 export const resetPersonSearch = () => ({
   type: RESET_PERSON_SEARCH,

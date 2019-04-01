@@ -7,6 +7,7 @@ describe('PersonSearchFields', () => {
     onBlur = () => {},
     onChange = () => {},
     onCancel = () => {},
+    onClear = () => {},
     onSubmit = () => {},
     ...props
   } = {}) =>
@@ -16,6 +17,7 @@ describe('PersonSearchFields', () => {
         onChange={onChange}
         onSubmit={onSubmit}
         onCancel={onCancel}
+        onClear={onClear}
         {...props}
       />
     )

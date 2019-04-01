@@ -6,6 +6,7 @@ const render = (
   {
     onBlur = () => {},
     onChange = () => {},
+    onClear = () => {},
     personSearchFields = {
       searchApproximateAgeUnits: '',
       searchByAgeMethod: '',
@@ -19,6 +20,7 @@ const render = (
     <PersonSearchNumbersAgeGroup
       onBlur={onBlur}
       onChange={onChange}
+      onClear={onClear}
       personSearchFields={personSearchFields}
       clientIdError={clientIdError}
       ssnErrors={ssnErrors}
@@ -122,9 +124,9 @@ describe('PersonSearchNumbersAgeGroup', () => {
 
     it('renders the radio choice message', () => {
       const component = render({})
-      const message = component.find('div.radio-choice-message')
+      const message = component.find('div.clear-search-ui-age-fields')
       expect(message.exists()).toEqual(true)
-      expect(message.find('span.radio-choice-message-action').exists()).toEqual(true)
+      expect(message.find('span.clear-search-ui-age-fields-action').exists()).toEqual(true)
       expect(message.text()).toEqual('Choose one: (clear)')
     })
 
@@ -203,6 +205,18 @@ describe('PersonSearchNumbersAgeGroup', () => {
       expect(typeof ageNumberSelect.props().onChange).toEqual('function')
       expect(ageNumberSelect.props().value).toEqual('10')
       expect(ageNumberSelect.props().searchByAgeMethod).toEqual('')
+    })
+  })
+
+  describe('clear the search ui age fields', () => {
+    describe('when the clear message is clicked', () => {
+      it('calls onClear to clear age fields', () => {
+        const onClear = jasmine.createSpy('onClear')
+        const component = render({onClear})
+        const clearMessage = component.find('.clear-search-ui-age-fields')
+        clearMessage.props().onClick()
+        expect(onClear).toHaveBeenCalledWith('age')
+      })
     })
   })
 

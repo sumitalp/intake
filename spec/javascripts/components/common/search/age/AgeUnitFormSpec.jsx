@@ -49,6 +49,7 @@ describe('AgeUnitForm', () => {
         expect(radioButton.props().value).toEqual('months')
         expect(typeof radioButton.props().onClick).toEqual('function')
         expect(radioButton.props().disabled).toEqual(false)
+        expect(radioButton.props().checked).toEqual(false)
       })
 
       it('renders a label for the radio button', () => {
@@ -70,6 +71,7 @@ describe('AgeUnitForm', () => {
         expect(radioButton.props().value).toEqual('years')
         expect(typeof radioButton.props().onClick).toEqual('function')
         expect(radioButton.props().disabled).toEqual(false)
+        expect(radioButton.props().checked).toEqual(false)
       })
 
       it('renders a label for the radio button', () => {
@@ -82,6 +84,22 @@ describe('AgeUnitForm', () => {
 
     describe('radio buttons', () => {
       describe('months radio button', () => {
+        describe('is checked', () => {
+          it('when the age units value equals the radio value', () => {
+            const component = render({searchApproximateAgeUnits: 'months'})
+            const radioButton = component.find('input#age-unit-months')
+            expect(radioButton.props().checked).toEqual(true)
+          })
+        })
+  
+        describe('is not checked', () => {
+          it('when the age units value does not equal the radio value', () => {
+            const component = render({searchApproximateAgeUnits: 'years'})
+            const radioButton = component.find('input#age-unit-months')
+            expect(radioButton.props().checked).toEqual(false)
+          })
+        })
+
         describe('onClick', () => {
           describe('when the radio button has not been selected', () => {
             it('calls onChange to store the age units and reset approximate age', () => {
@@ -112,12 +130,28 @@ describe('AgeUnitForm', () => {
       })
 
       describe('years radio button', () => {
+        describe('is checked', () => {
+          it('when the age units value equals the radio value', () => {
+            const component = render({searchApproximateAgeUnits: 'years'})
+            const radioButton = component.find('input#age-unit-years')
+            expect(radioButton.props().checked).toEqual(true)
+          })
+        })
+  
+        describe('is not checked', () => {
+          it('when the age units value does not equal the radio value', () => {
+            const component = render({searchApproximateAgeUnits: 'months'})
+            const radioButton = component.find('input#age-unit-years')
+            expect(radioButton.props().checked).toEqual(false)
+          })
+        })
+
         describe('onClick', () => {
           describe('when the radio button has not been selected', () => {
             it('calls onChange to store the age units and reset approximate age', () => {
               const onChange = jasmine.createSpy('onChange')
               const component = render({onChange, searchApproximateAgeUnits: 'months'})
-              const radioButton = component.find('input#age-unit-months')
+              const radioButton = component.find('input#age-unit-years')
               const target = {target: {value: 'years'}}
               radioButton.props().onClick(target)
               expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
@@ -131,7 +165,7 @@ describe('AgeUnitForm', () => {
             it('calls onChange to set search by age method', () => {
               const onChange = jasmine.createSpy('onChange')
               const component = render({onChange, searchApproximateAgeUnits: 'years'})
-              const radioButton = component.find('input#age-unit-months')
+              const radioButton = component.find('input#age-unit-years')
               const target = {target: {value: 'years'}}
               radioButton.props().onClick(target)
               expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')

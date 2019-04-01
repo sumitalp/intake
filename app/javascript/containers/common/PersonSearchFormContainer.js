@@ -13,7 +13,7 @@ import {
 import {
   search,
   setPersonSearchField,
-  clear,
+  clearSearchResults,
   loadMoreResults,
   resetPersonSearch,
   setClientIdError,
@@ -24,6 +24,7 @@ import {canUserAddClient} from 'utils/authorization'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
 import {selectStates} from 'selectors/systemCodeSelectors'
 import {selectCountiesWithoutStateOfCalifornia} from 'selectors/systemCodeSelectors'
+import { clearSearchAgeFields } from '../../actions/peopleSearchActions';
 
 const mapStateToProps = state => {
   const userInfo = state.get('userInfo').toJS()
@@ -52,12 +53,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const onBlur = (id) => {
     if (id === 'search-client-id') { dispatch(setClientIdError()) } else if (id === 'search-ssn') { dispatch(setSsnErrorCheck()) } else if (id === 'search-date-of-birth') { dispatch(setDobErrorCheck()) }
   }
-  const onClear = () => dispatch(clear())
+  const onClear = (field) => {
+    if (field ==='results') {
+      dispatch(clearSearchResults())
+    }
+    else if (field === 'age') {
+      dispatch(clearSearchAgeFields())
+    }
+  }
   const onChange = (field, value) => {
     dispatch(setPersonSearchField(field, value))
   }
   const onCancel = () => {
-    dispatch(clear())
+    dispatch(clearSearchResults())
     dispatch(resetPersonSearch())
   }
   const onSearch = (isAvancedSearchOn, personSearchFields) =>

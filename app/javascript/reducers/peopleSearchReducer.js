@@ -1,7 +1,8 @@
 import {createReducer} from 'utils/createReducer'
 import {fromJS} from 'immutable'
 import {
-  PEOPLE_SEARCH_CLEAR,
+  PEOPLE_SEARCH_CLEAR_RESULTS,
+  PEOPLE_SEARCH_CLEAR_AGE_FIELDS,
   PEOPLE_SEARCH_FETCH,
   PEOPLE_SEARCH_FETCH_COMPLETE,
   RESET_PERSON_SEARCH,
@@ -91,11 +92,18 @@ export default createReducer(initialState, {
       return state.set('results', fromJS(results)).set('total', total)
     }
   },
-  [PEOPLE_SEARCH_CLEAR](state, _action) {
+  [PEOPLE_SEARCH_CLEAR_RESULTS](state, _action) {
     return state
       .set('results', fromJS([]))
       .set('startTime', null)
       .set('total', null)
+  },
+  [PEOPLE_SEARCH_CLEAR_AGE_FIELDS](state, _action) {
+    return state
+      .set('searchByAgeMethod', '')
+      .set('searchDateOfBirth', '')
+      .set('searchApproximateAge', '')
+      .set('searchApproximateAgeUnits', '')
   },
   [SET_SEARCH_FIELD]: setPersonSearchField,
   [FETCH_USER_INFO_COMPLETE](

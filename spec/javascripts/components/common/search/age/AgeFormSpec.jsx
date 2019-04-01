@@ -77,9 +77,9 @@ describe('AgeForm', () => {
   })
 
   describe('radio buttons', () => {
-    describe('date of birth', () => {
+    describe('date of birth radio button', () => {
       describe('is checked', () => {
-        it('when the search by age method equals its value', () => {
+        it('when the search by age method equals the radio value', () => {
           const component = render(() => {}, 'dob')
           const radioButton = component.find('input#date-of-birth')
           expect(radioButton.props().checked).toEqual(true)
@@ -87,7 +87,7 @@ describe('AgeForm', () => {
       })
 
       describe('is not checked', () => {
-        it('when the search by age method does not equal its value', () => {
+        it('when the search by age method does not equal the radio value', () => {
           const component = render(() => {}, 'approximate')
           const radioButton = component.find('input#date-of-birth')
           expect(radioButton.props().checked).toEqual(false)
@@ -106,9 +106,9 @@ describe('AgeForm', () => {
       })
     })
 
-    describe('approximate age', () => {
+    describe('approximate age radio button', () => {
       describe('is checked', () => {
-        it('when the search by age method equals its value', () => {
+        it('when the search by age method equals the radio value', () => {
           const component = render(() => {}, 'approximate')
           const radioButton = component.find('input#approximate-age')
           expect(radioButton.props().checked).toEqual(true)
@@ -116,7 +116,7 @@ describe('AgeForm', () => {
       })
 
       describe('is not checked', () => {
-        it('when the search by age method does not equal its value', () => {
+        it('when the search by age method does not equal the radio value', () => {
           const component = render(() => {}, 'dob')
           const radioButton = component.find('input#approximate-age')
           expect(radioButton.props().checked).toEqual(false)

@@ -1,6 +1,7 @@
 import * as matchers from 'jasmine-immutable-matchers'
 import {
-  clear,
+  clearSearchResults,
+  clearSearchAgeFields,
   fetchFailure,
   fetchSuccess,
   resetPersonSearch,
@@ -60,13 +61,13 @@ describe('peopleSearchReducer', () => {
       })
     })
   })
-  describe('on PEOPLE_SEARCH_CLEAR', () => {
+  describe('on PEOPLE_SEARCH_CLEAR_RESULTS', () => {
+    const action = clearSearchResults()
     const initialState = fromJS({
       searchTerm: 'newSearchTerm',
       total: 3,
       results: ['result_one', 'result_two', 'result_three'],
     })
-    const action = clear()
     it('resets results, total, and startTime', () => {
       expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
         fromJS({
@@ -74,6 +75,31 @@ describe('peopleSearchReducer', () => {
           total: null,
           results: [],
           startTime: null,
+        })
+      )
+    })
+  })
+  describe('on PEOPLE_SEARCH_CLEAR_AGE_FIELDS', () => {
+    const action = clearSearchAgeFields()
+    const initialState = fromJS({
+      searchTerm: '',
+      total: 1,
+      results: ['result_one'],
+      searchByAgeMethod: 'dob',
+      searchDateOfBirth: '1985/05/05',
+      searchApproximateAge: '120',
+      searchApproximateAgeUnits: 'years',
+    })
+    it('resets the age fields back to default', () => {
+      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+        fromJS({
+          searchTerm: '',
+          total: 1,
+          results: ['result_one'],
+          searchByAgeMethod: '',
+          searchDateOfBirth: '',
+          searchApproximateAge: '',
+          searchApproximateAgeUnits: '',
         })
       )
     })
