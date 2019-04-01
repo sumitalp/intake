@@ -8,7 +8,7 @@ class AgeForm extends React.Component {
     onChange('searchByAgeMethod', isValidValue ? value : '')
   }
 
-  renderRadioButtons(dateOfBirthLabel, approximateAgeLabel) {
+  renderRadioDateOfBirth(dateOfBirthLabel) {
     return (
       <Fragment>
         <div className="col-md-6 client-age-selector date-of-birth">
@@ -21,6 +21,13 @@ class AgeForm extends React.Component {
           />
           <label htmlFor="date-of-birth">{dateOfBirthLabel}</label>
         </div>
+      </Fragment>
+    )
+  }
+
+  renderRadioApproximateAge(approximateAgeLabel) {
+    return (
+      <Fragment>
         <div className="col-md-6 client-age-selector approximate-age">
           <input
             type="radio"
@@ -39,7 +46,8 @@ class AgeForm extends React.Component {
     const {dateOfBirthLabel, approximateAgeLabel} = this.props
     return (
       <form className="client-age-form" name="client-age-form">
-        {this.renderRadioButtons(dateOfBirthLabel, approximateAgeLabel)}
+        {this.renderRadioDateOfBirth(dateOfBirthLabel)}
+        {this.renderRadioApproximateAge(approximateAgeLabel)}
       </form>
     )
   }
