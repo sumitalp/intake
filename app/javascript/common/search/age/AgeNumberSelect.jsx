@@ -8,7 +8,7 @@ class AgeNumberSelect extends React.Component {
     onChange('searchByAgeMethod', 'approximate')
   }
 
-  onChange({target: {value}}) {
+  handleChange({target: {value}}) {
     const {range, onChange} = this.props
     const number = Number(value)
     onChange(
@@ -32,7 +32,7 @@ class AgeNumberSelect extends React.Component {
           id={id}
           gridClassName={gridClassName}
           label="Number"
-          onChange={this.onChange.bind(this)}
+          onChange={this.handleChange.bind(this)}
           value={value}
           disabled={disabled}
         >

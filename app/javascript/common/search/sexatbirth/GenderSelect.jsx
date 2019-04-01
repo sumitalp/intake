@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import SelectField from 'common/SelectField'
 
 class GenderSelect extends React.PureComponent {
-  onChange({target: {value}}) {
+  handleChange({target: {value}}) {
     const {genders, onChange} = this.props
     const genderList = Object.keys(genders).map(key => genders[key])
     onChange(
@@ -20,7 +20,7 @@ class GenderSelect extends React.PureComponent {
         id={id}
         gridClassName={gridClassName}
         label="Sex at Birth"
-        onChange={this.onChange.bind(this)}
+        onChange={this.handleChange.bind(this)}
         value={value}
       >
         <option key="" />
