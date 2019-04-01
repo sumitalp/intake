@@ -48,18 +48,11 @@ export default class Autocompleter extends Component {
     } = personSearchFields
     const suffixWithComma = searchSuffix ? `, ${searchSuffix}` : ''
     const lastNameWithSuffix = `${searchLastName}${suffixWithComma}`
-    let searchTermList = [
-      searchFirstName,
-      searchMiddleName,
-      lastNameWithSuffix,
-      searchClientId,
-      searchSsn,
-    ]
+    let searchTermList = [searchFirstName, searchMiddleName, lastNameWithSuffix, searchClientId, searchSsn]
     if (searchByAgeMethod === 'dob') {
       searchTermList.push(searchDateOfBirth)
     } else if (searchByAgeMethod === 'approximate') {
-      const ageAndUnitsList = [searchApproximateAge, searchApproximateAgeUnits]
-      searchTermList = searchTermList.concat(ageAndUnitsList)
+      searchTermList = searchTermList.concat([searchApproximateAge, searchApproximateAgeUnits])
     }
     const searchTerm = searchTermList.filter(Boolean).join(' ').trim()
     onSearch(isAdvancedSearchOn, personSearchFields)

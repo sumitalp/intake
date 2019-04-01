@@ -529,15 +529,6 @@ describe('<Autocompleter />', () => {
 
     describe('sets the search term', () => {
       describe('search by age method is', () => {
-        const defaultFields = {
-          searchLastName: 'Sandiego',
-          searchFirstName: 'Carmen',
-          searchSuffix: 'Jr',
-          searchDateOfBirth: '1985/09/09',
-          searchApproximateAge: '120',
-          searchApproximateAgeUnits: 'years',
-        }
-
         describe('date of birth', () => {
           it('sets the search term with date of birth', () => {
             const autocompleter = renderAutocompleter({

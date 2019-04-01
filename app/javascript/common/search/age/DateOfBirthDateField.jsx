@@ -2,20 +2,30 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import DateField from 'common/DateField'
 
-const DateOfBirthDateField = ({value, onChange, searchByAgeMethod}) => {
-  const disableDateField = !(searchByAgeMethod === '' || searchByAgeMethod === 'dob')
+class DateOfBirthDateField extends React.Component {
+  handleClick() {
+    const {onChange} = this.props
+    onChange('searchByAgeMethod', 'dob')
+  }
 
-  return (
-    <DateField
-      id="search-date-of-birth"
-      gridClassName="date-field"
-      label="Date"
-      value={value}
-      onChange={value => onChange('searchDateOfBirth', value)}
-      hasTime={false}
-      disabled={disableDateField}
-    />
-  )
+  render() {
+    const {value, onChange, searchByAgeMethod} = this.props
+    const disableDateField = !(searchByAgeMethod === '' || searchByAgeMethod === 'dob')
+
+    return (
+      <div onClick={this.handleClick.bind(this)} role="presentation">
+        <DateField
+          id="search-date-of-birth"
+          gridClassName="date-field"
+          label="Date"
+          value={value}
+          onChange={value => onChange('searchDateOfBirth', value)}
+          hasTime={false}
+          disabled={disableDateField}
+        />
+      </div>
+    )
+  }
 }
 
 DateOfBirthDateField.propTypes = {

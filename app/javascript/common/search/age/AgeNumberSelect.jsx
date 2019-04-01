@@ -3,6 +3,11 @@ import PropTypes from 'prop-types'
 import SelectField from 'common/SelectField'
 
 class AgeNumberSelect extends React.Component {
+  handleClick() {
+    const {onChange} = this.props
+    onChange('searchByAgeMethod', 'approximate')
+  }
+
   onChange({target: {value}}) {
     const {range, onChange} = this.props
     const number = Number(value)
@@ -22,17 +27,19 @@ class AgeNumberSelect extends React.Component {
     }
 
     return (
-      <SelectField
-        id={id}
-        gridClassName={gridClassName}
-        label="Number"
-        onChange={this.onChange.bind(this)}
-        value={value}
-        disabled={disabled}
-      >
-        <option key="" />
-        {options}
-      </SelectField>
+      <div onClick={this.handleClick.bind(this)} role="presentation">
+        <SelectField
+          id={id}
+          gridClassName={gridClassName}
+          label="Number"
+          onChange={this.onChange.bind(this)}
+          value={value}
+          disabled={disabled}
+        >
+          <option key="" />
+          {options}
+        </SelectField>
+      </div>
     )
   }
 }

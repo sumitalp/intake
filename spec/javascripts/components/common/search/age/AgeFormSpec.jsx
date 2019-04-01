@@ -2,11 +2,12 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import AgeForm from 'common/search/age/AgeForm'
 
-const render = (onChange = () => {}) => {
+const render = (onChange = () => {}, searchByAgeMethod = '') => {
   const props = {
     dateOfBirthLabel: 'Date of Birth',
     approximateAgeLabel: 'Approximate Age',
     onChange,
+    searchByAgeMethod,
   }
 
   return shallow(<AgeForm {...props} />)
@@ -43,6 +44,7 @@ describe('AgeForm', () => {
         expect(radioButton.props().name).toEqual('age')
         expect(radioButton.props().id).toEqual('date-of-birth')
         expect(radioButton.props().value).toEqual('dob')
+        expect(radioButton.props().checked).toEqual(false)
       })
 
       it('renders a label for the radio button', () => {
@@ -62,6 +64,7 @@ describe('AgeForm', () => {
         expect(radioButton.props().name).toEqual('age')
         expect(radioButton.props().id).toEqual('approximate-age')
         expect(radioButton.props().value).toEqual('approximate')
+        expect(radioButton.props().checked).toEqual(false)
       })
 
       it('renders a label for the radio button', () => {
@@ -74,7 +77,23 @@ describe('AgeForm', () => {
   })
 
   describe('radio buttons', () => {
-    describe('date of birth radio button', () => {
+    describe('date of birth', () => {
+      describe('is checked', () => {
+        it('when the search by age method equals its value', () => {
+          const component = render(() => {}, 'dob')
+          const radioButton = component.find('input#date-of-birth')
+          expect(radioButton.props().checked).toEqual(true)
+        })
+      })
+
+      describe('is not checked', () => {
+        it('when the search by age method does not equal its value', () => {
+          const component = render(() => {}, 'approximate')
+          const radioButton = component.find('input#date-of-birth')
+          expect(radioButton.props().checked).toEqual(false)
+        })
+      })
+
       describe('onClick', () => {
         it('calls onChange to store the selection', () => {
           const onChange = jasmine.createSpy('onChange')
@@ -87,7 +106,23 @@ describe('AgeForm', () => {
       })
     })
 
-    describe('approximate age radio button', () => {
+    describe('approximate age', () => {
+      describe('is checked', () => {
+        it('when the search by age method equals its value', () => {
+          const component = render(() => {}, 'approximate')
+          const radioButton = component.find('input#approximate-age')
+          expect(radioButton.props().checked).toEqual(true)
+        })
+      })
+
+      describe('is not checked', () => {
+        it('when the search by age method does not equal its value', () => {
+          const component = render(() => {}, 'dob')
+          const radioButton = component.find('input#approximate-age')
+          expect(radioButton.props().checked).toEqual(false)
+        })
+      })
+
       describe('onClick', () => {
         it('calls onChange to store the selection', () => {
           const onChange = jasmine.createSpy('onChange')

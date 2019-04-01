@@ -90,20 +90,22 @@ describe('AgeUnitForm', () => {
               const radioButton = component.find('input#age-unit-months')
               const target = {target: {value: 'months'}}
               radioButton.props().onClick(target)
+              expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
               expect(onChange).toHaveBeenCalledWith('searchApproximateAgeUnits', 'months')
               expect(onChange).toHaveBeenCalledWith('searchApproximateAge', '')
-              expect(onChange).toHaveBeenCalledTimes(2)
+              expect(onChange).toHaveBeenCalledTimes(3)
             })
           })
 
           describe('when the radio button is currently selected', () => {
-            it('does not call onChange', () => {
+            it('calls onChange to set search by age method', () => {
               const onChange = jasmine.createSpy('onChange')
               const component = render({onChange, searchApproximateAgeUnits: 'months'})
               const radioButton = component.find('input#age-unit-months')
               const target = {target: {value: 'months'}}
               radioButton.props().onClick(target)
-              expect(onChange).not.toHaveBeenCalled()
+              expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
+              expect(onChange).toHaveBeenCalledTimes(1)
             })
           })
         })
@@ -118,20 +120,22 @@ describe('AgeUnitForm', () => {
               const radioButton = component.find('input#age-unit-months')
               const target = {target: {value: 'years'}}
               radioButton.props().onClick(target)
+              expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
               expect(onChange).toHaveBeenCalledWith('searchApproximateAgeUnits', 'years')
               expect(onChange).toHaveBeenCalledWith('searchApproximateAge', '')
-              expect(onChange).toHaveBeenCalledTimes(2)
+              expect(onChange).toHaveBeenCalledTimes(3)
             })
           })
 
           describe('when the radio button is currently selected', () => {
-            it('does not call onChange', () => {
+            it('calls onChange to set search by age method', () => {
               const onChange = jasmine.createSpy('onChange')
               const component = render({onChange, searchApproximateAgeUnits: 'years'})
               const radioButton = component.find('input#age-unit-months')
               const target = {target: {value: 'years'}}
               radioButton.props().onClick(target)
-              expect(onChange).not.toHaveBeenCalled()
+              expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
+              expect(onChange).toHaveBeenCalledTimes(1)
             })
           })
         })

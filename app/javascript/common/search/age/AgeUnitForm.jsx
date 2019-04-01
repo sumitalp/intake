@@ -2,9 +2,10 @@ import React, {Fragment} from 'react'
 import PropTypes from 'prop-types'
 
 class AgeUnitForm extends React.Component {
-  handleInputClick({target: {value}}) {
+  handleClick({target: {value}}) {
     const {onChange, searchApproximateAgeUnits} = this.props
     const unitsHaveChanged = value !== searchApproximateAgeUnits
+    onChange('searchByAgeMethod', 'approximate')
     if (unitsHaveChanged) {
       const isValidValue = value === 'months' || value === 'years'
       onChange('searchApproximateAgeUnits', isValidValue ? value : '')
@@ -21,7 +22,7 @@ class AgeUnitForm extends React.Component {
             name="age-unit"
             id="age-unit-months"
             value="months"
-            onClick={this.handleInputClick.bind(this)}
+            onClick={this.handleClick.bind(this)}
             disabled={disabled}
           />
           <label htmlFor="age-unit-months">{monthsLabel}</label>
@@ -39,7 +40,7 @@ class AgeUnitForm extends React.Component {
             name="age-unit"
             id="age-unit-years"
             value="years"
-            onClick={this.handleInputClick.bind(this)}
+            onClick={this.handleClick.bind(this)}
             disabled={disabled}
           />
           <label htmlFor="age-unit-years">{yearsLabel}</label>

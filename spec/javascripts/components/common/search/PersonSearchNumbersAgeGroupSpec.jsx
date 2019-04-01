@@ -2,7 +2,16 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import PersonSearchNumbersAgeGroup from 'common/search/PersonSearchNumbersAgeGroup'
 
-const render = ({onBlur = () => {}, onChange = () => {}, personSearchFields = {searchApproximateAgeUnits: ''}, clientIdError = [], ssnErrors = []} = {}) =>
+const render = ({
+  onBlur = () => {},
+  onChange = () => {},
+  personSearchFields = {
+    searchApproximateAgeUnits: '',
+    searchByAgeMethod: '',
+  },
+  clientIdError = [],
+  ssnErrors = []} = {}
+) =>
   shallow(
     <PersonSearchNumbersAgeGroup
       onBlur={onBlur}
@@ -121,6 +130,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
       expect(ageForm.props().dateOfBirthLabel).toEqual('Date of Birth')
       expect(ageForm.props().approximateAgeLabel).toEqual('Approximate Age')
       expect(typeof ageForm.props().onChange).toEqual('function')
+      expect(ageForm.props().searchByAgeMethod).toEqual('')
     })
 
     it('renders a DateField', () => {

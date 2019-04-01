@@ -2,22 +2,24 @@ import React, {Fragment} from 'react'
 import PropTypes from 'prop-types'
 
 class AgeForm extends React.Component {
-  handleInputClick({target: {value}}) {
+  handleClick({target: {value}}) {
     const {onChange} = this.props
     const isValidValue = value === 'dob' || value === 'approximate'
     onChange('searchByAgeMethod', isValidValue ? value : '')
   }
 
   renderRadioDateOfBirth(dateOfBirthLabel) {
+    const {searchByAgeMethod} = this.props
     return (
       <Fragment>
         <div className="col-md-6 client-age-selector date-of-birth">
           <input
+            checked={searchByAgeMethod === 'dob'}
             type="radio"
             name="age"
             id="date-of-birth"
             value="dob"
-            onClick={this.handleInputClick.bind(this)}
+            onClick={this.handleClick.bind(this)}
           />
           <label htmlFor="date-of-birth">{dateOfBirthLabel}</label>
         </div>
@@ -26,15 +28,17 @@ class AgeForm extends React.Component {
   }
 
   renderRadioApproximateAge(approximateAgeLabel) {
+    const {searchByAgeMethod} = this.props
     return (
       <Fragment>
         <div className="col-md-6 client-age-selector approximate-age">
           <input
+            checked={searchByAgeMethod === 'approximate'}
             type="radio"
             id="approximate-age"
             name="age"
             value="approximate"
-            onClick={this.handleInputClick.bind(this)}
+            onClick={this.handleClick.bind(this)}
           />
           <label htmlFor="approximate-age">{approximateAgeLabel}</label>
         </div>
@@ -57,6 +61,7 @@ AgeForm.propTypes = {
   approximateAgeLabel: PropTypes.string.isRequired,
   dateOfBirthLabel: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  searchByAgeMethod: PropTypes.string,
 }
 
 export default AgeForm

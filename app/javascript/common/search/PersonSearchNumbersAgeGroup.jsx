@@ -52,6 +52,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clie
             dateOfBirthLabel="Date of Birth"
             approximateAgeLabel="Approximate Age"
             onChange={onChange}
+            searchByAgeMethod={personSearchFields.searchByAgeMethod}
           />
         </div>
       </div>
