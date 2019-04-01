@@ -42,7 +42,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFie
     </div>
     <div className="col-md-8 person-search-age-section">
       <div className="row">
-        <div className="col-md-12 clear-search-ui-age-fields" onClick={() => {onClear('age')}}>
+        <div className="col-md-12 clear-search-ui-age-fields" onClick={() => { onClear('age') }} role="presentation">
           Choose one: (<span className="clear-search-ui-age-fields-action">clear</span>)
         </div>
       </div>

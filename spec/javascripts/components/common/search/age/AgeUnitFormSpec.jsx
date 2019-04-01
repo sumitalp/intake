@@ -91,7 +91,7 @@ describe('AgeUnitForm', () => {
             expect(radioButton.props().checked).toEqual(true)
           })
         })
-  
+
         describe('is not checked', () => {
           it('when the age units value does not equal the radio value', () => {
             const component = render({searchApproximateAgeUnits: 'years'})
@@ -137,7 +137,7 @@ describe('AgeUnitForm', () => {
             expect(radioButton.props().checked).toEqual(true)
           })
         })
-  
+
         describe('is not checked', () => {
           it('when the age units value does not equal the radio value', () => {
             const component = render({searchApproximateAgeUnits: 'months'})
