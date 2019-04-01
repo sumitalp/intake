@@ -13,37 +13,19 @@ class AgeUnitForm extends React.Component {
     }
   }
 
-  renderRadioMonths(monthsLabel, disabled) {
+  renderRadioWithLabel({id, value, disabled, label}) {
     return (
       <Fragment>
         <div>
           <input
             type="radio"
             name="age-unit"
-            id="age-unit-months"
-            value="months"
+            id={id}
+            value={value}
             onClick={this.handleClick.bind(this)}
             disabled={disabled}
           />
-          <label htmlFor="age-unit-months">{monthsLabel}</label>
-        </div>
-      </Fragment>
-    )
-  }
-
-  renderRadioYears(yearsLabel, disabled) {
-    return (
-      <Fragment>
-        <div>
-          <input
-            type="radio"
-            name="age-unit"
-            id="age-unit-years"
-            value="years"
-            onClick={this.handleClick.bind(this)}
-            disabled={disabled}
-          />
-          <label htmlFor="age-unit-years">{yearsLabel}</label>
+          <label htmlFor={id}>{label}</label>
         </div>
       </Fragment>
     )
@@ -51,14 +33,16 @@ class AgeUnitForm extends React.Component {
 
   render() {
     const {formLabel, monthsLabel, yearsLabel, searchByAgeMethod} = this.props
-    const disableRadioButtons = !(searchByAgeMethod === '' || searchByAgeMethod === 'approximate')
+    const disabled = !(searchByAgeMethod === '' || searchByAgeMethod === 'approximate')
+    const monthsRadioProps = {id: 'age-unit-months', value: 'months', disabled, label: monthsLabel}
+    const yearsRadioProps = {id: 'age-unit-years', value: 'years', disabled, label: yearsLabel}
 
     return (
       <Fragment>
         <label htmlFor="age-unit-form">{formLabel}</label>
         <form className="age-unit-form" name="age-unit-form">
-          {this.renderRadioMonths(monthsLabel, disableRadioButtons)}
-          {this.renderRadioYears(yearsLabel, disableRadioButtons)}
+          {this.renderRadioWithLabel(monthsRadioProps)}
+          {this.renderRadioWithLabel(yearsRadioProps)}
         </form>
       </Fragment>
     )

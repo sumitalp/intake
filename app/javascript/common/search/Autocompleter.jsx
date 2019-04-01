@@ -35,16 +35,8 @@ export default class Autocompleter extends Component {
   searchAndFocus() {
     const {onChange, onSearch, isAdvancedSearchOn, personSearchFields} = this.props
     const {
-      searchLastName,
-      searchFirstName,
-      searchMiddleName,
-      searchClientId,
-      searchSuffix,
-      searchSsn,
-      searchDateOfBirth,
-      searchApproximateAge,
-      searchApproximateAgeUnits,
-      searchByAgeMethod,
+      searchLastName, searchFirstName, searchMiddleName, searchClientId, searchSuffix,
+      searchSsn, searchDateOfBirth, searchApproximateAge, searchApproximateAgeUnits, searchByAgeMethod,
     } = personSearchFields
     const suffixWithComma = searchSuffix ? `, ${searchSuffix}` : ''
     const lastNameWithSuffix = `${searchLastName}${suffixWithComma}`
@@ -100,7 +92,6 @@ export default class Autocompleter extends Component {
 
   onItemSelect(_value, item) {
     const {isSelectable, staffId, startTime} = this.props
-
     if (!item.legacyDescriptor) {
       this.onButtonSelect(item)
       return
@@ -108,7 +99,6 @@ export default class Autocompleter extends Component {
       alert('You are not authorized to add this person.') // eslint-disable-line no-alert
       return
     }
-
     logEvent('searchResultClick', {
       searchIndex: this.props.results.indexOf(item),
       staffId,
