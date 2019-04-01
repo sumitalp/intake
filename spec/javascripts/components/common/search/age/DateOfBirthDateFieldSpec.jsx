@@ -25,7 +25,6 @@ describe('DateOfBirthDateField', () => {
 
     it('renders a DateField', () => {
       const component = render({value: '2019-03-01'})
-      console.log(component.debug())
       const dateField = component.find('DateField')
       expect(dateField.exists()).toEqual(true)
       expect(dateField.props().id).toEqual('search-date-of-birth')
