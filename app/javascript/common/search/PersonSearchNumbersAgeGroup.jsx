@@ -7,7 +7,7 @@ import DateOfBirthDateField from 'common/search/age/DateOfBirthDateField'
 import ApproximateAgeNumberSelect from 'common/search/age/ApproximateAgeNumberSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
-const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clientIdError, ssnErrors}) => (
+const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clientIdError, ssnErrors, dobErrors}) => (
   <div className="row person-search-field-group">
     <div className="col-md-12 person-search-field-title">Identifying Numbers & Age</div>
     <div className="col-md-4 person-search-identifying-numbers-section">
@@ -61,8 +61,10 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clie
           <div className="col-md-6 date-of-birth-section">
             <DateOfBirthDateField
               value={personSearchFields.searchDateOfBirth}
+              onBlur={onBlur}
               onChange={onChange}
               searchByAgeMethod={personSearchFields.searchByAgeMethod}
+              errors={dobErrors}
             />
           </div>
           <div className="col-md-6 approximate-age-section">
@@ -95,6 +97,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clie
 
 PersonSearchNumbersAgeGroup.propTypes = {
   clientIdError: PropTypes.array,
+  dobErrors: PropTypes.array,
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,

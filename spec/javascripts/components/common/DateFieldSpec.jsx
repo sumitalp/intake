@@ -121,13 +121,13 @@ describe('DateField', () => {
 
     beforeEach(() => {
       onBlur = jasmine.createSpy('onBlur')
-      dateTimePicker = mountDateField({onBlur}).find('DateTimePicker')
+      dateTimePicker = mountDateField({id: 'id', onBlur}).find('DateTimePicker')
     })
 
-    it('calls the passed function with a value', () => {
+    it('calls the passed function with an id and value', () => {
       const event = {target: {value: '12/31/1999 12:59 PM'}}
       dateTimePicker.props().onBlur(event)
-      expect(onBlur).toHaveBeenCalledWith('1999-12-31T20:59:00.000Z')
+      expect(onBlur).toHaveBeenCalledWith('id', '1999-12-31T20:59:00.000Z')
     })
 
     it('calls the passed function with null if the value is empty', () => {

@@ -9,6 +9,7 @@ import {
   LOAD_MORE_RESULTS_COMPLETE,
   SET_CLIENT_ID_ERROR,
   SET_SSN_ERROR_CHECK,
+  SET_DOB_ERROR_CHECK,
 } from 'actions/peopleSearchActions'
 import {FETCH_USER_INFO_COMPLETE} from 'actions/userInfoActions'
 import moment from 'moment'
@@ -37,6 +38,7 @@ const initialState = fromJS({
   defaultCounty: null,
   clientIdError: false,
   ssnErrorCheck: false,
+  dobErrorCheck: false,
 })
 
 const setPersonSearchField = (state, {payload}) => {
@@ -131,5 +133,8 @@ export default createReducer(initialState, {
   },
   [SET_SSN_ERROR_CHECK](state) {
     return state.set('ssnErrorCheck', true)
+  },
+  [SET_DOB_ERROR_CHECK](state) {
+    return state.set('dobErrorCheck', true)
   },
 })

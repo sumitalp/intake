@@ -210,7 +210,7 @@ export default class Autocompleter extends Component {
   }
 
   renderPersonSearchFields() {
-    const {states, counties, onChange, onCancel, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors} = this.props
+    const {states, counties, onChange, onCancel, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors, dobErrors} = this.props
     return (
       <PersonSearchFields
         onBlur={onBlur}
@@ -223,6 +223,7 @@ export default class Autocompleter extends Component {
         isAdvancedSearchOn={isAdvancedSearchOn}
         clientIdError={clientIdError}
         ssnErrors={ssnErrors}
+        dobErrors={dobErrors}
       />
     )
   }
@@ -239,6 +240,7 @@ Autocompleter.propTypes = {
     code: PropTypes.string,
     value: PropTypes.string,
   })),
+  dobErrors: PropTypes.array,
   id: PropTypes.string,
   isAdvancedSearchOn: PropTypes.bool,
   isSelectable: PropTypes.func,

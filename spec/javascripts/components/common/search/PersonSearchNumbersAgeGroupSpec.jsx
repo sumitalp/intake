@@ -2,15 +2,18 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import PersonSearchNumbersAgeGroup from 'common/search/PersonSearchNumbersAgeGroup'
 
-const render = ({
-  onBlur = () => {},
-  onChange = () => {},
-  personSearchFields = {
-    searchApproximateAgeUnits: '',
-    searchByAgeMethod: '',
-  },
-  clientIdError = [],
-  ssnErrors = []} = {}
+const render = (
+  {
+    onBlur = () => {},
+    onChange = () => {},
+    personSearchFields = {
+      searchApproximateAgeUnits: '',
+      searchByAgeMethod: '',
+    },
+    clientIdError = [],
+    ssnErrors = [],
+    dobErrors = [],
+  } = {},
 ) =>
   shallow(
     <PersonSearchNumbersAgeGroup
@@ -19,6 +22,7 @@ const render = ({
       personSearchFields={personSearchFields}
       clientIdError={clientIdError}
       ssnErrors={ssnErrors}
+      dobErrors={dobErrors}
     />
   )
 
@@ -133,20 +137,23 @@ describe('PersonSearchNumbersAgeGroup', () => {
       expect(ageForm.props().searchByAgeMethod).toEqual('')
     })
 
-    it('renders a DateField', () => {
+    it('renders a DateOfBirthDateField component', () => {
       const personSearchFields = {
         personSearchFields: {
           searchDateOfBirth: '2019-03-01',
           searchByAgeMethod: '',
           searchApproximateAgeUnits: '',
+          dobErrors: [],
         },
       }
       const component = render(personSearchFields)
       const dateField = component.find('DateOfBirthDateField')
       expect(dateField.exists()).toEqual(true)
       expect(dateField.props().value).toEqual('2019-03-01')
+      expect(typeof dateField.props().onBlur).toEqual('function')
       expect(typeof dateField.props().onChange).toEqual('function')
       expect(dateField.props().searchByAgeMethod).toEqual('')
+      expect(dateField.props().errors).toEqual([])
     })
 
     it('renders div.approximate-age-selector.unit', () => {
