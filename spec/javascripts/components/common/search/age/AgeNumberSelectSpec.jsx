@@ -75,7 +75,7 @@ describe('AgeNumberSelect', () => {
         })
 
         describe('to an unknown value', () => {
-          it('onChange calls back with empty string', () => {
+          it('calls back with empty string', () => {
             const onChange = jasmine.createSpy('onChange')
             const component = render({value: '1', range: {min: 0, max: 2}, onChange})
             const selectField = component.find('SelectField')
