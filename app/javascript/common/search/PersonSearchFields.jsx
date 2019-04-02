@@ -35,6 +35,8 @@ const PersonSearchFields = ({
       onSubmit={onSubmit}
       onCancel={onCancel}
       personSearchFields={personSearchFields}
+      dobErrors={dobErrors}
+      ssnErrors={ssnErrors}
     />
   </div>
 ) : null

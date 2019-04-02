@@ -45,6 +45,8 @@ describe('<Autocompleter />', () => {
     states = [],
     counties = [],
     isAdvancedSearchOn = false,
+    dobErrors = [],
+    ssnErrors = [],
   }) {
     return mount(
       <Autocompleter
@@ -66,6 +68,8 @@ describe('<Autocompleter />', () => {
         states={states}
         counties={counties}
         isAdvancedSearchOn={isAdvancedSearchOn}
+        dobErrors={dobErrors}
+        ssnErrors={ssnErrors}
       />
     )
   }
@@ -105,6 +109,8 @@ describe('<Autocompleter />', () => {
     states = [],
     counties = [],
     isAdvancedSearchOn = false,
+    dobErrors = [],
+    ssnErrors = [],
   }) {
     return shallow(
       <Autocompleter
@@ -125,6 +131,8 @@ describe('<Autocompleter />', () => {
         states={states}
         counties={counties}
         isAdvancedSearchOn={isAdvancedSearchOn}
+        dobErrors={dobErrors}
+        ssnErrors={ssnErrors}
       />,
       {disableLifecycleMethods: true}
     )
@@ -322,6 +330,7 @@ describe('<Autocompleter />', () => {
             onLoadMoreResults,
             total,
             isAdvancedSearchOn: true,
+            dobErrors: [],
           })
           autocompleter
             .find('Autocomplete')
