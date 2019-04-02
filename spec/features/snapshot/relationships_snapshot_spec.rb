@@ -138,7 +138,7 @@ feature 'Snapshot relationship card' do
         response.with_hits do
           [
             PersonSearchResultBuilder.build do |builder|
-              builder.with_first_name(participant[:first_name])
+              builder.with_last_name(participant[:last_name])
               builder.with_legacy_descriptor(participant[:legacy_descriptor])
             end
           ]
@@ -170,9 +170,9 @@ feature 'Snapshot relationship card' do
       visit snapshot_path
 
       within '#search-card', text: 'Search' do
-        fill_in 'First Name', with: 'Ju'
+        fill_in 'Last Name', with: 'Si'
         click_button 'Search'
-        page.find('strong', text: 'Juan').click
+        page.find('strong', text: 'Simpson').click
       end
     end
 

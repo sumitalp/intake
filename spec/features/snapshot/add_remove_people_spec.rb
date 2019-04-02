@@ -138,13 +138,13 @@ feature 'Adding and removing a person from a snapshot' do
     visit snapshot_path
 
     within '#search-card', text: 'Search' do
-      fill_in 'First Name', with: 'Ju'
+      fill_in 'Last Name', with: 'Si'
       click_button 'Search'
     end
 
     within '#search-card', text: 'Search' do
       expect(page).not_to have_content 'Create a new person'
-      page.find('strong', text: participant[:first_name]).click
+      page.find('strong', text: participant[:last_name]).click
     end
 
     expect(
@@ -204,13 +204,13 @@ feature 'Adding and removing a person from a snapshot' do
     visit snapshot_path
 
     within '#search-card', text: 'Search' do
-      fill_in 'First Name', with: 'Ju'
+      fill_in 'Last Name', with: 'Si'
       click_button 'Search'
     end
 
     within '#search-card', text: 'Search' do
       expect(page).not_to have_content 'Create a new person'
-      page.find('strong', text: participant[:first_name]).click
+      page.find('strong', text: participant[:last_name]).click
     end
 
     expect(

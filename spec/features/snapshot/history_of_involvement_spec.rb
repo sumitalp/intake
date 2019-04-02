@@ -278,7 +278,7 @@ feature 'Snapshot History of Involvement' do
         response.with_hits do
           [
             PersonSearchResultBuilder.build do |builder|
-              builder.with_first_name(person[:first_name])
+              builder.with_last_name(person[:last_name])
               builder.with_legacy_descriptor(person[:legacy_descriptor])
             end
           ]
@@ -310,9 +310,9 @@ feature 'Snapshot History of Involvement' do
       visit snapshot_path
 
       within '#search-card', text: 'Search' do
-        fill_in 'First Name', with: 'Ju'
+        fill_in 'Last Name', with: 'Si'
         click_button 'Search'
-        find('strong', text: 'Juan').click
+        find('strong', text: 'Simpson').click
       end
     end
 

@@ -112,7 +112,7 @@ feature 'Create Snapshot' do
           response.with_hits do
             [
               PersonSearchResultBuilder.build do |builder|
-                builder.with_first_name(person[:first_name])
+                builder.with_last_name(person[:last_name])
                 builder.with_legacy_descriptor(person[:legacy_descriptor])
               end
             ]
@@ -145,14 +145,14 @@ feature 'Create Snapshot' do
         stub_empty_history_for_clients [person.dig(:legacy_descriptor, :legacy_id)]
 
         within '#search-card', text: 'Search' do
-          fill_in 'First Name', with: 'Ju'
+          fill_in 'Last Name', with: 'Si'
           click_button 'Search'
-          page.find('strong', text: person[:first_name]).click
+          page.find('strong', text: person[:last_name]).click
         end
 
         within show_participant_card_selector(person[:id]) do
           within '.card-body' do
-            expect(page).to have_content(person[:first_name])
+            expect(page).to have_content(person[:last_name])
           end
         end
 
@@ -175,7 +175,7 @@ feature 'Create Snapshot' do
             response.with_hits do
               [
                 PersonSearchResultBuilder.build do |builder|
-                  builder.with_first_name(person[:first_name])
+                  builder.with_first_name(person[:last_name])
                   builder.with_legacy_descriptor(person[:legacy_descriptor])
                 end
               ]
@@ -210,9 +210,9 @@ feature 'Create Snapshot' do
 
         scenario 'closes when clicking Start Over button', inaccessible: true do
           within '#search-card', text: 'Search' do
-            fill_in 'First Name', with: 'Ju'
+            fill_in 'Last Name', with: 'Si'
             click_button 'Search'
-            page.find('strong', text: person[:first_name])
+            page.find('strong', text: person[:last_name])
           end
 
           click_button 'Start Over'
@@ -224,9 +224,9 @@ feature 'Create Snapshot' do
 
         scenario 'closes when clicking search result' do
           within '#search-card', text: 'Search' do
-            fill_in 'First Name', with: 'Ju'
+            fill_in 'Last Name', with: 'Si'
             click_button 'Search'
-            page.find('strong', text: person[:first_name]).click
+            page.find('strong', text: person[:last_name]).click
           end
 
           within '#search-card', text: 'Search' do
@@ -236,9 +236,9 @@ feature 'Create Snapshot' do
 
         scenario 'does not close when clicking outside search result' do
           within '#search-card', text: 'Search' do
-            fill_in 'First Name', with: 'Ju'
+            fill_in 'Last Name', with: 'Si'
             click_button 'Search'
-            page.find('strong', text: person[:first_name])
+            page.find('strong', text: person[:last_name])
           end
 
           click_button 'CWDS'
