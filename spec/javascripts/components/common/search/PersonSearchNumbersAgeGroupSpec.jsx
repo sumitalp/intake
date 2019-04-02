@@ -205,19 +205,17 @@ describe('PersonSearchNumbersAgeGroup', () => {
     })
   })
 
-  describe('clear the search ui age fields', () => {
-    describe('when the clear button is clicked', () => {
-      it('calls onClear to clear age fields', () => {
-        const onClear = jasmine.createSpy('onClear')
-        const component = render({onClear})
-        const clearButton = component.find('AgeClearButton')
-        clearButton.props().onClear('age')
-        expect(onClear).toHaveBeenCalledWith('age')
-      })
+  describe('when the clear button is clicked', () => {
+    it('calls onClear to clear age fields', () => {
+      const onClear = jasmine.createSpy('onClear')
+      const component = render({onClear})
+      const clearButton = component.find('AgeClearButton')
+      clearButton.props().onClear('age')
+      expect(onClear).toHaveBeenCalledWith('age')
     })
   })
 
-  describe('when the field values', () => {
+  describe('when the client id value changes', () => {
     it('calls onChange when a new clientId is entered', () => {
       const onChange = jasmine.createSpy('onChange')
       const component = render({onChange})
@@ -228,7 +226,9 @@ describe('PersonSearchNumbersAgeGroup', () => {
 
       expect(onChange).toHaveBeenCalledWith('searchClientId', '1')
     })
+  })
 
+  describe('when the ssn value changes', () => {
     it('calls onChange when a new ssn is entered', () => {
       const onChange = jasmine.createSpy('onChange')
       const component = render({onChange})

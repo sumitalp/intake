@@ -37,23 +37,21 @@ describe('AgeClearButton', () => {
 
   describe('event handlers', () => {
     describe('clear age button', () => {
-      describe('onKeyPress', () => {
-        describe('when the Enter key is pressed', () => {
-          it('calls onClear', () => {
-            const onClear = jasmine.createSpy('onClear')
-            const button = render({onClear}).find('span.clear-age-button')
-            button.simulate('keypress', {charCode: 13})
-            expect(onClear).toHaveBeenCalledWith('age')
-          })
+      describe('when the Enter key is pressed', () => {
+        it('calls onClear', () => {
+          const onClear = jasmine.createSpy('onClear')
+          const button = render({onClear}).find('span.clear-age-button')
+          button.simulate('keypress', {charCode: 13})
+          expect(onClear).toHaveBeenCalledWith('age')
         })
+      })
 
-        describe('when the Enter key is not pressed', () => {
-          it('does not call onClear', () => {
-            const onClear = jasmine.createSpy('onClear')
-            const button = render({onClear}).find('span.clear-age-button')
-            button.simulate('keypress', {charCode: 0})
-            expect(onClear).not.toHaveBeenCalled()
-          })
+      describe('when the Enter key is not pressed', () => {
+        it('does not call onClear', () => {
+          const onClear = jasmine.createSpy('onClear')
+          const button = render({onClear}).find('span.clear-age-button')
+          button.simulate('keypress', {charCode: 0})
+          expect(onClear).not.toHaveBeenCalled()
         })
       })
 
