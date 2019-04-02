@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import MaskedInputField from 'common/MaskedInputField'
 import AgeForm from 'common/search/age/AgeForm'
 import AgeUnitForm from 'common/search/age/AgeUnitForm'
+import AgeClearButton from 'common/search/age/AgeClearButton'
 import DateOfBirthDateField from 'common/search/age/DateOfBirthDateField'
 import ApproximateAgeNumberSelect from 'common/search/age/ApproximateAgeNumberSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
@@ -42,9 +43,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFie
     </div>
     <div className="col-md-8 person-search-age-section">
       <div className="row">
-        <div className="col-md-12 clear-search-ui-age-fields" onClick={() => { onClear('age') }} role="presentation">
-          Choose one: (<span className="clear-search-ui-age-fields-action">clear</span>)
-        </div>
+        <AgeClearButton onClear={onClear} />
       </div>
       <div className="row">
         <div className="col-md-12">

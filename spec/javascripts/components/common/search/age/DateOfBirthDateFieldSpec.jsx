@@ -19,7 +19,7 @@ describe('DateOfBirthDateField', () => {
       const component = render({})
       const dateFieldParent = component.find('div')
       expect(dateFieldParent.exists()).toBe(true)
-      expect(typeof dateFieldParent.props().onClick).toEqual('function')
+      expect(typeof dateFieldParent.props().onFocus).toEqual('function')
       expect(dateFieldParent.props().role).toEqual('presentation')
     })
 
@@ -91,11 +91,11 @@ describe('DateOfBirthDateField', () => {
   describe('event handler', () => {
     describe('onClick', () => {
       describe('when the date field parent is clicked', () => {
-        it('onChange sets the search by age method to dob', () => {
+        it('onFocus sets the search by age method to dob', () => {
           const onChange = jasmine.createSpy('onChange')
           const component = render({onChange})
           const dateFieldParent = component.find('div')
-          dateFieldParent.props().onClick()
+          dateFieldParent.props().onFocus()
           expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'dob')
         })
       })

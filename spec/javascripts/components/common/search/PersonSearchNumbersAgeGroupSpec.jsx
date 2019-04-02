@@ -122,12 +122,9 @@ describe('PersonSearchNumbersAgeGroup', () => {
       })
     })
 
-    it('renders the radio choice message', () => {
-      const component = render({})
-      const message = component.find('div.clear-search-ui-age-fields')
-      expect(message.exists()).toEqual(true)
-      expect(message.find('span.clear-search-ui-age-fields-action').exists()).toEqual(true)
-      expect(message.text()).toEqual('Choose one: (clear)')
+    it('renders the AgeClearButton', () => {
+      const button = render({}).find('AgeClearButton')
+      expect(button.exists()).toBe(true)
     })
 
     it('renders AgeForm', () => {
@@ -209,12 +206,12 @@ describe('PersonSearchNumbersAgeGroup', () => {
   })
 
   describe('clear the search ui age fields', () => {
-    describe('when the clear message is clicked', () => {
+    describe('when the clear button is clicked', () => {
       it('calls onClear to clear age fields', () => {
         const onClear = jasmine.createSpy('onClear')
         const component = render({onClear})
-        const clearMessage = component.find('.clear-search-ui-age-fields')
-        clearMessage.props().onClick()
+        const clearButton = component.find('AgeClearButton')
+        clearButton.props().onClear('age')
         expect(onClear).toHaveBeenCalledWith('age')
       })
     })

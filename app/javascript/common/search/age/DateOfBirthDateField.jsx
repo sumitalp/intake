@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import DateField from 'common/DateField'
 
 class DateOfBirthDateField extends React.Component {
-  handleClick() {
+  handleFocus() {
     const {onChange} = this.props
     onChange('searchByAgeMethod', 'dob')
   }
@@ -12,7 +12,7 @@ class DateOfBirthDateField extends React.Component {
     const {value, onBlur, onChange, searchByAgeMethod, errors} = this.props
     const disableDateField = !(searchByAgeMethod === '' || searchByAgeMethod === 'dob')
     return (
-      <div onClick={this.handleClick.bind(this)} role="presentation">
+      <div onFocus={this.handleFocus.bind(this)} role="presentation">
         <DateField
           id="search-date-of-birth"
           gridClassName="date-field"
