@@ -35,18 +35,18 @@ export default class Autocompleter extends Component {
   searchAndFocus() {
     const {onChange, onSearch, isAdvancedSearchOn, personSearchFields} = this.props
     const {
-      searchLastName,
-      searchFirstName,
-      searchMiddleName,
-      searchClientId,
-      searchSuffix,
-      searchSsn,
-      searchDateOfBirth,
+      searchLastName, searchFirstName, searchMiddleName, searchClientId, searchSuffix,
+      searchSsn, searchDateOfBirth, searchApproximateAge, searchApproximateAgeUnits, searchByAgeMethod,
     } = personSearchFields
     const suffixWithComma = searchSuffix ? `, ${searchSuffix}` : ''
     const lastNameWithSuffix = `${searchLastName}${suffixWithComma}`
-    const searchTerm = [searchFirstName, searchMiddleName, lastNameWithSuffix, searchClientId, searchSsn, searchDateOfBirth]
-      .filter(Boolean).join(' ').trim()
+    let searchTermList = [searchFirstName, searchMiddleName, lastNameWithSuffix, searchClientId, searchSsn]
+    if (searchByAgeMethod === 'dob') {
+      searchTermList.push(searchDateOfBirth)
+    } else if (searchByAgeMethod === 'approximate') {
+      searchTermList = searchTermList.concat([searchApproximateAge, searchApproximateAgeUnits])
+    }
+    const searchTerm = searchTermList.filter(Boolean).join(' ').trim()
     onSearch(isAdvancedSearchOn, personSearchFields)
     onChange('searchTerm', searchTerm)
     this.setState({menuVisible: true})
@@ -54,7 +54,7 @@ export default class Autocompleter extends Component {
   }
 
   handleSubmit() {
-    this.props.onClear()
+    this.props.onClear('results')
     this.searchAndFocus()
   }
 
@@ -92,7 +92,6 @@ export default class Autocompleter extends Component {
 
   onItemSelect(_value, item) {
     const {isSelectable, staffId, startTime} = this.props
-
     if (!item.legacyDescriptor) {
       this.onButtonSelect(item)
       return
@@ -100,7 +99,6 @@ export default class Autocompleter extends Component {
       alert('You are not authorized to add this person.') // eslint-disable-line no-alert
       return
     }
-
     logEvent('searchResultClick', {
       searchIndex: this.props.results.indexOf(item),
       staffId,
@@ -212,12 +210,13 @@ export default class Autocompleter extends Component {
   }
 
   renderPersonSearchFields() {
-    const {states, counties, onChange, onCancel, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors, dobErrors} = this.props
+    const {states, counties, onChange, onCancel, onClear, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors, dobErrors} = this.props
     return (
       <PersonSearchFields
         onBlur={onBlur}
         onChange={onChange}
         onCancel={onCancel}
+        onClear={onClear}
         onSubmit={this.handleSubmit}
         personSearchFields={personSearchFields}
         states={states}

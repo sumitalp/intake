@@ -121,7 +121,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(clearPeople())
     dispatch(clearHistoryOfInvolvement())
     dispatch(clearRelationships())
-    dispatch(clearSearch())
+    dispatch(clearSearch('results'))
     dispatch(resetPersonSearch())
   },
   unmount: () => {

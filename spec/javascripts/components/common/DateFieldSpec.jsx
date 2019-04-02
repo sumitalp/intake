@@ -16,6 +16,7 @@ describe('DateField', () => {
     onChange = () => null,
     required = undefined,
     value,
+    disabled = false,
   } = {}) {
     const props = {
       gridClassName,
@@ -30,6 +31,7 @@ describe('DateField', () => {
       onChange,
       required,
       value,
+      disabled,
     }
     return mount(<DateField {...props}/>)
   }
@@ -42,6 +44,7 @@ describe('DateField', () => {
     onBlur = () => null,
     onChange = () => null,
     required = undefined,
+    disabled = false,
   }) {
     const props = {
       errors,
@@ -52,6 +55,7 @@ describe('DateField', () => {
       onBlur,
       onChange,
       required,
+      disabled,
     }
     return shallow(<DateField {...props}/>, {disableLifecycleMethods: true})
   }
@@ -173,6 +177,12 @@ describe('DateField', () => {
     const dateTimePicker = mountDateField({min, max}).find('DateTimePicker')
     expect(dateTimePicker.props().max).toBe(max)
     expect(dateTimePicker.props().min).toBe(min)
+  })
+
+  it('passes the disabled prop to the DateTimePicker', () => {
+    const disabled = true
+    const dateTimePicker = mountDateField({disabled})
+    expect(dateTimePicker.props().disabled).toEqual(true)
   })
 
   it('displays calendar by default', () => {

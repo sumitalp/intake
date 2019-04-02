@@ -52,19 +52,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const onBlur = (id) => {
     if (id === 'search-client-id') { dispatch(setClientIdError()) } else if (id === 'search-ssn') { dispatch(setSsnErrorCheck()) } else if (id === 'search-date-of-birth') { dispatch(setDobErrorCheck()) }
   }
-  const onClear = () => dispatch(clear())
+  const onClear = (field) => dispatch(clear(field))
   const onChange = (field, value) => {
     dispatch(setPersonSearchField(field, value))
   }
   const onCancel = () => {
-    dispatch(clear())
+    dispatch(onClear('results'))
     dispatch(resetPersonSearch())
   }
   const onSearch = (isAvancedSearchOn, personSearchFields) =>
     dispatch(search(ownProps.isClientOnly, isAvancedSearchOn, personSearchFields))
   const onLoadMoreResults = (isAvancedSearchOn, personSearchFields) =>
     dispatch(loadMoreResults(ownProps.isClientOnly, isAvancedSearchOn, personSearchFields))
-
   return {
     onBlur,
     onSearch,

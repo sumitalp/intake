@@ -39,8 +39,9 @@ export const fetchFailure = (error) => ({
   payload: {error},
   error: true,
 })
-export const clear = () => ({
+export const clear = (field) => ({
   type: PEOPLE_SEARCH_CLEAR,
+  payload: {field},
 })
 export const resetPersonSearch = () => ({
   type: RESET_PERSON_SEARCH,

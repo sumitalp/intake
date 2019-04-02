@@ -9,6 +9,7 @@ const PersonSearchFields = ({
   onBlur,
   onChange,
   onCancel,
+  onClear,
   onSubmit,
   personSearchFields,
   clientIdError,
@@ -24,6 +25,7 @@ const PersonSearchFields = ({
     <PersonSearchNumbersAgeGroup
       onBlur={onBlur}
       onChange={onChange}
+      onClear={onClear}
       personSearchFields={personSearchFields}
       clientIdError={clientIdError}
       ssnErrors={ssnErrors}
@@ -44,6 +46,7 @@ PersonSearchFields.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
   ssnErrors: PropTypes.array,

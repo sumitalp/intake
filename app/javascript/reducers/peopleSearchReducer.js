@@ -27,6 +27,7 @@ const initialState = fromJS({
   searchDateOfBirth: '',
   searchApproximateAge: '',
   searchApproximateAgeUnits: '',
+  searchByAgeMethod: '',
   searchSexAtBirth: '',
   searchAddress: '',
   searchCity: '',
@@ -64,6 +65,7 @@ const resetPersonSearchFields = state =>
     .set('searchDateOfBirth', '')
     .set('searchApproximateAge', '')
     .set('searchApproximateAgeUnits', '')
+    .set('searchByAgeMethod', '')
     .set('searchSexAtBirth', '')
     .set('searchAddress', '')
     .set('searchCity', '')
@@ -89,11 +91,25 @@ export default createReducer(initialState, {
       return state.set('results', fromJS(results)).set('total', total)
     }
   },
-  [PEOPLE_SEARCH_CLEAR](state, _action) {
+  [PEOPLE_SEARCH_CLEAR](
+    state,
+    {
+      payload: {field},
+    }
+  ) {
+    if (field === 'results') {
+      return state
+        .set('results', fromJS([]))
+        .set('startTime', null)
+        .set('total', null)
+    } else if (field === 'age') {
+      return state
+        .set('searchByAgeMethod', '')
+        .set('searchDateOfBirth', '')
+        .set('searchApproximateAge', '')
+        .set('searchApproximateAgeUnits', '')
+    }
     return state
-      .set('results', fromJS([]))
-      .set('startTime', null)
-      .set('total', null)
   },
   [SET_SEARCH_FIELD]: setPersonSearchField,
   [FETCH_USER_INFO_COMPLETE](

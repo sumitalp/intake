@@ -11,6 +11,7 @@ const mapObject = (obj, f) => {
 const SEARCH_PARAMS = Object.freeze({
   searchApproximateAge: 'approximate_age',
   searchApproximateAgeUnits: 'approximate_age_units',
+  searchByAgeMethod: 'search_by_age_method',
   searchClientId: 'client_id',
   searchDateOfBirth: 'date_of_birth',
   searchFirstName: 'first_name',

@@ -39,6 +39,7 @@ describe('Store', () => {
         searchDateOfBirth: '',
         searchApproximateAge: '',
         searchApproximateAgeUnits: '',
+        searchByAgeMethod: '',
         searchSexAtBirth: '',
         searchAddress: '',
         searchCity: '',

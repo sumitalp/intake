@@ -61,21 +61,78 @@ describe('peopleSearchReducer', () => {
     })
   })
   describe('on PEOPLE_SEARCH_CLEAR', () => {
-    const initialState = fromJS({
-      searchTerm: 'newSearchTerm',
-      total: 3,
-      results: ['result_one', 'result_two', 'result_three'],
+    describe('clear search results', () => {
+      const action = clear('results')
+      const initialState = fromJS({
+        searchTerm: 'newSearchTerm',
+        total: 3,
+        results: ['result_one', 'result_two', 'result_three'],
+      })
+      it('resets results, total, and startTime', () => {
+        expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+          fromJS({
+            searchTerm: 'newSearchTerm',
+            total: null,
+            results: [],
+            startTime: null,
+          })
+        )
+      })
     })
-    const action = clear()
-    it('resets results, total, and startTime', () => {
-      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
-        fromJS({
-          searchTerm: 'newSearchTerm',
-          total: null,
-          results: [],
-          startTime: null,
-        })
-      )
+
+    describe('clear age fields', () => {
+      const action = clear('age')
+      const initialState = fromJS({
+        searchTerm: '',
+        total: 1,
+        results: ['result_one'],
+        searchByAgeMethod: 'dob',
+        searchDateOfBirth: '1985/05/05',
+        searchApproximateAge: '120',
+        searchApproximateAgeUnits: 'years',
+      })
+      it('resets the age fields back to default', () => {
+        expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+          fromJS({
+            searchTerm: '',
+            total: 1,
+            results: ['result_one'],
+            searchByAgeMethod: '',
+            searchDateOfBirth: '',
+            searchApproximateAge: '',
+            searchApproximateAgeUnits: '',
+          })
+        )
+      })
+    })
+
+    describe('does not clear results or age fields', () => {
+      describe('when the field is not "age" or "results"', () => {
+
+      })
+      const action = clear('unknown')
+      const initialState = fromJS({
+        searchTerm: '',
+        total: 1,
+        results: ['result_one'],
+        searchByAgeMethod: 'dob',
+        searchDateOfBirth: '1985/05/05',
+        searchApproximateAge: '120',
+        searchApproximateAgeUnits: 'years',
+      })
+      it('resets the age fields back to default', () => {
+        expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+          fromJS({
+            searchTerm: '',
+            total: 1,
+            results: ['result_one'],
+            searchByAgeMethod: 'dob',
+            searchDateOfBirth: '1985/05/05',
+            searchApproximateAge: '120',
+            searchApproximateAgeUnits: 'years',
+          })
+        )
+      })
     })
   })
   describe('on SET_SEARCH_FIELD', () => {
@@ -268,10 +325,21 @@ describe('peopleSearchReducer', () => {
         searchApproximateAgeUnits: 'months',
       })
       expect(
-        peopleSearchReducer(initialState, action).get(
-          'searchApproximateAgeUnits'
-        )
+        peopleSearchReducer(initialState, action).get('searchApproximateAgeUnits')
       ).toEqual('years')
+    })
+
+    it('sets the search by age method', () => {
+      const action = setPersonSearchField('searchByAgeMethod', 'approximate')
+      const initialState = fromJS({
+        searchTerm: 'searchTerm',
+        total: 1,
+        results: ['result_one'],
+        searchByAgeMethod: 'dob',
+      })
+      expect(
+        peopleSearchReducer(initialState, action).get('searchByAgeMethod')
+      ).toEqual('approximate')
     })
 
     it('sets the sex at birth', () => {
@@ -444,6 +512,7 @@ describe('peopleSearchReducer', () => {
         searchDateOfBirth: '2019-02-14',
         searchApproximateAge: '5',
         searchApproximateAgeUnits: 'Years',
+        searchByAgeMethod: 'dob',
         searchSexAtBirth: 'Female',
         searchAddress: '123 Main St',
         searchCity: 'Woodland',
@@ -466,6 +535,7 @@ describe('peopleSearchReducer', () => {
           searchDateOfBirth: '',
           searchApproximateAge: '',
           searchApproximateAgeUnits: '',
+          searchByAgeMethod: '',
           searchSexAtBirth: '',
           searchAddress: '',
           searchCity: '',

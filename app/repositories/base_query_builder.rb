@@ -5,7 +5,8 @@ class BaseQueryBuilder
   include QueryBuilderHelper
 
   attr_reader :search_term, :search_after, :is_client_only, :payload,
-    :params, :city, :county, :street, :client_id, :date_of_birth, :gender
+    :params, :city, :county, :street, :client_id, :date_of_birth, :gender,
+    :approximate_age, :approximate_age_units, :search_by_age_method
 
   def self.build(params = {})
     builder = new(params)
@@ -30,7 +31,6 @@ class BaseQueryBuilder
     @search_term              = params.dig(:person_search_fields, :search_term)
     @search_after             = params[:search_after]
     @is_client_only           = params.fetch(:is_client_only, 'true') == 'true'
-    @is_advanced_search_on    = params.fetch(:is_advanced_search_on, 'false') == 'false'
   end
 
   def initialize_name_ssn_client_id
@@ -77,6 +77,10 @@ class BaseQueryBuilder
 
   def ssn_searched?
     params.dig(:person_search_fields, :ssn).present?
+  end
+
+  def age_search_method
+    params.dig(:person_search_fields, :search_by_age_method)
   end
 
   def build_query

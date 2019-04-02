@@ -72,7 +72,7 @@ describe('SnapshotPage', () => {
 
         props.startOver()
 
-        expect(dispatch).toHaveBeenCalledWith(clear())
+        expect(dispatch).toHaveBeenCalledWith(clear('results'))
         expect(dispatch).toHaveBeenCalledWith(resetPersonSearch())
       })
     })

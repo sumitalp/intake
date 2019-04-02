@@ -2,11 +2,25 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import PersonSearchNumbersAgeGroup from 'common/search/PersonSearchNumbersAgeGroup'
 
-const render = ({onBlur = () => {}, onChange = () => {}, personSearchFields = {}, clientIdError = [], ssnErrors = [], dobErrors = []} = {}) =>
+const render = (
+  {
+    onBlur = () => {},
+    onChange = () => {},
+    onClear = () => {},
+    personSearchFields = {
+      searchApproximateAgeUnits: '',
+      searchByAgeMethod: '',
+    },
+    clientIdError = [],
+    ssnErrors = [],
+    dobErrors = [],
+  } = {},
+) =>
   shallow(
     <PersonSearchNumbersAgeGroup
       onBlur={onBlur}
       onChange={onChange}
+      onClear={onClear}
       personSearchFields={personSearchFields}
       clientIdError={clientIdError}
       ssnErrors={ssnErrors}
@@ -18,9 +32,13 @@ describe('PersonSearchNumbersAgeGroup', () => {
   describe('layout', () => {
     describe('Client ID', () => {
       it('renders masked input field with label', () => {
-        const clientId = render({
-          personSearchFields: {searchClientId: '0965-9408-8355-7001109'},
-        }).find('MaskedInputField[label="Client ID Number"]')
+        const personSearchFields = {
+          personSearchFields: {
+            searchClientId: '0965-9408-8355-7001109',
+            searchApproximateAgeUnits: '',
+          },
+        }
+        const clientId = render(personSearchFields).find('MaskedInputField[label="Client ID Number"]')
         expect(clientId.props().id).toEqual('search-client-id')
         expect(clientId.props().label).toEqual('Client ID Number')
         expect(clientId.props().gridClassName).toEqual('col-md-12 client-id-field')
@@ -58,7 +76,13 @@ describe('PersonSearchNumbersAgeGroup', () => {
 
     describe('SSN', () => {
       it('renders a masked input field with label', () => {
-        const component = render({personSearchFields: {searchSsn: '123456789'}})
+        const personSearchFields = {
+          personSearchFields: {
+            searchSsn: '123456789',
+            searchApproximateAgeUnits: '',
+          },
+        }
+        const component = render(personSearchFields)
         const ssn = component.find('MaskedInputField[label="Social Security Number"]')
         expect(ssn.props().id).toEqual('search-ssn')
         expect(ssn.props().label).toEqual('Social Security Number')
@@ -100,84 +124,99 @@ describe('PersonSearchNumbersAgeGroup', () => {
 
     it('renders the radio choice message', () => {
       const component = render({})
-      const message = component.find('div.radio-choice-message')
+      const message = component.find('div.clear-search-ui-age-fields')
       expect(message.exists()).toEqual(true)
-      expect(message.find('span.radio-choice-message-action').exists()).toEqual(true)
+      expect(message.find('span.clear-search-ui-age-fields-action').exists()).toEqual(true)
       expect(message.text()).toEqual('Choose one: (clear)')
     })
 
     it('renders AgeForm', () => {
-      const component = render({personSearchFields: {}})
+      const component = render({})
       const ageForm = component.find('AgeForm')
       expect(ageForm.props().dateOfBirthLabel).toEqual('Date of Birth')
       expect(ageForm.props().approximateAgeLabel).toEqual('Approximate Age')
+      expect(typeof ageForm.props().onChange).toEqual('function')
+      expect(ageForm.props().searchByAgeMethod).toEqual('')
     })
 
-    describe('DOB', () => {
-      it('renders a DateField', () => {
-        const component = render({personSearchFields: {searchDateOfBirth: '2019-03-01'}})
-        const dateField = component.find('DateField')
-        expect(dateField.exists()).toEqual(true)
-        expect(dateField.props().id).toEqual('search-date-of-birth')
-        expect(dateField.props().gridClassName).toEqual('date-field')
-        expect(dateField.props().label).toEqual('Date')
-        expect(dateField.props().value).toEqual('2019-03-01')
-        expect(typeof dateField.props().onChange).toEqual('function')
-        expect(dateField.props().hasTime).toEqual(false)
-      })
-      describe('errors', () => {
-        it('displays error messages if dobErrors are present', () => {
-          const dobErrors = [
-            'Please enter date as today or earlier',
-          ]
-          const component = render({dobErrors})
-          const dateField = component.find('DateField[label="Date"]')
-          expect(dateField.props().errors).toEqual(dobErrors)
-        })
-
-        it('does not display error messages if dobErrors are not present', () => {
-          const component = render({})
-          const dateField = component.find('DateField[label="Date"]')
-          expect(dateField.props().errors).toEqual([])
-        })
-
-        it('does not display error messages if dobErrors is undefined', () => {
-          const component = render({dobErrors: undefined})
-          const dateField = component.find('DateField[label="Date"]')
-          expect(dateField.props().errors).toEqual([])
-        })
-      })
+    it('renders a DateOfBirthDateField component', () => {
+      const personSearchFields = {
+        personSearchFields: {
+          searchDateOfBirth: '2019-03-01',
+          searchByAgeMethod: '',
+          searchApproximateAgeUnits: '',
+          dobErrors: [],
+        },
+      }
+      const component = render(personSearchFields)
+      const dateField = component.find('DateOfBirthDateField')
+      expect(dateField.exists()).toEqual(true)
+      expect(dateField.props().value).toEqual('2019-03-01')
+      expect(typeof dateField.props().onBlur).toEqual('function')
+      expect(typeof dateField.props().onChange).toEqual('function')
+      expect(dateField.props().searchByAgeMethod).toEqual('')
+      expect(dateField.props().errors).toEqual([])
     })
 
     it('renders div.approximate-age-selector.unit', () => {
-      const component = render({personSearchFields: {}})
+      const component = render({})
       const selector = component.find('div.approximate-age-selector.unit')
       expect(selector.exists()).toEqual(true)
     })
 
     it('renders div.approximate-age-selector.number', () => {
-      const component = render({personSearchFields: {}})
+      const component = render({})
       const selector = component.find('div.approximate-age-selector.number')
       expect(selector.exists()).toEqual(true)
     })
 
     it('renders AgeUnitForm', () => {
-      const component = render({personSearchFields: {}})
+      const personSearchFields = {
+        personSearchFields: {
+          searchApproximateAgeUnits: 'months',
+          searchByAgeMethod: '',
+        },
+      }
+      const component = render(personSearchFields)
       const ageUnitForm = component.find('AgeUnitForm')
       expect(ageUnitForm.exists()).toEqual(true)
       expect(ageUnitForm.props().formLabel).toEqual('Unit')
       expect(ageUnitForm.props().monthsLabel).toEqual('Months')
       expect(ageUnitForm.props().yearsLabel).toEqual('Years')
+      expect(typeof ageUnitForm.props().onChange).toEqual('function')
+      expect(ageUnitForm.props().searchApproximateAgeUnits).toEqual('months')
+      expect(ageUnitForm.props().searchByAgeMethod).toEqual('')
     })
 
     it('renders ApproximateAgeNumberSelect', () => {
-      const component = render({personSearchFields: {searchApproximateAge: '10'}})
+      const personSearchFields = {
+        personSearchFields: {
+          searchApproximateAgeUnits: 'months',
+          searchApproximateAge: '10',
+          searchByAgeMethod: '',
+        },
+      }
+      const component = render(personSearchFields)
       const ageNumberSelect = component.find('ApproximateAgeNumberSelect')
       expect(ageNumberSelect.exists()).toEqual(true)
+      expect(ageNumberSelect.props().ageUnit).toEqual('months')
       expect(ageNumberSelect.props().id).toEqual('search-approximate-age-number')
       expect(ageNumberSelect.props().gridClassName).toEqual('age-number-field')
       expect(typeof ageNumberSelect.props().onChange).toEqual('function')
       expect(ageNumberSelect.props().value).toEqual('10')
+      expect(ageNumberSelect.props().searchByAgeMethod).toEqual('')
+    })
+  })
+
+  describe('clear the search ui age fields', () => {
+    describe('when the clear message is clicked', () => {
+      it('calls onClear to clear age fields', () => {
+        const onClear = jasmine.createSpy('onClear')
+        const component = render({onClear})
+        const clearMessage = component.find('.clear-search-ui-age-fields')
+        clearMessage.props().onClick()
+        expect(onClear).toHaveBeenCalledWith('age')
+      })
     })
   })
 

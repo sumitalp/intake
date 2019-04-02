@@ -74,7 +74,7 @@ describe('peopleSearchActions', () => {
   })
 
   it('clear is FSA compliant', () => {
-    const action = clear()
+    const action = clear({field: 'results'})
     expect(isFSA(action)).toEqual(true)
   })
 

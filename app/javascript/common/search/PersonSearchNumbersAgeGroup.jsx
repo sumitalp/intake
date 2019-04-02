@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import DateField from 'common/DateField'
 import MaskedInputField from 'common/MaskedInputField'
 import AgeForm from 'common/search/age/AgeForm'
 import AgeUnitForm from 'common/search/age/AgeUnitForm'
+import DateOfBirthDateField from 'common/search/age/DateOfBirthDateField'
 import ApproximateAgeNumberSelect from 'common/search/age/ApproximateAgeNumberSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
-const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clientIdError, ssnErrors, dobErrors}) => (
+const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFields, clientIdError, ssnErrors, dobErrors}) => (
   <div className="row person-search-field-group">
     <div className="col-md-12 person-search-field-title">Identifying Numbers & Age</div>
     <div className="col-md-4 person-search-identifying-numbers-section">
@@ -42,8 +42,8 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clie
     </div>
     <div className="col-md-8 person-search-age-section">
       <div className="row">
-        <div className="col-md-12 radio-choice-message">
-          Choose one: (<span className="radio-choice-message-action">clear</span>)
+        <div className="col-md-12 clear-search-ui-age-fields" onClick={() => { onClear('age') }} role="presentation">
+          Choose one: (<span className="clear-search-ui-age-fields-action">clear</span>)
         </div>
       </div>
       <div className="row">
@@ -51,20 +51,19 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clie
           <AgeForm
             dateOfBirthLabel="Date of Birth"
             approximateAgeLabel="Approximate Age"
+            onChange={onChange}
+            searchByAgeMethod={personSearchFields.searchByAgeMethod}
           />
         </div>
       </div>
       <div className="row">
         <div className="col-md-12">
           <div className="col-md-6 date-of-birth-section">
-            <DateField
-              id="search-date-of-birth"
-              gridClassName="date-field"
-              label="Date"
+            <DateOfBirthDateField
               value={personSearchFields.searchDateOfBirth}
               onBlur={onBlur}
-              onChange={value => onChange('searchDateOfBirth', value)}
-              hasTime={false}
+              onChange={onChange}
+              searchByAgeMethod={personSearchFields.searchByAgeMethod}
               errors={dobErrors}
             />
           </div>
@@ -74,14 +73,19 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, personSearchFields, clie
                 formLabel = "Unit"
                 monthsLabel = "Months"
                 yearsLabel = "Years"
+                onChange={onChange}
+                searchApproximateAgeUnits={personSearchFields.searchApproximateAgeUnits}
+                searchByAgeMethod={personSearchFields.searchByAgeMethod}
               />
             </div>
             <div className="col-md-6 approximate-age-selector number">
               <ApproximateAgeNumberSelect
+                ageUnit={personSearchFields.searchApproximateAgeUnits}
                 id="search-approximate-age-number"
                 gridClassName="age-number-field"
                 onChange={onChange}
                 value={personSearchFields.searchApproximateAge}
+                searchByAgeMethod={personSearchFields.searchByAgeMethod}
               />
             </div>
           </div>
@@ -96,6 +100,7 @@ PersonSearchNumbersAgeGroup.propTypes = {
   dobErrors: PropTypes.array,
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
   ssnErrors: PropTypes.array,
 }
