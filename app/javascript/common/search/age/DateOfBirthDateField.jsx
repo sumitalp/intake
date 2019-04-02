@@ -7,7 +7,7 @@ class DateOfBirthDateField extends React.Component {
     const {value, onBlur, onChange, searchByAgeMethod, errors} = this.props
     const disableDateField = !(searchByAgeMethod === '' || searchByAgeMethod === 'dob')
     const handleFocus = () => { this.props.onChange('searchByAgeMethod', 'dob') }
-    
+
     return (
       <div onFocus={handleFocus} role="presentation">
         <DateField
