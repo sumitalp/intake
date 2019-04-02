@@ -1,6 +1,5 @@
 import {
-  clearSearchResults,
-  clearSearchAgeFields,
+  clear,
   fetchFailure,
   fetchSuccess,
   loadMoreResults,
@@ -74,13 +73,8 @@ describe('peopleSearchActions', () => {
     expect(isFSA(action)).toEqual(true)
   })
 
-  it('clearSearchResults is FSA compliant', () => {
-    const action = clearSearchResults()
-    expect(isFSA(action)).toEqual(true)
-  })
-
-  it('clearSearchAgeFields is FSA compliant', () => {
-    const action = clearSearchAgeFields()
+  it('clear is FSA compliant', () => {
+    const action = clear({field: 'results'})
     expect(isFSA(action)).toEqual(true)
   })
 
