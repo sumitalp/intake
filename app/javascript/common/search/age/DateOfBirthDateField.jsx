@@ -6,8 +6,10 @@ class DateOfBirthDateField extends React.Component {
   render() {
     const {value, onBlur, onChange, searchByAgeMethod, errors} = this.props
     const disableDateField = !(searchByAgeMethod === '' || searchByAgeMethod === 'dob')
+    const handleFocus = () => { this.props.onChange('searchByAgeMethod', 'dob') }
+    
     return (
-      <div onFocus={() => { this.props.onChange('searchByAgeMethod', 'dob') }} role="presentation">
+      <div onFocus={handleFocus} role="presentation">
         <DateField
           id="search-date-of-birth"
           gridClassName="date-field"
