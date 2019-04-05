@@ -11,6 +11,7 @@ import {
   selectClientIdError,
   selectSsnErrors,
   selectDobErrors,
+  selectCanSearch,
 } from 'selectors/peopleSearchSelectors'
 import Immutable from 'immutable'
 import moment from 'moment'
@@ -898,6 +899,69 @@ describe('peopleSearchSelectors', () => {
       const peopleSearch = {searchDateOfBirth: today, dobErrorCheck: true}
       const state = fromJS({peopleSearch})
       expect(selectDobErrors(state)).toEqual([])
+    })
+  })
+
+  describe('selectCanSearch', () => {
+    describe('returns false', () => {
+      it('when searchLastName, searchClientId, searchSsn, searchDateOfBirth is empty', () => {
+        const peopleSearch = {searchLastName: '', searchClientId: '', searchSsn: '', searchDateOfBirth: ''}
+        const state = fromJS({peopleSearch})
+        expect(selectCanSearch(state)).toEqual(false)
+      })
+      it('when searchClientId is not 19 digits', () => {
+        const peopleSearch = {searchLastName: '', searchClientId: '1111-1111-1111', searchSsn: '', searchDateOfBirth: ''}
+        const state = fromJS({peopleSearch})
+        expect(selectCanSearch(state)).toEqual(false)
+      })
+      it('when searchSsn is not 9 digits', () => {
+        const peopleSearch = {searchLastName: '', searchClientId: '', searchSsn: '123-4', searchDateOfBirth: ''}
+        const state = fromJS({peopleSearch})
+        expect(selectCanSearch(state)).toEqual(false)
+      })
+      it('when dob is future date', () => {
+        const tomorrow = moment().add(10, 'days').toISOString()
+        const peopleSearch = {searchLastName: '', searchClientId: '', searchSsn: '', searchDateOfBirth: tomorrow, dobErrorCheck: true}
+        const state = fromJS({peopleSearch})
+        expect(selectCanSearch(state)).toEqual(false)
+      })
+      it('when searchSsn is 9 digits and searchClientId is not 19 digits ', () => {
+        const peopleSearch = {searchLastName: '', searchClientId: '1111', searchSsn: '123-45-6789', searchDateOfBirth: ''}
+        const state = fromJS({peopleSearch})
+        expect(selectCanSearch(state)).toEqual(false)
+      })
+    })
+
+    describe('returns true', () => {
+      it('when searchLastName is at least 1 character', () => {
+        const peopleSearch = {searchLastName: 'G', searchClientId: '', searchSsn: '', searchDateOfBirth: ''}
+        const state = fromJS({peopleSearch})
+        expect(selectCanSearch(state)).toEqual(true)
+      })
+
+      it('when searchClientId is 19 digits and has no errors', () => {
+        const peopleSearch = {searchLastName: '', searchClientId: '1111-1111-1111-1111111', searchSsn: '', searchDateOfBirth: '', clientIdError: false}
+        const state = fromJS({peopleSearch})
+        expect(selectCanSearch(state)).toEqual(true)
+      })
+
+      it('when searchSsn is 9 digits and has no errors', () => {
+        const peopleSearch = {searchLastName: '', searchClientId: '', searchSsn: '123-45-6789', searchDateOfBirth: '', ssnErrorCheck: false}
+        const state = fromJS({peopleSearch})
+        expect(selectCanSearch(state)).toEqual(true)
+      })
+
+      it('when dob is entire entry and has no errors', () => {
+        const peopleSearch = {searchLastName: '', searchClientId: '', searchSsn: '', searchDateOfBirth: '2019-04-01', dobErrorCheck: false}
+        const state = fromJS({peopleSearch})
+        expect(selectCanSearch(state)).toEqual(true)
+      })
+
+      it('when searchLastName has at least 1 character, searchClientId is 19 digits, searchSsn is 9 digits and searchDob is entire entry', () => {
+        const peopleSearch = {searchLastName: 'Girish', searchClientId: '1111-1111-1111-1111111', searchSsn: '123-45-6789', searchDateOfBirth: '2019-04-01'}
+        const state = fromJS({peopleSearch})
+        expect(selectCanSearch(state)).toEqual(true)
+      })
     })
   })
 })

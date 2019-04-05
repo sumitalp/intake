@@ -20,6 +20,10 @@ import {getClientIdErrors} from 'utils/clientIdValidator'
 import {getSSNErrors} from 'utils/ssnValidator'
 import {isFutureDatetimeCreate, combineCompact} from 'utils/validator'
 
+const LAST_NAME_MIN_SEARCHABLE_CHARS = 1
+const CLIENT_ID_MIN_SEARCHABLE_CHARS = 19
+const SSN_MIN_SEARCHABLE_CHARS = 9
+
 const selectPeopleSearch = state => {
   return state.get('peopleSearch')
 }
@@ -193,4 +197,70 @@ export const selectPersonSearchFields = state => {
     searchZipCode: selectPeopleSearch(state).get('searchZipCode'),
   }
   return personSearchFields
+}
+
+const isSearchable = (value, min) => {
+  if (min === LAST_NAME_MIN_SEARCHABLE_CHARS) {
+    return value && value.length >= min
+  }
+  return value && value.replace(/-|_/g, '').length === min
+}
+
+let emptyCheckForLastName
+let emptyCheckForClientId
+let emptyCheckForSsn
+let emptyCheckForFields = true
+
+const isEmptyCheckForLastName = (searchableLastName) => {
+  if (searchableLastName === '') {
+    emptyCheckForLastName = true
+  } else {
+    emptyCheckForLastName = false
+  }
+}
+const isEmptyCheckForClientId = (searchableClientId) => {
+  if (searchableClientId === '') {
+    emptyCheckForClientId = true
+  } else {
+    emptyCheckForClientId = false
+  }
+}
+const isEmptyCheckForSsn = (searchableSsn) => {
+  if (searchableSsn === '') {
+    emptyCheckForSsn = true
+  } else {
+    emptyCheckForSsn = false
+  }
+}
+const isEmptyCheckForFields = (searchLastName, searchClientId, searchSsn, searchDateOfBirth) => {
+  if (searchLastName === '' && searchClientId === '' && searchSsn === '' && searchDateOfBirth === '') {
+    emptyCheckForFields = false
+  } else {
+    emptyCheckForFields = true
+  }
+}
+const canSearchable = (searchableLastName, searchableClientId, searchableSsn, dobErrors, ssnErrors) => {
+  const isSearchableLastName = emptyCheckForLastName || searchableLastName
+  const isSearchableClientId = emptyCheckForClientId || searchableClientId
+  const isSearchableSsn = emptyCheckForSsn || searchableSsn
+  const isSearchableDobErrors = dobErrors.length === 0
+  const isSearchableSsnErrors = ssnErrors.length === 0
+  const isSearchable = emptyCheckForFields && isSearchableLastName &&
+    isSearchableClientId && isSearchableSsn && isSearchableDobErrors &&
+    isSearchableSsnErrors
+  return isSearchable
+}
+
+export const selectCanSearch = (state) => {
+  const {searchLastName, searchClientId, searchSsn, searchDateOfBirth} = selectPersonSearchFields(state)
+  const searchableLastName = isSearchable(searchLastName, LAST_NAME_MIN_SEARCHABLE_CHARS)
+  const searchableClientId = isSearchable(searchClientId, CLIENT_ID_MIN_SEARCHABLE_CHARS)
+  const searchableSsn = isSearchable(searchSsn, SSN_MIN_SEARCHABLE_CHARS)
+  const dobErrors = selectDobErrors(state)
+  const ssnErrors = selectSsnErrors(state)
+  isEmptyCheckForFields(searchLastName, searchClientId, searchSsn, searchDateOfBirth)
+  isEmptyCheckForLastName(searchableLastName)
+  isEmptyCheckForClientId(searchableClientId)
+  isEmptyCheckForSsn(searchableSsn)
+  return canSearchable(searchableLastName, searchableClientId, searchableSsn, dobErrors, ssnErrors)
 }

@@ -9,6 +9,7 @@ import {
   selectClientIdError,
   selectSsnErrors,
   selectDobErrors,
+  selectCanSearch,
 } from 'selectors/peopleSearchSelectors'
 import {
   search,
@@ -45,6 +46,7 @@ const mapStateToProps = state => {
     startTime: selectStartTime(state),
     participants: selectParticipants(state).toJS(),
     isSelectable,
+    canSearch: selectCanSearch(state),
   }
 }
 

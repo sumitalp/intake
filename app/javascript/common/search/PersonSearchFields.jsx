@@ -16,6 +16,7 @@ const PersonSearchFields = ({
   ssnErrors,
   dobErrors,
   isAdvancedSearchOn,
+  canSearch,
 }) => isAdvancedSearchOn ? (
   <div>
     <PersonSearchNameGroup
@@ -34,14 +35,13 @@ const PersonSearchFields = ({
     <PersonSearchButtonGroup
       onSubmit={onSubmit}
       onCancel={onCancel}
-      personSearchFields={personSearchFields}
-      dobErrors={dobErrors}
-      ssnErrors={ssnErrors}
+      canSearch={canSearch}
     />
   </div>
 ) : null
 
 PersonSearchFields.propTypes = {
+  canSearch: PropTypes.bool,
   clientIdError: PropTypes.array,
   dobErrors: PropTypes.array,
   isAdvancedSearchOn: PropTypes.bool,
