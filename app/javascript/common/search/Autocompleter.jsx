@@ -35,9 +35,8 @@ export default class Autocompleter extends Component {
   searchAndFocus() {
     const {onChange, onSearch, isAdvancedSearchOn, personSearchFields} = this.props
     const {
-      searchLastName, searchFirstName, searchMiddleName, searchClientId, searchSuffix,
-      searchSsn, searchDateOfBirth, searchApproximateAge, searchApproximateAgeUnits, searchByAgeMethod,
-    } = personSearchFields
+      searchLastName, searchFirstName, searchMiddleName, searchClientId, searchSuffix, searchSsn,
+      searchDateOfBirth, searchApproximateAge, searchApproximateAgeUnits, searchByAgeMethod} = personSearchFields
     const suffixWithComma = searchSuffix ? `, ${searchSuffix}` : ''
     const lastNameWithSuffix = `${searchLastName}${suffixWithComma}`
     let searchTermList = [searchFirstName, searchMiddleName, lastNameWithSuffix, searchClientId, searchSsn]
@@ -85,9 +84,7 @@ export default class Autocompleter extends Component {
       return this.onSelect({id: null})
     } else if (item.suggestionHeader) {
       return false
-    } else {
-      return this.loadMoreResults()
-    }
+    } return this.loadMoreResults()
   }
 
   onItemSelect(_value, item) {
@@ -137,7 +134,6 @@ export default class Autocompleter extends Component {
     const buttonClassName = canLoadMoreResults && canCreateNewPerson ? ' col-md-6' : ''
     const className = itemClassName(isHighlighted) + buttonClassName
     const button = item.showMoreResults ? <ShowMoreResults /> : <CreateUnknownPerson />
-
     return (<div id={id} key={key} className={className}>{button}</div>)
   }
 
@@ -147,12 +143,9 @@ export default class Autocompleter extends Component {
     if (isHighlighted && this.inputRef) {
       this.inputRef.setAttribute('aria-activedescendant', id)
     }
-
     if (item.showMoreResults || item.createNewPerson) {
       return this.renderItemButtons(item, isHighlighted, id, key)
-    }
-
-    return this.renderEachItem(item, id, isHighlighted)
+    } return this.renderEachItem(item, id, isHighlighted)
   }
 
   onChangeInput(_, value) {
@@ -162,8 +155,7 @@ export default class Autocompleter extends Component {
       this.setState({menuVisible: true})
     } else {
       this.hideMenu()
-    }
-    onChange('searchTerm', value)
+    } onChange('searchTerm', value)
   }
 
   renderInput(props) {
@@ -211,6 +203,11 @@ export default class Autocompleter extends Component {
 
   renderPersonSearchFields() {
     const {states, counties, onChange, onCancel, onClear, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors, dobErrors, canSearch} = this.props
+    const searchWithEnter = (e) => {
+      const enterKeyCode = 13
+      if (canSearch && e.charCode === enterKeyCode) { return this.handleSubmit() }
+      return null
+    }
     return (
       <PersonSearchFields
         onBlur={onBlur}
@@ -226,6 +223,7 @@ export default class Autocompleter extends Component {
         ssnErrors={ssnErrors}
         dobErrors={dobErrors}
         canSearch={canSearch}
+        onKeyPress={searchWithEnter}
       />
     )
   }

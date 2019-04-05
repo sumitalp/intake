@@ -17,11 +17,13 @@ const PersonSearchFields = ({
   dobErrors,
   isAdvancedSearchOn,
   canSearch,
+  onKeyPress,
 }) => isAdvancedSearchOn ? (
   <div>
     <PersonSearchNameGroup
       onChange={onChange}
       personSearchFields={personSearchFields}
+      onKeyPress={onKeyPress}
     />
     <PersonSearchNumbersAgeGroup
       onBlur={onBlur}
@@ -49,6 +51,7 @@ PersonSearchFields.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
   personSearchFields: PersonSearchFieldsPropType,
   ssnErrors: PropTypes.array,

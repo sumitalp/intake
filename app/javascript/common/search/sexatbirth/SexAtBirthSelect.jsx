@@ -5,10 +5,10 @@ import GENDERS from 'enums/Genders'
 
 class SexAtBirthSelect extends React.PureComponent {
   render() {
-    const {onChange} = this.props
+    const {onChange, onKeyPress} = this.props
 
     return (
-      <GenderSelect genders={GENDERS} onChange={onChange} {...this.props} />
+      <GenderSelect genders={GENDERS} onChange={onChange} {...this.props} onKeyPress={onKeyPress} />
     )
   }
 }
@@ -17,6 +17,7 @@ SexAtBirthSelect.propTypes = {
   gridClassName: PropTypes.string,
   id: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
   value: PropTypes.string,
 }
 

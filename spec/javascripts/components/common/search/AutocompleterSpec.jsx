@@ -47,6 +47,8 @@ describe('<Autocompleter />', () => {
     isAdvancedSearchOn = false,
     dobErrors = [],
     ssnErrors = [],
+    canSearch = false,
+    onKeyPress = () => null,
   }) {
     return mount(
       <Autocompleter
@@ -70,6 +72,8 @@ describe('<Autocompleter />', () => {
         isAdvancedSearchOn={isAdvancedSearchOn}
         dobErrors={dobErrors}
         ssnErrors={ssnErrors}
+        canSearch={canSearch}
+        onKeyPress={onKeyPress}
       />
     )
   }
@@ -92,6 +96,8 @@ describe('<Autocompleter />', () => {
     isAdvancedSearchOn = false,
     dobErrors = [],
     ssnErrors = [],
+    canSearch = false,
+    onKeyPress = () => null,
   }) {
     return shallow(
       <Autocompleter
@@ -114,6 +120,8 @@ describe('<Autocompleter />', () => {
         isAdvancedSearchOn={isAdvancedSearchOn}
         dobErrors={dobErrors}
         ssnErrors={ssnErrors}
+        canSearch={canSearch}
+        onKeyPress={onKeyPress}
       />,
       {disableLifecycleMethods: true}
     )
@@ -477,6 +485,48 @@ describe('<Autocompleter />', () => {
 
         expect(onSearch).not.toHaveBeenCalled()
       })
+    })
+  })
+
+  describe('onEnter', () => {
+    let onSearch
+    let onChange
+
+    beforeEach(() => {
+      onSearch = jasmine.createSpy('onSearch')
+      onChange = jasmine.createSpy('onChange')
+    })
+
+    it('trigger search when canSearch is true', () => {
+      const autocompleter = renderAutocompleter({
+        onChange,
+        onSearch,
+        isAdvancedSearchOn: true,
+        canSearch: true,
+        personSearchFields: {
+          searchLastName: 'Sandiego',
+        },
+      })
+      const personSearchFields = autocompleter.find('PersonSearchFields')
+      personSearchFields.simulate('keypress', {charCode: 13})
+      expect(onSearch).toHaveBeenCalledWith(true, {
+        searchLastName: 'Sandiego',
+      })
+    })
+
+    it('doesnot search when canSearch is false', () => {
+      const autocompleter = renderAutocompleter({
+        onChange,
+        onSearch,
+        isAdvancedSearchOn: true,
+        canSearch: false,
+        personSearchFields: {
+          searchLastName: 'Sandiego',
+        },
+      })
+      const personSearchFields = autocompleter.find('PersonSearchFields')
+      personSearchFields.simulate('keypress', {charCode: 13})
+      expect(onSearch).not.toHaveBeenCalled()
     })
   })
 

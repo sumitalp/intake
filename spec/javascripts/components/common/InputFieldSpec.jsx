@@ -20,6 +20,7 @@ describe('InputField', () => {
     required: false,
     value: 'this is my field value',
   }
+  const onKeyPress = () => {}
 
   beforeEach(() => {
     onChange = jasmine.createSpy('onChange')
@@ -90,24 +91,26 @@ describe('InputField', () => {
 
   describe('when it is NOT required', () => {
     beforeEach(() => {
-      component = shallow(<InputField {...props} onChange={onChange} onBlur={onBlur} />, {disableLifecycleMethods: true})
+      component = shallow(<InputField {...props} onChange={onChange} onBlur={onBlur} onKeyPress={onKeyPress} />, {disableLifecycleMethods: true})
     })
 
     it('renders an input field', () => {
       expect(component.find('label.required').exists()).toEqual(false)
       expect(component.find('FormField').props().required).toEqual(false)
+      expect(typeof component.find('input').prop('onKeyPress')).toEqual('function')
     })
   })
 
   describe('when it is required', () => {
     beforeEach(() => {
-      component = shallow(<InputField {...props} onChange={onChange} onBlur={onBlur} required/>, {disableLifecycleMethods: true})
+      component = shallow(<InputField {...props} onChange={onChange} onBlur={onBlur} onKeyPress={onKeyPress} required/>, {disableLifecycleMethods: true})
     })
 
     it('renders a required input field', () => {
       expect(component.find('FormField').props().required).toEqual(true)
       expect(component.find('input').prop('required')).toEqual(true)
       expect(component.find('input').prop('aria-required')).toEqual(true)
+      expect(typeof component.find('input').prop('onKeyPress')).toEqual('function')
     })
   })
 
