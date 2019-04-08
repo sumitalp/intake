@@ -50,7 +50,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const onBlur = (id) => {
-    if (id === 'search-client-id') { dispatch(setClientIdError()) } else if (id === 'search-ssn') { dispatch(setSsnErrorCheck()) } else if (id === 'search-date-of-birth') { dispatch(setDobErrorCheck()) }
+    if (id === 'search-client-id') {
+      dispatch(setClientIdError())
+    } else if (id === 'search-ssn') {
+      dispatch(setSsnErrorCheck())
+    } else if (id === 'search-date-of-birth') {
+      dispatch(setDobErrorCheck())
+    }
   }
   const onClear = (field) => dispatch(clear(field))
   const onChange = (field, value) => {
