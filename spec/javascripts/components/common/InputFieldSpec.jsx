@@ -7,6 +7,7 @@ describe('InputField', () => {
   let formField
   let onChange
   let onBlur
+  let onKeyPress
 
   const props = {
     disabled: false,
@@ -20,16 +21,16 @@ describe('InputField', () => {
     required: false,
     value: 'this is my field value',
   }
-  const onKeyPress = () => {}
 
   beforeEach(() => {
     onChange = jasmine.createSpy('onChange')
     onBlur = jasmine.createSpy('onBlur')
+    onKeyPress = jasmine.createSpy('onKeyPress')
   })
 
   describe('basic functionality', () => {
     beforeEach(() => {
-      component = shallow(<InputField {...props} onChange={onChange} onBlur={onBlur} />, {disableLifecycleMethods: true})
+      component = shallow(<InputField {...props} onChange={onChange} onBlur={onBlur} onKeyPress={onKeyPress} />, {disableLifecycleMethods: true})
       formField = component.find('FormField')
     })
 
@@ -73,6 +74,12 @@ describe('InputField', () => {
       const inputElement = component.find('input')
       inputElement.simulate('change', {target: {value: 'hola mundo'}})
       expect(onChange).toHaveBeenCalledWith({target: {value: 'hola mundo'}})
+    })
+
+    it('calls onKeyPress when Enter is pressed', () => {
+      const inputElement = component.find('input')
+      inputElement.simulate('keypress', {charCode: 13})
+      expect(onKeyPress).toHaveBeenCalled()
     })
 
     it('sanitizes the call to onChange when an allowCharacters pattern is given', () => {

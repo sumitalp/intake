@@ -7,6 +7,7 @@ const render = (
     onBlur = () => {},
     onChange = () => {},
     onClear = () => {},
+    onKeyPress = () => {},
     personSearchFields = {
       searchApproximateAgeUnits: '',
       searchByAgeMethod: '',
@@ -25,6 +26,7 @@ const render = (
       clientIdError={clientIdError}
       ssnErrors={ssnErrors}
       dobErrors={dobErrors}
+      onKeyPress={onKeyPress}
     />
   )
 
@@ -49,6 +51,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
         expect(clientId.props().placeholder).toEqual('____-____-____-_______')
         expect(clientId.props().maxLength).toEqual('19')
         expect(typeof clientId.props().moveCursor).toEqual('function')
+        expect(typeof clientId.props().onKeyPress).toEqual('function')
       })
 
       describe('errors', () => {
@@ -95,6 +98,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
         expect(ssn.props().placeholder).toEqual('___-__-____')
         expect(ssn.props().maxLength).toEqual('9')
         expect(typeof ssn.props().moveCursor).toEqual('function')
+        expect(typeof ssn.props().onKeyPress).toEqual('function')
       })
 
       describe('errors', () => {

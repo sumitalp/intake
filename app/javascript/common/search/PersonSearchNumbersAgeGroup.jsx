@@ -9,7 +9,7 @@ import ApproximateAgeNumberSelect from 'common/search/age/ApproximateAgeNumberSe
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 import {moveCursor} from 'utils/moveCursor'
 
-const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFields, clientIdError, ssnErrors, dobErrors}) => (
+const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFields, clientIdError, ssnErrors, dobErrors, onKeyPress}) => (
   <div className="row person-search-field-group">
     <div className="col-md-12 person-search-field-title">Identifying Numbers & Age</div>
     <div className="col-md-4 person-search-identifying-numbers-section">
@@ -26,6 +26,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFie
           maxLength='19'
           errors={clientIdError}
           moveCursor={moveCursor}
+          onKeyPress={onKeyPress}
         />
       </div>
       <div className="row">
@@ -41,6 +42,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFie
           maxLength='9'
           errors={ssnErrors}
           moveCursor={moveCursor}
+          onKeyPress={onKeyPress}
         />
       </div>
     </div>
@@ -103,6 +105,7 @@ PersonSearchNumbersAgeGroup.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
   personSearchFields: PersonSearchFieldsPropType,
   ssnErrors: PropTypes.array,
 }

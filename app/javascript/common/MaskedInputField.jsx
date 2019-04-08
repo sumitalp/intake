@@ -43,6 +43,7 @@ const MaskedInputField = ({
   required,
   type,
   value,
+  onKeyPress,
 }) => {
   const formFieldProps = {errors, gridClassName, htmlFor: id, label, labelClassName, required}
   const breakPoints = findBreakPoints(value, '-')
@@ -65,7 +66,7 @@ const MaskedInputField = ({
   }
 
   return (
-    <div className="masked-input-wrapper" onKeyDown={handleKeyDown} role="presentation">
+    <div className="masked-input-wrapper" onKeyPress={onKeyPress} onKeyDown={handleKeyDown} role="presentation">
       <FormField {...formFieldProps}>
         <MaskedInput
           className='masked-input'
@@ -107,6 +108,7 @@ MaskedInputField.propTypes = {
   moveCursor: PropTypes.func,
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
   type: PropTypes.string,

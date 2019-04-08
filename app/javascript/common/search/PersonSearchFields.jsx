@@ -33,6 +33,7 @@ const PersonSearchFields = ({
       clientIdError={clientIdError}
       ssnErrors={ssnErrors}
       dobErrors={dobErrors}
+      onKeyPress={onKeyPress}
     />
     <PersonSearchButtonGroup
       onSubmit={onSubmit}
