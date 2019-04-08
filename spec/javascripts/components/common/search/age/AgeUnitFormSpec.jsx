@@ -205,6 +205,7 @@ describe('AgeUnitForm', () => {
         const radioButtonYears = component.find('input#age-unit-years')
         expect(radioButtonMonths.props().disabled).toEqual(true)
         expect(radioButtonYears.props().disabled).toEqual(true)
+        expect(radioButtonYears.props().value).toEqual('')
       })
     })
   })
