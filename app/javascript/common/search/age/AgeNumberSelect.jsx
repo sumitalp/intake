@@ -21,7 +21,6 @@ class AgeNumberSelect extends React.Component {
     const {id, gridClassName, value, range, disabled} = this.props
     const options = []
     if (disabled) this.props.onChange('searchApproximateAge', '')
-
     for (let x = range.min; x <= range.max; x++) {
       const option = (<option key={x} value={x}>{x}</option>)
       options.push(option)
