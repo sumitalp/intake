@@ -92,6 +92,7 @@ describe('ApproximateAgeNumberSelect', () => {
         const component = render({searchByAgeMethod: 'dob'})
         const numberSelect = component.find('AgeNumberSelect')
         expect(numberSelect.props().disabled).toEqual(true)
+        expect(numberSelect.props().value).toEqual('')
       })
     })
   })

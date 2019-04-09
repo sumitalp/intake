@@ -84,6 +84,7 @@ describe('DateOfBirthDateField', () => {
         const component = render({searchByAgeMethod: 'approximate'})
         const dateField = component.find('DateField')
         expect(dateField.props().disabled).toEqual(true)
+        expect(dateField.props().value).toEqual('')
       })
     })
   })
