@@ -3,6 +3,32 @@ import MaskedInput from 'react-maskedinput'
 import PropTypes from 'prop-types'
 import React from 'react'
 
+const findBreakPoints = (str, char) => {
+  let currentGroupLength = 0
+  const breakPoints = str.split(char).map((group) => {
+    currentGroupLength += group.length
+    return currentGroupLength
+  })
+  return breakPoints
+}
+
+const cursorPosition = (value, breakPoints) => {
+  const matchNonNumericChars = /[^0-9]/g
+  const valueOnlyNumbers = value.replace(matchNonNumericChars, '')
+  const lengthOfValue = valueOnlyNumbers.length
+  let currentBreakPoint = 0
+
+  if (lengthOfValue) {
+    breakPoints.forEach((breakPoint, index) => {
+      if (lengthOfValue >= breakPoint) {
+        currentBreakPoint = index + 1
+      }
+    })
+  }
+
+  return lengthOfValue + currentBreakPoint
+}
+
 const MaskedInputField = ({
   errors,
   gridClassName,
@@ -12,27 +38,57 @@ const MaskedInputField = ({
   mask,
   onBlur,
   onChange,
+  moveCursor,
   placeholder,
   required,
   type,
   value,
 }) => {
   const formFieldProps = {errors, gridClassName, htmlFor: id, label, labelClassName, required}
+  const breakPoints = findBreakPoints(value, '-')
+  const caret = cursorPosition(value, breakPoints)
+
+  const handleKeyDown = (e) => {
+    const leftArrowKey = 37
+    const upArrowKey = 38
+    const rightArrowKey = 39
+    const downArrowKey = 40
+    const arrowKeys = [leftArrowKey, upArrowKey, rightArrowKey, downArrowKey]
+    const keyCode = e.keyCode
+    if (arrowKeys.includes(keyCode)) {
+      moveCursor(caret, e)
+    }
+  }
+
+  const handleClick = (e) => {
+    moveCursor(caret, e)
+  }
 
   return (
-    <FormField {...formFieldProps}>
-      <MaskedInput className='masked-input' id={id} type={type} value={value} mask={mask}
-        placeholder={''} required={required} aria-required={required}
-        onBlur={(event) => {
-          event.target.placeholder = ''
-          if (onBlur) {
-            onBlur(id, event.target.value)
-          }
-        }}
-        onFocus={(event) => (event.target.placeholder = placeholder)}
-        onChange={onChange}
-      />
-    </FormField>
+    <div className="masked-input-wrapper" onKeyDown={handleKeyDown} role="presentation">
+      <FormField {...formFieldProps}>
+        <MaskedInput
+          className='masked-input'
+          id={id}
+          type={type}
+          value={value}
+          mask={mask}
+          placeholder={''}
+          required={required}
+          aria-required={required}
+          onBlur={(event) => {
+            event.target.placeholder = ''
+            if (onBlur) {
+              onBlur(id, event.target.value)
+            }
+          }}
+          onFocus={(e) => (e.target.placeholder = placeholder)}
+          onChange={onChange}
+          onClick={handleClick}
+          autoComplete={'off'}
+        />
+      </FormField>
+    </div>
   )
 }
 
@@ -48,6 +104,7 @@ MaskedInputField.propTypes = {
   label: PropTypes.string.isRequired,
   labelClassName: PropTypes.string,
   mask: PropTypes.string,
+  moveCursor: PropTypes.func,
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
@@ -58,4 +115,5 @@ MaskedInputField.propTypes = {
     PropTypes.number,
   ]),
 }
+
 export default MaskedInputField

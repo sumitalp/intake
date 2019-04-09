@@ -7,6 +7,7 @@ import AgeClearButton from 'common/search/age/AgeClearButton'
 import DateOfBirthDateField from 'common/search/age/DateOfBirthDateField'
 import ApproximateAgeNumberSelect from 'common/search/age/ApproximateAgeNumberSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
+import {moveCursor} from 'utils/moveCursor'
 
 const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFields, clientIdError, ssnErrors, dobErrors}) => (
   <div className="row person-search-field-group">
@@ -24,6 +25,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFie
           placeholder='____-____-____-_______'
           maxLength='19'
           errors={clientIdError}
+          moveCursor={moveCursor}
         />
       </div>
       <div className="row">
@@ -38,6 +40,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFie
           placeholder='___-__-____'
           maxLength='9'
           errors={ssnErrors}
+          moveCursor={moveCursor}
         />
       </div>
     </div>
