@@ -140,6 +140,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
       expect(ageForm.props().approximateAgeLabel).toEqual('Approximate Age')
       expect(typeof ageForm.props().onChange).toEqual('function')
       expect(ageForm.props().searchByAgeMethod).toEqual('')
+      expect(typeof ageForm.props().onKeyPress).toEqual('function')
     })
 
     it('renders a DateOfBirthDateField component', () => {

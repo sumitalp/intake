@@ -57,6 +57,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFie
             approximateAgeLabel="Approximate Age"
             onChange={onChange}
             searchByAgeMethod={personSearchFields.searchByAgeMethod}
+            onKeyPress={onKeyPress}
           />
         </div>
       </div>
