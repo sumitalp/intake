@@ -54,10 +54,13 @@ const MaskedInputField = ({
     const upArrowKey = 38
     const rightArrowKey = 39
     const downArrowKey = 40
+    const enterKey = 13
     const arrowKeys = [leftArrowKey, upArrowKey, rightArrowKey, downArrowKey]
     const keyCode = e.keyCode
     if (arrowKeys.includes(keyCode)) {
       moveCursor(caret, e)
+    } else if (keyCode === enterKey) {
+      onKeyPress({charCode: 13})
     }
   }
 
@@ -66,7 +69,7 @@ const MaskedInputField = ({
   }
 
   return (
-    <div className="masked-input-wrapper" onKeyPress={onKeyPress} onKeyDown={handleKeyDown} role="presentation">
+    <div className="masked-input-wrapper" onKeyDown={handleKeyDown} role="presentation">
       <FormField {...formFieldProps}>
         <MaskedInput
           className='masked-input'

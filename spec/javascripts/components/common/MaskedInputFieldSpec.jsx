@@ -10,9 +10,10 @@ describe('MaskedInputField', () => {
     onChange = () => {},
     moveCursor = () => {},
     onKeyPress = () => {},
+    onKeyDown = () => {},
     ...args
   }) => {
-    const props = {id, label, onChange, moveCursor, onKeyPress, value, ...args}
+    const props = {id, label, onChange, moveCursor, onKeyPress, onKeyDown, value, ...args}
     return shallow(<MaskedInputField {...props} />, {disableLifecycleMethods: true})
   }
 
@@ -82,14 +83,6 @@ describe('MaskedInputField', () => {
       const maskedInput = component.find('MaskedInput')
       maskedInput.simulate('change', {target: {value: '1234'}})
       expect(onChange).toHaveBeenCalledWith({target: {value: '1234'}})
-    })
-
-    it('calls onKeyPress when Enter is pressed', () => {
-      const onKeyPress = jasmine.createSpy('onKeyPress')
-      const component = render({onKeyPress})
-      const wrapper = component.find('div.masked-input-wrapper')
-      wrapper.simulate('keypress', {charCode: 13})
-      expect(onKeyPress).toHaveBeenCalled()
     })
 
     it('calls onBlur when a blur event occurs on input field', () => {
@@ -167,6 +160,14 @@ describe('MaskedInputField', () => {
   })
 
   describe('onKeyDown', () => {
+    it('calls onKeyPress when Enter is pressed', () => {
+      const event = {keyCode: 13}
+      const onKeyPress = jasmine.createSpy('onKeyPress')
+      const component = render({onKeyPress})
+      const wrapper = component.find('div.masked-input-wrapper')
+      wrapper.props().onKeyDown(event)
+      expect(onKeyPress).toHaveBeenCalledWith({charCode: 13})
+    })
     describe('when an arrow key is pressed', () => {
       describe('and the value is empty string', () => {
         it('calls moveCursor with 0 and the event', () => {
