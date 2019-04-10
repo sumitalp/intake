@@ -9,9 +9,11 @@ describe('MaskedInputField', () => {
     label = 'myInputLabel',
     onChange = () => {},
     moveCursor = () => {},
+    onKeyPress = () => {},
+    onKeyDown = () => {},
     ...args
   }) => {
-    const props = {id, label, onChange, moveCursor, value, ...args}
+    const props = {id, label, onChange, moveCursor, onKeyPress, onKeyDown, value, ...args}
     return shallow(<MaskedInputField {...props} />, {disableLifecycleMethods: true})
   }
 
@@ -158,6 +160,14 @@ describe('MaskedInputField', () => {
   })
 
   describe('onKeyDown', () => {
+    it('calls onKeyPress when Enter is pressed', () => {
+      const event = {keyCode: 13}
+      const onKeyPress = jasmine.createSpy('onKeyPress')
+      const component = render({onKeyPress})
+      const wrapper = component.find('div.masked-input-wrapper')
+      wrapper.props().onKeyDown(event)
+      expect(onKeyPress).toHaveBeenCalledWith({charCode: 13})
+    })
     describe('when an arrow key is pressed', () => {
       describe('and the value is empty string', () => {
         it('calls moveCursor with 0 and the event', () => {

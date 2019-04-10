@@ -2,11 +2,12 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import PersonSearchNameGroup from 'common/search/PersonSearchNameGroup'
 
-const render = ({onChange = () => {}, personSearchFields = {}} = {}) =>
+const render = ({onChange = () => {}, personSearchFields = {}, onKeyPress = () => {}} = {}) =>
   shallow(
     <PersonSearchNameGroup
       onChange={onChange}
       personSearchFields={personSearchFields}
+      onKeyPress={onKeyPress}
     />
   )
 
@@ -18,6 +19,7 @@ describe('PersonSearchNameGroup', () => {
       }).find('InputField[label="Last Name"]')
       expect(lastName.props().id).toEqual('search-last-name')
       expect(lastName.props().value).toEqual('Bravo')
+      expect(typeof lastName.prop('onKeyPress')).toEqual('function')
     })
 
     it('renders first name input field with label First Name', () => {
@@ -26,6 +28,7 @@ describe('PersonSearchNameGroup', () => {
       }).find('InputField[label="First Name"]')
       expect(firstName.props().id).toEqual('search-first-name')
       expect(firstName.props().value).toEqual('Armando')
+      expect(typeof firstName.prop('onKeyPress')).toEqual('function')
     })
 
     it('renders middle name input field with label Middle Name', () => {
@@ -34,6 +37,7 @@ describe('PersonSearchNameGroup', () => {
       }).find('InputField[label="Middle Name"]')
       expect(middleName.props().id).toEqual('search-middle-name')
       expect(middleName.props().value).toEqual('Middle')
+      expect(typeof middleName.prop('onKeyPress')).toEqual('function')
     })
 
     it('renders suffix input field with label Suffix', () => {
@@ -43,6 +47,7 @@ describe('PersonSearchNameGroup', () => {
       expect(suffix.props().id).toEqual('search-suffix')
       expect(suffix.props().value).toEqual('Jr')
       expect(suffix.props().maxLength).toEqual('4')
+      expect(typeof suffix.prop('onKeyPress')).toEqual('function')
     })
 
     it('renders sex at birth select', () => {
@@ -50,6 +55,7 @@ describe('PersonSearchNameGroup', () => {
       const sexAtBirthSelect = component.find('SexAtBirthSelect')
       expect(sexAtBirthSelect.props().id).toEqual('search-sex-at-birth')
       expect(sexAtBirthSelect.props().value).toEqual('')
+      expect(typeof sexAtBirthSelect.prop('onKeyPress')).toEqual('function')
     })
 
     it('renders sex at birth select when a gender is selected', () => {

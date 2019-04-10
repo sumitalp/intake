@@ -7,6 +7,7 @@ describe('InputField', () => {
   let formField
   let onChange
   let onBlur
+  let onKeyPress
 
   const props = {
     disabled: false,
@@ -24,11 +25,12 @@ describe('InputField', () => {
   beforeEach(() => {
     onChange = jasmine.createSpy('onChange')
     onBlur = jasmine.createSpy('onBlur')
+    onKeyPress = jasmine.createSpy('onKeyPress')
   })
 
   describe('basic functionality', () => {
     beforeEach(() => {
-      component = shallow(<InputField {...props} onChange={onChange} onBlur={onBlur} />, {disableLifecycleMethods: true})
+      component = shallow(<InputField {...props} onChange={onChange} onBlur={onBlur} onKeyPress={onKeyPress} />, {disableLifecycleMethods: true})
       formField = component.find('FormField')
     })
 
@@ -74,6 +76,12 @@ describe('InputField', () => {
       expect(onChange).toHaveBeenCalledWith({target: {value: 'hola mundo'}})
     })
 
+    it('calls onKeyPress when Enter is pressed', () => {
+      const inputElement = component.find('input')
+      inputElement.simulate('keypress', {charCode: 13})
+      expect(onKeyPress).toHaveBeenCalled()
+    })
+
     it('sanitizes the call to onChange when an allowCharacters pattern is given', () => {
       component.setProps({allowCharacters: /[a-zA-Z\s-]/})
       const inputElement = component.find('input')
@@ -90,24 +98,26 @@ describe('InputField', () => {
 
   describe('when it is NOT required', () => {
     beforeEach(() => {
-      component = shallow(<InputField {...props} onChange={onChange} onBlur={onBlur} />, {disableLifecycleMethods: true})
+      component = shallow(<InputField {...props} onChange={onChange} onBlur={onBlur} onKeyPress={onKeyPress} />, {disableLifecycleMethods: true})
     })
 
     it('renders an input field', () => {
       expect(component.find('label.required').exists()).toEqual(false)
       expect(component.find('FormField').props().required).toEqual(false)
+      expect(typeof component.find('input').prop('onKeyPress')).toEqual('function')
     })
   })
 
   describe('when it is required', () => {
     beforeEach(() => {
-      component = shallow(<InputField {...props} onChange={onChange} onBlur={onBlur} required/>, {disableLifecycleMethods: true})
+      component = shallow(<InputField {...props} onChange={onChange} onBlur={onBlur} onKeyPress={onKeyPress} required/>, {disableLifecycleMethods: true})
     })
 
     it('renders a required input field', () => {
       expect(component.find('FormField').props().required).toEqual(true)
       expect(component.find('input').prop('required')).toEqual(true)
       expect(component.find('input').prop('aria-required')).toEqual(true)
+      expect(typeof component.find('input').prop('onKeyPress')).toEqual('function')
     })
   })
 

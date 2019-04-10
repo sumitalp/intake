@@ -13,7 +13,7 @@ class GenderSelect extends React.PureComponent {
   }
 
   render() {
-    const {id, gridClassName, genders, value} = this.props
+    const {id, gridClassName, genders, value, onKeyPress} = this.props
 
     return (
       <SelectField
@@ -22,6 +22,7 @@ class GenderSelect extends React.PureComponent {
         label="Sex at Birth"
         onChange={this.handleChange.bind(this)}
         value={value}
+        onKeyPress={onKeyPress}
       >
         <option key="" />
         {Object.keys(genders).map(key => (
@@ -39,6 +40,7 @@ GenderSelect.propTypes = {
   gridClassName: PropTypes.string,
   id: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
   value: PropTypes.string,
 }
 

@@ -2,12 +2,19 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import AgeForm from 'common/search/age/AgeForm'
 
-const render = (onChange = () => {}, searchByAgeMethod = '') => {
+const render = (
+  {
+    onChange = () => {},
+    onKeyPress = () => {},
+    searchByAgeMethod = '',
+  } = {},
+) => {
   const props = {
     dateOfBirthLabel: 'Date of Birth',
     approximateAgeLabel: 'Approximate Age',
     onChange,
     searchByAgeMethod,
+    onKeyPress,
   }
 
   return shallow(<AgeForm {...props} />)
@@ -80,7 +87,7 @@ describe('AgeForm', () => {
     describe('date of birth radio button', () => {
       describe('is checked', () => {
         it('when the search by age method equals the radio value', () => {
-          const component = render(() => {}, 'dob')
+          const component = render({searchByAgeMethod: 'dob'})
           const radioButton = component.find('input#date-of-birth')
           expect(radioButton.props().checked).toEqual(true)
         })
@@ -88,7 +95,7 @@ describe('AgeForm', () => {
 
       describe('is not checked', () => {
         it('when the search by age method does not equal the radio value', () => {
-          const component = render(() => {}, 'approximate')
+          const component = render({searchByAgeMethod: 'approximate'})
           const radioButton = component.find('input#date-of-birth')
           expect(radioButton.props().checked).toEqual(false)
         })
@@ -97,11 +104,21 @@ describe('AgeForm', () => {
       describe('onClick', () => {
         it('calls onChange to store the selection', () => {
           const onChange = jasmine.createSpy('onChange')
-          const component = render(onChange)
+          const component = render({onChange})
           const radioButton = component.find('input#date-of-birth')
           const target = {target: {value: 'dob'}}
           radioButton.props().onClick(target)
           expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'dob')
+        })
+      })
+
+      describe('onEnter', () => {
+        it('calls onKeyPress ', () => {
+          const onKeyPress = jasmine.createSpy('onKeyPress')
+          const component = render({onKeyPress})
+          const radioButton = component.find('form div.date-of-birth')
+          radioButton.simulate('keypress', {charCode: 13})
+          expect(onKeyPress).toHaveBeenCalled()
         })
       })
     })
@@ -109,7 +126,7 @@ describe('AgeForm', () => {
     describe('approximate age radio button', () => {
       describe('is checked', () => {
         it('when the search by age method equals the radio value', () => {
-          const component = render(() => {}, 'approximate')
+          const component = render({searchByAgeMethod: 'approximate'})
           const radioButton = component.find('input#approximate-age')
           expect(radioButton.props().checked).toEqual(true)
         })
@@ -117,7 +134,7 @@ describe('AgeForm', () => {
 
       describe('is not checked', () => {
         it('when the search by age method does not equal the radio value', () => {
-          const component = render(() => {}, 'dob')
+          const component = render({searchByAgeMethod: 'dob'})
           const radioButton = component.find('input#approximate-age')
           expect(radioButton.props().checked).toEqual(false)
         })
@@ -126,11 +143,21 @@ describe('AgeForm', () => {
       describe('onClick', () => {
         it('calls onChange to store the selection', () => {
           const onChange = jasmine.createSpy('onChange')
-          const component = render(onChange)
+          const component = render({onChange})
           const radioButton = component.find('input#approximate-age')
           const target = {target: {value: 'approximate'}}
           radioButton.props().onClick(target)
           expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
+        })
+      })
+
+      describe('onEnter', () => {
+        it('calls onKeyPress ', () => {
+          const onKeyPress = jasmine.createSpy('onKeyPress')
+          const component = render({onKeyPress})
+          const radioButton = component.find('form div.approximate-age')
+          radioButton.simulate('keypress', {charCode: 13})
+          expect(onKeyPress).toHaveBeenCalled()
         })
       })
     })

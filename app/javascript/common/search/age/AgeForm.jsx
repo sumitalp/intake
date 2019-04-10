@@ -8,10 +8,10 @@ class AgeForm extends React.Component {
     onChange('searchByAgeMethod', isValidValue ? value : '')
   }
 
-  renderRadioWithLabel({id, value, searchByAgeMethod, label}) {
+  renderRadioWithLabel({id, value, searchByAgeMethod, label, onKeyPress}) {
     return (
       <Fragment>
-        <div className={`col-md-6 client-age-selector ${id}`}>
+        <div onKeyPress={onKeyPress} role='presentation' className={`col-md-6 client-age-selector ${id}`}>
           <input
             checked={searchByAgeMethod === value}
             type="radio"
@@ -27,9 +27,21 @@ class AgeForm extends React.Component {
   }
 
   render() {
-    const {dateOfBirthLabel, approximateAgeLabel, searchByAgeMethod} = this.props
-    const dateOfBirthRadioProps = {id: 'date-of-birth', value: 'dob', searchByAgeMethod, label: dateOfBirthLabel}
-    const approximateAgeRadioProps = {id: 'approximate-age', value: 'approximate', searchByAgeMethod, label: approximateAgeLabel}
+    const {dateOfBirthLabel, approximateAgeLabel, searchByAgeMethod, onKeyPress} = this.props
+    const dateOfBirthRadioProps = {
+      id: 'date-of-birth',
+      value: 'dob',
+      searchByAgeMethod,
+      label: dateOfBirthLabel,
+      onKeyPress: onKeyPress,
+    }
+    const approximateAgeRadioProps = {
+      id: 'approximate-age',
+      value: 'approximate',
+      searchByAgeMethod,
+      label: approximateAgeLabel,
+      onKeyPress: onKeyPress,
+    }
 
     return (
       <form className="client-age-form" name="client-age-form">
@@ -44,6 +56,7 @@ AgeForm.propTypes = {
   approximateAgeLabel: PropTypes.string.isRequired,
   dateOfBirthLabel: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
   searchByAgeMethod: PropTypes.string,
 }
 

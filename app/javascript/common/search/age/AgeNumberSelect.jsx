@@ -18,7 +18,7 @@ class AgeNumberSelect extends React.Component {
   }
 
   render() {
-    const {id, gridClassName, value, range, disabled} = this.props
+    const {id, gridClassName, value, range, disabled, onKeyPress} = this.props
     const options = []
     if (disabled) this.props.onChange('searchApproximateAge', '')
     for (let x = range.min; x <= range.max; x++) {
@@ -35,6 +35,7 @@ class AgeNumberSelect extends React.Component {
           onChange={this.handleChange.bind(this)}
           value={value}
           disabled={disabled}
+          onKeyPress={onKeyPress}
         >
           <option key="" />
           {options}
@@ -49,6 +50,7 @@ AgeNumberSelect.propTypes = {
   gridClassName: PropTypes.string,
   id: PropTypes.string,
   onChange: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
   range: PropTypes.object.isRequired,
   value: PropTypes.string,
 }

@@ -43,6 +43,7 @@ const MaskedInputField = ({
   required,
   type,
   value,
+  onKeyPress,
 }) => {
   const formFieldProps = {errors, gridClassName, htmlFor: id, label, labelClassName, required}
   const breakPoints = findBreakPoints(value, '-')
@@ -53,10 +54,13 @@ const MaskedInputField = ({
     const upArrowKey = 38
     const rightArrowKey = 39
     const downArrowKey = 40
+    const enterKey = 13
     const arrowKeys = [leftArrowKey, upArrowKey, rightArrowKey, downArrowKey]
     const keyCode = e.keyCode
     if (arrowKeys.includes(keyCode)) {
       moveCursor(caret, e)
+    } else if (keyCode === enterKey) {
+      onKeyPress({charCode: 13})
     }
   }
 
@@ -107,6 +111,7 @@ MaskedInputField.propTypes = {
   moveCursor: PropTypes.func,
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
   type: PropTypes.string,

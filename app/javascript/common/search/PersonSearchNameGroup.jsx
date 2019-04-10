@@ -4,7 +4,7 @@ import InputField from 'common/InputField'
 import SexAtBirthSelect from 'common/search/sexatbirth/SexAtBirthSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 
-const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
+const PersonSearchNameGroup = ({onChange, personSearchFields, onKeyPress}) => (
   <div className="row person-search-field-group">
     <InputField
       id="search-last-name"
@@ -12,6 +12,7 @@ const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
       label="Last Name"
       onChange={({target: {value}}) => onChange('searchLastName', value)}
       value={personSearchFields.searchLastName}
+      onKeyPress={onKeyPress}
     />
     <InputField
       id="search-first-name"
@@ -19,6 +20,7 @@ const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
       label="First Name"
       onChange={({target: {value}}) => onChange('searchFirstName', value)}
       value={personSearchFields.searchFirstName}
+      onKeyPress={onKeyPress}
     />
     <InputField
       id="search-middle-name"
@@ -26,6 +28,7 @@ const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
       label="Middle Name"
       onChange={({target: {value}}) => onChange('searchMiddleName', value)}
       value={personSearchFields.searchMiddleName}
+      onKeyPress={onKeyPress}
     />
     <InputField
       id="search-suffix"
@@ -34,18 +37,21 @@ const PersonSearchNameGroup = ({onChange, personSearchFields}) => (
       onChange={({target: {value}}) => onChange('searchSuffix', value)}
       value={personSearchFields.searchSuffix}
       maxLength='4'
+      onKeyPress={onKeyPress}
     />
     <SexAtBirthSelect
       id="search-sex-at-birth"
       gridClassName="col-md-4 sex-at-birth-field"
       onChange={onChange}
       value={personSearchFields.searchSexAtBirth}
+      onKeyPress={onKeyPress}
     />
   </div>
 )
 
 PersonSearchNameGroup.propTypes = {
   onChange: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
   personSearchFields: PersonSearchFieldsPropType,
 }
 

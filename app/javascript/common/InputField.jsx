@@ -17,6 +17,7 @@ const InputField = ({
   type,
   value,
   disabled,
+  onKeyPress,
 }) => {
   const formFieldProps = {
     disabled,
@@ -45,6 +46,7 @@ const InputField = ({
       <input id={id} type={type} placeholder={placeholder}
         value={value} onChange={onChangeWrapper} maxLength={maxLength} onBlur={onBlur}
         aria-required={required} required={required} disabled={disabled}
+        onKeyPress={onKeyPress}
       />
     </FormField>
   )
@@ -66,6 +68,7 @@ InputField.propTypes = {
   maxLength: PropTypes.string,
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
   type: PropTypes.string,
