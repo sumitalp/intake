@@ -13,11 +13,11 @@ class AgeUnitForm extends React.Component {
     }
   }
 
-  renderRadioWithLabel({id, value, disabled, label}) {
+  renderRadioWithLabel({id, value, disabled, label, onKeyPress}) {
     const {searchApproximateAgeUnits} = this.props
     return (
       <Fragment>
-        <div>
+        <div className={id} onKeyPress={onKeyPress} role='presentation'>
           <input
             checked={searchApproximateAgeUnits === value}
             type="radio"
@@ -34,10 +34,22 @@ class AgeUnitForm extends React.Component {
   }
 
   render() {
-    const {formLabel, monthsLabel, yearsLabel, searchByAgeMethod} = this.props
+    const {formLabel, monthsLabel, yearsLabel, searchByAgeMethod, onKeyPress} = this.props
     const disabled = !(searchByAgeMethod === '' || searchByAgeMethod === 'approximate')
-    const monthsRadioProps = {id: 'age-unit-months', value: 'months', disabled, label: monthsLabel}
-    const yearsRadioProps = {id: 'age-unit-years', value: 'years', disabled, label: yearsLabel}
+    const monthsRadioProps = {
+      id: 'age-unit-months',
+      value: 'months',
+      disabled,
+      label: monthsLabel,
+      onKeyPress: onKeyPress,
+    }
+    const yearsRadioProps = {
+      id: 'age-unit-years',
+      value: 'years',
+      disabled,
+      label: yearsLabel,
+      onKeyPress: onKeyPress,
+    }
 
     return (
       <Fragment>
@@ -55,6 +67,7 @@ AgeUnitForm.propTypes = {
   formLabel: PropTypes.string.isRequired,
   monthsLabel: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
   searchApproximateAgeUnits: PropTypes.string,
   searchByAgeMethod: PropTypes.string,
   yearsLabel: PropTypes.string.isRequired,

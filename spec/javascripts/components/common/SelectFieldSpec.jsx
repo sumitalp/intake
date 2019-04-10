@@ -16,11 +16,14 @@ describe('SelectField', () => {
   }
   let onChange
   let onBlur
+  let onKeyPress
   beforeEach(() => {
     onChange = jasmine.createSpy('onChange')
     onBlur = jasmine.createSpy('onBlur')
+    onKeyPress = jasmine.createSpy('onKeyPress')
     props.onChange = onChange
     props.onBlur = onBlur
+    props.onKeyPress = onKeyPress
     component = shallow(
       <SelectField {...props}><option/></SelectField>, {disableLifecycleMethods: true}
     )
@@ -61,6 +64,12 @@ describe('SelectField', () => {
     const selectElement = component.find('select')
     selectElement.simulate('blur')
     expect(onBlur).toHaveBeenCalled()
+  })
+
+  it('calls onKeyPress when Enter is pressed on select field', () => {
+    const selectElement = component.find('select')
+    selectElement.simulate('keypress', {charCode: 13})
+    expect(onKeyPress).toHaveBeenCalled()
   })
 
   it('does not render a required select field', () => {

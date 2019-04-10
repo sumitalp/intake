@@ -28,7 +28,8 @@ class AgeForm extends React.Component {
 
   render() {
     const {dateOfBirthLabel, approximateAgeLabel, searchByAgeMethod, onKeyPress} = this.props
-    const dateOfBirthRadioProps = {id: 'date-of-birth',
+    const dateOfBirthRadioProps = {
+      id: 'date-of-birth',
       value: 'dob',
       searchByAgeMethod,
       label: dateOfBirthLabel,

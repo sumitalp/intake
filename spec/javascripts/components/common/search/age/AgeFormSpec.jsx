@@ -23,7 +23,7 @@ const render = (
 describe('AgeForm', () => {
   describe('layout', () => {
     it('renders a form with props', () => {
-      const component = render({})
+      const component = render()
       const form = component.find('form')
       expect(form.exists()).toBe(true)
       expect(form.props().className).toEqual('client-age-form')
@@ -31,20 +31,20 @@ describe('AgeForm', () => {
     })
 
     it('renders div.client-age-selector.date-of-birth', () => {
-      const component = render({})
+      const component = render()
       const selector = component.find('div.client-age-selector.date-of-birth')
       expect(selector.exists()).toEqual(true)
     })
 
     it('renders div.client-age-selector.approximate-age', () => {
-      const component = render({})
+      const component = render()
       const selector = component.find('div.client-age-selector.approximate-age')
       expect(selector.exists()).toEqual(true)
     })
 
     describe('date of birth', () => {
       it('renders a radio button with props', () => {
-        const component = render({})
+        const component = render()
         const radioButton = component.find('input#date-of-birth')
         expect(radioButton.exists()).toBe(true)
         expect(radioButton.props().type).toEqual('radio')
@@ -55,7 +55,7 @@ describe('AgeForm', () => {
       })
 
       it('renders a label for the radio button', () => {
-        const component = render({})
+        const component = render()
         const label = component.find('label[htmlFor="date-of-birth"]')
         expect(label.exists()).toEqual(true)
         expect(label.text()).toEqual('Date of Birth')
@@ -64,7 +64,7 @@ describe('AgeForm', () => {
 
     describe('approximate age', () => {
       it('renders a radio button with props', () => {
-        const component = render({})
+        const component = render()
         const radioButton = component.find('input#approximate-age')
         expect(radioButton.exists()).toEqual(true)
         expect(radioButton.props().type).toEqual('radio')
@@ -75,7 +75,7 @@ describe('AgeForm', () => {
       })
 
       it('renders a label for the radio button', () => {
-        const component = render({})
+        const component = render()
         const label = component.find('label[htmlFor="approximate-age"]')
         expect(label.exists()).toEqual(true)
         expect(label.text()).toEqual('Approximate Age')

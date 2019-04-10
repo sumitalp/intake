@@ -81,6 +81,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFie
                 onChange={onChange}
                 searchApproximateAgeUnits={personSearchFields.searchApproximateAgeUnits}
                 searchByAgeMethod={personSearchFields.searchByAgeMethod}
+                onKeyPress={onKeyPress}
               />
             </div>
             <div className="col-md-6 approximate-age-selector number">
@@ -91,6 +92,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFie
                 onChange={onChange}
                 value={personSearchFields.searchApproximateAge}
                 searchByAgeMethod={personSearchFields.searchByAgeMethod}
+                onKeyPress={onKeyPress}
               />
             </div>
           </div>
