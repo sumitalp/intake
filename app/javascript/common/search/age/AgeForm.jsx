@@ -5,6 +5,13 @@ class AgeForm extends React.Component {
   handleClick({target: {value}}) {
     const {onChange} = this.props
     const isValidValue = value === 'dob' || value === 'approximate'
+
+    if (value === 'approximate') {
+      onChange('searchDateOfBirth', '')
+    } else if (value === 'dob') {
+      onChange('searchApproximateAge', '')
+      onChange('searchApproximateAgeUnits', '')
+    }
     onChange('searchByAgeMethod', isValidValue ? value : '')
   }
 
