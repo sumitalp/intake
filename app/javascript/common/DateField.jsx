@@ -79,6 +79,8 @@ const DateField = ({
   required,
   value,
   disabled,
+  onKeyUp,
+  onKeyPress,
 }) => {
   const dateValue = _.isEmpty(value) ? null : parseDate(value).toDate()
   const format = hasTime ? 'MM/DD/YYYY h:mm A' : 'MM/DD/YYYY'
@@ -102,6 +104,8 @@ const DateField = ({
         max={max}
         min={min}
         disabled={disabled}
+        onKeyUp={onKeyUp}
+        onKeyPress={onKeyPress}
       />
     </FormField>
   )
@@ -125,6 +129,8 @@ DateField.propTypes = {
   min: PropTypes.instanceOf(Date),
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
+  onKeyUp: PropTypes.func,
   required: PropTypes.bool,
   value: PropTypes.string,
 }

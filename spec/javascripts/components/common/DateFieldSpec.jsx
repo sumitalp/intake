@@ -17,6 +17,8 @@ describe('DateField', () => {
     required = undefined,
     value,
     disabled = false,
+    onKeyUp = () => null,
+    onKeyPress = () => null,
   } = {}) {
     const props = {
       gridClassName,
@@ -32,6 +34,8 @@ describe('DateField', () => {
       required,
       value,
       disabled,
+      onKeyUp,
+      onKeyPress,
     }
     return mount(<DateField {...props}/>)
   }
@@ -45,6 +49,8 @@ describe('DateField', () => {
     onChange = () => null,
     required = undefined,
     disabled = false,
+    onKeyPress = () => null,
+    onKeyUp = () => null,
   }) {
     const props = {
       errors,
@@ -56,6 +62,8 @@ describe('DateField', () => {
       onChange,
       required,
       disabled,
+      onKeyPress,
+      onKeyUp,
     }
     return shallow(<DateField {...props}/>, {disableLifecycleMethods: true})
   }
@@ -84,6 +92,8 @@ describe('DateField', () => {
       .find('DateTimePicker')
     expect(dateTimePicker.length).toEqual(1)
     expect(dateTimePicker.props().value).toEqual(new Date('05/05/2017 3:45 PM'))
+    expect(typeof dateTimePicker.props().onKeyPress).toEqual('function')
+    expect(typeof dateTimePicker.props().onKeyUp).toEqual('function')
   })
 
   it('renders the input element with a no date when value is null', () => {

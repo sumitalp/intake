@@ -2,7 +2,16 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import DateOfBirthDateField from 'common/search/age/DateOfBirthDateField'
 
-const render = ({value = '', onBlur = () => {}, onChange = () => {}, searchByAgeMethod = '', errors = []}) =>
+const render = (
+  {
+    value = '',
+    onBlur = () => {},
+    onChange = () => {},
+    onKeyPress = () => {},
+    onKeyUp = () => {},
+    searchByAgeMethod = '',
+    errors = [],
+  }) =>
   shallow(
     <DateOfBirthDateField
       onBlur={onBlur}
@@ -10,6 +19,8 @@ const render = ({value = '', onBlur = () => {}, onChange = () => {}, searchByAge
       value={value}
       searchByAgeMethod={searchByAgeMethod}
       errors={errors}
+      onKeyPress={onKeyPress}
+      onKeyUp={onKeyUp}
     />
   )
 
@@ -36,6 +47,8 @@ describe('DateOfBirthDateField', () => {
       expect(dateField.props().hasTime).toEqual(false)
       expect(dateField.props().disabled).toEqual(false)
       expect(dateField.props().errors).toEqual([])
+      expect(typeof dateField.props().onKeyPress).toEqual('function')
+      expect(typeof dateField.props().onKeyUp).toEqual('function')
     })
 
     describe('errors', () => {

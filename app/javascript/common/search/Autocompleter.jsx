@@ -113,15 +113,13 @@ export default class Autocompleter extends Component {
     const {searchTerm} = personSearchFields
     const key = `${item.posInSet}-of-${item.setSize}`
     if (item.suggestionHeader) {
-      return (
-        <div id={id} key={key} aria-live='polite'>
-          <SuggestionHeader
-            currentNumberOfResults={results.length}
-            total={total}
-            searchTerm={searchTerm}
-          />
-        </div>
-      )
+      return (<div id={id} key={key} aria-live='polite'>
+        <SuggestionHeader
+          currentNumberOfResults={results.length}
+          total={total}
+          searchTerm={searchTerm}
+        />
+      </div>)
     }
     return (
       <div id={id} key={key} className={itemClassName(isHighlighted)}><PersonSuggestion {...item} /></div>
@@ -153,9 +151,8 @@ export default class Autocompleter extends Component {
     if (this.isSearchable(value) && !isAdvancedSearchOn) {
       onSearch(isAdvancedSearchOn, {searchTerm: value})
       this.setState({menuVisible: true})
-    } else {
-      this.hideMenu()
-    } onChange('searchTerm', value)
+    } else { this.hideMenu() }
+    onChange('searchTerm', value)
   }
 
   renderInput(props) {
@@ -201,13 +198,15 @@ export default class Autocompleter extends Component {
     )
   }
 
+  isValidDate = (e) => moment(e.target.value, 'MM/DD/YYYY', true).isValid()
+
   renderPersonSearchFields() {
     const {states, counties, onChange, onCancel, onClear, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors, dobErrors, canSearch} = this.props
     const searchWithEnter = (e) => {
       const enterKeyCode = 13
-      if (canSearch && e.charCode === enterKeyCode) { return this.handleSubmit() }
-      return null
+      if ((canSearch && e.charCode === enterKeyCode)) { this.handleSubmit() }
     }
+    const validateAndSetDateOfBirth = (e) => { if (this.isValidDate(e)) { onChange('searchDateOfBirth', moment(e.target.value).format('YYYY-MM-DD')) } }
     return (
       <PersonSearchFields
         onBlur={onBlur}
@@ -224,6 +223,7 @@ export default class Autocompleter extends Component {
         dobErrors={dobErrors}
         canSearch={canSearch}
         onKeyPress={searchWithEnter}
+        onKeyUp={validateAndSetDateOfBirth}
       />
     )
   }
