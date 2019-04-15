@@ -9,7 +9,7 @@ import ApproximateAgeNumberSelect from 'common/search/age/ApproximateAgeNumberSe
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 import {moveCursor} from 'utils/moveCursor'
 
-const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFields, clientIdError, ssnErrors, dobErrors, onKeyPress}) => (
+const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFields, clientIdError, ssnErrors, dobErrors, onKeyPress, onKeyUp}) => (
   <div className="row person-search-field-group">
     <div className="col-md-12 person-search-field-title">Identifying Numbers & Age</div>
     <div className="col-md-4 person-search-identifying-numbers-section">
@@ -70,6 +70,8 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFie
               onChange={onChange}
               searchByAgeMethod={personSearchFields.searchByAgeMethod}
               errors={dobErrors}
+              onKeyUp={onKeyUp}
+              onKeyPress={onKeyPress}
             />
           </div>
           <div className="col-md-6 approximate-age-section">
@@ -109,6 +111,7 @@ PersonSearchNumbersAgeGroup.propTypes = {
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func,
+  onKeyUp: PropTypes.func,
   personSearchFields: PersonSearchFieldsPropType,
   ssnErrors: PropTypes.array,
 }
