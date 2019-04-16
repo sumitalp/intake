@@ -61,10 +61,6 @@ describe('PersonSearchFields', () => {
       expect(component.find('PersonSearchAgeGenderGroup').exists()).toBe(false)
     })
 
-    it('renders a PersonSearchLocationGroup component', () => {
-      expect(component.find('PersonSearchLocationGroup').exists()).toBe(false)
-    })
-
     it('renders a PersonSearchButtonGroup component', () => {
       expect(component.find('PersonSearchButtonGroup').exists()).toBe(false)
     })
