@@ -168,9 +168,8 @@ export const selectSsnErrors = (state) => {
 }
 
 export const selectDobErrors = (state) => {
-  const checkForDobErrors = selectPeopleSearch(state).get('dobErrorCheck')
   const dob = selectPeopleSearch(state).get('searchDateOfBirth') || ''
-  return checkForDobErrors ? combineCompact(isFutureDatetimeCreate(dob, 'Please enter date as today or earlier')) : []
+  return combineCompact(isFutureDatetimeCreate(dob, 'Please enter date as today or earlier'))
 }
 
 export const selectPersonSearchFields = state => {

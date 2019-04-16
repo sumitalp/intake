@@ -49,6 +49,7 @@ describe('<Autocompleter />', () => {
     ssnErrors = [],
     canSearch = false,
     onKeyPress = () => null,
+    onKeyUp = () => null,
   }) {
     return mount(
       <Autocompleter
@@ -74,6 +75,7 @@ describe('<Autocompleter />', () => {
         ssnErrors={ssnErrors}
         canSearch={canSearch}
         onKeyPress={onKeyPress}
+        onKeyUp={onKeyUp}
       />
     )
   }
@@ -98,6 +100,7 @@ describe('<Autocompleter />', () => {
     ssnErrors = [],
     canSearch = false,
     onKeyPress = () => null,
+    onKeyUp = () => null,
   }) {
     return shallow(
       <Autocompleter
@@ -122,6 +125,7 @@ describe('<Autocompleter />', () => {
         ssnErrors={ssnErrors}
         canSearch={canSearch}
         onKeyPress={onKeyPress}
+        onKeyUp={onKeyUp}
       />,
       {disableLifecycleMethods: true}
     )
@@ -488,7 +492,7 @@ describe('<Autocompleter />', () => {
     })
   })
 
-  describe('onEnter', () => {
+  describe('onKeyPress', () => {
     let onSearch
     let onChange
 
@@ -527,6 +531,35 @@ describe('<Autocompleter />', () => {
       const personSearchFields = autocompleter.find('PersonSearchFields')
       personSearchFields.simulate('keypress', {charCode: 13})
       expect(onSearch).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('onKeyUp', () => {
+    let onSearch
+    let onChange
+
+    beforeEach(() => {
+      onSearch = jasmine.createSpy('onSearch')
+      onChange = jasmine.createSpy('onChange')
+    })
+
+    it('trigger search when canSearch is true and dob is valid ', () => {
+      const autocompleter = renderAutocompleter({
+        onChange,
+        onSearch,
+        isAdvancedSearchOn: true,
+        canSearch: true,
+        personSearchFields: {
+          searchDateOfBirth: '2018-11-11',
+        },
+      })
+      const personSearchFields = autocompleter.find('PersonSearchFields')
+      personSearchFields.props().onKeyUp({target: {value: '11/11/2018'}})
+      expect(onChange).toHaveBeenCalledWith('searchDateOfBirth', '2018-11-11')
+      personSearchFields.simulate('keypress', {charCode: 13})
+      expect(onSearch).toHaveBeenCalledWith(true, {
+        searchDateOfBirth: '2018-11-11',
+      })
     })
   })
 

@@ -8,6 +8,7 @@ const render = (
     onChange = () => {},
     onClear = () => {},
     onKeyPress = () => {},
+    onKeyUp = () => {},
     personSearchFields = {
       searchApproximateAgeUnits: '',
       searchByAgeMethod: '',
@@ -27,6 +28,7 @@ const render = (
       ssnErrors={ssnErrors}
       dobErrors={dobErrors}
       onKeyPress={onKeyPress}
+      onKeyUp={onKeyUp}
     />
   )
 
@@ -160,6 +162,8 @@ describe('PersonSearchNumbersAgeGroup', () => {
       expect(typeof dateField.props().onChange).toEqual('function')
       expect(dateField.props().searchByAgeMethod).toEqual('')
       expect(dateField.props().errors).toEqual([])
+      expect(typeof dateField.props().onKeyPress).toEqual('function')
+      expect(typeof dateField.props().onKeyUp).toEqual('function')
     })
 
     it('renders div.approximate-age-selector.unit', () => {

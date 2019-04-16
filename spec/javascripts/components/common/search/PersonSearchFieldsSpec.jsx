@@ -9,6 +9,8 @@ describe('PersonSearchFields', () => {
     onCancel = () => {},
     onClear = () => {},
     onSubmit = () => {},
+    onKeyPress = () => {},
+    onKeyUp = () => {},
     ...props
   } = {}) =>
     shallow(
@@ -18,6 +20,8 @@ describe('PersonSearchFields', () => {
         onSubmit={onSubmit}
         onCancel={onCancel}
         onClear={onClear}
+        onKeyPress={onKeyPress}
+        onKeyUp={onKeyUp}
         {...props}
       />
     )
@@ -32,8 +36,10 @@ describe('PersonSearchFields', () => {
       expect(component.find('PersonSearchNameGroup').exists()).toBe(true)
     })
 
-    it('renders a PersonSearchNumbersAgeGroup component', () => {
+    it('renders a PersonSearchNumbersAgeGroup component with onKeyPress and onKeyUp props', () => {
       expect(component.find('PersonSearchNumbersAgeGroup').exists()).toBe(true)
+      expect(typeof component.find('PersonSearchNumbersAgeGroup').props().onKeyPress).toEqual('function')
+      expect(typeof component.find('PersonSearchNumbersAgeGroup').props().onKeyUp).toEqual('function')
     })
 
     it('renders a PersonSearchButtonGroup component', () => {
@@ -53,10 +59,6 @@ describe('PersonSearchFields', () => {
 
     it('renders a PersonSearchAgeGenderGroup component', () => {
       expect(component.find('PersonSearchAgeGenderGroup').exists()).toBe(false)
-    })
-
-    it('renders a PersonSearchLocationGroup component', () => {
-      expect(component.find('PersonSearchLocationGroup').exists()).toBe(false)
     })
 
     it('renders a PersonSearchButtonGroup component', () => {

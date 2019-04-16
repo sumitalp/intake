@@ -4,7 +4,7 @@ import DateField from 'common/DateField'
 
 class DateOfBirthDateField extends React.Component {
   render() {
-    const {value, onBlur, onChange, searchByAgeMethod, errors} = this.props
+    const {value, onBlur, onChange, searchByAgeMethod, errors, onKeyUp, onKeyPress} = this.props
     const disableDateField = !(searchByAgeMethod === '' || searchByAgeMethod === 'dob')
     const handleFocus = () => { this.props.onChange('searchByAgeMethod', 'dob') }
     return (
@@ -19,6 +19,8 @@ class DateOfBirthDateField extends React.Component {
           hasTime={false}
           disabled={disableDateField}
           errors={errors}
+          onKeyUp={onKeyUp}
+          onKeyPress={onKeyPress}
         />
       </div>
     )
@@ -29,6 +31,8 @@ DateOfBirthDateField.propTypes = {
   errors: PropTypes.array,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
+  onKeyPress: PropTypes.func,
+  onKeyUp: PropTypes.func,
   searchByAgeMethod: PropTypes.string,
   value: PropTypes.string,
 }
