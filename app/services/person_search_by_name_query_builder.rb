@@ -13,7 +13,8 @@ module PersonSearchByNameQueryBuilder
 
   def query
     q = { bool: { must: must } }
-    { function_score: { query: q, functions: functions, score_mode: 'sum', boost_mode: 'sum' } }
+    f = last_name.blank? && first_name.blank? ? [] : functions
+    { function_score: { query: q, functions: f, score_mode: 'sum', boost_mode: 'sum' } }
   end
 
   def must
@@ -91,11 +92,10 @@ module PersonSearchByNameQueryBuilder
   end
 
   def rev_last_first
-    queries = [
+    { "filter": { "bool": { "must": [
       match_query(field: 'last_name', query: first_name, name: '8_rev_last'),
       match_query(field: 'first_name', query: last_name, name: '8_rev_first')
-    ].compact
-    { "filter": { "bool": { "must": queries } }, "weight": 128 }
+    ].compact } }, "weight": 128 }
   end
 
   def dupe_last_first
