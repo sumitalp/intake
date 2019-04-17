@@ -9,7 +9,7 @@ import ApproximateAgeNumberSelect from 'common/search/age/ApproximateAgeNumberSe
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 import {moveCursor} from 'utils/moveCursor'
 
-const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFields, clientIdError, ssnErrors, dobErrors, onKeyPress, onKeyUp}) => (
+const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, onFocus, personSearchFields, clientIdError, ssnErrors, dobErrors, onKeyPress, onKeyUp}) => (
   <div className="row person-search-field-group">
     <div className="col-md-12 person-search-field-title">Identifying Numbers & Age</div>
     <div className="col-md-4 person-search-identifying-numbers-section">
@@ -20,6 +20,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFie
           gridClassName="col-md-12 client-id-field"
           onBlur={onBlur}
           onChange={({target: {value}}) => onChange('searchClientId', value)}
+          onFocus={onFocus}
           value={personSearchFields.searchClientId}
           mask='1111-1111-1111-1111111'
           placeholder='____-____-____-_______'
@@ -34,6 +35,7 @@ const PersonSearchNumbersAgeGroup = ({onBlur, onChange, onClear, personSearchFie
           id="search-ssn"
           label="Social Security Number"
           gridClassName="col-md-12 ssn-field"
+          onFocus={onFocus}
           onBlur={onBlur}
           onChange={({target: {value}}) => onChange('searchSsn', value)}
           value={personSearchFields.searchSsn}
@@ -110,6 +112,7 @@ PersonSearchNumbersAgeGroup.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func,
   onKeyUp: PropTypes.func,
   personSearchFields: PersonSearchFieldsPropType,

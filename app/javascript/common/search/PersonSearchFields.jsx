@@ -19,6 +19,7 @@ const PersonSearchFields = ({
   canSearch,
   onKeyPress,
   onKeyUp,
+  onFocus,
 }) => isAdvancedSearchOn ? (
   <div>
     <PersonSearchNameGroup
@@ -30,6 +31,7 @@ const PersonSearchFields = ({
       onBlur={onBlur}
       onChange={onChange}
       onClear={onClear}
+      onFocus={onFocus}
       personSearchFields={personSearchFields}
       clientIdError={clientIdError}
       ssnErrors={ssnErrors}
@@ -54,6 +56,7 @@ PersonSearchFields.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func,
   onKeyUp: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,

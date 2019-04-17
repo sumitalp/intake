@@ -19,6 +19,7 @@ import {
   resetPersonSearch,
   setClientIdError,
   setSsnErrorCheck,
+  resetSsnErrorCheck,
   setDobErrorCheck,
 } from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
@@ -54,6 +55,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const onBlur = (id) => {
     if (id === 'search-client-id') { dispatch(setClientIdError()) } else if (id === 'search-ssn') { dispatch(setSsnErrorCheck()) } else if (id === 'search-date-of-birth') { dispatch(setDobErrorCheck()) }
   }
+  const onFocus = (id) => {
+    if (id === 'search-ssn') { dispatch(resetSsnErrorCheck()) }
+  }
   const onClear = (field) => dispatch(clear(field))
   const onChange = (field, value) => {
     dispatch(setPersonSearchField(field, value))
@@ -72,6 +76,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onClear,
     onChange,
     onCancel,
+    onFocus,
     onLoadMoreResults,
     dispatch,
   }
