@@ -102,13 +102,16 @@ describe('AgeForm', () => {
       })
 
       describe('onClick', () => {
-        it('calls onChange to store the selection', () => {
+        it('calls onChange to store the selection and reset approximate age and units', () => {
           const onChange = jasmine.createSpy('onChange')
           const component = render({onChange})
           const radioButton = component.find('input#date-of-birth')
           const target = {target: {value: 'dob'}}
           radioButton.props().onClick(target)
+          expect(onChange).toHaveBeenCalledWith('searchApproximateAge', '')
+          expect(onChange).toHaveBeenCalledWith('searchApproximateAgeUnits', '')
           expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'dob')
+          expect(onChange).toHaveBeenCalledTimes(3)
         })
       })
 
@@ -141,13 +144,15 @@ describe('AgeForm', () => {
       })
 
       describe('onClick', () => {
-        it('calls onChange to store the selection', () => {
+        it('calls onChange to store the selection and reset date of birth', () => {
           const onChange = jasmine.createSpy('onChange')
           const component = render({onChange})
           const radioButton = component.find('input#approximate-age')
           const target = {target: {value: 'approximate'}}
           radioButton.props().onClick(target)
+          expect(onChange).toHaveBeenCalledWith('searchDateOfBirth', '')
           expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
+          expect(onChange).toHaveBeenCalledTimes(2)
         })
       })
 
