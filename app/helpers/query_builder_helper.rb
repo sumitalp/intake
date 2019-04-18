@@ -21,13 +21,12 @@ module QueryBuilderHelper
   end
 
   def generate_query_params(params)
-    query_params = {
+    { params[:field] => {
       query: params[:query], value: params[:value], operator: params[:operator],
       boost: params[:boost], minimum_should_match: params[:min_should_match],
       _name: params[:name], fuzziness: params[:fuzziness], prefix_length: params[:prefix_length],
       max_expansions: params[:max_expansions], fields: params[:fields], type: params[:type]
-    }.delete_if { |_k, v| v.blank? }
-    params[:query_type] == 'multi_match' ? query_params : { params[:field] => query_params}
+    }.delete_if { |_k, v| v.blank? } }
   end
 
   def match_query(params)
@@ -40,9 +39,18 @@ module QueryBuilderHelper
   def query_string(field, query, boost: nil)
     return if query.blank?
     { query_string: {
-        default_field: field,
-        query: query,
-        boost: boost
+      default_field: field,
+      query: query,
+      boost: boost
+    }.delete_if { |_k, v| v.blank? } }
+  end
+
+  def multi_match(params)
+    return if params[:query].blank?
+    { multi_match: {
+      query: params[:query], operator: params[:operator],
+      fields: params[:fields], type: params[:type],
+      fuzziness: params[:fuzziness], _name: params[:name]
     }.delete_if { |_k, v| v.blank? } }
   end
 

@@ -32,9 +32,9 @@ module PersonSearchByNameQueryBuilder
 
   def mult_aka_fuzz(fields: nil, type: nil, fuzziness: nil, name: nil)
     fq = formatted_query("#{last_name} #{first_name}")
-    params = { query_type: 'multi_match', query: fq, operator: 'and', fields: fields,
+    params = { query: fq, operator: 'and', fields: fields,
                fuzziness: fuzziness, type: type, name: name }
-    match_query(params)
+    multi_match(params)
   end
 
   def client_only
@@ -42,17 +42,16 @@ module PersonSearchByNameQueryBuilder
   end
 
   def mult_last
-    [match_query(
-      query_type: 'multi_match', query: formatted_query("#{last_name} #{first_name}"), operator: 'and',
+    [multi_match(
+      query: formatted_query("#{last_name} #{first_name}"), operator: 'and',
       fields: %w[last_name first_name], type: 'cross_fields', name: '1_mult_last_first'
     ), match_query(field: 'last_name', query: last_name, name: '1_mult_last')].compact
   end
 
   def mult_last_suffix
     fq = formatted_query("#{last_name} #{suffix}")
-    params = {query_type: 'multi_match', query: fq, operator: 'and', fields: %w[last_name suffix],
-              type: 'cross_fields', name: '2_mult_last_suffix'}
-    [match_query(params)].compact
+    [multi_match(query: fq, operator: 'and', fields: %w[last_name suffix],
+                 type: 'cross_fields', name: '2_mult_last_suffix')].compact
   end
 
   def mult_aka
