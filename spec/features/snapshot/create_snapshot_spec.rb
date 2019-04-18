@@ -97,7 +97,6 @@ feature 'Create Snapshot' do
           )
         end
 
-        expect(page).to have_css('.side-bar')
         expect(page).to have_content('People & Roles')
         expect(page).to have_content('Relationships')
         expect(page).to have_content('History')
