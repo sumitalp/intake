@@ -57,7 +57,7 @@ export class SnapshotPage extends React.Component {
 
   renderBody(participants) {
     return (
-      <div className="col-md-9 col-md-offset-3 col-xs-8 col-xs-offset-4 snapshot-inner-container">
+      <div className="col-md-12 col-xs-12 snapshot-inner-container">
         <div className="row">
           <SnapshotIntro />
           <PersonSearchFormContainer
@@ -90,7 +90,6 @@ export class SnapshotPage extends React.Component {
         </div>
         <div className={`container snapshot-container ${genericErrorClass}`}>
           <div className="row">
-            <SnapshotSideBar participants={participants} />
             {this.renderBody(participants)}
           </div>
         </div>
