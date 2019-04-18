@@ -204,7 +204,7 @@ module PersonSearchByNameQueryBuilderHelper
             {
               "filter": {
                 "multi_match": {
-                  "query": 'first name last name',
+                  "query": 'last name first name',
                   "operator": 'and',
                   "fields": %w[
                     first_name
@@ -960,7 +960,7 @@ module PersonSearchByNameQueryBuilderHelper
             {
               "filter": {
                 "multi_match": {
-                  "query": 'first name last name',
+                  "query": 'last name first name',
                   "operator": 'and',
                   "fields": %w[
                     first_name
@@ -1272,7 +1272,7 @@ module PersonSearchByNameQueryBuilderHelper
             {
               "filter": {
                 "multi_match": {
-                  "query": 'first name last name',
+                  "query": 'last name first name',
                   "operator": 'and',
                   "fields": %w[
                     first_name
@@ -1584,7 +1584,7 @@ module PersonSearchByNameQueryBuilderHelper
             {
               "filter": {
                 "multi_match": {
-                  "query": 'first name last name',
+                  "query": 'last name first name',
                   "operator": 'and',
                   "fields": %w[
                     first_name
@@ -1949,7 +1949,7 @@ module PersonSearchByNameQueryBuilderHelper
             {
               "filter": {
                 "multi_match": {
-                  "query": 'first name last name',
+                  "query": 'last name first name',
                   "operator": 'and',
                   "fields": %w[
                     first_name

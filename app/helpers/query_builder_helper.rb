@@ -20,14 +20,29 @@ module QueryBuilderHelper
           .strip
   end
 
+  def generate_query_params(params)
+    {
+      params[:field] => {
+        operator: params[:operator], boost: params[:boost],
+        minimum_should_match: params[:min_should_match], _name: params[:name],
+        fuzziness: params[:fuzziness], prefix_length: params[:prefix_length],
+        max_expansions: params[:max_expansions]
+      }.delete_if { |_k, v| v.blank? }
+    }
+  end
+
   def match_query(params)
     return if params[:query].blank?
-    { match: {
-      params[:field] => {
-        query: params[:query], operator: params[:operator], boost: params[:boost],
-        minimum_should_match: params[:minimum_should_match], _name: params[:name]
-      }.delete_if { |_k, v| v.blank? }
-    } }
+    query_params = generate_query_params(params)
+    query_params[params[:field]][:query] = params[:query]
+    { match: query_params }
+  end
+
+  def fuzzy_query(params)
+    return if params[:query].blank?
+    query_params = generate_query_params(params)
+    query_params[params[:field]][:value] = params[:query]
+    { fuzzy: query_params }
   end
 
   def query_string(field, query, boost: nil)
@@ -52,14 +67,9 @@ module QueryBuilderHelper
       }.delete_if { |_k, v| v.blank? } }
   end
 
-  def fuzzy_query(params)
-    return if params[:query].blank?
-    { fuzzy: {
-      params[:field] => {
-        value: params[:query], fuzziness: params[:fuzziness],
-        prefix_length: params[:prefix_length], max_expansions: params[:max_expansions],
-        _name: params[:name]
-      }.delete_if { |_k, v| v.blank? }
-    } }
+  def filter_query(queries: nil, weight: nil, bool_query: false)
+    return if queries.blank?
+    f = bool_query ? { bool: { must: queries } } : queries
+    { filter: f, weight: weight }.delete_if { |_k, v| v.blank? }
   end
 end
