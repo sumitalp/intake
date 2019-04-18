@@ -19,6 +19,7 @@ describe('PersonSearchNameGroup', () => {
       }).find('InputField[label="Last Name"]')
       expect(lastName.props().id).toEqual('search-last-name')
       expect(lastName.props().value).toEqual('Bravo')
+      expect(lastName.props().maxLength).toEqual('25')
       expect(typeof lastName.prop('onKeyPress')).toEqual('function')
     })
 
@@ -28,6 +29,7 @@ describe('PersonSearchNameGroup', () => {
       }).find('InputField[label="First Name"]')
       expect(firstName.props().id).toEqual('search-first-name')
       expect(firstName.props().value).toEqual('Armando')
+      expect(firstName.props().maxLength).toEqual('20')
       expect(typeof firstName.prop('onKeyPress')).toEqual('function')
     })
 
@@ -37,6 +39,7 @@ describe('PersonSearchNameGroup', () => {
       }).find('InputField[label="Middle Name"]')
       expect(middleName.props().id).toEqual('search-middle-name')
       expect(middleName.props().value).toEqual('Middle')
+      expect(middleName.props().maxLength).toEqual('20')
       expect(typeof middleName.prop('onKeyPress')).toEqual('function')
     })
 

@@ -13,6 +13,7 @@ const PersonSearchNameGroup = ({onChange, personSearchFields, onKeyPress}) => (
       onChange={({target: {value}}) => onChange('searchLastName', value)}
       value={personSearchFields.searchLastName}
       onKeyPress={onKeyPress}
+      maxLength='25'
     />
     <InputField
       id="search-first-name"
@@ -21,6 +22,7 @@ const PersonSearchNameGroup = ({onChange, personSearchFields, onKeyPress}) => (
       onChange={({target: {value}}) => onChange('searchFirstName', value)}
       value={personSearchFields.searchFirstName}
       onKeyPress={onKeyPress}
+      maxLength='20'
     />
     <InputField
       id="search-middle-name"
@@ -29,6 +31,7 @@ const PersonSearchNameGroup = ({onChange, personSearchFields, onKeyPress}) => (
       onChange={({target: {value}}) => onChange('searchMiddleName', value)}
       value={personSearchFields.searchMiddleName}
       onKeyPress={onKeyPress}
+      maxLength='20'
     />
     <InputField
       id="search-suffix"
