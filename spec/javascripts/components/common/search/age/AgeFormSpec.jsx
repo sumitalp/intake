@@ -102,7 +102,7 @@ describe('AgeForm', () => {
       })
 
       describe('onClick', () => {
-        it('calls onChange to store the selection', () => {
+        it('calls onChange to store the selection and reset approximate age and units', () => {
           const onChange = jasmine.createSpy('onChange')
           const component = render({onChange})
           const radioButton = component.find('input#date-of-birth')
@@ -144,7 +144,7 @@ describe('AgeForm', () => {
       })
 
       describe('onClick', () => {
-        it('calls onChange to store the selection', () => {
+        it('calls onChange to store the selection and reset date of birth', () => {
           const onChange = jasmine.createSpy('onChange')
           const component = render({onChange})
           const radioButton = component.find('input#approximate-age')
