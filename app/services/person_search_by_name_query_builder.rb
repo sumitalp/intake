@@ -32,9 +32,9 @@ module PersonSearchByNameQueryBuilder
 
   def mult_aka_fuzz(fields: nil, type: nil, fuzziness: nil, name: nil)
     fq = formatted_query("#{last_name} #{first_name}")
-    params = { query: fq, operator: 'and', fields: fields,
+    params = { query_type: 'multi_match', query: fq, operator: 'and', fields: fields,
                fuzziness: fuzziness, type: type, name: name }
-    multi_match(params)
+    match_query(params)
   end
 
   def client_only
@@ -42,16 +42,17 @@ module PersonSearchByNameQueryBuilder
   end
 
   def mult_last
-    [multi_match(
-      query: formatted_query("#{last_name} #{first_name}"), operator: 'and',
+    [match_query(
+      query_type: 'multi_match', query: formatted_query("#{last_name} #{first_name}"), operator: 'and',
       fields: %w[last_name first_name], type: 'cross_fields', name: '1_mult_last_first'
     ), match_query(field: 'last_name', query: last_name, name: '1_mult_last')].compact
   end
 
   def mult_last_suffix
     fq = formatted_query("#{last_name} #{suffix}")
-    [multi_match(query: fq, operator: 'and', fields: %w[last_name suffix],
-                 type: 'cross_fields', name: '2_mult_last_suffix')].compact
+    params = {query_type: 'multi_match', query: fq, operator: 'and', fields: %w[last_name suffix],
+              type: 'cross_fields', name: '2_mult_last_suffix'}
+    [match_query(params)].compact
   end
 
   def mult_aka
@@ -72,9 +73,15 @@ module PersonSearchByNameQueryBuilder
 
   def fz_last_first
     [match_query(field: 'last_name', query: last_name, name: '6_fz_last'),
-     fuzzy_query(type: 'fuzzy', field: 'first_name', query: first_name, fuzziness: '5',
+     match_query(query_type: 'fuzzy', field: 'first_name', value: first_name, fuzziness: '5',
                  prefix_length: '1', max_expansions: '25', name: '6_fz_first')].compact
   end
+
+  # def fz_last_first
+  #   [match_query(field: 'last_name', query: last_name, name: '6_fz_last'),
+  #    fuzzy_query(type: 'fuzzy', field: 'first_name', query: first_name, fuzziness: '5',
+  #                prefix_length: '1', max_expansions: '25', name: '6_fz_first')].compact
+  # end
 
   def ngram_last_first
     double_match_query(fields: %w[last_name first_name_ngram], values: [last_name, first_name],

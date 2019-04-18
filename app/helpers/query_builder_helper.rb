@@ -21,50 +21,29 @@ module QueryBuilderHelper
   end
 
   def generate_query_params(params)
-    {
-      params[:field] => {
-        operator: params[:operator], boost: params[:boost],
-        minimum_should_match: params[:min_should_match], _name: params[:name],
-        fuzziness: params[:fuzziness], prefix_length: params[:prefix_length],
-        max_expansions: params[:max_expansions]
-      }.delete_if { |_k, v| v.blank? }
-    }
+    query_params = {
+      query: params[:query], value: params[:value], operator: params[:operator],
+      boost: params[:boost], minimum_should_match: params[:min_should_match],
+      _name: params[:name], fuzziness: params[:fuzziness], prefix_length: params[:prefix_length],
+      max_expansions: params[:max_expansions], fields: params[:fields], type: params[:type]
+    }.delete_if { |_k, v| v.blank? }
+    params[:query_type] == 'multi_match' ? query_params : { params[:field] => query_params}
   end
 
   def match_query(params)
-    return if params[:query].blank?
+    return if params[:query].blank? && params[:value].blank?
     query_params = generate_query_params(params)
-    query_params[params[:field]][:query] = params[:query]
-    { match: query_params }
-  end
-
-  def fuzzy_query(params)
-    return if params[:query].blank?
-    query_params = generate_query_params(params)
-    query_params[params[:field]][:value] = params[:query]
-    { fuzzy: query_params }
+    type = params[:query_type].blank? ? 'match' : params[:query_type]
+    { type => query_params }
   end
 
   def query_string(field, query, boost: nil)
     return if query.blank?
-    {
-      query_string:
-      {
+    { query_string: {
         default_field: field,
         query: query,
         boost: boost
-      }
-    }
-  end
-
-  def multi_match(params)
-    return if params[:query].blank?
-    { multi_match:
-      {
-        query: params[:query], operator: params[:operator],
-        fields: params[:fields], type: params[:type],
-        fuzziness: params[:fuzziness], _name: params[:name]
-      }.delete_if { |_k, v| v.blank? } }
+    }.delete_if { |_k, v| v.blank? } }
   end
 
   def filter_query(queries: nil, weight: nil, bool_query: false)

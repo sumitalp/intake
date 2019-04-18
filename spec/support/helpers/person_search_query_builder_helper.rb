@@ -13,6 +13,7 @@ module PersonSearchQueryBuilderHelper
           "_uid": 'desc'
         }
       ],
+      "min_score": '2.5',
       "query": {
         "bool": {
           "must": [
@@ -289,6 +290,7 @@ module PersonSearchQueryBuilderHelper
           "_uid": 'desc'
         }
       ],
+      "min_score": '2.5',
       "query": {
         "bool": {
           "must": [{
@@ -317,6 +319,7 @@ module PersonSearchQueryBuilderHelper
           "_uid": 'desc'
         }
       ],
+      "min_score": '2.5',
       "query": {
         "bool": {
           "must": [
