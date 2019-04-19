@@ -91,24 +91,24 @@ describe QueryBuilder do
   let(:ssn_only_query) { PersonSearchResultBuilder.new.ssn_only_query }
   let(:person_and_address) { PersonSearchResultBuilder.new.person_and_address }
   let(:client_id_only_query) { PersonSearchResultBuilder.new.client_id_only_query }
-  let(:full_name_query) { PersonSearchResultBuilder.new.full_name_query }
+  let(:full_name_query) { PersonSearchResultBuilder.new.fs_full_name_query }
   let(:full_name_dob_query) do
-    PersonSearchResultBuilder.new.full_name_dob_query
+    PersonSearchResultBuilder.new.fs_full_name_dob_query
   end
   let(:full_name_approx_age_months_gender_query) do
-    PersonSearchResultBuilder.new.full_name_approx_age_months_gender_query
+    PersonSearchResultBuilder.new.fs_full_name_approx_age_months_gender_query
   end
   let(:full_name_approx_age_years_gender_query) do
-    PersonSearchResultBuilder.new.full_name_approx_age_years_gender_query
+    PersonSearchResultBuilder.new.fs_full_name_approx_age_years_gender_query
   end
   let(:full_name_dob_address_query) do
-    PersonSearchResultBuilder.new.full_name_dob_address_query
+    PersonSearchResultBuilder.new.fs_full_name_dob_address_query
   end
   let(:last_name_dob_address_query) do
-    PersonSearchResultBuilder.new.last_name_dob_address_query
+    PersonSearchResultBuilder.new.fs_last_name_dob_address_query
   end
   let(:first_name_dob_address_query) do
-    PersonSearchResultBuilder.new.first_name_dob_address_query
+    PersonSearchResultBuilder.new.fs_first_name_dob_address_query
   end
 
   describe '.is_client_only?' do

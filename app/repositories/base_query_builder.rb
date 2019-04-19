@@ -85,9 +85,13 @@ class BaseQueryBuilder
 
   def build_query
     {
-      size: SIZE, track_scores: TRACK_SCORES, sort: [{ _score: 'desc', _uid: 'desc' }],
+      size: SIZE, track_scores: TRACK_SCORES, sort: sort, min_score: MIN_SCORE,
       _source: fields, highlight: highlight
     }.tap { |query| query[:search_after] = @search_after if @search_after }
+  end
+
+  def sort
+    [{ _score: 'desc', last_name: 'asc', first_name: 'asc', _uid: 'desc' }]
   end
 
   def auto_bar_highlight

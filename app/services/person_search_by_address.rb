@@ -7,7 +7,11 @@ module PersonSearchByAddress
   include QueryBuilderHelper
 
   def build_query(builder)
-    builder.payload[:query][:bool][:should].concat(should)
+    if builder.advanced_search_on?
+      builder.payload[:query][:function_score][:query][:bool][:should] = should
+    else
+      builder.payload[:query][:bool][:should].concat(should)
+    end
   end
 
   def query
@@ -16,13 +20,13 @@ module PersonSearchByAddress
 
   def should
     [{ "nested": { "path": 'addresses', "query": { "bool": { "should": [
-      match_query('addresses.autocomplete_searchable_address', street,
-        operator: 'and', boost: HIGH_BOOST),
-      match_query('addresses.last_known', 'true', boost: HIGH_BOOST),
-      match_query('addresses.autocomplete_city', city, boost: HIGH_BOOST),
-      match_query('addresses.county.description', county, boost: HIGH_BOOST),
-      match_query('addresses.searchable_address', street, boost: HIGH_BOOST),
-      match_query('addresses.city', city, boost: HIGH_BOOST)
+      match_query(field: 'addresses.autocomplete_searchable_address', query: street,
+                  operator: 'and', boost: HIGH_BOOST),
+      match_query(field: 'addresses.last_known', query: 'true', boost: HIGH_BOOST),
+      match_query(field: 'addresses.autocomplete_city', query: city, boost: HIGH_BOOST),
+      match_query(field: 'addresses.county.description', query: county, boost: HIGH_BOOST),
+      match_query(field: 'addresses.searchable_address', query: street, boost: HIGH_BOOST),
+      match_query(field: 'addresses.city', query: city, boost: HIGH_BOOST)
     ].compact } } } }]
   end
 end

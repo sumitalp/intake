@@ -6,7 +6,7 @@ module PersonSearchByApproximateAgeQueryBuilder
   attr_reader :approximate_age, :approximate_age_units
 
   def build_query(builder)
-    builder.payload[:query][:bool][:must].concat(must)
+    builder.payload[:query][:function_score][:query][:bool][:must].concat(must)
   end
 
   def query

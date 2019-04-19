@@ -3,22 +3,22 @@
 require 'support/helpers/system_code_helpers'
 require 'support/helpers/query_builder_helper'
 require 'support/helpers/person_search_query_builder_helper'
-require 'support/helpers/person_search_name_query_builder_helper'
 require 'support/helpers/person_search_ssn_query_builder_helper'
+require 'support/helpers/person_search_by_name_query_builder_helper'
 require 'support/helpers/person_search_by_date_of_birth_query_builder_helper'
 require 'support/helpers/person_search_by_approximate_age_query_builder_helper'
-require 'support/helpers/person_search_by_address_helper'
 require 'support/helpers/person_search_gender_query_builder_helper'
+require 'support/helpers/person_search_by_address_helper'
 
 class PersonSearchResultBuilder
   include QueryBuilderHelper
   include PersonSearchQueryBuilderHelper
-  include PersonSearchNameQueryBuilderHelper
   include PersonSearchSsnQueryBuilderHelper
+  include PersonSearchByNameQueryBuilderHelper
   include PersonSearchByDateOfBirthQueryBuilderHelper
   include PersonSearchByApproximateAgeQueryBuilderHelper
-  include PersonSearchByAddressHelper
   include PersonSearchGenderQueryBuilderHelper
+  include PersonSearchByAddressHelper
 
   attr_reader :search_result
 
