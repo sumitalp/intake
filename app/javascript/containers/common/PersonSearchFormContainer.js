@@ -20,6 +20,7 @@ import {
   setClientIdError,
   setSsnErrorCheck,
   resetSsnErrorCheck,
+  resetClientIdErrorCheck,
   setDobErrorCheck,
 } from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
@@ -57,6 +58,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
   const onFocus = (id) => {
     if (id === 'search-ssn') { dispatch(resetSsnErrorCheck()) }
+    if (id === 'search-client-id') { dispatch(resetClientIdErrorCheck()) }
   }
   const onClear = (field) => dispatch(clear(field))
   const onChange = (field, value) => {

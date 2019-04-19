@@ -11,6 +11,7 @@ import {
   SET_SSN_ERROR_CHECK,
   SET_DOB_ERROR_CHECK,
   RESET_SSN_ERROR_CHECK,
+  RESET_CLIENT_ID_ERROR_CHECK,
 } from 'actions/peopleSearchActions'
 import {FETCH_USER_INFO_COMPLETE} from 'actions/userInfoActions'
 import moment from 'moment'
@@ -154,5 +155,8 @@ export default createReducer(initialState, {
   },
   [RESET_SSN_ERROR_CHECK](state) {
     return state.set('ssnErrorCheck', false)
+  },
+  [RESET_CLIENT_ID_ERROR_CHECK](state) {
+    return state.set('clientIdError', false)
   },
 })

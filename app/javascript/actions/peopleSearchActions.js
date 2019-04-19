@@ -9,6 +9,7 @@ export const SET_CLIENT_ID_ERROR = 'SET_CLIENT_ID_ERROR'
 export const SET_SSN_ERROR_CHECK = 'SET_SSN_ERROR_CHECK'
 export const SET_DOB_ERROR_CHECK = 'SET_DOB_ERROR_CHECK'
 export const RESET_SSN_ERROR_CHECK = 'RESET_SSN_ERROR_CHECK'
+export const RESET_CLIENT_ID_ERROR_CHECK = 'RESET_CLIENT_ID_ERROR_CHECK'
 
 export const setPersonSearchField = (field, value) => ({
   type: SET_SEARCH_FIELD,
@@ -55,6 +56,9 @@ export const setSsnErrorCheck = () => ({
 })
 export const resetSsnErrorCheck = () => ({
   type: RESET_SSN_ERROR_CHECK,
+})
+export const resetClientIdErrorCheck = () => ({
+  type: RESET_CLIENT_ID_ERROR_CHECK,
 })
 export const setDobErrorCheck = () => ({
   type: SET_DOB_ERROR_CHECK,
