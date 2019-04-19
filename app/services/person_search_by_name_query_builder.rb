@@ -76,12 +76,6 @@ module PersonSearchByNameQueryBuilder
                  prefix_length: '1', max_expansions: '25', name: '6_fz_first')].compact
   end
 
-  # def fz_last_first
-  #   [match_query(field: 'last_name', query: last_name, name: '6_fz_last'),
-  #    fuzzy_query(type: 'fuzzy', field: 'first_name', query: first_name, fuzziness: '5',
-  #                prefix_length: '1', max_expansions: '25', name: '6_fz_first')].compact
-  # end
-
   def ngram_last_first
     double_match_query(fields: %w[last_name first_name_ngram], values: [last_name, first_name],
                        names: %w[7_ngram_last 7_ngram_first], min_s_m: [nil, '25%'])
