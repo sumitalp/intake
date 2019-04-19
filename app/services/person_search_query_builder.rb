@@ -44,7 +44,11 @@ module PersonSearchQueryBuilder
 
   def should
     [
-      match_query('legacy_descriptor.legacy_ui_id_flat', search_term, boost: HIGH_BOOST),
+      match_query(
+        field: 'legacy_descriptor.legacy_ui_id_flat',
+        query: search_term,
+        boost: HIGH_BOOST
+      ),
       build_query_string(search_term)
     ].flatten.compact
   end

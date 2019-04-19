@@ -15,7 +15,7 @@ module PersonSearchByClientId
   end
 
   def must
-    [match_query('legacy_descriptor.legacy_ui_id_flat', formatted_query(client_id),
-      boost: HIGH_BOOST)].flatten.compact
+    [match_query(field: 'legacy_descriptor.legacy_ui_id_flat', query: formatted_query(client_id),
+                 boost: HIGH_BOOST)].flatten.compact
   end
 end

@@ -15,7 +15,7 @@ class QueryBuilder < BaseQueryBuilder
   end
 
   def self.build_advanced_search(builder)
-    builder.extend(PersonSearchNameQueryBuilder).build_query(builder)
+    builder.extend(PersonSearchByNameQueryBuilder).build_query(builder)
     if builder.age_search_method == 'dob'
       builder.extend(PersonSearchByDateOfBirthQueryBuilder).build_query(builder)
     elsif builder.age_search_method == 'approximate'

@@ -5,10 +5,15 @@ module PersonSearchQueryBuilderHelper
   def person_and_address
     { "size": '10',
       "track_scores": 'true',
-      "sort": [{
-        "_score": 'desc',
-        "_uid": 'desc'
-      }],
+      "sort": [
+        {
+          "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
+          "_uid": 'desc'
+        }
+      ],
+      "min_score": '2.5',
       "query": {
         "bool": {
           "must": [
@@ -171,9 +176,12 @@ module PersonSearchQueryBuilderHelper
       "sort": [
         {
           "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
           "_uid": 'desc'
         }
       ],
+      "min_score": '2.5',
       "query": {
         "bool": {
           "must": [
@@ -277,9 +285,12 @@ module PersonSearchQueryBuilderHelper
       "sort": [
         {
           "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
           "_uid": 'desc'
         }
       ],
+      "min_score": '2.5',
       "query": {
         "bool": {
           "must": [{
@@ -303,9 +314,12 @@ module PersonSearchQueryBuilderHelper
       "sort": [
         {
           "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
           "_uid": 'desc'
         }
       ],
+      "min_score": '2.5',
       "query": {
         "bool": {
           "must": [
