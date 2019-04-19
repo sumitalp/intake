@@ -9937,10 +9937,10 @@ react-widgets@^3.4.8:
     deconstruct-number-format "0.0.1"
     format-number-with-string "0.0.2"
 
-react-wood-duck@0.1.81:
-  version "0.1.81"
-  resolved "https://registry.yarnpkg.com/react-wood-duck/-/react-wood-duck-0.1.81.tgz#e35be32aee669ac21539087f7cfbd72a30feddf1"
-  integrity sha512-+9gkdSPbORXuouc7UIO1LkXC1zBI8dhTO2F5rS/aY4+HjmvNcX22SOryAKxW9KAdL2TXdnjJGZ2Sk0LSw/xMvg==
+react-wood-duck@0.1.82:
+  version "0.1.82"
+  resolved "https://registry.yarnpkg.com/react-wood-duck/-/react-wood-duck-0.1.82.tgz#ef58e401ab1c0d39132b7206bb4ee857db21d340"
+  integrity sha512-8IV1ztY+AyCzvJhPeZMoCDjKpoXNyNZBreeOukS0N1Rb9/LhyKAuJTTXwQzR/scV8IVZGRnwiuiucQtoRq4lxw==
   dependencies:
     babel-runtime "^6.6.1"
     bootstrap "^3.3.7"
