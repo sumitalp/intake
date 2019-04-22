@@ -5,6 +5,7 @@ import PersonSearchNumbersAgeGroup from 'common/search/PersonSearchNumbersAgeGro
 const render = (
   {
     onBlur = () => {},
+    onFocus = () => {},
     onChange = () => {},
     onClear = () => {},
     onKeyPress = () => {},
@@ -27,6 +28,7 @@ const render = (
       clientIdError={clientIdError}
       ssnErrors={ssnErrors}
       dobErrors={dobErrors}
+      onFocus={onFocus}
       onKeyPress={onKeyPress}
       onKeyUp={onKeyUp}
     />
@@ -77,56 +79,6 @@ describe('PersonSearchNumbersAgeGroup', () => {
             clientIdError: undefined,
           }).find('MaskedInputField[label="Client ID Number"]')
           expect(component.props().errors).toEqual([])
-        })
-      })
-    })
-    describe('Client ID Error', () => {
-      it('renders masked input field with label', () => {
-        const personSearchFields = {
-          personSearchFields: {
-            searchClientId: '0965-9408-',
-            searchApproximateAgeUnits: '',
-          },
-        }
-        const clientId = render(personSearchFields).find('MaskedInputField[label="Client ID Number"]')
-        expect(clientId.props().id).toEqual('search-client-id')
-        expect(clientId.props().label).toEqual('Client ID Number')
-        expect(clientId.props().gridClassName).toEqual('col-md-12 client-id-field')
-        expect(typeof clientId.props().onBlur).toEqual('function')
-        expect(typeof clientId.props().onFocus).toEqual('function')
-        expect(typeof clientId.props().onChange).toEqual('function')
-        expect(clientId.props().value).toEqual('0965-9408-')
-        expect(clientId.props().mask).toEqual('1111-1111-1111-1111111')
-        expect(clientId.props().placeholder).toEqual('____-____-____-_______')
-        expect(clientId.props().maxLength).toEqual('19')
-        expect(typeof clientId.props().moveCursor).toEqual('function')
-        expect(typeof clientId.props().onKeyPress).toEqual('function')
-      })
-
-      describe('errors', () => {
-        describe('event handler', () => {
-          describe('onClick', () => {
-            describe('when the clientId field is clicked', () => {
-              it('onFocus sets the search by clientId', () => {
-                const onChange = jasmine.createSpy('onChange')
-                const component = render({onChange})
-                const clientIdFieldParent = component.find('div')
-                clientIdFieldParent.props().onFocus()
-                expect(component.props().errors).toEqual([])
-              })
-            })
-          })
-        })
-        describe('onBlur', () => {
-          describe('when the clientId field is out of focus', () => {
-            it('onBlur sets the search by clientId', () => {
-              const onChange = jasmine.createSpy('onChange')
-              const component = render({onChange})
-              const clientIdFieldParent = component.find('div')
-              clientIdFieldParent.props().onFocus()
-              expect(component.props().errors).toEqual(['Client Id number must be 19 digits long.'])
-            })
-          })
         })
       })
     })

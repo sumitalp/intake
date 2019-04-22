@@ -8,12 +8,14 @@ describe('MaskedInputField', () => {
     id = 'myMaskedInput',
     label = 'myInputLabel',
     onChange = () => {},
+    onFocus = () => {},
+    onBlur = () => {},
     moveCursor = () => {},
     onKeyPress = () => {},
     onKeyDown = () => {},
     ...args
   }) => {
-    const props = {id, label, onChange, moveCursor, onKeyPress, onKeyDown, value, ...args}
+    const props = {id, label, onFocus, onBlur, onChange, moveCursor, onKeyPress, onKeyDown, value, ...args}
     return shallow(<MaskedInputField {...props} />, {disableLifecycleMethods: true})
   }
 
@@ -239,6 +241,24 @@ describe('MaskedInputField', () => {
       expect(component.find('FormField').props().required).toEqual(true)
       expect(maskedInput.prop('required')).toEqual(true)
       expect(maskedInput.prop('aria-required')).toEqual(true)
+    })
+  })
+
+  describe('onFocus', () => {
+    it('when the field has focus calls onFocus', () => {
+      const onFocus = jasmine.createSpy('onFocus')
+      const maskedInput = render({onFocus}).find('MaskedInput')
+      maskedInput.props().onFocus({target: {placeholder: ''}})
+      expect(onFocus).toHaveBeenCalledWith('myMaskedInput')
+    })
+  })
+
+  describe('onBlur', () => {
+    it('when the field has left focus calls onBlur', () => {
+      const onBlur = jasmine.createSpy('onBlur')
+      const maskedInput = render({onBlur}).find('MaskedInput')
+      maskedInput.props().onBlur({target: {value: ''}})
+      expect(onBlur).toHaveBeenCalledWith('myMaskedInput', '')
     })
   })
 })
