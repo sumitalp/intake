@@ -91,6 +91,10 @@ feature 'Create Snapshot' do
 
         expect(page.current_url).to match 'snapshot'
 
+        within '#search-card' do
+          expect(page).to have_content('How to Use Snapshot')
+        end
+
         within '#snapshot-card' do
           expect(page).to have_content(
             'The Child Welfare History Snapshot allows you to search CWS/CMS for people and their'
