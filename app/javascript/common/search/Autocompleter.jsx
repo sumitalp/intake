@@ -225,8 +225,7 @@ export default class Autocompleter extends Component {
         onKeyPress={searchWithEnter}
         onKeyUp={validateAndSetDateOfBirth}
         onFocus={onFocus}
-      />
-    )
+      />)
   }
 
   render() {
