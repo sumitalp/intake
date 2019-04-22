@@ -54,9 +54,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const onBlur = (id) => {
-    if (id === 'search-client-id') { dispatch(setClientIdError()) } if (id === 'search-ssn') {
-      dispatch(setSsnErrorCheck())
-    } if (id === 'search-date-of-birth') { dispatch(setDobErrorCheck()) }
+    onBlurClientIdSsn(dispatch, id)
+    if (id === 'search-date-of-birth') {
+      dispatch(setDobErrorCheck())
+    }
   }
   const onFocus = (id) => {
     if (id === 'search-ssn') { dispatch(resetSsnErrorCheck()) }
@@ -70,6 +71,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const onLoadMoreResults = (isAvancedSearchOn, personSearchFields) =>
     dispatch(loadMoreResults(ownProps.isClientOnly, isAvancedSearchOn, personSearchFields))
   return returnParams(onBlur, onSearch, onClear, onChange, onCancel, onFocus, onLoadMoreResults, dispatch)
+}
+
+const onBlurClientIdSsn = (dispatch, id) => {
+  if (id === 'search-client-id') {
+    dispatch(setClientIdError())
+  } if (id === 'search-ssn') {
+    dispatch(setSsnErrorCheck())
+  }
 }
 
 const returnParams = (onBlur, onSearch, onClear, onChange, onCancel, onFocus, onLoadMoreResults, dispatch) => {
