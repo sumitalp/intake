@@ -54,10 +54,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const onBlur = (id) => {
-    onBlurClientIdSsn(dispatch, id)
-    if (id === 'search-date-of-birth') {
-      dispatch(setDobErrorCheck())
-    }
+    onBlur(dispatch, id)
   }
   const onFocus = (id) => {
     if (id === 'search-ssn') { dispatch(resetSsnErrorCheck()) }
@@ -73,11 +70,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return returnParams(onBlur, onSearch, onClear, onChange, onCancel, onFocus, onLoadMoreResults, dispatch)
 }
 
-const onBlurClientIdSsn = (dispatch, id) => {
+const onBlur = (dispatch, id) => {
   if (id === 'search-client-id') {
     dispatch(setClientIdError())
   } if (id === 'search-ssn') {
     dispatch(setSsnErrorCheck())
+  } if (id === 'search-date-of-birth') {
+    dispatch(setDobErrorCheck())
   }
 }
 
