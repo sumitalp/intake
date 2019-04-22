@@ -54,24 +54,17 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const onBlur = (id) => {
-    if (id === 'search-client-id') {
-      dispatch(setClientIdError())
-    } else if (id === 'search-ssn') {
+    if (id === 'search-client-id') { dispatch(setClientIdError()) } if (id === 'search-ssn') {
       dispatch(setSsnErrorCheck())
-    } else if (id === 'search-date-of-birth') { dispatch(setDobErrorCheck()) }
+    } if (id === 'search-date-of-birth') { dispatch(setDobErrorCheck()) }
   }
   const onFocus = (id) => {
     if (id === 'search-ssn') { dispatch(resetSsnErrorCheck()) }
     if (id === 'search-client-id') { dispatch(resetClientIdErrorCheck()) }
   }
   const onClear = (field) => dispatch(clear(field))
-  const onChange = (field, value) => {
-    dispatch(setPersonSearchField(field, value))
-  }
-  const onCancel = () => {
-    dispatch(onClear('results'))
-    dispatch(resetPersonSearch())
-  }
+  const onChange = (field, value) => { dispatch(setPersonSearchField(field, value)) }
+  const onCancel = () => { dispatch(onClear('results')); dispatch(resetPersonSearch()) }
   const onSearch = (isAvancedSearchOn, personSearchFields) =>
     dispatch(search(ownProps.isClientOnly, isAvancedSearchOn, personSearchFields))
   const onLoadMoreResults = (isAvancedSearchOn, personSearchFields) =>
