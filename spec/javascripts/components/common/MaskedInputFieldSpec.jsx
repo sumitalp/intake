@@ -15,7 +15,7 @@ describe('MaskedInputField', () => {
     onKeyDown = () => {},
     ...args
   }) => {
-    const props = {id, label, onFocus, onBlur, onChange, moveCursor, onKeyPress, onKeyDown, value, ...args}
+    const props = {id, label, onBlur, onChange, moveCursor, onFocus, onKeyPress, onKeyDown, value, ...args}
     return shallow(<MaskedInputField {...props} />, {disableLifecycleMethods: true})
   }
 
