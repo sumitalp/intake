@@ -69,6 +69,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     dispatch(search(ownProps.isClientOnly, isAvancedSearchOn, personSearchFields))
   const onLoadMoreResults = (isAvancedSearchOn, personSearchFields) =>
     dispatch(loadMoreResults(ownProps.isClientOnly, isAvancedSearchOn, personSearchFields))
+  return returnParams(onBlur, onSearch, onClear, onChange, onCancel, onFocus, onLoadMoreResults, dispatch)
+}
+
+const returnParams = (onBlur, onSearch, onClear, onChange, onCancel, onFocus, onLoadMoreResults, dispatch) => {
   return {
     onBlur,
     onSearch,
