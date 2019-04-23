@@ -10,6 +10,9 @@ describe PersonSearchByNameQueryBuilder do
     let(:suffix) { 'suffix' }
 
     let(:full_name_query) { PersonSearchResultBuilder.new.fs_full_name_query }
+    let(:full_name_without_suffix_query) do
+      PersonSearchResultBuilder.new.fs_full_name_without_suffix_query
+    end
     let(:last_name_query) { PersonSearchResultBuilder.new.fs_last_name_query }
     let(:first_name_query) { PersonSearchResultBuilder.new.fs_first_name_query }
 
@@ -19,6 +22,14 @@ describe PersonSearchByNameQueryBuilder do
         first_name: first_name,
         middle_name: middle_name,
         suffix: suffix
+      }
+    end
+
+    let(:full_name_without_suffix_params) do
+      {
+        last_name: last_name,
+        first_name: first_name,
+        middle_name: middle_name
       }
     end
 
@@ -41,6 +52,14 @@ describe PersonSearchByNameQueryBuilder do
         query_builder = QueryBuilder.new(person_search_fields: full_name_params)
         query = query_builder.extend(described_class).query
         expect(query.as_json).to eq full_name_query['query']
+      end
+    end
+
+    context 'returns hash' do
+      it 'with full name without suffix query' do
+        query_builder = QueryBuilder.new(person_search_fields: full_name_without_suffix_params)
+        query = query_builder.extend(described_class).query
+        expect(query.as_json).to eq full_name_without_suffix_query['query']
       end
     end
 
