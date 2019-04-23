@@ -34,19 +34,16 @@ class AgeUnitForm extends React.Component {
   }
 
   render() {
-    const {formLabel, monthsLabel, yearsLabel, searchByAgeMethod, onKeyPress} = this.props
-    const disabled = !(searchByAgeMethod === '' || searchByAgeMethod === 'approximate')
+    const {formLabel, monthsLabel, yearsLabel, onKeyPress} = this.props
     const monthsRadioProps = {
       id: 'age-unit-months',
       value: 'months',
-      disabled,
       label: monthsLabel,
       onKeyPress: onKeyPress,
     }
     const yearsRadioProps = {
       id: 'age-unit-years',
       value: 'years',
-      disabled,
       label: yearsLabel,
       onKeyPress: onKeyPress,
     }
@@ -69,7 +66,6 @@ AgeUnitForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func,
   searchApproximateAgeUnits: PropTypes.string,
-  searchByAgeMethod: PropTypes.string,
   yearsLabel: PropTypes.string.isRequired,
 }
 

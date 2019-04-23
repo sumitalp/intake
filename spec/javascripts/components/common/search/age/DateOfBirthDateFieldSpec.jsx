@@ -9,7 +9,6 @@ const render = (
     onChange = () => {},
     onKeyPress = () => {},
     onKeyUp = () => {},
-    searchByAgeMethod = '',
     errors = [],
   }) =>
   shallow(
@@ -17,7 +16,6 @@ const render = (
       onBlur={onBlur}
       onChange={onChange}
       value={value}
-      searchByAgeMethod={searchByAgeMethod}
       errors={errors}
       onKeyPress={onKeyPress}
       onKeyUp={onKeyUp}
@@ -45,7 +43,6 @@ describe('DateOfBirthDateField', () => {
       expect(typeof dateField.props().onBlur).toEqual('function')
       expect(typeof dateField.props().onChange).toEqual('function')
       expect(dateField.props().hasTime).toEqual(false)
-      expect(dateField.props().disabled).toEqual(false)
       expect(dateField.props().errors).toEqual([])
       expect(typeof dateField.props().onKeyPress).toEqual('function')
       expect(typeof dateField.props().onKeyUp).toEqual('function')
@@ -71,47 +68,6 @@ describe('DateOfBirthDateField', () => {
         const component = render({errors: undefined})
         const dateField = component.find('DateField[label="Date"]')
         expect(dateField.props().errors).toEqual([])
-      })
-    })
-  })
-
-  describe('searchByAgeMethod', () => {
-    describe('when the value is empty string', () => {
-      it('does not disable the date field', () => {
-        const component = render({searchByAgeMethod: ''})
-        const dateField = component.find('DateField')
-        expect(dateField.props().disabled).toEqual(false)
-      })
-    })
-
-    describe('when the value is "dob"', () => {
-      it('does not disable the date field', () => {
-        const component = render({searchByAgeMethod: 'dob'})
-        const dateField = component.find('DateField')
-        expect(dateField.props().disabled).toEqual(false)
-      })
-    })
-
-    describe('when the value is not empty string or "dob"', () => {
-      it('does not disable the date field', () => {
-        const component = render({searchByAgeMethod: 'approximate'})
-        const dateField = component.find('DateField')
-        expect(dateField.props().disabled).toEqual(true)
-        expect(dateField.props().value).toEqual('')
-      })
-    })
-  })
-
-  describe('event handler', () => {
-    describe('onClick', () => {
-      describe('when the date field parent is clicked', () => {
-        it('onFocus sets the search by age method to dob', () => {
-          const onChange = jasmine.createSpy('onChange')
-          const component = render({onChange})
-          const dateFieldParent = component.find('div')
-          dateFieldParent.props().onFocus()
-          expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'dob')
-        })
       })
     })
   })

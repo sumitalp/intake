@@ -881,13 +881,6 @@ describe('<Autocompleter />', () => {
     expect(onChange).toHaveBeenCalledWith('searchLastName', 'Bravo')
   })
 
-  it('calls onClear when the clear link is clicked', () => {
-    const onClear = jasmine.createSpy('onClear')
-    const component = renderAutocompleter({onClear})
-    component.find('PersonSearchFields').props().onClear('age')
-    expect(onClear).toHaveBeenCalledWith('age')
-  })
-
   it('renders PersonSearchFields with selected firstName', () => {
     const component = renderAutocompleter({personSearchFields: {searchFirstName: 'Miguel'}})
     expect(component.find('PersonSearchFields').props().personSearchFields.searchFirstName).toBe('Miguel')

@@ -7,7 +7,7 @@ const PersonSearchButtonGroup = ({
   onCancel,
   canSearch,
 }) => (
-  <div className="row person-search-field-group">
+  <div className="row person-search-button-group">
     <div className="col-md-12">
       <button
         className="btn person-search-button search"
@@ -20,7 +20,7 @@ const PersonSearchButtonGroup = ({
         className="btn person-search-button clear"
         onClick={onCancel}
       >
-        Clear All
+        Clear
       </button>
     </div>
   </div>

@@ -52,23 +52,6 @@ describe('PersonSearchNameGroup', () => {
       expect(suffix.props().maxLength).toEqual('4')
       expect(typeof suffix.prop('onKeyPress')).toEqual('function')
     })
-
-    it('renders sex at birth select', () => {
-      const component = render({personSearchFields: {searchSexAtBirth: ''}})
-      const sexAtBirthSelect = component.find('SexAtBirthSelect')
-      expect(sexAtBirthSelect.props().id).toEqual('search-sex-at-birth')
-      expect(sexAtBirthSelect.props().value).toEqual('')
-      expect(typeof sexAtBirthSelect.prop('onKeyPress')).toEqual('function')
-    })
-
-    it('renders sex at birth select when a gender is selected', () => {
-      const component = render({
-        personSearchFields: {searchSexAtBirth: 'Female'},
-      })
-      const sexAtBirthSelect = component.find('SexAtBirthSelect')
-      expect(sexAtBirthSelect.props().id).toEqual('search-sex-at-birth')
-      expect(sexAtBirthSelect.props().value).toEqual('Female')
-    })
   })
 
   describe('when the field values change', () => {
@@ -113,16 +96,6 @@ describe('PersonSearchNameGroup', () => {
         .props()
         .onChange({target: {value: 'Jr'}})
       expect(onChange).toHaveBeenCalledWith('searchSuffix', 'Jr')
-    })
-
-    it('calls onChange when new sex at birth is selected', () => {
-      const onChange = jasmine.createSpy('onChange')
-      const component = render({onChange})
-      component
-        .find('SexAtBirthSelect')
-        .props()
-        .onChange('searchSexAtBirth', 'Female')
-      expect(onChange).toHaveBeenCalledWith('searchSexAtBirth', 'Female')
     })
   })
 })

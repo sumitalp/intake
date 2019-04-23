@@ -42,68 +42,6 @@
     border-radius: .4rem;
   }
 
-  select:disabled {
-    background-color: $lightest-grey;
-    cursor: not-allowed;
-  }
-
-  .person-search-field-group {
-    border-bottom: .1rem solid $lightest-grey;
-    padding: 2rem 0;
-  }
-
-  .person-search-field-group:first-child {
-    padding-top: 0;
-  }
-
-  .person-search-field-group:nth-child(2),
-  .person-search-field-group:nth-child(3) {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .person-search-field-title {
-    font-weight: bold;
-  }
-
-  .person-search-age-section {
-    padding-left: 6rem;
-  }
-
-  .client-age-form {
-    .client-age-selector.date-of-birth {
-      padding-left: .3rem;
-    }
-
-    .client-age-selector.approximate-age {
-      padding-left: 1.7rem;
-    }
-  }
-
-  .date-of-birth-section {
-    padding-left: 2.8rem;
-
-    label {
-      margin-top: 0;
-      padding-top: 0;
-    }
-  }
-
-  .approximate-age-section {
-    padding-left: 2.8rem;
-    padding-right: 0;
-
-    label {
-      margin-top: 0;
-      padding-top: 0;
-    }
-  }
-
-  .approximate-age-selector.number {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
   // see https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
   // for more info about the placeholder pseudo element
   .date-field {
@@ -123,81 +61,26 @@
     }
   }
 
-  button.btn.person-search-button.clear {
-    background-color: $white;
-    box-shadow: inset 0 0 0 .2rem $green;
-    color: $green;
-    float: right;
-    padding: 1.5rem 2.2rem;
-    text-transform: none;
-  }
+  .person-search-button-group {
+    margin-top: 1.5rem;
 
-  button.btn.person-search-button.search {
-    background-color: $green;
-    border: none;
-    color: $white;
-    float: right;
-    margin-left: 3rem;
-    text-transform: none;
-  }
-
-  .clear-search-ui-age-fields-action {
-    color: $green;
-    cursor: pointer;
-    font-weight: 600;
-  }
-
-  @media only screen and (max-width: 1199px) and (min-width: 992px) {
-    .person-search-age-section {
-      padding-left: 2rem;
+    button.btn.person-search-button {
+      float: right;
+      width: 11.4rem;
+      text-transform: none;
     }
-
-    .client-age-selector.approximate-age {
-      padding-left: .4rem;
+  
+    button.btn.person-search-button.clear {
+      color: $green;
+      background-color: $white;
+      box-shadow: inset 0 0 0 .2rem $green;
     }
-
-    .approximate-age-selector.unit {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
-
-  @media only screen and (max-width: 991px) {
-    .person-search-age-section {
-      margin-top: 1.5rem;
-      padding-left: 1.5rem;
-    }
-
-    .col-md-6.client-age-selector.date-of-birth {
-      padding-left: 0;
-    }
-
-    .col-md-6.client-age-selector.approximate-age {
-      padding-left: 0;
-    }
-
-    .date-of-birth-section,
-    .approximate-age-section {
-      margin-top: 1.5rem;
-      padding-left: 0;
-    }
-
-    .approximate-age-section {
-      label {
-        margin-top: 1.5rem;
-      }
-    }
-
-    .date-of-birth-section {
-      padding-right: 0;
-    }
-
-    .approximate-age-selector.unit {
-      padding-left: 0;
-    }
-
-    .approximate-age-selector.number {
-      padding-left: 0;
+  
+    button.btn.person-search-button.search {
+      margin-left: 2rem;
+      color: $white;
+      background-color: $green;
+      border: none;
     }
   }
 }

@@ -201,7 +201,7 @@ export default class Autocompleter extends Component {
   isValidDate = (e) => moment(e.target.value, 'MM/DD/YYYY', true).isValid()
 
   renderPersonSearchFields() {
-    const {states, counties, onChange, onCancel, onClear, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors, dobErrors, canSearch} = this.props
+    const {states, counties, onChange, onCancel, onBlur, personSearchFields, isAdvancedSearchOn, clientIdError, ssnErrors, dobErrors, canSearch} = this.props
     const searchWithEnter = (e) => {
       const enterKeyCode = 13
       if ((canSearch && e.charCode === enterKeyCode)) { this.handleSubmit() }
@@ -212,7 +212,6 @@ export default class Autocompleter extends Component {
         onBlur={onBlur}
         onChange={onChange}
         onCancel={onCancel}
-        onClear={onClear}
         onSubmit={this.handleSubmit}
         personSearchFields={personSearchFields}
         states={states}
