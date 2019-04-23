@@ -7,7 +7,6 @@ const render = (
     onChange = () => {},
     onKeyPress = () => {},
     searchApproximateAgeUnits = '',
-    searchByAgeMethod = '',
   } = {},
 ) => {
   const props = {
@@ -16,7 +15,6 @@ const render = (
     yearsLabel: 'Years',
     onChange,
     searchApproximateAgeUnits,
-    searchByAgeMethod,
     onKeyPress,
   }
 
@@ -56,7 +54,6 @@ describe('AgeUnitForm', () => {
         expect(radioButton.props().id).toEqual('age-unit-months')
         expect(radioButton.props().value).toEqual('months')
         expect(typeof radioButton.props().onClick).toEqual('function')
-        expect(radioButton.props().disabled).toEqual(false)
         expect(radioButton.props().checked).toEqual(false)
       })
 
@@ -78,7 +75,6 @@ describe('AgeUnitForm', () => {
         expect(radioButton.props().id).toEqual('age-unit-years')
         expect(radioButton.props().value).toEqual('years')
         expect(typeof radioButton.props().onClick).toEqual('function')
-        expect(radioButton.props().disabled).toEqual(false)
         expect(radioButton.props().checked).toEqual(false)
       })
 
@@ -191,38 +187,6 @@ describe('AgeUnitForm', () => {
             })
           })
         })
-      })
-    })
-  })
-
-  describe('searchByAgeMethod', () => {
-    describe('when the value is empty string', () => {
-      it('does not disable the radio buttons', () => {
-        const component = render({searchByAgeMethod: ''})
-        const radioButtonMonths = component.find('input#age-unit-months')
-        const radioButtonYears = component.find('input#age-unit-years')
-        expect(radioButtonMonths.props().disabled).toEqual(false)
-        expect(radioButtonYears.props().disabled).toEqual(false)
-      })
-    })
-
-    describe('when the value is "approximate"', () => {
-      it('does not disable the radio buttons', () => {
-        const component = render({searchByAgeMethod: 'approximate'})
-        const radioButtonMonths = component.find('input#age-unit-months')
-        const radioButtonYears = component.find('input#age-unit-years')
-        expect(radioButtonMonths.props().disabled).toEqual(false)
-        expect(radioButtonYears.props().disabled).toEqual(false)
-      })
-    })
-
-    describe('when the value is not empty string or "approximate"', () => {
-      it('does not disable the radio buttons', () => {
-        const component = render({searchByAgeMethod: 'dob'})
-        const radioButtonMonths = component.find('input#age-unit-months')
-        const radioButtonYears = component.find('input#age-unit-years')
-        expect(radioButtonMonths.props().disabled).toEqual(true)
-        expect(radioButtonYears.props().disabled).toEqual(true)
       })
     })
   })

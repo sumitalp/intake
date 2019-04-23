@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import PersonSearchNameGroup from 'common/search/PersonSearchNameGroup'
-import PersonSearchNumbersAgeGroup from 'common/search/PersonSearchNumbersAgeGroup'
+import PersonSearchAgeGenderNumbersGroup from 'common/search/PersonSearchAgeGenderNumbersGroup'
 import PersonSearchButtonGroup from 'common/search/PersonSearchButtonGroup'
 import {PersonSearchFieldsPropType} from 'data/personSearch'
 
@@ -9,7 +9,6 @@ const PersonSearchFields = ({
   onBlur,
   onChange,
   onCancel,
-  onClear,
   onSubmit,
   personSearchFields,
   clientIdError,
@@ -26,10 +25,9 @@ const PersonSearchFields = ({
       personSearchFields={personSearchFields}
       onKeyPress={onKeyPress}
     />
-    <PersonSearchNumbersAgeGroup
+    <PersonSearchAgeGenderNumbersGroup
       onBlur={onBlur}
       onChange={onChange}
-      onClear={onClear}
       personSearchFields={personSearchFields}
       clientIdError={clientIdError}
       ssnErrors={ssnErrors}
@@ -53,7 +51,6 @@ PersonSearchFields.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onClear: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func,
   onKeyUp: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,

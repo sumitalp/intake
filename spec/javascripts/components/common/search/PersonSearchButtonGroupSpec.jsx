@@ -16,24 +16,28 @@ const render = ({
   )
 
 describe('PersonSearchButtonGroup', () => {
-  it('renders search button', () => {
+  it('renders the person-search-button-group row', () => {
     const component = render()
-    expect(component.find('button.person-search-button.search').text()).toEqual(
-      'Search'
-    )
+    const row = component.find('div.person-search-button-group.row')
+    expect(row.exists()).toEqual(true)
   })
 
-  it('renders clear all button', () => {
+  it('renders search button', () => {
     const component = render()
-    expect(component.find('button.person-search-button.clear').text()).toEqual(
-      'Clear All'
-    )
+    const searchButton = component.find('button.person-search-button.search')
+    expect(searchButton.text()).toEqual('Search')
+  })
+
+  it('renders clear button', () => {
+    const component = render()
+    const clearButton = component.find('button.person-search-button.clear')
+    expect(clearButton.text()).toEqual('Clear')
   })
 
   it('calls onSubmit when search button is clicked', () => {
     const onSubmit = jasmine.createSpy('onClick')
     const component = render({onSubmit})
-    const searchButton = component.find('.person-search-button.search')
+    const searchButton = component.find('button.person-search-button.search')
     searchButton.simulate('click')
     expect(onSubmit).toHaveBeenCalled()
   })
@@ -41,7 +45,7 @@ describe('PersonSearchButtonGroup', () => {
   it('calls onCancel when cancel button is clicked', () => {
     const onCancel = jasmine.createSpy('onCancel')
     const component = render({onCancel})
-    const cancelButton = component.find('.person-search-button.clear')
+    const cancelButton = component.find('button.person-search-button.clear')
     cancelButton.simulate('click')
     expect(onCancel).toHaveBeenCalled()
   })
