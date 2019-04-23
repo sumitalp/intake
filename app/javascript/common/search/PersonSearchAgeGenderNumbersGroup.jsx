@@ -54,16 +54,14 @@ const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields
       />
     </div>
     <div className="row">
-      <div className="col-md-3">
-        <AgeSearchFields
-          dobErrors={dobErrors}
-          onBlur={onBlur}
-          onChange={onChange}
-          onKeyPress={onKeyPress}
-          onKeyUp={onKeyUp}
-          personSearchFields={personSearchFields}
-        />
-      </div>
+      <AgeSearchFields
+        dobErrors={dobErrors}
+        onBlur={onBlur}
+        onChange={onChange}
+        onKeyPress={onKeyPress}
+        onKeyUp={onKeyUp}
+        personSearchFields={personSearchFields}
+      />
     </div>
   </Fragment>
 )
