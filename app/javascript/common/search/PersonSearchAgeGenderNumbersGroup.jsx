@@ -11,11 +11,11 @@ const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields
   <Fragment>
     <div className="row">
       <SearchByAgeMethodSelect
-        id="search-by-age-method"
         gridClassName="col-md-3 search-by-age-method-field"
+        id="search-by-age-method"
         onChange={onChange}
-        value={personSearchFields.searchByAgeMethod}
         onKeyPress={onKeyPress}
+        value={personSearchFields.searchByAgeMethod}
       />
       <SexAtBirthSelect
         id="search-sex-at-birth"

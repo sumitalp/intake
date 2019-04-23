@@ -17,12 +17,12 @@ class SearchByAgeMethodSelect extends React.Component {
     )
     return (
       <SelectField
-        id={id}
         gridClassName={gridClassName}
+        id={id}
         label="Age"
         onChange={this.handleChange.bind(this)}
-        value={value}
         onKeyPress={onKeyPress}
+        value={value}
       >
         <option key="" />
         {options}
