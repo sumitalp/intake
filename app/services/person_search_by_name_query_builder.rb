@@ -110,7 +110,7 @@ module PersonSearchByNameQueryBuilder
       { q: mult_aka, w: 4096 }, { q: dim_last_first, w: 2048, bq: true },
       { q: pho_last_first, w: 1024, bq: true }, { q: fz_last_first, w: 512, bq: true },
       { q: ngram_last_first, w: 256, bq: true }, { q: mult_fuzz, w: 200 },
-      { q: rev_last_first, w: 128, bq: true }, { q: dupe_last_first, w: -16, bq: true },
+      { q: rev_last_first, w: 128, bq: true }, { q: dupe_last_first, w: 8, bq: true },
       { q: xa_match_last, w: 32 }, { q: xb_match_first, w: 16 }
     ].flatten.compact
   end

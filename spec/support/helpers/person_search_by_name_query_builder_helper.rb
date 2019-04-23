@@ -264,7 +264,7 @@ module PersonSearchByNameQueryBuilderHelper
                   ]
                 }
               },
-              "weight": -16
+              "weight": 8
             },
             {
               "filter": {
@@ -516,7 +516,7 @@ module PersonSearchByNameQueryBuilderHelper
                   ]
                 }
               },
-              "weight": -16
+              "weight": 8
             },
             {
               "filter": {
@@ -1020,7 +1020,7 @@ module PersonSearchByNameQueryBuilderHelper
                   ]
                 }
               },
-              "weight": -16
+              "weight": 8
             },
             {
               "filter": {
@@ -1332,7 +1332,7 @@ module PersonSearchByNameQueryBuilderHelper
                   ]
                 }
               },
-              "weight": -16
+              "weight": 8
             },
             {
               "filter": {
@@ -1644,7 +1644,7 @@ module PersonSearchByNameQueryBuilderHelper
                   ]
                 }
               },
-              "weight": -16
+              "weight": 8
             },
             {
               "filter": {
@@ -2009,7 +2009,7 @@ module PersonSearchByNameQueryBuilderHelper
                   ]
                 }
               },
-              "weight": -16
+              "weight": 8
             },
             {
               "filter": {
@@ -2330,7 +2330,7 @@ module PersonSearchByNameQueryBuilderHelper
                   ]
                 }
               },
-              "weight": -16
+              "weight": 8
             },
             {
               "filter": {
