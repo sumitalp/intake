@@ -70,7 +70,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     dispatch(search(ownProps.isClientOnly, isAvancedSearchOn, personSearchFields))
   const onLoadMoreResults = (isAvancedSearchOn, personSearchFields) =>
     dispatch(loadMoreResults(ownProps.isClientOnly, isAvancedSearchOn, personSearchFields))
-  return returnParams(onBlur, onSearch, onClear, onChange, onCancel, onFocus, onLoadMoreResults, dispatch)
+  return {onBlur, onSearch, onClear, onChange, onCancel, onFocus, onLoadMoreResults, dispatch}
 }
 
 const checkOnBlur = (dispatch, id) => {
@@ -80,19 +80,6 @@ const checkOnBlur = (dispatch, id) => {
     dispatch(setSsnErrorCheck())
   } else if (id === 'search-date-of-birth') {
     dispatch(setDobErrorCheck())
-  }
-}
-
-const returnParams = (onBlur, onSearch, onClear, onChange, onCancel, onFocus, onLoadMoreResults, dispatch) => {
-  return {
-    onBlur,
-    onSearch,
-    onClear,
-    onChange,
-    onCancel,
-    onFocus,
-    onLoadMoreResults,
-    dispatch,
   }
 }
 

@@ -12,7 +12,7 @@ import {
   setSsnErrorCheck,
   setDobErrorCheck,
   resetSsnErrorCheck,
-  resetClientIdError,
+  resetClientIdErrorCheck,
 } from 'actions/peopleSearchActions'
 import {isFSA} from 'flux-standard-action'
 
@@ -100,9 +100,9 @@ describe('peopleSearchActions', () => {
     expect(isFSA(action)).toEqual(true)
   })
 
-  it('resetClientIdError is FSA compliant', () => {
-    const action = resetClientIdError()
-    expect(isFSA(action)).toEqual(false)
+  it('resetClientIdErrorCheck is FSA compliant', () => {
+    const action = resetClientIdErrorCheck()
+    expect(isFSA(action)).toEqual(true)
   })
 
   it('setSsnErrorCheck', () => {
@@ -112,7 +112,7 @@ describe('peopleSearchActions', () => {
 
   it('resetSsnErrorCheck', () => {
     const action = resetSsnErrorCheck()
-    expect(isFSA(action)).toEqual(false)
+    expect(isFSA(action)).toEqual(true)
   })
 
   it('setDobErrorCheck', () => {
