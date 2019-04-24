@@ -42,7 +42,25 @@
     border-radius: .4rem;
   }
 
-  // see https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
+  .date-of-birth-section {
+    margin-left: 1px;
+  }
+
+  .approximate-age-section {
+    .approximate-age-selector.unit {
+      padding-left: .2rem;
+    }
+
+    .age-unit-form {
+      margin-left: .2rem;
+    }
+
+    .approximate-age-selector.number {
+      padding-left: 0;
+    }
+  }
+
+    // see https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
   // for more info about the placeholder pseudo element
   .date-field {
     // edge (it requries the -webkit-input- prefix)
