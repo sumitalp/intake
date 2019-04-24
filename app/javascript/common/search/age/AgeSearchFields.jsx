@@ -28,9 +28,9 @@ class AgeSearchFields extends React.Component {
     const {onChange, onKeyPress, personSearchFields} = this.props
     return (
       <AgeUnitForm
-        formLabel = "Unit"
-        monthsLabel = "Months"
-        yearsLabel = "Years"
+        formLabel="Unit"
+        monthsLabel="Months"
+        yearsLabel="Years"
         onChange={onChange}
         onKeyPress={onKeyPress}
         searchApproximateAgeUnits={personSearchFields.searchApproximateAgeUnits}
