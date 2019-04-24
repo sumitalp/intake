@@ -57,8 +57,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     checkOnBlur(dispatch, id)
   }
   const onFocus = (id) => {
-    if (id === 'search-ssn') { dispatch(resetSsnErrorCheck()) }
-    else if (id === 'search-client-id') { dispatch(resetClientIdErrorCheck()) }
+    if (id === 'search-ssn') {
+      dispatch(resetSsnErrorCheck())
+    } else if (id === 'search-client-id') {
+      dispatch(resetClientIdErrorCheck())
+    }
   }
   const onClear = (field) => dispatch(clear(field))
   const onChange = (field, value) => { dispatch(setPersonSearchField(field, value)) }
