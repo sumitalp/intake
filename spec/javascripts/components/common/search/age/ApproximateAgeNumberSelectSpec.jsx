@@ -8,7 +8,6 @@ const render = ({
   gridClassName = 'age-number-field',
   onChange = () => {},
   value = '',
-  searchByAgeMethod = '',
 }) => {
   const props = {
     ageUnit,
@@ -16,7 +15,6 @@ const render = ({
     gridClassName,
     onChange,
     value,
-    searchByAgeMethod,
   }
 
   return shallow(<ApproximateAgeNumberSelect {...props} />)
@@ -66,33 +64,6 @@ describe('ApproximateAgeNumberSelect', () => {
           const numberSelect = component.find('AgeNumberSelect')
           expect(numberSelect.props().range).toEqual({})
         })
-      })
-    })
-  })
-
-  describe('searchByAgeMethod', () => {
-    describe('when the value is empty string', () => {
-      it('does not disable the date field', () => {
-        const component = render({searchByAgeMethod: ''})
-        const numberSelect = component.find('AgeNumberSelect')
-        expect(numberSelect.props().disabled).toEqual(false)
-      })
-    })
-
-    describe('when the value is "approximate"', () => {
-      it('does not disable the date field', () => {
-        const component = render({searchByAgeMethod: 'approximate'})
-        const numberSelect = component.find('AgeNumberSelect')
-        expect(numberSelect.props().disabled).toEqual(false)
-      })
-    })
-
-    describe('when the value is not empty string or "approximate"', () => {
-      it('does not disable the date field', () => {
-        const component = render({searchByAgeMethod: 'dob'})
-        const numberSelect = component.find('AgeNumberSelect')
-        expect(numberSelect.props().disabled).toEqual(true)
-        expect(numberSelect.props().value).toEqual('')
       })
     })
   })

@@ -7,7 +7,6 @@ describe('PersonSearchFields', () => {
     onBlur = () => {},
     onChange = () => {},
     onCancel = () => {},
-    onClear = () => {},
     onSubmit = () => {},
     onKeyPress = () => {},
     onKeyUp = () => {},
@@ -19,7 +18,6 @@ describe('PersonSearchFields', () => {
         onChange={onChange}
         onSubmit={onSubmit}
         onCancel={onCancel}
-        onClear={onClear}
         onKeyPress={onKeyPress}
         onKeyUp={onKeyUp}
         {...props}
@@ -36,10 +34,10 @@ describe('PersonSearchFields', () => {
       expect(component.find('PersonSearchNameGroup').exists()).toBe(true)
     })
 
-    it('renders a PersonSearchNumbersAgeGroup component with onKeyPress and onKeyUp props', () => {
-      expect(component.find('PersonSearchNumbersAgeGroup').exists()).toBe(true)
-      expect(typeof component.find('PersonSearchNumbersAgeGroup').props().onKeyPress).toEqual('function')
-      expect(typeof component.find('PersonSearchNumbersAgeGroup').props().onKeyUp).toEqual('function')
+    it('renders a PersonSearchAgeGenderNumbersGroup component with onKeyPress and onKeyUp props', () => {
+      expect(component.find('PersonSearchAgeGenderNumbersGroup').exists()).toBe(true)
+      expect(typeof component.find('PersonSearchAgeGenderNumbersGroup').props().onKeyPress).toEqual('function')
+      expect(typeof component.find('PersonSearchAgeGenderNumbersGroup').props().onKeyUp).toEqual('function')
     })
 
     it('renders a PersonSearchButtonGroup component', () => {
@@ -53,15 +51,15 @@ describe('PersonSearchFields', () => {
       component = render({isAdvancedSearchOn: false})
     })
 
-    it('renders a PersonSearchNameGroup component', () => {
+    it('does not render a PersonSearchNameGroup component', () => {
       expect(component.find('PersonSearchNameGroup').exists()).toBe(false)
     })
 
-    it('renders a PersonSearchAgeGenderGroup component', () => {
-      expect(component.find('PersonSearchAgeGenderGroup').exists()).toBe(false)
+    it('does not render a PersonSearchAgeGenderNumbersGroup component', () => {
+      expect(component.find('PersonSearchAgeGenderNumbersGroup').exists()).toBe(false)
     })
 
-    it('renders a PersonSearchButtonGroup component', () => {
+    it('does not render a PersonSearchButtonGroup component', () => {
       expect(component.find('PersonSearchButtonGroup').exists()).toBe(false)
     })
   })

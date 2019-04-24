@@ -8,7 +8,6 @@ const render = ({
   value = '',
   onChange = () => {},
   range = {},
-  disabled = false,
 }) => {
   const props = {
     id,
@@ -16,7 +15,6 @@ const render = ({
     value,
     onChange,
     range,
-    disabled,
   }
   return shallow(<AgeNumberSelect {...props} />)
 }
@@ -30,13 +28,6 @@ describe('AgeNumberSelect', () => {
       expect(selectField.find('option[value=0]').text()).toEqual('0')
     })
 
-    it('renders a div with props', () => {
-      const component = render({})
-      expect(component.find('div').exists()).toBe(true)
-      expect(typeof component.find('div').props().onClick).toEqual('function')
-      expect(component.props().role).toEqual('presentation')
-    })
-
     it('renders the options', () => {
       const component = render({range: {min: 0, max: 120}})
       const selectField = component.find('SelectField')
@@ -44,14 +35,13 @@ describe('AgeNumberSelect', () => {
     })
 
     it('sets select component props', () => {
-      const component = render({disabled: true})
+      const component = render({})
       const selectField = component.find('SelectField')
       expect(selectField.props().id).toEqual('search-approximate-age-number')
       expect(selectField.props().gridClassName).toEqual('age-number-field')
       expect(selectField.props().label).toEqual('Number')
       expect(typeof selectField.props().onChange).toEqual('function')
       expect(selectField.props().value).toEqual('')
-      expect(selectField.props().disabled).toEqual(true)
     })
 
     it('selects the value passed in', () => {
@@ -82,18 +72,6 @@ describe('AgeNumberSelect', () => {
             selectField.props().onChange({target: {value: '100'}})
             expect(onChange).toHaveBeenCalledWith('searchApproximateAge', '')
           })
-        })
-      })
-    })
-
-    describe('onClick', () => {
-      describe('when the select field parent is clicked', () => {
-        it('onChange sets the searchByAgeMethod to approximate', () => {
-          const onChange = jasmine.createSpy('onChange')
-          const component = render({onChange})
-          const selectFieldParent = component.find('div')
-          selectFieldParent.props().onClick()
-          expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
         })
       })
     })

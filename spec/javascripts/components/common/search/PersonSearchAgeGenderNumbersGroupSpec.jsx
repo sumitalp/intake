@@ -1,29 +1,29 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import PersonSearchNumbersAgeGroup from 'common/search/PersonSearchNumbersAgeGroup'
+import PersonSearchAgeGenderNumbersGroup from 'common/search/PersonSearchAgeGenderNumbersGroup'
+
+const defaultPersonSearchFields = {
+  searchApproximateAgeUnits: '',
+  searchByAgeMethod: '',
+}
 
 const render = (
   {
     onBlur = () => {},
     onFocus = () => {},
     onChange = () => {},
-    onClear = () => {},
     onKeyPress = () => {},
     onKeyUp = () => {},
-    personSearchFields = {
-      searchApproximateAgeUnits: '',
-      searchByAgeMethod: '',
-    },
+    personSearchFields = defaultPersonSearchFields,
     clientIdError = [],
     ssnErrors = [],
     dobErrors = [],
   } = {},
 ) =>
   shallow(
-    <PersonSearchNumbersAgeGroup
+    <PersonSearchAgeGenderNumbersGroup
       onBlur={onBlur}
       onChange={onChange}
-      onClear={onClear}
       personSearchFields={personSearchFields}
       clientIdError={clientIdError}
       ssnErrors={ssnErrors}
@@ -34,8 +34,39 @@ const render = (
     />
   )
 
-describe('PersonSearchNumbersAgeGroup', () => {
+describe('PersonSearchAgeGenderNumbersGroup', () => {
   describe('layout', () => {
+    it('renders the AgeSearchFields component with props', () => {
+      const ageSearchFields = render({}).find('AgeSearchFields')
+      const props = ageSearchFields.props()
+      expect(ageSearchFields.exists()).toBe(true)
+      expect(props.dobErrors).toEqual([])
+      expect(typeof props.onBlur).toBe('function')
+      expect(typeof props.onChange).toBe('function')
+      expect(typeof props.onKeyPress).toBe('function')
+      expect(typeof props.onKeyUp).toBe('function')
+      expect(props.personSearchFields).toBe(defaultPersonSearchFields)
+    })
+
+    describe('Sex At Birth', () => {
+      it('renders sex at birth select', () => {
+        const component = render({personSearchFields: {searchSexAtBirth: ''}})
+        const sexAtBirthSelect = component.find('SexAtBirthSelect')
+        expect(sexAtBirthSelect.props().id).toEqual('search-sex-at-birth')
+        expect(sexAtBirthSelect.props().value).toEqual('')
+        expect(typeof sexAtBirthSelect.prop('onKeyPress')).toEqual('function')
+      })
+
+      it('renders sex at birth select when a gender is selected', () => {
+        const component = render({
+          personSearchFields: {searchSexAtBirth: 'Female'},
+        })
+        const sexAtBirthSelect = component.find('SexAtBirthSelect')
+        expect(sexAtBirthSelect.props().id).toEqual('search-sex-at-birth')
+        expect(sexAtBirthSelect.props().value).toEqual('Female')
+      })
+    })
+
     describe('Client ID', () => {
       it('renders masked input field with label', () => {
         const personSearchFields = {
@@ -47,7 +78,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
         const clientId = render(personSearchFields).find('MaskedInputField[label="Client ID Number"]')
         expect(clientId.props().id).toEqual('search-client-id')
         expect(clientId.props().label).toEqual('Client ID Number')
-        expect(clientId.props().gridClassName).toEqual('col-md-12 client-id-field')
+        expect(clientId.props().gridClassName).toEqual('col-md-3 client-id-field')
         expect(typeof clientId.props().onBlur).toEqual('function')
         expect(typeof clientId.props().onFocus).toEqual('function')
         expect(typeof clientId.props().onChange).toEqual('function')
@@ -94,7 +125,7 @@ describe('PersonSearchNumbersAgeGroup', () => {
         const ssn = component.find('MaskedInputField[label="Social Security Number"]')
         expect(ssn.props().id).toEqual('search-ssn')
         expect(ssn.props().label).toEqual('Social Security Number')
-        expect(ssn.props().gridClassName).toEqual('col-md-12 ssn-field')
+        expect(ssn.props().gridClassName).toEqual('col-md-3 ssn-field')
         expect(typeof ssn.props().onBlur).toEqual('function')
         expect(typeof ssn.props().onChange).toEqual('function')
         expect(ssn.props().value).toEqual('123456789')
@@ -131,100 +162,17 @@ describe('PersonSearchNumbersAgeGroup', () => {
         })
       })
     })
-
-    it('renders the AgeClearButton', () => {
-      const button = render({}).find('AgeClearButton')
-      expect(button.exists()).toBe(true)
-    })
-
-    it('renders AgeForm', () => {
-      const component = render({})
-      const ageForm = component.find('AgeForm')
-      expect(ageForm.props().dateOfBirthLabel).toEqual('Date of Birth')
-      expect(ageForm.props().approximateAgeLabel).toEqual('Approximate Age')
-      expect(typeof ageForm.props().onChange).toEqual('function')
-      expect(ageForm.props().searchByAgeMethod).toEqual('')
-      expect(typeof ageForm.props().onKeyPress).toEqual('function')
-    })
-
-    it('renders a DateOfBirthDateField component', () => {
-      const personSearchFields = {
-        personSearchFields: {
-          searchDateOfBirth: '2019-03-01',
-          searchByAgeMethod: '',
-          searchApproximateAgeUnits: '',
-          dobErrors: [],
-        },
-      }
-      const component = render(personSearchFields)
-      const dateField = component.find('DateOfBirthDateField')
-      expect(dateField.exists()).toEqual(true)
-      expect(dateField.props().value).toEqual('2019-03-01')
-      expect(typeof dateField.props().onBlur).toEqual('function')
-      expect(typeof dateField.props().onChange).toEqual('function')
-      expect(dateField.props().searchByAgeMethod).toEqual('')
-      expect(dateField.props().errors).toEqual([])
-      expect(typeof dateField.props().onKeyPress).toEqual('function')
-      expect(typeof dateField.props().onKeyUp).toEqual('function')
-    })
-
-    it('renders div.approximate-age-selector.unit', () => {
-      const component = render({})
-      const selector = component.find('div.approximate-age-selector.unit')
-      expect(selector.exists()).toEqual(true)
-    })
-
-    it('renders div.approximate-age-selector.number', () => {
-      const component = render({})
-      const selector = component.find('div.approximate-age-selector.number')
-      expect(selector.exists()).toEqual(true)
-    })
-
-    it('renders AgeUnitForm', () => {
-      const personSearchFields = {
-        personSearchFields: {
-          searchApproximateAgeUnits: 'months',
-          searchByAgeMethod: '',
-        },
-      }
-      const component = render(personSearchFields)
-      const ageUnitForm = component.find('AgeUnitForm')
-      expect(ageUnitForm.exists()).toEqual(true)
-      expect(ageUnitForm.props().formLabel).toEqual('Unit')
-      expect(ageUnitForm.props().monthsLabel).toEqual('Months')
-      expect(ageUnitForm.props().yearsLabel).toEqual('Years')
-      expect(typeof ageUnitForm.props().onChange).toEqual('function')
-      expect(ageUnitForm.props().searchApproximateAgeUnits).toEqual('months')
-      expect(ageUnitForm.props().searchByAgeMethod).toEqual('')
-    })
-
-    it('renders ApproximateAgeNumberSelect', () => {
-      const personSearchFields = {
-        personSearchFields: {
-          searchApproximateAgeUnits: 'months',
-          searchApproximateAge: '10',
-          searchByAgeMethod: '',
-        },
-      }
-      const component = render(personSearchFields)
-      const ageNumberSelect = component.find('ApproximateAgeNumberSelect')
-      expect(ageNumberSelect.exists()).toEqual(true)
-      expect(ageNumberSelect.props().ageUnit).toEqual('months')
-      expect(ageNumberSelect.props().id).toEqual('search-approximate-age-number')
-      expect(ageNumberSelect.props().gridClassName).toEqual('age-number-field')
-      expect(typeof ageNumberSelect.props().onChange).toEqual('function')
-      expect(ageNumberSelect.props().value).toEqual('10')
-      expect(ageNumberSelect.props().searchByAgeMethod).toEqual('')
-    })
   })
 
-  describe('when the clear button is clicked', () => {
-    it('calls onClear to clear age fields', () => {
-      const onClear = jasmine.createSpy('onClear')
-      const component = render({onClear})
-      const clearButton = component.find('AgeClearButton')
-      clearButton.props().onClear('age')
-      expect(onClear).toHaveBeenCalledWith('age')
+  describe('when the sex at birth value changes', () => {
+    it('calls onChange when a new sex at birth is selected', () => {
+      const onChange = jasmine.createSpy('onChange')
+      const component = render({onChange})
+      component
+        .find('SexAtBirthSelect')
+        .props()
+        .onChange('searchSexAtBirth', 'Female')
+      expect(onChange).toHaveBeenCalledWith('searchSexAtBirth', 'Female')
     })
   })
 
