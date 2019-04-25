@@ -49,6 +49,7 @@ module PersonSearchByNameQueryBuilder
   end
 
   def mult_last_suffix
+    return if suffix.blank?
     fq = formatted_query("#{last_name} #{suffix}")
     [multi_match(query: fq, operator: 'and', fields: %w[last_name suffix],
                  type: 'cross_fields', name: '2_mult_last_suffix')].compact
