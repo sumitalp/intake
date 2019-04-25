@@ -10,7 +10,7 @@ class AgeSearchFields extends React.Component {
     const {onBlur, onChange, dobErrors, onKeyUp, onKeyPress, personSearchFields} = this.props
     const shouldRender = personSearchFields.searchByAgeMethod === 'dob'
     const dateOfBirthSection = (
-      <div className="date-of-birth-section">
+      <div className="col-md-9 date-of-birth-section">
         <DateOfBirthDateField
           errors={dobErrors}
           onBlur={onBlur}
