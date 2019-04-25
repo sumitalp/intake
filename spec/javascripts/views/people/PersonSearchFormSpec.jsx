@@ -2,6 +2,8 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import {PersonSearchForm} from 'views/people/PersonSearchForm'
 import * as IntakeConfig from 'common/config'
+import {ModalComponent} from 'react-wood-duck'
+import SearchModalBody from 'common/search/SearchModalBody'
 
 describe('PersonSearchForm', () => {
   beforeEach(() => {
@@ -52,7 +54,7 @@ describe('PersonSearchForm', () => {
   it('renders a card anchor', () => {
     const component = renderPersonSearchForm({})
     expect(component.find('.anchor').exists()).toBe(true)
-    expect(component.find('button').props()['aria-label']).toEqual(
+    expect(component.find('.anchor').props()['aria-label']).toEqual(
       'search-card-anchor'
     )
   })
@@ -88,6 +90,41 @@ describe('PersonSearchForm', () => {
         .children('h2')
         .text()
     ).toEqual('Snapshot Search')
+  })
+
+  it("renders 'How to Use Snapshot' link", () => {
+    const component = renderPersonSearchForm({})
+    expect(
+      component
+        .find('.card-header')
+        .children('span')
+        .text()
+    ).toEqual('How to Use Snapshot')
+    expect(component.find('.card-header').children('span').props().className).toEqual('gap-right search-modal-info')
+  })
+
+  it("renders the modal when 'How to Use Snapshot' link is clicked", () => {
+    const instance = renderPersonSearchForm({}).instance()
+    expect(instance.state.show).toBe(false)
+    instance.handleShowModal()
+    expect(instance.state.show).toBe(true)
+  })
+
+  it('hides the model when OK button is clicked', () => {
+    const instance = renderPersonSearchForm({}).instance()
+    instance.setState({show: true})
+    expect(instance.state.show).toBe(true)
+    instance.closeModal()
+    expect(instance.state.show).toBe(false)
+  })
+
+  it('renders ModalComponent', () => {
+    const component = renderPersonSearchForm({}).setState({show: true}).find(ModalComponent)
+    expect(component.length).toBe(1)
+    expect(component.props().modalTitle).toEqual('How to Use Snapshot')
+    expect(component.props().modalSize).toEqual('large')
+    expect(component.props().showModal).toEqual(true)
+    expect(component.props().modalBody).toEqual(<SearchModalBody />)
   })
 
   it('renders the search prompt', () => {
