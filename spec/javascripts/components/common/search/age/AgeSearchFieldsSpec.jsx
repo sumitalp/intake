@@ -63,7 +63,7 @@ describe('AgeSearchFields', () => {
       })
 
       it('renders the date of birth section only', () => {
-        expect(component.find('div.date-of-birth-section').exists()).toBe(true)
+        expect(component.find('div.col-md-9.date-of-birth-section').exists()).toBe(true)
         expect(component.find('div.approximate-age-section').exists()).toBe(false)
       })
 
