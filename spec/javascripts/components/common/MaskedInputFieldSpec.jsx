@@ -92,7 +92,7 @@ describe('MaskedInputField', () => {
       const component = render({onBlur, id: 'myInputFieldId'})
       const maskedInput = component.find('MaskedInput')
       maskedInput.simulate('blur', {target: {value: '1234'}})
-      expect(onBlur).toHaveBeenCalledWith('myInputFieldId', '1234')
+      expect(onBlur).toHaveBeenCalledWith('myInputFieldId')
     })
   })
 
@@ -258,7 +258,7 @@ describe('MaskedInputField', () => {
       const onBlur = jasmine.createSpy('onBlur')
       const maskedInput = render({onBlur}).find('MaskedInput')
       maskedInput.props().onBlur({target: {value: ''}})
-      expect(onBlur).toHaveBeenCalledWith('myMaskedInput', '')
+      expect(onBlur).toHaveBeenCalledWith('myMaskedInput')
     })
   })
 })

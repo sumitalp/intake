@@ -87,7 +87,7 @@ const MaskedInputField = ({
           onBlur={(event) => {
             event.target.placeholder = ''
             if (onBlur) {
-              onBlur(id, event.target.value)
+              onBlur(id)
             }
           }}
           onFocus={handleFocus}
