@@ -54,9 +54,9 @@ module QueryBuilderHelper
     }.delete_if { |_k, v| v.blank? } }
   end
 
-  def filter_query(queries: nil, weight: nil, bool_query: false)
+  def filter_query(queries: nil, weight: nil, bool_query: nil)
     return if queries.blank?
-    f = bool_query ? { bool: { must: queries } } : queries
+    f = bool_query || bool_query.nil? ? { bool: { must: queries } } : queries
     { filter: f, weight: weight }.delete_if { |_k, v| v.blank? }
   end
 end

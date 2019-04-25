@@ -41,79 +41,82 @@ module PersonSearchByNameQueryBuilder
     match_query(field: 'legacy_descriptor.legacy_table_name', query: 'CLIENT_T', name: 'q_cli')
   end
 
-  def mult_last
-    [multi_match(
-      query: formatted_query("#{last_name} #{first_name}"), operator: 'and',
-      fields: %w[last_name first_name], type: 'cross_fields', name: '1_mult_last_first'
-    ), match_query(field: 'last_name', query: last_name, name: '1_mult_last')].compact
+  def x_l_f
+    double_match_query(fields: %w[last_name first_name], values: [last_name, first_name],
+                       names: %w[1_m_lst 1_m_fst])
   end
 
-  def mult_last_suffix
+  def m_l_sf
     return if suffix.blank?
     fq = formatted_query("#{last_name} #{suffix}")
     [multi_match(query: fq, operator: 'and', fields: %w[last_name suffix],
-                 type: 'cross_fields', name: '2_mult_last_suffix')].compact
+                 type: 'cross_fields', name: '2_mlt_last_suffix')].compact
   end
 
-  def mult_aka
-    params = { fields: %w[akas.first_name akas.last_name],
-               type: 'cross_fields', name: '3_mult_aka' }
+  def m_aka
+    params = { fields: %w[akas.first_name akas.last_name], type: 'cross_fields', name: '3_mlt_aka' }
     mult_aka_fuzz(params)
   end
 
-  def dim_last_first
+  def dim_l_f
     double_match_query(fields: ['last_name', 'first_name.diminutive'],
-                       values: [last_name, first_name], names: %w[4_dim_last 4_dim_first])
+                       values: [last_name, first_name], names: %w[4_dim_lst 4_dim_fst])
   end
 
-  def pho_last_first
+  def pho_l_f
     double_match_query(fields: ['last_name', 'first_name.phonetic'],
-                       values: [last_name, first_name], names: %w[5_pho_last 5_pho_first])
+                       values: [last_name, first_name], names: %w[5_pho_lst 5_pho_fst])
   end
 
-  def fz_last_first
-    [match_query(field: 'last_name', query: last_name, name: '6_fz_last'),
+  def fz_l_f
+    [match_query(field: 'last_name', query: last_name, name: '6_fz_lst'),
      match_query(query_type: 'fuzzy', field: 'first_name', value: first_name, fuzziness: '5',
-                 prefix_length: '1', max_expansions: '25', name: '6_fz_first')].compact
+                 prefix_length: '1', max_expansions: '25', name: '6_fz_fst')].compact
   end
 
-  def ngram_last_first
+  def l_f_ng
     double_match_query(fields: %w[last_name first_name_ngram], values: [last_name, first_name],
-                       names: %w[7_ngram_last 7_ngram_first], min_s_m: [nil, '25%'])
+                       names: %w[7_prt_lst 7_prt_fst], min_s_m: [nil, '25%'])
   end
 
-  def mult_fuzz
-    params = { fields: %w[first_name last_name], fuzziness: '2', name: '7_mult_fuzz' }
-    mult_aka_fuzz(params)
+  def m_fz
+    mult_aka_fuzz(fields: %w[first_name last_name], fuzziness: '2', name: '7_mlt_fz')
   end
 
-  def rev_last_first
+  def rev_l_f
     double_match_query(fields: %w[last_name first_name], values: [first_name, last_name],
-                       names: %w[8_rev_last 8_rev_first])
+                       names: %w[9a_rev_lst 9a_rev_fst])
   end
 
-  def dupe_last_first
+  def rev_l_f_ng
+    double_match_query(fields: %w[last_name first_name_ngram], values: [first_name, last_name],
+                       names: %w[9b_rev_prt_lst 9b_rev_prt_fst], min_s_m: [nil, '25%'])
+  end
+
+  def dupe_l_f
     double_match_query(fields: %w[last_name first_name], values: [last_name, last_name],
-                       names: %w[8_dupe_last 8_dupe_first])
+                       names: %w[10_dup_lst 10_dup_fst])
   end
 
-  def xa_match_last
-    match_query(field: 'last_name', query: last_name, name: 'xa_m_last')
+  def rev_l_ng_f_ng
+    double_match_query(fields: %w[last_name_ngram first_name_ngram], min_s_m: ['25%', '25%'],
+                       names: %w[11_rev_prt_lst 11_rev_prt_fst], values: [first_name, last_name])
   end
 
-  def xb_match_first
-    match_query(field: 'first_name', query: first_name, name: 'xb_m_first')
+  def xa_m_l
+    match_query(field: 'last_name', query: last_name, name: '8_m_lst')
+  end
+
+  def xb_m_f
+    match_query(field: 'first_name', query: first_name, name: 'xb_m_fst')
   end
 
   def function_query_params
-    [
-      { q: mult_last, w: 16_384, bq: true }, { q: mult_last_suffix, w: 8192, bq: true },
-      { q: mult_aka, w: 4096 }, { q: dim_last_first, w: 2048, bq: true },
-      { q: pho_last_first, w: 1024, bq: true }, { q: fz_last_first, w: 512, bq: true },
-      { q: ngram_last_first, w: 256, bq: true }, { q: mult_fuzz, w: 200 },
-      { q: rev_last_first, w: 128, bq: true }, { q: dupe_last_first, w: 8, bq: true },
-      { q: xa_match_last, w: 32 }, { q: xb_match_first, w: 16 }
-    ].flatten.compact
+    [{ q: x_l_f, w: 16_384 }, { q: m_l_sf, w: 8192 }, { q: m_aka, w: 4096, bq: false },
+     { q: dim_l_f, w: 2048 }, { q: pho_l_f, w: 1024 }, { q: fz_l_f, w: 512 },
+     { q: l_f_ng, w: 256 }, { q: m_fz, w: 200, bq: false }, { q: rev_l_f, w: 128 },
+     { q: rev_l_f_ng, w: 64 }, { q: dupe_l_f, w: 32 }, { q: rev_l_ng_f_ng, w: 16 },
+     { q: xa_m_l, w: 12, bq: false }, { q: xb_m_f, w: 8, bq: false }].compact
   end
 
   def generate_functions
