@@ -93,6 +93,7 @@ describe('PersonSearchForm', () => {
   })
 
   it("renders 'How to Use Snapshot' link", () => {
+    spyOn(IntakeConfig, 'isAdvancedSearchOn').and.returnValue(true)
     const component = renderPersonSearchForm({})
     expect(
       component
@@ -101,6 +102,12 @@ describe('PersonSearchForm', () => {
         .text()
     ).toEqual('How to Use Snapshot')
     expect(component.find('.card-header').children('span').props().className).toEqual('gap-right search-modal-info')
+  })
+
+  it("doesnot renders 'How to Use Snapshot' link in screening", () => {
+    spyOn(IntakeConfig, 'isAdvancedSearchOn').and.returnValue(false)
+    const component = renderPersonSearchForm({})
+    expect(component.find('.search-modal-info').children('span').exists()).toBe(false)
   })
 
   it("renders the modal when 'How to Use Snapshot' link is clicked", () => {

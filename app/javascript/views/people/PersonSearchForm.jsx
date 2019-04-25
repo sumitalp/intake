@@ -60,9 +60,9 @@ class PersonSearchForm extends React.Component {
       <div id='search-card' className="card double-gap-bottom hidden-print person-search-card">
         <div className="card-header">
           <h2>Snapshot Search</h2>
-          <span role='button' className='gap-right search-modal-info' tabIndex="0" onClick={this.handleShowModal} onKeyPress={this.handleKeyPress}>
+          {advancedSearchFeatureFlag && <span role='button' className='gap-right search-modal-info' tabIndex="0" onClick={this.handleShowModal} onKeyPress={this.handleKeyPress}>
                       How to Use Snapshot
-          </span>
+          </span>}
         </div>
         <div className={`card-body ${classNameAdvancedSearchDisabled}`}>
           <div className="row">
