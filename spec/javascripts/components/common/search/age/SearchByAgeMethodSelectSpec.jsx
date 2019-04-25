@@ -45,8 +45,8 @@ describe('SearchByAgeMethodSelect', () => {
       const options = selectField.children()
       expect(options.length).toEqual(3)
       expect(options.at(0).html()).toBe('<option></option>')
-      expect(options.at(1).html()).toBe('<option value="dob">Date of Birth</option>')
-      expect(options.at(2).html()).toBe('<option value="approximate">Approximate Age</option>')
+      expect(options.at(1).html()).toBe('<option value="approximate">Approximate Age</option>')
+      expect(options.at(2).html()).toBe('<option value="dob">Date of Birth</option>')
     })
 
     it('selects the value passed in', () => {
