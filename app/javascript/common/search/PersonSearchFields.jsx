@@ -53,7 +53,7 @@ PersonSearchFields.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
   onKeyPress: PropTypes.func,
   onKeyUp: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
