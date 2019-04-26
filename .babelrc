@@ -21,6 +21,7 @@
         "targets": {
           "browsers": "> 1%",
         },
+        "corejs": 2,
         "useBuiltIns": "entry"
       }
     ],
