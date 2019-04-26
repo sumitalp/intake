@@ -50,7 +50,7 @@ PersonSearchForm.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
-  onFocus: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
   onLoadMoreResults: PropTypes.func,
   onSearch: PropTypes.func,
   onSelect: PropTypes.func,
