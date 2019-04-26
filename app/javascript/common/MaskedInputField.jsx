@@ -115,7 +115,7 @@ MaskedInputField.propTypes = {
   moveCursor: PropTypes.func,
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
   onKeyPress: PropTypes.func,
   placeholder: PropTypes.string,
   required: PropTypes.bool,

@@ -35,6 +35,7 @@ describe('<Autocompleter />', () => {
     onCancel = () => null,
     onChange = () => null,
     onClear = () => null,
+    onFocus = () => null,
     onLoadMoreResults = () => null,
     onSearch = () => null,
     onSelect = () => null,
@@ -60,6 +61,7 @@ describe('<Autocompleter />', () => {
         onCancel={onCancel}
         onChange={onChange}
         onClear={onClear}
+        onFocus={onFocus}
         onLoadMoreResults={onLoadMoreResults}
         onSearch={onSearch}
         onSelect={onSelect}
@@ -86,6 +88,7 @@ describe('<Autocompleter />', () => {
     onCancel = () => null,
     onChange = () => null,
     onClear = () => null,
+    onFocus = () => null,
     onLoadMoreResults = () => null,
     onSearch = () => null,
     onSelect = () => null,
@@ -110,6 +113,7 @@ describe('<Autocompleter />', () => {
         onCancel={onCancel}
         onChange={onChange}
         onClear={onClear}
+        onFocus={onFocus}
         onLoadMoreResults={onLoadMoreResults}
         onSearch={onSearch}
         onSelect={onSelect}
