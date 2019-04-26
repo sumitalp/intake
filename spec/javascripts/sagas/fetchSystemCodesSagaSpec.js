@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
 import {takeEvery, put} from 'redux-saga/effects'
 import {fetchSystemCodesSaga, fetchSystemCodes} from 'sagas/fetchSystemCodesSaga'
 import {FETCH_SYSTEM_CODES, fetchSuccess} from 'actions/systemCodesActions'

@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
 import {call, put, select, takeEvery} from 'redux-saga/effects'
 import {fetchRelationships} from 'actions/relationshipsActions'
 import {fromJS} from 'immutable'
