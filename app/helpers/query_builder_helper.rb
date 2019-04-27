@@ -36,6 +36,13 @@ module QueryBuilderHelper
     { type => query_params }
   end
 
+  def double_match_query(fields: [], values: [], names: [], min_s_m: [])
+    [
+      match_query(field: fields[0], query: values[0], name: names[0], min_should_match: min_s_m[0]),
+      match_query(field: fields[1], query: values[1], name: names[1], min_should_match: min_s_m[1])
+    ].flatten.compact
+  end
+
   def query_string(field, query, boost: nil)
     return if query.blank?
     { query_string: {
@@ -56,7 +63,16 @@ module QueryBuilderHelper
 
   def filter_query(queries: nil, weight: nil, bool_query: nil)
     return if queries.blank?
-    f = bool_query || bool_query.nil? ? { bool: { must: queries } } : queries
+    f = bool_query ? { bool: { must: queries } } : queries
     { filter: f, weight: weight }.delete_if { |_k, v| v.blank? }
+  end
+
+  def function_score_queries(param_hash_list)
+    function_queries = []
+    param_hash_list.each do |hash|
+      params = { queries: hash[:q], weight: hash[:w], bool_query: hash[:bq] }
+      function_queries.push(filter_query(params))
+    end
+    function_queries.flatten.compact
   end
 end
