@@ -153,7 +153,7 @@ export const selectPersonCreatedAtTime = state =>
     .map(t => t.personCreatedAtTime)
     .pop()
 
-export const selectClientIdError = (state) => {
+export const selectClientIdErrors = (state) => {
   const checkForClientIdErrors = selectPeopleSearch(state).get('clientIdErrorCheck')
   const clientId = selectPeopleSearch(state).get('searchClientId') || ''
   const clientIdWithoutHyphens = clientId.replace(/-|_/g, '')
