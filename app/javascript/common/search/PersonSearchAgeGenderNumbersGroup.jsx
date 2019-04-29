@@ -7,7 +7,7 @@ import SexAtBirthSelect from 'common/search/sexatbirth/SexAtBirthSelect'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
 import {moveCursor} from 'utils/moveCursor'
 
-const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields, clientIdError, ssnErrors, dobErrors, onKeyPress, onKeyUp}) => (
+const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields, onFocus, clientIdError, ssnErrors, dobErrors, onKeyPress, onKeyUp}) => (
   <Fragment>
     <div className="row">
       <div className="col-md-3 age-search-field-container">
@@ -40,6 +40,7 @@ const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields
         gridClassName="col-md-3 client-id-field"
         onBlur={onBlur}
         onChange={({target: {value}}) => onChange('searchClientId', value)}
+        onFocus={onFocus}
         value={personSearchFields.searchClientId}
         mask='1111-1111-1111-1111111'
         placeholder='____-____-____-_______'
@@ -54,6 +55,7 @@ const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields
         gridClassName="col-md-3 ssn-field"
         onBlur={onBlur}
         onChange={({target: {value}}) => onChange('searchSsn', value)}
+        onFocus={onFocus}
         value={personSearchFields.searchSsn}
         mask='111-11-1111'
         placeholder='___-__-____'
@@ -71,6 +73,7 @@ PersonSearchAgeGenderNumbersGroup.propTypes = {
   dobErrors: PropTypes.array,
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func,
   onKeyUp: PropTypes.func,
   personSearchFields: PersonSearchFieldsPropType,

@@ -38,6 +38,7 @@ const MaskedInputField = ({
   mask,
   onBlur,
   onChange,
+  onFocus,
   moveCursor,
   placeholder,
   required,
@@ -48,7 +49,10 @@ const MaskedInputField = ({
   const formFieldProps = {errors, gridClassName, htmlFor: id, label, labelClassName, required}
   const breakPoints = findBreakPoints(value, '-')
   const caret = cursorPosition(value, breakPoints)
-
+  const handleFocus = (e) => {
+    e.target.placeholder = placeholder
+    onFocus(id)
+  }
   const handleKeyDown = (e) => {
     const leftArrowKey = 37
     const upArrowKey = 38
@@ -83,10 +87,10 @@ const MaskedInputField = ({
           onBlur={(event) => {
             event.target.placeholder = ''
             if (onBlur) {
-              onBlur(id, event.target.value)
+              onBlur(id)
             }
           }}
-          onFocus={(e) => (e.target.placeholder = placeholder)}
+          onFocus={handleFocus}
           onChange={onChange}
           onClick={handleClick}
           autoComplete={'off'}
@@ -111,6 +115,7 @@ MaskedInputField.propTypes = {
   moveCursor: PropTypes.func,
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
   onKeyPress: PropTypes.func,
   placeholder: PropTypes.string,
   required: PropTypes.bool,

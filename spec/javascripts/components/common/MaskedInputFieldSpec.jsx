@@ -8,12 +8,14 @@ describe('MaskedInputField', () => {
     id = 'myMaskedInput',
     label = 'myInputLabel',
     onChange = () => {},
+    onFocus = () => {},
+    onBlur = () => {},
     moveCursor = () => {},
     onKeyPress = () => {},
     onKeyDown = () => {},
     ...args
   }) => {
-    const props = {id, label, onChange, moveCursor, onKeyPress, onKeyDown, value, ...args}
+    const props = {id, label, onBlur, onChange, moveCursor, onFocus, onKeyPress, onKeyDown, value, ...args}
     return shallow(<MaskedInputField {...props} />, {disableLifecycleMethods: true})
   }
 
@@ -90,7 +92,16 @@ describe('MaskedInputField', () => {
       const component = render({onBlur, id: 'myInputFieldId'})
       const maskedInput = component.find('MaskedInput')
       maskedInput.simulate('blur', {target: {value: '1234'}})
-      expect(onBlur).toHaveBeenCalledWith('myInputFieldId', '1234')
+      expect(onBlur).toHaveBeenCalledWith('myInputFieldId')
+    })
+  })
+
+  describe('onFocus', () => {
+    it('when the field has focus calls onFocus', () => {
+      const onFocus = jasmine.createSpy('onFocus')
+      const maskedInput = render({onFocus}).find('MaskedInput')
+      maskedInput.props().onFocus({target: {placeholder: ''}})
+      expect(onFocus).toHaveBeenCalledWith('myMaskedInput')
     })
   })
 

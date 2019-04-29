@@ -10,6 +10,7 @@ const defaultPersonSearchFields = {
 const render = (
   {
     onBlur = () => {},
+    onFocus = () => {},
     onChange = () => {},
     onKeyPress = () => {},
     onKeyUp = () => {},
@@ -27,6 +28,7 @@ const render = (
       clientIdError={clientIdError}
       ssnErrors={ssnErrors}
       dobErrors={dobErrors}
+      onFocus={onFocus}
       onKeyPress={onKeyPress}
       onKeyUp={onKeyUp}
     />
@@ -94,6 +96,7 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
         expect(clientId.props().label).toEqual('Client ID Number')
         expect(clientId.props().gridClassName).toEqual('col-md-3 client-id-field')
         expect(typeof clientId.props().onBlur).toEqual('function')
+        expect(typeof clientId.props().onFocus).toEqual('function')
         expect(typeof clientId.props().onChange).toEqual('function')
         expect(clientId.props().value).toEqual('0965-9408-8355-7001109')
         expect(clientId.props().mask).toEqual('1111-1111-1111-1111111')
@@ -126,7 +129,6 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
         })
       })
     })
-
     describe('SSN', () => {
       it('renders a masked input field with label', () => {
         const personSearchFields = {

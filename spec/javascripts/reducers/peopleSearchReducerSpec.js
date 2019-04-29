@@ -8,6 +8,8 @@ import {
   setPersonSearchField,
   loadMoreResultsSuccess,
   loadMoreResultsFailure,
+  resetClientIdErrorCheck,
+  resetSsnErrorCheck,
   setClientIdError,
   setSsnErrorCheck,
   setDobErrorCheck,
@@ -602,6 +604,40 @@ describe('peopleSearchReducer', () => {
           searchTerm: 'newSearchTerm',
           total: 3,
           dobErrorCheck: true,
+        })
+      )
+    })
+  })
+  describe('on RESET_SSN_ERROR_CHECK', () => {
+    it('action reset ssnErrorCheck to false', () => {
+      const initialState = fromJS({
+        searchTerm: 'newSearchTerm',
+        total: 3,
+        ssnErrorCheck: true,
+      })
+      const action = resetSsnErrorCheck()
+      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+        fromJS({
+          searchTerm: 'newSearchTerm',
+          total: 3,
+          ssnErrorCheck: false,
+        })
+      )
+    })
+  })
+  describe('on RESET_CLIENT_ID_ERROR_CHECK', () => {
+    const initialState = fromJS({
+      searchTerm: 'newSearchTerm',
+      total: 3,
+      clientIdError: true,
+    })
+    const action = resetClientIdErrorCheck()
+    it('action resets clientIdError to false', () => {
+      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+        fromJS({
+          searchTerm: 'newSearchTerm',
+          total: 3,
+          clientIdError: false,
         })
       )
     })
