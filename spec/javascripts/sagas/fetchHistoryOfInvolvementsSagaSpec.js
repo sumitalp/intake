@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
 import {takeLatest, put, call} from 'redux-saga/effects'
 import {get} from 'utils/http'
 import {

@@ -51,7 +51,7 @@ describe('DateOfBirthDateField', () => {
     describe('errors', () => {
       it('displays error messages if dobErrors are present', () => {
         const dobErrors = [
-          'Please enter date as today or earlier',
+          'Please enter date as today or earlier.',
         ]
         const component = render({errors: dobErrors})
         const dateField = component.find('DateField[label="Date"]')

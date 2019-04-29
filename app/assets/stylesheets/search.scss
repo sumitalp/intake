@@ -42,7 +42,26 @@
     border-radius: .4rem;
   }
 
-  // see https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
+  .date-of-birth-section {
+    margin-left: 1px;
+    padding-left: 0;
+  }
+
+  .approximate-age-section {
+    .approximate-age-selector.unit {
+      padding-left: .2rem;
+    }
+
+    .age-unit-form {
+      margin-left: .2rem;
+    }
+
+    .approximate-age-selector.number {
+      padding-left: 0;
+    }
+  }
+
+    // see https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder
   // for more info about the placeholder pseudo element
   .date-field {
     // edge (it requries the -webkit-input- prefix)
@@ -83,4 +102,39 @@
       width: 11.4rem;
     }
   }
+
+  .search-modal-info {
+    color: $green;
+    cursor: pointer;
+    font-size: 1.7rem;
+    text-decoration: underline;
+  }
+}
+
+.modal-header {
+  padding: 1.5rem 3rem;
+}
+
+.modal-body {
+  color: $dark-grey-woodduck;
+  font-size: 1.8rem;
+  padding: 1.5rem 3rem;
+}
+
+.modal-footer-button {
+  background-color: $green;
+  border: none;
+  color: $white;
+  float: right;
+  margin-left: 2.6rem;
+  text-transform: none;
+  width: 11.4rem;
+}
+
+.modal-footer-button:hover {
+  color: $white;
+}
+
+.modal-dialog {
+  top: 20%;
 }

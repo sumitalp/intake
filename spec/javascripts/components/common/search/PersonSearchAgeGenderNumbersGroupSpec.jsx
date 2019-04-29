@@ -36,8 +36,24 @@ const render = (
 
 describe('PersonSearchAgeGenderNumbersGroup', () => {
   describe('layout', () => {
-    it('renders the AgeSearchFields component with props', () => {
-      const ageSearchFields = render({}).find('AgeSearchFields')
+    it('render the age search field container', () => {
+      const container = render({}).find('div.age-search-field-container')
+      expect(container.exists()).toEqual(true)
+    })
+
+    it('renders the SearchByAgeMethodSelect within a container and sets props', () => {
+      const methodSelect = render({}).find('div.age-search-field-container').find('SearchByAgeMethodSelect')
+      const props = methodSelect.props()
+      expect(methodSelect.exists()).toEqual(true)
+      expect(props.gridClassName).toEqual('search-by-age-method-field')
+      expect(props.id).toEqual('search-by-age-method')
+      expect(typeof props.onChange).toBe('function')
+      expect(typeof props.onKeyPress).toBe('function')
+      expect(props.value).toEqual('')
+    })
+
+    it('renders the AgeSearchFields component within a container and sets props', () => {
+      const ageSearchFields = render({}).find('div.age-search-field-container').find('AgeSearchFields')
       const props = ageSearchFields.props()
       expect(ageSearchFields.exists()).toBe(true)
       expect(props.dobErrors).toEqual([])

@@ -10,7 +10,7 @@ class AgeSearchFields extends React.Component {
     const {onBlur, onChange, dobErrors, onKeyUp, onKeyPress, personSearchFields} = this.props
     const shouldRender = personSearchFields.searchByAgeMethod === 'dob'
     const dateOfBirthSection = (
-      <div className="col-md-2 date-of-birth-section">
+      <div className="col-md-9 date-of-birth-section">
         <DateOfBirthDateField
           errors={dobErrors}
           onBlur={onBlur}
@@ -28,9 +28,9 @@ class AgeSearchFields extends React.Component {
     const {onChange, onKeyPress, personSearchFields} = this.props
     return (
       <AgeUnitForm
-        formLabel = "Unit"
-        monthsLabel = "Months"
-        yearsLabel = "Years"
+        formLabel="Unit"
+        monthsLabel="Months"
+        yearsLabel="Years"
         onChange={onChange}
         onKeyPress={onKeyPress}
         searchApproximateAgeUnits={personSearchFields.searchApproximateAgeUnits}
@@ -56,7 +56,7 @@ class AgeSearchFields extends React.Component {
     const {personSearchFields} = this.props
     const shouldRender = personSearchFields.searchByAgeMethod === 'approximate'
     const approximateAgeSection = (
-      <div className="col-md-3 approximate-age-section">
+      <div className="approximate-age-section">
         <div className="col-md-6 approximate-age-selector unit">
           {this.renderAgeUnitForm()}
         </div>

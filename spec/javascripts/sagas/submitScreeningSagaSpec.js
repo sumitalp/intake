@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
 import {takeEvery, put, call, select} from 'redux-saga/effects'
 import {fromJS} from 'immutable'
 import {post} from 'utils/http'

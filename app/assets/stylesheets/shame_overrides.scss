@@ -25,6 +25,10 @@
       padding: $base-spacing $double-spacing;
     }
 
+    span {
+      padding: 0;
+    }
+
     .btn.btn-default {
       margin-right: 2rem;
       padding: 1rem;
@@ -242,3 +246,8 @@ header {
 .edit-relationship label {
   margin-top: 2rem;
 }
+
+.modal-footer {
+  border-top: none;
+}
+

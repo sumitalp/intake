@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
 import {
   BATCH_CREATE_RELATIONSHIPS,
   batchCreateRelationships,

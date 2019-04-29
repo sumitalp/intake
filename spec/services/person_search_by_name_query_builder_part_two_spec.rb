@@ -2,38 +2,30 @@
 
 require 'rails_helper'
 
-describe PersonSearchByNameQueryBuilder do
+describe PersonSearchByNameQueryBuilderPartTwo do
   describe '.build_query' do
     let(:last_name) { 'last name' }
     let(:first_name) { 'first name' }
     let(:middle_name) { 'middle name' }
-    let(:suffix) { 'suffix' }
 
-    let(:full_name_query) { PersonSearchResultBuilder.new.fs_full_name_query }
-    let(:last_name_query) { PersonSearchResultBuilder.new.fs_last_name_query }
-    let(:first_name_query) { PersonSearchResultBuilder.new.fs_first_name_query }
+    let(:full_name_query) { PersonSearchResultBuilder.new.fs_full_name_query_part_two }
+    let(:last_name_query) { PersonSearchResultBuilder.new.fs_last_name_query_part_two }
+    let(:first_name_query) { PersonSearchResultBuilder.new.fs_first_name_query_part_two }
 
     let(:full_name_params) do
       {
         last_name: last_name,
         first_name: first_name,
-        middle_name: middle_name,
-        suffix: suffix
+        middle_name: middle_name
       }
     end
 
     let(:last_name_params) do
-      {
-        last_name: last_name,
-        suffix: suffix
-      }
+      { last_name: last_name }
     end
 
     let(:first_name_params) do
-      {
-        first_name: first_name,
-        suffix: suffix
-      }
+      { first_name: first_name }
     end
 
     context 'returns hash' do
