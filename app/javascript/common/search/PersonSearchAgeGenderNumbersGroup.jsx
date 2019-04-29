@@ -73,7 +73,7 @@ PersonSearchAgeGenderNumbersGroup.propTypes = {
   dobErrors: PropTypes.array,
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  onFocus: PropTypes.func,
+  onFocus: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func,
   onKeyUp: PropTypes.func,
   personSearchFields: PersonSearchFieldsPropType,

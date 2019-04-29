@@ -7,6 +7,7 @@ describe('PersonSearchFields', () => {
     onBlur = () => {},
     onChange = () => {},
     onCancel = () => {},
+    onFocus = () => {},
     onSubmit = () => {},
     onKeyPress = () => {},
     onKeyUp = () => {},
@@ -16,6 +17,7 @@ describe('PersonSearchFields', () => {
       <PersonSearchFields
         onBlur={onBlur}
         onChange={onChange}
+        onFocus={onChange}
         onSubmit={onSubmit}
         onCancel={onCancel}
         onKeyPress={onKeyPress}

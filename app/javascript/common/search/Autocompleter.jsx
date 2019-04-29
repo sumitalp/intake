@@ -248,7 +248,7 @@ Autocompleter.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onClear: PropTypes.func.isRequired,
-  onFocus: PropTypes.func,
+  onFocus: PropTypes.func.isRequired,
   onLoadMoreResults: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
   onSelect: PropTypes.func.isRequired,
