@@ -2,6 +2,1738 @@
 
 # rubocop:disable Metrics/ModuleLength
 module PersonSearchByNameQueryBuilderHelper
+  def suffix_sub_query
+    {
+      "filter": {
+        "bool": {
+          "must": [
+            {
+              "multi_match": {
+                "query": 'last name suffix',
+                "operator": 'and',
+                "fields": %w[
+                  last_name
+                  suffix
+                ],
+                "type": 'cross_fields',
+                "_name": '2_mlt_last_suffix'
+              }
+            }
+          ]
+        }
+      },
+      "weight": 8192
+    }
+  end
+
+  def full_name_functions
+    full_name_without_suffix_functions.insert(1, suffix_sub_query)
+  end
+
+  def full_name_without_suffix_functions
+    [
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '1_m_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name": {
+                    "query": 'first name',
+                    "_name": '1_m_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 16_384
+      },
+      {
+        "filter": {
+          "multi_match": {
+            "query": 'last name first name',
+            "operator": 'and',
+            "fields": [
+              'akas.first_name',
+              'akas.last_name'
+            ],
+            "type": 'cross_fields',
+            "_name": '3_mlt_aka'
+          }
+        },
+        "weight": 4096
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '4_dim_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name.diminutive": {
+                    "query": 'first name',
+                    "_name": '4_dim_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 2048
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '5_pho_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name.phonetic": {
+                    "query": 'first name',
+                    "_name": '5_pho_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 1024
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '6_fz_lst'
+                  }
+                }
+              },
+              {
+                "fuzzy": {
+                  "first_name": {
+                    "value": 'first name',
+                    "fuzziness": '5',
+                    "prefix_length": '1',
+                    "max_expansions": '25',
+                    "_name": '6_fz_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 512
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '7_prt_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name_ngram": {
+                    "query": 'first name',
+                    "minimum_should_match": '25%',
+                    "_name": '7_prt_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 256
+      },
+      {
+        "filter": {
+          "multi_match": {
+            "query": 'last name first name',
+            "operator": 'and',
+            "fields": %w[
+              first_name
+              last_name
+            ],
+            "fuzziness": '2',
+            "_name": '7_mlt_fz'
+          }
+        },
+        "weight": 200
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'first name',
+                    "_name": '9a_rev_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name": {
+                    "query": 'last name',
+                    "_name": '9a_rev_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 128
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'first name',
+                    "_name": '9b_rev_prt_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name_ngram": {
+                    "query": 'last name',
+                    "minimum_should_match": '25%',
+                    "_name": '9b_rev_prt_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 64
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '10_dup_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name": {
+                    "query": 'last name',
+                    "_name": '10_dup_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 32
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name_ngram": {
+                    "query": 'first name',
+                    "minimum_should_match": '25%',
+                    "_name": '11_rev_prt_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name_ngram": {
+                    "query": 'last name',
+                    "minimum_should_match": '25%',
+                    "_name": '11_rev_prt_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 16
+      },
+      {
+        "filter": {
+          "match": {
+            "last_name": {
+              "query": 'last name',
+              "_name": '8_m_lst'
+            }
+          }
+        },
+        "weight": 12
+      },
+      {
+        "filter": {
+          "match": {
+            "first_name": {
+              "query": 'first name',
+              "_name": 'xb_m_fst'
+            }
+          }
+        },
+        "weight": 8
+      }
+    ]
+  end
+
+  def last_name_functions
+    [
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '1_m_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 16_384
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "multi_match": {
+                  "query": 'last name suffix',
+                  "operator": 'and',
+                  "fields": %w[
+                    last_name
+                    suffix
+                  ],
+                  "type": 'cross_fields',
+                  "_name": '2_mlt_last_suffix'
+                }
+              }
+            ]
+          }
+        },
+        "weight": 8192
+      },
+      {
+        "filter": {
+          "multi_match": {
+            "query": 'last name',
+            "operator": 'and',
+            "fields": [
+              'akas.first_name',
+              'akas.last_name'
+            ],
+            "type": 'cross_fields',
+            "_name": '3_mlt_aka'
+          }
+        },
+        "weight": 4096
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '4_dim_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 2048
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '5_pho_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 1024
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '6_fz_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 512
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '7_prt_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 256
+      },
+      {
+        "filter": {
+          "multi_match": {
+            "query": 'last name',
+            "operator": 'and',
+            "fields": %w[
+              first_name
+              last_name
+            ],
+            "fuzziness": '2',
+            "_name": '7_mlt_fz'
+          }
+        },
+        "weight": 200
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name": {
+                    "query": 'last name',
+                    "_name": '9a_rev_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 128
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name_ngram": {
+                    "query": 'last name',
+                    "minimum_should_match": '25%',
+                    "_name": '9b_rev_prt_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 64
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '10_dup_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name": {
+                    "query": 'last name',
+                    "_name": '10_dup_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 32
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name_ngram": {
+                    "query": 'last name',
+                    "minimum_should_match": '25%',
+                    "_name": '11_rev_prt_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 16
+      },
+      {
+        "filter": {
+          "match": {
+            "last_name": {
+              "query": 'last name',
+              "_name": '8_m_lst'
+            }
+          }
+        },
+        "weight": 12
+      }
+    ]
+  end
+
+  def first_name_functions
+    [
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name": {
+                    "query": 'first name',
+                    "_name": '1_m_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 16_384
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "multi_match": {
+                  "query": 'suffix',
+                  "operator": 'and',
+                  "fields": %w[
+                    last_name
+                    suffix
+                  ],
+                  "type": 'cross_fields',
+                  "_name": '2_mlt_last_suffix'
+                }
+              }
+            ]
+          }
+        },
+        "weight": 8192
+      },
+      {
+        "filter": {
+          "multi_match": {
+            "query": 'first name',
+            "operator": 'and',
+            "fields": [
+              'akas.first_name',
+              'akas.last_name'
+            ],
+            "type": 'cross_fields',
+            "_name": '3_mlt_aka'
+          }
+        },
+        "weight": 4096
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name.diminutive": {
+                    "query": 'first name',
+                    "_name": '4_dim_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 2048
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name.phonetic": {
+                    "query": 'first name',
+                    "_name": '5_pho_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 1024
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "fuzzy": {
+                  "first_name": {
+                    "value": 'first name',
+                    "fuzziness": '5',
+                    "prefix_length": '1',
+                    "max_expansions": '25',
+                    "_name": '6_fz_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 512
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name_ngram": {
+                    "query": 'first name',
+                    "minimum_should_match": '25%',
+                    "_name": '7_prt_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 256
+      },
+      {
+        "filter": {
+          "multi_match": {
+            "query": 'first name',
+            "operator": 'and',
+            "fields": %w[
+              first_name
+              last_name
+            ],
+            "fuzziness": '2',
+            "_name": '7_mlt_fz'
+          }
+        },
+        "weight": 200
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'first name',
+                    "_name": '9a_rev_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 128
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'first name',
+                    "_name": '9b_rev_prt_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 64
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name_ngram": {
+                    "query": 'first name',
+                    "minimum_should_match": '25%',
+                    "_name": '11_rev_prt_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 16
+      },
+      {
+        "filter": {
+          "match": {
+            "first_name": {
+              "query": 'first name',
+              "_name": 'xb_m_fst'
+            }
+          }
+        },
+        "weight": 8
+      }
+    ]
+  end
+
+  def full_name_functions_part_one
+    full_name_without_suffix_functions_part_one.insert(1, suffix_sub_query)
+  end
+
+  def full_name_without_suffix_functions_part_one
+    [
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '1_m_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name": {
+                    "query": 'first name',
+                    "_name": '1_m_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 16_384
+      },
+      {
+        "filter": {
+          "multi_match": {
+            "query": 'last name first name',
+            "operator": 'and',
+            "fields": [
+              'akas.first_name',
+              'akas.last_name'
+            ],
+            "type": 'cross_fields',
+            "_name": '3_mlt_aka'
+          }
+        },
+        "weight": 4096
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '4_dim_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name.diminutive": {
+                    "query": 'first name',
+                    "_name": '4_dim_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 2048
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '5_pho_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name.phonetic": {
+                    "query": 'first name',
+                    "_name": '5_pho_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 1024
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '6_fz_lst'
+                  }
+                }
+              },
+              {
+                "fuzzy": {
+                  "first_name": {
+                    "value": 'first name',
+                    "fuzziness": '5',
+                    "prefix_length": '1',
+                    "max_expansions": '25',
+                    "_name": '6_fz_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 512
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '7_prt_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name_ngram": {
+                    "query": 'first name',
+                    "minimum_should_match": '25%',
+                    "_name": '7_prt_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 256
+      },
+      {
+        "filter": {
+          "multi_match": {
+            "query": 'last name first name',
+            "operator": 'and',
+            "fields": %w[
+              first_name
+              last_name
+            ],
+            "fuzziness": '2',
+            "_name": '7_mlt_fz'
+          }
+        },
+        "weight": 200
+      }
+    ]
+  end
+
+  def last_name_functions_part_one
+    [
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '1_m_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 16_384
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "multi_match": {
+                  "query": 'last name suffix',
+                  "operator": 'and',
+                  "fields": %w[
+                    last_name
+                    suffix
+                  ],
+                  "type": 'cross_fields',
+                  "_name": '2_mlt_last_suffix'
+                }
+              }
+            ]
+          }
+        },
+        "weight": 8192
+      },
+      {
+        "filter": {
+          "multi_match": {
+            "query": 'last name',
+            "operator": 'and',
+            "fields": [
+              'akas.first_name',
+              'akas.last_name'
+            ],
+            "type": 'cross_fields',
+            "_name": '3_mlt_aka'
+          }
+        },
+        "weight": 4096
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '4_dim_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 2048
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '5_pho_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 1024
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '6_fz_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 512
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '7_prt_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 256
+      },
+      {
+        "filter": {
+          "multi_match": {
+            "query": 'last name',
+            "operator": 'and',
+            "fields": %w[
+              first_name
+              last_name
+            ],
+            "fuzziness": '2',
+            "_name": '7_mlt_fz'
+          }
+        },
+        "weight": 200
+      }
+    ]
+  end
+
+  def first_name_functions_part_one
+    [
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name": {
+                    "query": 'first name',
+                    "_name": '1_m_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 16_384
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "multi_match": {
+                  "query": 'suffix',
+                  "operator": 'and',
+                  "fields": %w[
+                    last_name
+                    suffix
+                  ],
+                  "type": 'cross_fields',
+                  "_name": '2_mlt_last_suffix'
+                }
+              }
+            ]
+          }
+        },
+        "weight": 8192
+      },
+      {
+        "filter": {
+          "multi_match": {
+            "query": 'first name',
+            "operator": 'and',
+            "fields": [
+              'akas.first_name',
+              'akas.last_name'
+            ],
+            "type": 'cross_fields',
+            "_name": '3_mlt_aka'
+          }
+        },
+        "weight": 4096
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name.diminutive": {
+                    "query": 'first name',
+                    "_name": '4_dim_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 2048
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name.phonetic": {
+                    "query": 'first name',
+                    "_name": '5_pho_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 1024
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "fuzzy": {
+                  "first_name": {
+                    "value": 'first name',
+                    "fuzziness": '5',
+                    "prefix_length": '1',
+                    "max_expansions": '25',
+                    "_name": '6_fz_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 512
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name_ngram": {
+                    "query": 'first name',
+                    "minimum_should_match": '25%',
+                    "_name": '7_prt_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 256
+      },
+      {
+        "filter": {
+          "multi_match": {
+            "query": 'first name',
+            "operator": 'and',
+            "fields": %w[
+              first_name
+              last_name
+            ],
+            "fuzziness": '2',
+            "_name": '7_mlt_fz'
+          }
+        },
+        "weight": 200
+      }
+    ]
+  end
+
+  def full_name_functions_part_two
+    [
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'first name',
+                    "_name": '9a_rev_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name": {
+                    "query": 'last name',
+                    "_name": '9a_rev_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 128
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'first name',
+                    "_name": '9b_rev_prt_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name_ngram": {
+                    "query": 'last name',
+                    "minimum_should_match": '25%',
+                    "_name": '9b_rev_prt_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 64
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '10_dup_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name": {
+                    "query": 'last name',
+                    "_name": '10_dup_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 32
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name_ngram": {
+                    "query": 'first name',
+                    "minimum_should_match": '25%',
+                    "_name": '11_rev_prt_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name_ngram": {
+                    "query": 'last name',
+                    "minimum_should_match": '25%',
+                    "_name": '11_rev_prt_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 16
+      },
+      {
+        "filter": {
+          "match": {
+            "last_name": {
+              "query": 'last name',
+              "_name": '8_m_lst'
+            }
+          }
+        },
+        "weight": 12
+      },
+      {
+        "filter": {
+          "match": {
+            "first_name": {
+              "query": 'first name',
+              "_name": 'xb_m_fst'
+            }
+          }
+        },
+        "weight": 8
+      }
+    ]
+  end
+
+  def last_name_functions_part_two
+    [
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name": {
+                    "query": 'last name',
+                    "_name": '9a_rev_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 128
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name_ngram": {
+                    "query": 'last name',
+                    "minimum_should_match": '25%',
+                    "_name": '9b_rev_prt_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 64
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'last name',
+                    "_name": '10_dup_lst'
+                  }
+                }
+              },
+              {
+                "match": {
+                  "first_name": {
+                    "query": 'last name',
+                    "_name": '10_dup_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 32
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "first_name_ngram": {
+                    "query": 'last name',
+                    "minimum_should_match": '25%',
+                    "_name": '11_rev_prt_fst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 16
+      },
+      {
+        "filter": {
+          "match": {
+            "last_name": {
+              "query": 'last name',
+              "_name": '8_m_lst'
+            }
+          }
+        },
+        "weight": 12
+      }
+    ]
+  end
+
+  def first_name_functions_part_two
+    [
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'first name',
+                    "_name": '9a_rev_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 128
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name": {
+                    "query": 'first name',
+                    "_name": '9b_rev_prt_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 64
+      },
+      {
+        "filter": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name_ngram": {
+                    "query": 'first name',
+                    "minimum_should_match": '25%',
+                    "_name": '11_rev_prt_lst'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "weight": 16
+      },
+      {
+        "filter": {
+          "match": {
+            "first_name": {
+              "query": 'first name',
+              "_name": 'xb_m_fst'
+            }
+          }
+        },
+        "weight": 8
+      }
+    ]
+  end
+
+  def fs_full_name_query_part_one
+    {
+      "size": '10',
+      "track_scores": 'true',
+      "sort": [
+        {
+          "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
+          "_uid": 'desc'
+        }
+      ],
+      "min_score": '2.5',
+      "query": {
+        "function_score": {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "match": {
+                    "legacy_descriptor.legacy_table_name": {
+                      "query": 'CLIENT_T',
+                      "_name": 'q_cli'
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "functions": full_name_functions_part_one,
+          "score_mode": 'sum',
+          "boost_mode": 'sum'
+        }
+      },
+      "_source": source,
+      "highlight": highlight
+    }.as_json
+  end
+
+  def fs_full_name_without_suffix_query_part_one
+    {
+      "size": '10',
+      "track_scores": 'true',
+      "sort": [
+        {
+          "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
+          "_uid": 'desc'
+        }
+      ],
+      "min_score": '2.5',
+      "query": {
+        "function_score": {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "match": {
+                    "legacy_descriptor.legacy_table_name": {
+                      "query": 'CLIENT_T',
+                      "_name": 'q_cli'
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "functions": full_name_without_suffix_functions_part_one,
+          "score_mode": 'sum',
+          "boost_mode": 'sum'
+        }
+      },
+      "_source": source,
+      "highlight": highlight
+    }.as_json
+  end
+
+  def fs_last_name_query_part_one
+    {
+      "size": '10',
+      "track_scores": 'true',
+      "sort": [
+        {
+          "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
+          "_uid": 'desc'
+        }
+      ],
+      "min_score": '2.5',
+      "query": {
+        "function_score": {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "match": {
+                    "legacy_descriptor.legacy_table_name": {
+                      "query": 'CLIENT_T',
+                      "_name": 'q_cli'
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "functions": last_name_functions_part_one,
+          "score_mode": 'sum',
+          "boost_mode": 'sum'
+        }
+      },
+      "_source": source,
+      "highlight": highlight
+    }.as_json
+  end
+
+  def fs_first_name_query_part_one
+    {
+      "size": '10',
+      "track_scores": 'true',
+      "sort": [
+        {
+          "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
+          "_uid": 'desc'
+        }
+      ],
+      "min_score": '2.5',
+      "query": {
+        "function_score": {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "match": {
+                    "legacy_descriptor.legacy_table_name": {
+                      "query": 'CLIENT_T',
+                      "_name": 'q_cli'
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "functions": first_name_functions_part_one,
+          "score_mode": 'sum',
+          "boost_mode": 'sum'
+        }
+      },
+      "_source": source,
+      "highlight": highlight
+    }.as_json
+  end
+
+  def fs_full_name_query_part_two
+    {
+      "size": '10',
+      "track_scores": 'true',
+      "sort": [
+        {
+          "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
+          "_uid": 'desc'
+        }
+      ],
+      "min_score": '2.5',
+      "query": {
+        "function_score": {
+          "functions": full_name_functions_part_two,
+          "score_mode": 'sum',
+          "boost_mode": 'sum'
+        }
+      },
+      "_source": source,
+      "highlight": highlight
+    }.as_json
+  end
+
+  def fs_last_name_query_part_two
+    {
+      "size": '10',
+      "track_scores": 'true',
+      "sort": [
+        {
+          "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
+          "_uid": 'desc'
+        }
+      ],
+      "min_score": '2.5',
+      "query": {
+        "function_score": {
+          "functions": last_name_functions_part_two,
+          "score_mode": 'sum',
+          "boost_mode": 'sum'
+        }
+      },
+      "_source": source,
+      "highlight": highlight
+    }.as_json
+  end
+
+  def fs_first_name_query_part_two
+    {
+      "size": '10',
+      "track_scores": 'true',
+      "sort": [
+        {
+          "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
+          "_uid": 'desc'
+        }
+      ],
+      "min_score": '2.5',
+      "query": {
+        "function_score": {
+          "functions": first_name_functions_part_two,
+          "score_mode": 'sum',
+          "boost_mode": 'sum'
+        }
+      },
+      "_source": source,
+      "highlight": highlight
+    }.as_json
+  end
+
   def fs_full_name_query
     {
       "size": '10',
@@ -31,264 +1763,7 @@ module PersonSearchByNameQueryBuilderHelper
               ]
             }
           },
-          "functions": [
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name first name',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          first_name
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '1_mult_last_first'
-                      }
-                    },
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '1_mult_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 16_384
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name suffix',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          suffix
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '2_mult_last_suffix'
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8192
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": [
-                    'akas.first_name',
-                    'akas.last_name'
-                  ],
-                  "type": 'cross_fields',
-                  "_name": '3_mult_aka'
-                }
-              },
-              "weight": 4096
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '4_dim_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.diminutive": {
-                          "query": 'first name',
-                          "_name": '4_dim_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 2048
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '5_pho_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.phonetic": {
-                          "query": 'first name',
-                          "_name": '5_pho_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 1024
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '6_fz_last'
-                        }
-                      }
-                    },
-                    {
-                      "fuzzy": {
-                        "first_name": {
-                          "value": 'first name',
-                          "fuzziness": '5',
-                          "prefix_length": '1',
-                          "max_expansions": '25',
-                          "_name": '6_fz_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 512
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '7_ngram_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name_ngram": {
-                          "query": 'first name',
-                          "minimum_should_match": '25%',
-                          "_name": '7_ngram_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 256
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": %w[
-                    first_name
-                    last_name
-                  ],
-                  "fuzziness": '2',
-                  "_name": '7_mult_fuzz'
-                }
-              },
-              "weight": 200
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'first name',
-                          "_name": '8_rev_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_rev_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 128
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8
-            },
-            {
-              "filter": {
-                "match": {
-                  "last_name": {
-                    "query": 'last name',
-                    "_name": 'xa_m_last'
-                  }
-                }
-              },
-              "weight": 32
-            },
-            {
-              "filter": {
-                "match": {
-                  "first_name": {
-                    "query": 'first name',
-                    "_name": 'xb_m_first'
-                  }
-                }
-              },
-              "weight": 16
-            }
-          ],
+          "functions": full_name_functions,
           "score_mode": 'sum',
           "boost_mode": 'sum'
         }
@@ -327,243 +1802,7 @@ module PersonSearchByNameQueryBuilderHelper
               ]
             }
           },
-          "functions": [
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name first name',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          first_name
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '1_mult_last_first'
-                      }
-                    },
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '1_mult_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 16_384
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": [
-                    'akas.first_name',
-                    'akas.last_name'
-                  ],
-                  "type": 'cross_fields',
-                  "_name": '3_mult_aka'
-                }
-              },
-              "weight": 4096
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '4_dim_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.diminutive": {
-                          "query": 'first name',
-                          "_name": '4_dim_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 2048
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '5_pho_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.phonetic": {
-                          "query": 'first name',
-                          "_name": '5_pho_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 1024
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '6_fz_last'
-                        }
-                      }
-                    },
-                    {
-                      "fuzzy": {
-                        "first_name": {
-                          "value": 'first name',
-                          "fuzziness": '5',
-                          "prefix_length": '1',
-                          "max_expansions": '25',
-                          "_name": '6_fz_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 512
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '7_ngram_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name_ngram": {
-                          "query": 'first name',
-                          "minimum_should_match": '25%',
-                          "_name": '7_ngram_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 256
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": %w[
-                    first_name
-                    last_name
-                  ],
-                  "fuzziness": '2',
-                  "_name": '7_mult_fuzz'
-                }
-              },
-              "weight": 200
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'first name',
-                          "_name": '8_rev_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_rev_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 128
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8
-            },
-            {
-              "filter": {
-                "match": {
-                  "last_name": {
-                    "query": 'last name',
-                    "_name": 'xa_m_last'
-                  }
-                }
-              },
-              "weight": 32
-            },
-            {
-              "filter": {
-                "match": {
-                  "first_name": {
-                    "query": 'first name',
-                    "_name": 'xb_m_first'
-                  }
-                }
-              },
-              "weight": 16
-            }
-          ],
+          "functions": full_name_without_suffix_functions,
           "score_mode": 'sum',
           "boost_mode": 'sum'
         }
@@ -602,209 +1841,7 @@ module PersonSearchByNameQueryBuilderHelper
               ]
             }
           },
-          "functions": [
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          first_name
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '1_mult_last_first'
-                      }
-                    },
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '1_mult_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 16_384
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name suffix',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          suffix
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '2_mult_last_suffix'
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8192
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name',
-                  "operator": 'and',
-                  "fields": [
-                    'akas.first_name',
-                    'akas.last_name'
-                  ],
-                  "type": 'cross_fields',
-                  "_name": '3_mult_aka'
-                }
-              },
-              "weight": 4096
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '4_dim_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 2048
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '5_pho_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 1024
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '6_fz_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 512
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '7_ngram_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 256
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name',
-                  "operator": 'and',
-                  "fields": %w[
-                    first_name
-                    last_name
-                  ],
-                  "fuzziness": '2',
-                  "_name": '7_mult_fuzz'
-                }
-              },
-              "weight": 200
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_rev_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 128
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8
-            },
-            {
-              "filter": {
-                "match": {
-                  "last_name": {
-                    "query": 'last name',
-                    "_name": 'xa_m_last'
-                  }
-                }
-              },
-              "weight": 32
-            }
-          ],
+          "functions": last_name_functions,
           "score_mode": 'sum',
           "boost_mode": 'sum'
         }
@@ -843,180 +1880,7 @@ module PersonSearchByNameQueryBuilderHelper
               ]
             }
           },
-          "functions": [
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'first name',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          first_name
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '1_mult_last_first'
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 16_384
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'suffix',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          suffix
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '2_mult_last_suffix'
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8192
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'first name',
-                  "operator": 'and',
-                  "fields": [
-                    'akas.first_name',
-                    'akas.last_name'
-                  ],
-                  "type": 'cross_fields',
-                  "_name": '3_mult_aka'
-                }
-              },
-              "weight": 4096
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "first_name.diminutive": {
-                          "query": 'first name',
-                          "_name": '4_dim_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 2048
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "first_name.phonetic": {
-                          "query": 'first name',
-                          "_name": '5_pho_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 1024
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "fuzzy": {
-                        "first_name": {
-                          "value": 'first name',
-                          "fuzziness": '5',
-                          "prefix_length": '1',
-                          "max_expansions": '25',
-                          "_name": '6_fz_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 512
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "first_name_ngram": {
-                          "query": 'first name',
-                          "minimum_should_match": '25%',
-                          "_name": '7_ngram_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 256
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'first name',
-                  "operator": 'and',
-                  "fields": %w[
-                    first_name
-                    last_name
-                  ],
-                  "fuzziness": '2',
-                  "_name": '7_mult_fuzz'
-                }
-              },
-              "weight": 200
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'first name',
-                          "_name": '8_rev_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 128
-            },
-            {
-              "filter": {
-                "match": {
-                  "first_name": {
-                    "query": 'first name',
-                    "_name": 'xb_m_first'
-                  }
-                }
-              },
-              "weight": 16
-            }
-          ],
+          "functions": first_name_functions,
           "score_mode": 'sum',
           "boost_mode": 'sum'
         }
@@ -1062,264 +1926,7 @@ module PersonSearchByNameQueryBuilderHelper
               ]
             }
           },
-          "functions": [
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name first name',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          first_name
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '1_mult_last_first'
-                      }
-                    },
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '1_mult_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 16_384
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name suffix',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          suffix
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '2_mult_last_suffix'
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8192
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": [
-                    'akas.first_name',
-                    'akas.last_name'
-                  ],
-                  "type": 'cross_fields',
-                  "_name": '3_mult_aka'
-                }
-              },
-              "weight": 4096
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '4_dim_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.diminutive": {
-                          "query": 'first name',
-                          "_name": '4_dim_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 2048
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '5_pho_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.phonetic": {
-                          "query": 'first name',
-                          "_name": '5_pho_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 1024
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '6_fz_last'
-                        }
-                      }
-                    },
-                    {
-                      "fuzzy": {
-                        "first_name": {
-                          "value": 'first name',
-                          "fuzziness": '5',
-                          "prefix_length": '1',
-                          "max_expansions": '25',
-                          "_name": '6_fz_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 512
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '7_ngram_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name_ngram": {
-                          "query": 'first name',
-                          "minimum_should_match": '25%',
-                          "_name": '7_ngram_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 256
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": %w[
-                    first_name
-                    last_name
-                  ],
-                  "fuzziness": '2',
-                  "_name": '7_mult_fuzz'
-                }
-              },
-              "weight": 200
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'first name',
-                          "_name": '8_rev_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_rev_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 128
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8
-            },
-            {
-              "filter": {
-                "match": {
-                  "last_name": {
-                    "query": 'last name',
-                    "_name": 'xa_m_last'
-                  }
-                }
-              },
-              "weight": 32
-            },
-            {
-              "filter": {
-                "match": {
-                  "first_name": {
-                    "query": 'first name',
-                    "_name": 'xb_m_first'
-                  }
-                }
-              },
-              "weight": 16
-            }
-          ],
+          "functions": full_name_functions,
           "score_mode": 'sum',
           "boost_mode": 'sum'
         }
@@ -1374,264 +1981,7 @@ module PersonSearchByNameQueryBuilderHelper
               ]
             }
           },
-          "functions": [
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name first name',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          first_name
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '1_mult_last_first'
-                      }
-                    },
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '1_mult_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 16_384
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name suffix',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          suffix
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '2_mult_last_suffix'
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8192
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": [
-                    'akas.first_name',
-                    'akas.last_name'
-                  ],
-                  "type": 'cross_fields',
-                  "_name": '3_mult_aka'
-                }
-              },
-              "weight": 4096
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '4_dim_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.diminutive": {
-                          "query": 'first name',
-                          "_name": '4_dim_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 2048
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '5_pho_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.phonetic": {
-                          "query": 'first name',
-                          "_name": '5_pho_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 1024
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '6_fz_last'
-                        }
-                      }
-                    },
-                    {
-                      "fuzzy": {
-                        "first_name": {
-                          "value": 'first name',
-                          "fuzziness": '5',
-                          "prefix_length": '1',
-                          "max_expansions": '25',
-                          "_name": '6_fz_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 512
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '7_ngram_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name_ngram": {
-                          "query": 'first name',
-                          "minimum_should_match": '25%',
-                          "_name": '7_ngram_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 256
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": %w[
-                    first_name
-                    last_name
-                  ],
-                  "fuzziness": '2',
-                  "_name": '7_mult_fuzz'
-                }
-              },
-              "weight": 200
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'first name',
-                          "_name": '8_rev_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_rev_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 128
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8
-            },
-            {
-              "filter": {
-                "match": {
-                  "last_name": {
-                    "query": 'last name',
-                    "_name": 'xa_m_last'
-                  }
-                }
-              },
-              "weight": 32
-            },
-            {
-              "filter": {
-                "match": {
-                  "first_name": {
-                    "query": 'first name',
-                    "_name": 'xb_m_first'
-                  }
-                }
-              },
-              "weight": 16
-            }
-          ],
+          "functions": full_name_functions,
           "score_mode": 'sum',
           "boost_mode": 'sum'
         }
@@ -1686,243 +2036,7 @@ module PersonSearchByNameQueryBuilderHelper
               ]
             }
           },
-          "functions": [
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name first name',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          first_name
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '1_mult_last_first'
-                      }
-                    },
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '1_mult_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 16_384
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": [
-                    'akas.first_name',
-                    'akas.last_name'
-                  ],
-                  "type": 'cross_fields',
-                  "_name": '3_mult_aka'
-                }
-              },
-              "weight": 4096
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '4_dim_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.diminutive": {
-                          "query": 'first name',
-                          "_name": '4_dim_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 2048
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '5_pho_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.phonetic": {
-                          "query": 'first name',
-                          "_name": '5_pho_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 1024
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '6_fz_last'
-                        }
-                      }
-                    },
-                    {
-                      "fuzzy": {
-                        "first_name": {
-                          "value": 'first name',
-                          "fuzziness": '5',
-                          "prefix_length": '1',
-                          "max_expansions": '25',
-                          "_name": '6_fz_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 512
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '7_ngram_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name_ngram": {
-                          "query": 'first name',
-                          "minimum_should_match": '25%',
-                          "_name": '7_ngram_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 256
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": %w[
-                    first_name
-                    last_name
-                  ],
-                  "fuzziness": '2',
-                  "_name": '7_mult_fuzz'
-                }
-              },
-              "weight": 200
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'first name',
-                          "_name": '8_rev_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_rev_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 128
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8
-            },
-            {
-              "filter": {
-                "match": {
-                  "last_name": {
-                    "query": 'last name',
-                    "_name": 'xa_m_last'
-                  }
-                }
-              },
-              "weight": 32
-            },
-            {
-              "filter": {
-                "match": {
-                  "first_name": {
-                    "query": 'first name',
-                    "_name": 'xb_m_first'
-                  }
-                }
-              },
-              "weight": 16
-            }
-          ],
+          "functions": full_name_without_suffix_functions,
           "score_mode": 'sum',
           "boost_mode": 'sum'
         }
@@ -1944,7 +2058,7 @@ module PersonSearchByNameQueryBuilderHelper
           "_uid": 'desc'
         }
       ],
-      "min_scpore": '2.5',
+      "min_score": '2.5',
       "query": {
         "function_score": {
           "query": {
@@ -1977,264 +2091,7 @@ module PersonSearchByNameQueryBuilderHelper
               ]
             }
           },
-          "functions": [
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name first name',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          first_name
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '1_mult_last_first'
-                      }
-                    },
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '1_mult_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 16_384
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name suffix',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          suffix
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '2_mult_last_suffix'
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8192
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": [
-                    'akas.first_name',
-                    'akas.last_name'
-                  ],
-                  "type": 'cross_fields',
-                  "_name": '3_mult_aka'
-                }
-              },
-              "weight": 4096
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '4_dim_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.diminutive": {
-                          "query": 'first name',
-                          "_name": '4_dim_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 2048
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '5_pho_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.phonetic": {
-                          "query": 'first name',
-                          "_name": '5_pho_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 1024
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '6_fz_last'
-                        }
-                      }
-                    },
-                    {
-                      "fuzzy": {
-                        "first_name": {
-                          "value": 'first name',
-                          "fuzziness": '5',
-                          "prefix_length": '1',
-                          "max_expansions": '25',
-                          "_name": '6_fz_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 512
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '7_ngram_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name_ngram": {
-                          "query": 'first name',
-                          "minimum_should_match": '25%',
-                          "_name": '7_ngram_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 256
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": %w[
-                    first_name
-                    last_name
-                  ],
-                  "fuzziness": '2',
-                  "_name": '7_mult_fuzz'
-                }
-              },
-              "weight": 200
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'first name',
-                          "_name": '8_rev_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_rev_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 128
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8
-            },
-            {
-              "filter": {
-                "match": {
-                  "last_name": {
-                    "query": 'last name',
-                    "_name": 'xa_m_last'
-                  }
-                }
-              },
-              "weight": 32
-            },
-            {
-              "filter": {
-                "match": {
-                  "first_name": {
-                    "query": 'first name',
-                    "_name": 'xb_m_first'
-                  }
-                }
-              },
-              "weight": 16
-            }
-          ],
+          "functions": full_name_functions,
           "score_mode": 'sum',
           "boost_mode": 'sum'
         }
@@ -2256,7 +2113,7 @@ module PersonSearchByNameQueryBuilderHelper
           "_uid": 'desc'
         }
       ],
-      "min_scpore": '2.5',
+      "min_score": '2.5',
       "query": {
         "function_score": {
           "query": {
@@ -2342,264 +2199,7 @@ module PersonSearchByNameQueryBuilderHelper
               ]
             }
           },
-          "functions": [
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name first name',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          first_name
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '1_mult_last_first'
-                      }
-                    },
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '1_mult_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 16_384
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name suffix',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          suffix
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '2_mult_last_suffix'
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8192
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": [
-                    'akas.first_name',
-                    'akas.last_name'
-                  ],
-                  "type": 'cross_fields',
-                  "_name": '3_mult_aka'
-                }
-              },
-              "weight": 4096
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '4_dim_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.diminutive": {
-                          "query": 'first name',
-                          "_name": '4_dim_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 2048
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '5_pho_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name.phonetic": {
-                          "query": 'first name',
-                          "_name": '5_pho_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 1024
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '6_fz_last'
-                        }
-                      }
-                    },
-                    {
-                      "fuzzy": {
-                        "first_name": {
-                          "value": 'first name',
-                          "fuzziness": '5',
-                          "prefix_length": '1',
-                          "max_expansions": '25',
-                          "_name": '6_fz_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 512
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '7_ngram_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name_ngram": {
-                          "query": 'first name',
-                          "minimum_should_match": '25%',
-                          "_name": '7_ngram_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 256
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name first name',
-                  "operator": 'and',
-                  "fields": %w[
-                    first_name
-                    last_name
-                  ],
-                  "fuzziness": '2',
-                  "_name": '7_mult_fuzz'
-                }
-              },
-              "weight": 200
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'first name',
-                          "_name": '8_rev_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_rev_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 128
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8
-            },
-            {
-              "filter": {
-                "match": {
-                  "last_name": {
-                    "query": 'last name',
-                    "_name": 'xa_m_last'
-                  }
-                }
-              },
-              "weight": 32
-            },
-            {
-              "filter": {
-                "match": {
-                  "first_name": {
-                    "query": 'first name',
-                    "_name": 'xb_m_first'
-                  }
-                }
-              },
-              "weight": 16
-            }
-          ],
+          "functions": full_name_functions,
           "score_mode": 'sum',
           "boost_mode": 'sum'
         }
@@ -2621,7 +2221,7 @@ module PersonSearchByNameQueryBuilderHelper
           "_uid": 'desc'
         }
       ],
-      "min_scpore": '2.5',
+      "min_score": '2.5',
       "query": {
         "function_score": {
           "query": {
@@ -2707,209 +2307,7 @@ module PersonSearchByNameQueryBuilderHelper
               ]
             }
           },
-          "functions": [
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          first_name
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '1_mult_last_first'
-                      }
-                    },
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '1_mult_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 16_384
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'last name suffix',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          suffix
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '2_mult_last_suffix'
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8192
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name',
-                  "operator": 'and',
-                  "fields": [
-                    'akas.first_name',
-                    'akas.last_name'
-                  ],
-                  "type": 'cross_fields',
-                  "_name": '3_mult_aka'
-                }
-              },
-              "weight": 4096
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '4_dim_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 2048
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '5_pho_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 1024
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '6_fz_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 512
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '7_ngram_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 256
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'last name',
-                  "operator": 'and',
-                  "fields": %w[
-                    first_name
-                    last_name
-                  ],
-                  "fuzziness": '2',
-                  "_name": '7_mult_fuzz'
-                }
-              },
-              "weight": 200
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_rev_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 128
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_last'
-                        }
-                      }
-                    },
-                    {
-                      "match": {
-                        "first_name": {
-                          "query": 'last name',
-                          "_name": '8_dupe_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8
-            },
-            {
-              "filter": {
-                "match": {
-                  "last_name": {
-                    "query": 'last name',
-                    "_name": 'xa_m_last'
-                  }
-                }
-              },
-              "weight": 32
-            }
-          ],
+          "functions": last_name_functions,
           "score_mode": 'sum',
           "boost_mode": 'sum'
         }
@@ -2931,7 +2329,7 @@ module PersonSearchByNameQueryBuilderHelper
           "_uid": 'desc'
         }
       ],
-      "min_scpore": '2.5',
+      "min_score": '2.5',
       "query": {
         "function_score": {
           "query": {
@@ -3017,180 +2415,7 @@ module PersonSearchByNameQueryBuilderHelper
               ]
             }
           },
-          "functions": [
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'first name',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          first_name
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '1_mult_last_first'
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 16_384
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "multi_match": {
-                        "query": 'suffix',
-                        "operator": 'and',
-                        "fields": %w[
-                          last_name
-                          suffix
-                        ],
-                        "type": 'cross_fields',
-                        "_name": '2_mult_last_suffix'
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 8192
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'first name',
-                  "operator": 'and',
-                  "fields": [
-                    'akas.first_name',
-                    'akas.last_name'
-                  ],
-                  "type": 'cross_fields',
-                  "_name": '3_mult_aka'
-                }
-              },
-              "weight": 4096
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "first_name.diminutive": {
-                          "query": 'first name',
-                          "_name": '4_dim_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 2048
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "first_name.phonetic": {
-                          "query": 'first name',
-                          "_name": '5_pho_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 1024
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "fuzzy": {
-                        "first_name": {
-                          "value": 'first name',
-                          "fuzziness": '5',
-                          "prefix_length": '1',
-                          "max_expansions": '25',
-                          "_name": '6_fz_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 512
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "first_name_ngram": {
-                          "query": 'first name',
-                          "minimum_should_match": '25%',
-                          "_name": '7_ngram_first'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 256
-            },
-            {
-              "filter": {
-                "multi_match": {
-                  "query": 'first name',
-                  "operator": 'and',
-                  "fields": %w[
-                    first_name
-                    last_name
-                  ],
-                  "fuzziness": '2',
-                  "_name": '7_mult_fuzz'
-                }
-              },
-              "weight": 200
-            },
-            {
-              "filter": {
-                "bool": {
-                  "must": [
-                    {
-                      "match": {
-                        "last_name": {
-                          "query": 'first name',
-                          "_name": '8_rev_last'
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "weight": 128
-            },
-            {
-              "filter": {
-                "match": {
-                  "first_name": {
-                    "query": 'first name',
-                    "_name": 'xb_m_first'
-                  }
-                }
-              },
-              "weight": 16
-            }
-          ],
+          "functions": first_name_functions,
           "score_mode": 'sum',
           "boost_mode": 'sum'
         }
