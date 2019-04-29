@@ -38,7 +38,7 @@ const initialState = fromJS({
   searchCountry: '',
   searchZipCode: '',
   defaultCounty: null,
-  clientIdError: false,
+  clientIdErrorCheck: false,
   ssnErrorCheck: false,
   dobErrorCheck: false,
 })
@@ -145,7 +145,7 @@ export default createReducer(initialState, {
   },
   [RESET_PERSON_SEARCH]: resetPersonSearchFields,
   [SET_CLIENT_ID_ERROR](state) {
-    return state.set('clientIdError', true)
+    return state.set('clientIdErrorCheck', true)
   },
   [SET_SSN_ERROR_CHECK](state) {
     return state.set('ssnErrorCheck', true)
@@ -157,6 +157,6 @@ export default createReducer(initialState, {
     return state.set('ssnErrorCheck', false)
   },
   [RESET_CLIENT_ID_ERROR_CHECK](state) {
-    return state.set('clientIdError', false)
+    return state.set('clientIdErrorCheck', false)
   },
 })

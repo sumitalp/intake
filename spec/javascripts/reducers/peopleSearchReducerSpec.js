@@ -561,7 +561,7 @@ describe('peopleSearchReducer', () => {
     const initialState = fromJS({
       searchTerm: 'newSearchTerm',
       total: 3,
-      clientIdError: false,
+      clientIdErrorCheck: false,
     })
     const action = setClientIdError()
     it('action sets clientIdError to true', () => {
@@ -569,7 +569,7 @@ describe('peopleSearchReducer', () => {
         fromJS({
           searchTerm: 'newSearchTerm',
           total: 3,
-          clientIdError: true,
+          clientIdErrorCheck: true,
         })
       )
     })
@@ -629,15 +629,15 @@ describe('peopleSearchReducer', () => {
     const initialState = fromJS({
       searchTerm: 'newSearchTerm',
       total: 3,
-      clientIdError: true,
+      clientIdErrorCheck: true,
     })
     const action = resetClientIdErrorCheck()
-    it('action resets clientIdError to false', () => {
+    it('action resets clientIdErrorCheck to false', () => {
       expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
         fromJS({
           searchTerm: 'newSearchTerm',
           total: 3,
-          clientIdError: false,
+          clientIdErrorCheck: false,
         })
       )
     })

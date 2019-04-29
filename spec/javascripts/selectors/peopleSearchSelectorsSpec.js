@@ -844,8 +844,8 @@ describe('peopleSearchSelectors', () => {
         .toEqual([])
     })
 
-    it('returns error message if searchClientId is less than 19 digits and clientIdError is true', () => {
-      const peopleSearch = {searchClientId: '1111-1111-1111-1______', clientIdError: true}
+    it('returns error message if searchClientId is less than 19 digits and clientIdErrorCheck is true', () => {
+      const peopleSearch = {searchClientId: '1111-1111-1111-1______', clientIdErrorCheck: true}
       const state = fromJS({peopleSearch})
       expect(selectClientIdError(state))
         .toEqual(['Client Id number must be 19 digits long.'])

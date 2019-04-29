@@ -48,7 +48,7 @@ describe('Store', () => {
         searchCountry: '',
         searchZipCode: '',
         defaultCounty: null,
-        clientIdError: false,
+        clientIdErrorCheck: false,
         ssnErrorCheck: false,
         dobErrorCheck: false,
       },
