@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
 import {takeEvery, put, select, call} from 'redux-saga/effects'
 import {
   createScreeningSaga,

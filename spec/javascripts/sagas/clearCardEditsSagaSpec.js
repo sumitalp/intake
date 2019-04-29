@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
 import {takeEvery, put, select} from 'redux-saga/effects'
 import {fromJS} from 'immutable'
 import {clearCardEditsSaga, clearCardEdits} from 'sagas/clearCardEditsSaga'
