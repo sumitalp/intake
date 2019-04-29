@@ -7,7 +7,7 @@ import {
   RESET_PERSON_SEARCH,
   SET_SEARCH_FIELD,
   LOAD_MORE_RESULTS_COMPLETE,
-  SET_CLIENT_ID_ERROR,
+  SET_CLIENT_ID_ERROR_CHECK,
   SET_SSN_ERROR_CHECK,
   SET_DOB_ERROR_CHECK,
   RESET_SSN_ERROR_CHECK,
@@ -144,7 +144,7 @@ export default createReducer(initialState, {
     }
   },
   [RESET_PERSON_SEARCH]: resetPersonSearchFields,
-  [SET_CLIENT_ID_ERROR](state) {
+  [SET_CLIENT_ID_ERROR_CHECK](state) {
     return state.set('clientIdErrorCheck', true)
   },
   [SET_SSN_ERROR_CHECK](state) {

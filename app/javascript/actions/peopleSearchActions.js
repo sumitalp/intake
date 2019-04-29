@@ -5,7 +5,7 @@ export const SET_SEARCH_FIELD = 'PEOPLE_SEARCH/SET_SEARCH_FIELD'
 export const LOAD_MORE_RESULTS = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS'
 export const LOAD_MORE_RESULTS_COMPLETE = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS_COMPLETE'
 export const RESET_PERSON_SEARCH = 'RESET_PERSON_SEARCH'
-export const SET_CLIENT_ID_ERROR = 'SET_CLIENT_ID_ERROR'
+export const SET_CLIENT_ID_ERROR_CHECK = 'SET_CLIENT_ID_ERROR_CHECK'
 export const SET_SSN_ERROR_CHECK = 'SET_SSN_ERROR_CHECK'
 export const SET_DOB_ERROR_CHECK = 'SET_DOB_ERROR_CHECK'
 export const RESET_SSN_ERROR_CHECK = 'RESET_SSN_ERROR_CHECK'
@@ -48,8 +48,8 @@ export const clear = (field) => ({
 export const resetPersonSearch = () => ({
   type: RESET_PERSON_SEARCH,
 })
-export const setClientIdError = () => ({
-  type: SET_CLIENT_ID_ERROR,
+export const setClientIdErrorCheck = () => ({
+  type: SET_CLIENT_ID_ERROR_CHECK,
 })
 export const setSsnErrorCheck = () => ({
   type: SET_SSN_ERROR_CHECK,

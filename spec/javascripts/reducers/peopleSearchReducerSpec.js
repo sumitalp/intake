@@ -10,7 +10,7 @@ import {
   loadMoreResultsFailure,
   resetClientIdErrorCheck,
   resetSsnErrorCheck,
-  setClientIdError,
+  setClientIdErrorCheck,
   setSsnErrorCheck,
   setDobErrorCheck,
 } from 'actions/peopleSearchActions'
@@ -563,8 +563,8 @@ describe('peopleSearchReducer', () => {
       total: 3,
       clientIdErrorCheck: false,
     })
-    const action = setClientIdError()
-    it('action sets clientIdError to true', () => {
+    const action = setClientIdErrorCheck()
+    it('action sets clientIdErrorCheck to true', () => {
       expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
         fromJS({
           searchTerm: 'newSearchTerm',

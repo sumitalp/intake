@@ -17,7 +17,7 @@ import {
   clear,
   loadMoreResults,
   resetPersonSearch,
-  setClientIdError,
+  setClientIdErrorCheck,
   setSsnErrorCheck,
   resetSsnErrorCheck,
   resetClientIdErrorCheck,
@@ -73,7 +73,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const checkOnBlur = (dispatch, id) => {
   if (id === 'search-client-id') {
-    dispatch(setClientIdError())
+    dispatch(setClientIdErrorCheck())
   } else if (id === 'search-ssn') {
     dispatch(setSsnErrorCheck())
   } else if (id === 'search-date-of-birth') {
