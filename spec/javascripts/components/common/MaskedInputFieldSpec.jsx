@@ -101,7 +101,7 @@ describe('MaskedInputField', () => {
       const onFocus = jasmine.createSpy('onFocus')
       const maskedInput = render({onFocus}).find('MaskedInput')
       maskedInput.props().onFocus({target: {placeholder: ''}})
-      expect(onFocus).toHaveBeenCalledWith('myMaskedInput')
+      expect(onFocus).toHaveBeenCalledWith()
     })
   })
 

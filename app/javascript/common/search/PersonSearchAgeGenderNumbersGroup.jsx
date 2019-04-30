@@ -39,7 +39,7 @@ const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields
       gridClassName="col-md-3 client-id-field"
       onBlur={() => onBlur('clientIdErrorCheck')}
       onChange={({target: {value}}) => onChange('searchClientId', value)}
-      onFocus={onFocus}
+      onFocus={() => onFocus('clientIdErrorCheck')}
       value={personSearchFields.searchClientId}
       mask='1111-1111-1111-1111111'
       placeholder='____-____-____-_______'
@@ -54,7 +54,7 @@ const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields
       gridClassName="col-md-3 ssn-field"
       onBlur={() => onBlur('ssnErrorCheck')}
       onChange={({target: {value}}) => onChange('searchSsn', value)}
-      onFocus={onFocus}
+      onFocus={() => onFocus('ssnErrorCheck')}
       value={personSearchFields.searchSsn}
       mask='111-11-1111'
       placeholder='___-__-____'

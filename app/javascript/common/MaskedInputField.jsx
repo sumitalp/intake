@@ -72,8 +72,9 @@ const MaskedInputField = ({
 
   const handleFocus = (e) => {
     e.target.placeholder = placeholder
-    if (onFocus) { onFocus(id) }
+    if (onFocus) { onFocus() }
   }
+
   const handleClick = (e) => {
     moveCursor(caret, e)
   }

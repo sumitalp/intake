@@ -138,6 +138,16 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
           expect(onBlur).toHaveBeenCalledWith('clientIdErrorCheck')
         })
       })
+
+      describe('when field has focus', () => {
+        it('calls onFocus to set clientIdErrorCheck to false', () => {
+          const onFocus = jasmine.createSpy('onFocus')
+          const component = render({onFocus})
+          const maskedInputField = component.find('MaskedInputField[label="Client ID Number"]')
+          maskedInputField.props().onFocus()
+          expect(onFocus).toHaveBeenCalledWith('clientIdErrorCheck')
+        })
+      })
     })
 
     describe('SSN', () => {
@@ -196,6 +206,16 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
           const maskedInputField = component.find('MaskedInputField[label="Social Security Number"]')
           maskedInputField.props().onBlur()
           expect(onBlur).toHaveBeenCalledWith('ssnErrorCheck')
+        })
+      })
+
+      describe('when field has focus', () => {
+        it('calls onFocus to set ssnErrorCheck to false', () => {
+          const onFocus = jasmine.createSpy('onFocus')
+          const component = render({onFocus})
+          const maskedInputField = component.find('MaskedInputField[label="Social Security Number"]')
+          maskedInputField.props().onFocus()
+          expect(onFocus).toHaveBeenCalledWith('ssnErrorCheck')
         })
       })
     })
