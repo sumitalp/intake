@@ -13,7 +13,7 @@ class DateOfBirthDateField extends React.Component {
           gridClassName="date-field"
           label="Date"
           value={value}
-          onBlur={onBlur}
+          onBlur={() => onBlur('dobErrorCheck', true)}
           onChange={value => onChange('searchDateOfBirth', value)}
           hasTime={false}
           errors={errors}

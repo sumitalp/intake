@@ -197,7 +197,7 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
           maskedInputField.props().onBlur()
           expect(onBlur).toHaveBeenCalledWith('ssnErrorCheck', true)
         })
-      })      
+      })
     })
   })
 

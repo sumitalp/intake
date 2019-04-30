@@ -134,16 +134,16 @@ describe('DateField', () => {
       dateTimePicker = mountDateField({id: 'id', onBlur}).find('DateTimePicker')
     })
 
-    it('calls the passed function with an id and value', () => {
+    it('calls the passed function with no args if the value is not empty', () => {
       const event = {target: {value: '12/31/1999 12:59 PM'}}
       dateTimePicker.props().onBlur(event)
-      expect(onBlur).toHaveBeenCalledWith('id', '1999-12-31T20:59:00.000Z')
+      expect(onBlur).toHaveBeenCalledWith()
     })
 
-    it('calls the passed function with null if the value is empty', () => {
+    it('calls the passed function with no args if the value is empty', () => {
       const event = {target: {value: ''}}
       dateTimePicker.props().onBlur(event)
-      expect(onBlur).toHaveBeenCalledWith(null)
+      expect(onBlur).toHaveBeenCalledWith()
     })
   })
 
