@@ -77,7 +77,7 @@ describe('DateOfBirthDateField', () => {
         const component = render({onBlur})
         const dateField = component.find('DateField[label="Date"]')
         dateField.props().onBlur()
-        expect(onBlur).toHaveBeenCalledWith('dobErrorCheck', true)
+        expect(onBlur).toHaveBeenCalledWith('dobErrorCheck')
       })
     })
   })
