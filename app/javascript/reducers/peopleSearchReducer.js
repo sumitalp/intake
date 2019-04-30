@@ -58,7 +58,7 @@ const setPersonSearchField = (state, {payload}) => {
 
 const setPersonSearchFieldErrorCheck = (state, {payload}) => {
   const {field, value} = payload
-  state.set(field, value)
+  return state.set(field, value)
 }
 
 const resetPersonSearchFields = state =>
