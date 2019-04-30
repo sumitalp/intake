@@ -8,11 +8,6 @@ import {
   SET_SEARCH_FIELD,
   SET_SEARCH_FIELD_ERROR_CHECK,
   LOAD_MORE_RESULTS_COMPLETE,
-  SET_CLIENT_ID_ERROR_CHECK,
-  SET_SSN_ERROR_CHECK,
-  SET_DOB_ERROR_CHECK,
-  RESET_SSN_ERROR_CHECK,
-  RESET_CLIENT_ID_ERROR_CHECK,
 } from 'actions/peopleSearchActions'
 import {FETCH_USER_INFO_COMPLETE} from 'actions/userInfoActions'
 import moment from 'moment'
@@ -151,19 +146,4 @@ export default createReducer(initialState, {
     }
   },
   [RESET_PERSON_SEARCH]: resetPersonSearchFields,
-  [SET_CLIENT_ID_ERROR_CHECK](state) {
-    return state.set('clientIdErrorCheck', true)
-  },
-  [SET_SSN_ERROR_CHECK](state) {
-    return state.set('ssnErrorCheck', true)
-  },
-  [SET_DOB_ERROR_CHECK](state) {
-    return state.set('dobErrorCheck', true)
-  },
-  [RESET_SSN_ERROR_CHECK](state) {
-    return state.set('ssnErrorCheck', false)
-  },
-  [RESET_CLIENT_ID_ERROR_CHECK](state) {
-    return state.set('clientIdErrorCheck', false)
-  },
 })
