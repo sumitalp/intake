@@ -6,7 +6,7 @@ import {
   resetPersonSearch,
   search,
   setPersonSearchField,
-  setPersonSearchFieldErrorCheck,
+  setFieldErrorCheck,
   loadMoreResultsSuccess,
   loadMoreResultsFailure,
   resetClientIdErrorCheck,
@@ -566,14 +566,14 @@ describe('peopleSearchReducer', () => {
   describe('on SET_SEARCH_FIELD_ERROR_CHECK', () => {
     describe('clientIdErrorCheck', () => {
       it('action sets error check to true', () => {
-        const action = setPersonSearchFieldErrorCheck('clientIdErrorCheck', true)
+        const action = setFieldErrorCheck('clientIdErrorCheck', true)
         const initialState = fromJS({clientIdErrorCheck: false})
         const newState = peopleSearchReducer(initialState, action)
         expect(newState.get('clientIdErrorCheck')).toEqual(true)
       })
 
       it('action sets error check to false', () => {
-        const action = setPersonSearchFieldErrorCheck('clientIdErrorCheck', false)
+        const action = setFieldErrorCheck('clientIdErrorCheck', false)
         const initialState = fromJS({clientIdErrorCheck: true})
         const newState = peopleSearchReducer(initialState, action)
         expect(newState.get('clientIdErrorCheck')).toEqual(false)
@@ -582,14 +582,14 @@ describe('peopleSearchReducer', () => {
 
     describe('ssnErrorCheck', () => {
       it('action sets error check to true', () => {
-        const action = setPersonSearchFieldErrorCheck('ssnErrorCheck', true)
+        const action = setFieldErrorCheck('ssnErrorCheck', true)
         const initialState = fromJS({ssnErrorCheck: false})
         const newState = peopleSearchReducer(initialState, action)
         expect(newState.get('ssnErrorCheck')).toEqual(true)
       })
 
       it('action sets error check to false', () => {
-        const action = setPersonSearchFieldErrorCheck('ssnErrorCheck', false)
+        const action = setFieldErrorCheck('ssnErrorCheck', false)
         const initialState = fromJS({ssnErrorCheck: true})
         const newState = peopleSearchReducer(initialState, action)
         expect(newState.get('ssnErrorCheck')).toEqual(false)
@@ -598,14 +598,14 @@ describe('peopleSearchReducer', () => {
 
     describe('dobErrorCheck', () => {
       it('action sets error check to true', () => {
-        const action = setPersonSearchFieldErrorCheck('dobErrorCheck', true)
+        const action = setFieldErrorCheck('dobErrorCheck', true)
         const initialState = fromJS({dobErrorCheck: false})
         const newState = peopleSearchReducer(initialState, action)
         expect(newState.get('dobErrorCheck')).toEqual(true)
       })
 
       it('action sets error check to false', () => {
-        const action = setPersonSearchFieldErrorCheck('dobErrorCheck', false)
+        const action = setFieldErrorCheck('dobErrorCheck', false)
         const initialState = fromJS({dobErrorCheck: true})
         const newState = peopleSearchReducer(initialState, action)
         expect(newState.get('dobErrorCheck')).toEqual(false)

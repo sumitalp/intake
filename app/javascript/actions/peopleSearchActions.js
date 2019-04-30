@@ -64,7 +64,7 @@ export const resetClientIdErrorCheck = () => ({
 export const setDobErrorCheck = () => ({
   type: SET_DOB_ERROR_CHECK,
 })
-export const setPersonSearchFieldErrorCheck = (field, value) => ({
+export const setFieldErrorCheck = (field, value) => ({
   type: SET_SEARCH_FIELD_ERROR_CHECK,
   payload: {field, value},
 })

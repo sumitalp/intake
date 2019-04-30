@@ -8,7 +8,7 @@ import {
   search,
   resetPersonSearch,
   setPersonSearchField,
-  setPersonSearchFieldErrorCheck,
+  setFieldErrorCheck,
   setClientIdErrorCheck,
   setSsnErrorCheck,
   setDobErrorCheck,
@@ -121,8 +121,8 @@ describe('peopleSearchActions', () => {
     expect(isFSA(action)).toEqual(true)
   })
 
-  it('setPersonSearchFieldErrorCheck with field is FSA compliant', () => {
-    const action = setPersonSearchFieldErrorCheck('clientIdErrorCheck', true)
+  it('setFieldErrorCheck with field is FSA compliant', () => {
+    const action = setFieldErrorCheck('clientIdErrorCheck', true)
     expect(isFSA(action)).toEqual(true)
   })
 })
