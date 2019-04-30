@@ -18,8 +18,6 @@ import {
   clear,
   loadMoreResults,
   resetPersonSearch,
-  resetSsnErrorCheck,
-  resetClientIdErrorCheck,
 } from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
