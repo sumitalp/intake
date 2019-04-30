@@ -6,6 +6,7 @@ import {
   PEOPLE_SEARCH_FETCH_COMPLETE,
   RESET_PERSON_SEARCH,
   SET_SEARCH_FIELD,
+  SET_SEARCH_FIELD_ERROR_CHECK,
   LOAD_MORE_RESULTS_COMPLETE,
   SET_CLIENT_ID_ERROR_CHECK,
   SET_SSN_ERROR_CHECK,
@@ -53,6 +54,11 @@ const setPersonSearchField = (state, {payload}) => {
   } else {
     return state.set(field, value).set('startTime', null)
   }
+}
+
+const setPersonSearchFieldErrorCheck = (state, {payload}) => {
+  const {field, value} = payload
+  state.set(field, value)
 }
 
 const resetPersonSearchFields = state =>
@@ -114,6 +120,7 @@ export default createReducer(initialState, {
     return state
   },
   [SET_SEARCH_FIELD]: setPersonSearchField,
+  [SET_SEARCH_FIELD_ERROR_CHECK]: setPersonSearchFieldErrorCheck,
   [FETCH_USER_INFO_COMPLETE](
     state,
     {

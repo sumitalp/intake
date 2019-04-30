@@ -2,6 +2,7 @@ export const PEOPLE_SEARCH_FETCH = 'PEOPLE_SEARCH/FETCH'
 export const PEOPLE_SEARCH_FETCH_COMPLETE = 'PEOPLE_SEARCH/FETCH_COMPLETE'
 export const PEOPLE_SEARCH_CLEAR = 'PEOPLE_SEARCH/CLEAR'
 export const SET_SEARCH_FIELD = 'PEOPLE_SEARCH/SET_SEARCH_FIELD'
+export const SET_SEARCH_FIELD_ERROR_CHECK = 'PEOPLE_SEARCH/SET_SEARCH_FIELD_ERROR_CHECK'
 export const LOAD_MORE_RESULTS = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS'
 export const LOAD_MORE_RESULTS_COMPLETE = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS_COMPLETE'
 export const RESET_PERSON_SEARCH = 'RESET_PERSON_SEARCH'
@@ -62,4 +63,8 @@ export const resetClientIdErrorCheck = () => ({
 })
 export const setDobErrorCheck = () => ({
   type: SET_DOB_ERROR_CHECK,
+})
+export const setPersonSearchFieldErrorCheck = (field, value) => ({
+  type: SET_SEARCH_FIELD_ERROR_CHECK,
+  payload: {field, value},
 })

@@ -6,6 +6,7 @@ import {
   resetPersonSearch,
   search,
   setPersonSearchField,
+  setPersonSearchFieldErrorCheck,
   loadMoreResultsSuccess,
   loadMoreResultsFailure,
   resetClientIdErrorCheck,
@@ -21,6 +22,7 @@ import moment from 'moment'
 
 describe('peopleSearchReducer', () => {
   beforeEach(() => jasmine.addMatchers(matchers))
+
   describe('on PEOPLE_SEARCH_FETCH', () => {
     it('updates the total', () => {
       const action = search(true, true, {searchTerm: 'newSearchTerm'})
@@ -31,6 +33,7 @@ describe('peopleSearchReducer', () => {
       )
     })
   })
+
   describe('on PEOPLE_SEARCH_FETCH_COMPLETE', () => {
     const initialState = fromJS({
       searchTerm: 'newSearchTerm',
@@ -62,6 +65,7 @@ describe('peopleSearchReducer', () => {
       })
     })
   })
+
   describe('on PEOPLE_SEARCH_CLEAR', () => {
     describe('clear search results', () => {
       const action = clear('results')
@@ -137,6 +141,7 @@ describe('peopleSearchReducer', () => {
       })
     })
   })
+
   describe('on SET_SEARCH_FIELD', () => {
     describe('startTime', () => {
       const today = moment('2015-10-19').toDate()
@@ -557,6 +562,57 @@ describe('peopleSearchReducer', () => {
       expect(newState.get('defaultCounty')).toEqual(null)
     })
   })
+
+  describe('on SET_SEARCH_FIELD_ERROR_CHECK', () => {
+    describe('clientIdErrorCheck', () => {
+      it('action sets error check to true', () => {
+        const action = setPersonSearchFieldErrorCheck('clientIdErrorCheck', true)
+        const initialState = fromJS({clientIdErrorCheck: false})
+        const newState = peopleSearchReducer(initialState, action)
+        expect(newState.get('clientIdErrorCheck')).toEqual(true)
+      })
+
+      it('action sets error check to false', () => {
+        const action = setPersonSearchFieldErrorCheck('clientIdErrorCheck', false)
+        const initialState = fromJS({clientIdErrorCheck: true})
+        const newState = peopleSearchReducer(initialState, action)
+        expect(newState.get('clientIdErrorCheck')).toEqual(false)
+      })
+    })
+
+    describe('ssnErrorCheck', () => {
+      it('action sets error check to true', () => {
+        const action = setPersonSearchFieldErrorCheck('ssnErrorCheck', true)
+        const initialState = fromJS({ssnErrorCheck: false})
+        const newState = peopleSearchReducer(initialState, action)
+        expect(newState.get('ssnErrorCheck')).toEqual(true)
+      })
+
+      it('action sets error check to false', () => {
+        const action = setPersonSearchFieldErrorCheck('ssnErrorCheck', false)
+        const initialState = fromJS({ssnErrorCheck: true})
+        const newState = peopleSearchReducer(initialState, action)
+        expect(newState.get('ssnErrorCheck')).toEqual(false)
+      })
+    })
+
+    describe('dobErrorCheck', () => {
+      it('action sets error check to true', () => {
+        const action = setPersonSearchFieldErrorCheck('dobErrorCheck', true)
+        const initialState = fromJS({dobErrorCheck: false})
+        const newState = peopleSearchReducer(initialState, action)
+        expect(newState.get('dobErrorCheck')).toEqual(true)
+      })
+
+      it('action sets error check to false', () => {
+        const action = setPersonSearchFieldErrorCheck('dobErrorCheck', false)
+        const initialState = fromJS({dobErrorCheck: true})
+        const newState = peopleSearchReducer(initialState, action)
+        expect(newState.get('dobErrorCheck')).toEqual(false)
+      })
+    })
+  })
+
   describe('on SET_CLIENT_ID_ERROR', () => {
     const initialState = fromJS({
       searchTerm: 'newSearchTerm',
@@ -574,6 +630,7 @@ describe('peopleSearchReducer', () => {
       )
     })
   })
+
   describe('on SET_SSN_ERROR_CHECK', () => {
     it('action sets ssnErrorCheck to true', () => {
       const initialState = fromJS({
@@ -591,6 +648,7 @@ describe('peopleSearchReducer', () => {
       )
     })
   })
+
   describe('on SET_DOB_ERROR_CHECK', () => {
     it('action sets dobErrorCheck to true', () => {
       const initialState = fromJS({
@@ -608,6 +666,25 @@ describe('peopleSearchReducer', () => {
       )
     })
   })
+
+  describe('on RESET_CLIENT_ID_ERROR_CHECK', () => {
+    const initialState = fromJS({
+      searchTerm: 'newSearchTerm',
+      total: 3,
+      clientIdErrorCheck: true,
+    })
+    const action = resetClientIdErrorCheck()
+    it('action resets clientIdError to false', () => {
+      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
+        fromJS({
+          searchTerm: 'newSearchTerm',
+          total: 3,
+          clientIdErrorCheck: false,
+        })
+      )
+    })
+  })
+
   describe('on RESET_SSN_ERROR_CHECK', () => {
     it('action reset ssnErrorCheck to false', () => {
       const initialState = fromJS({
@@ -621,23 +698,6 @@ describe('peopleSearchReducer', () => {
           searchTerm: 'newSearchTerm',
           total: 3,
           ssnErrorCheck: false,
-        })
-      )
-    })
-  })
-  describe('on RESET_CLIENT_ID_ERROR_CHECK', () => {
-    const initialState = fromJS({
-      searchTerm: 'newSearchTerm',
-      total: 3,
-      clientIdErrorCheck: true,
-    })
-    const action = resetClientIdErrorCheck()
-    it('action resets clientIdErrorCheck to false', () => {
-      expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
-        fromJS({
-          searchTerm: 'newSearchTerm',
-          total: 3,
-          clientIdErrorCheck: false,
         })
       )
     })
