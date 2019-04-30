@@ -14,14 +14,12 @@ import {
 import {
   search,
   setPersonSearchField,
+  setFieldErrorCheck,
   clear,
   loadMoreResults,
   resetPersonSearch,
-  setClientIdErrorCheck,
-  setSsnErrorCheck,
   resetSsnErrorCheck,
   resetClientIdErrorCheck,
-  setDobErrorCheck,
 } from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
@@ -53,7 +51,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const onBlur = (id) => { checkOnBlur(dispatch, id) }
+  const onBlur = (field, value) => { dispatch(setFieldErrorCheck(field, value)) }
   const onFocus = (id) => {
     if (id === 'search-ssn') {
       dispatch(resetSsnErrorCheck())
@@ -69,16 +67,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const onLoadMoreResults = (isAvancedSearchOn, personSearchFields) =>
     dispatch(loadMoreResults(ownProps.isClientOnly, isAvancedSearchOn, personSearchFields))
   return {onBlur, onSearch, onClear, onChange, onCancel, onFocus, onLoadMoreResults, dispatch}
-}
-
-const checkOnBlur = (dispatch, id) => {
-  if (id === 'search-client-id') {
-    dispatch(setClientIdErrorCheck())
-  } else if (id === 'search-ssn') {
-    dispatch(setSsnErrorCheck())
-  } else if (id === 'search-date-of-birth') {
-    dispatch(setDobErrorCheck())
-  }
 }
 
 export default connect(
