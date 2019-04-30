@@ -128,7 +128,18 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
           expect(component.props().errors).toEqual([])
         })
       })
+
+      describe('when field is blurred', () => {
+        it('calls onBlur to set clientIdErrorCheck to true', () => {
+          const onBlur = jasmine.createSpy('onBlur')
+          const component = render({onBlur})
+          const maskedInputField = component.find('MaskedInputField[label="Client ID Number"]')
+          maskedInputField.props().onBlur()
+          expect(onBlur).toHaveBeenCalledWith('clientIdErrorCheck', true)
+        })
+      })
     })
+
     describe('SSN', () => {
       it('renders a masked input field with label', () => {
         const personSearchFields = {
@@ -177,6 +188,16 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
           expect(maskedInputField.props().errors).toEqual([])
         })
       })
+
+      describe('when field is blurred', () => {
+        it('calls onBlur to set ssnErrorCheck to true', () => {
+          const onBlur = jasmine.createSpy('onBlur')
+          const component = render({onBlur})
+          const maskedInputField = component.find('MaskedInputField[label="Social Security Number"]')
+          maskedInputField.props().onBlur()
+          expect(onBlur).toHaveBeenCalledWith('ssnErrorCheck', true)
+        })
+      })      
     })
   })
 

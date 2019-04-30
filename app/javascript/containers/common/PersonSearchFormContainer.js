@@ -51,7 +51,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const onBlur = (field, value) => { dispatch(setFieldErrorCheck(field, value)) }
+  const onBlur = (field, value) => dispatch(setFieldErrorCheck(field, value))
   const onFocus = (id) => {
     if (id === 'search-ssn') {
       dispatch(resetSsnErrorCheck())

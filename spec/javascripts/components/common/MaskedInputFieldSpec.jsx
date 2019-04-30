@@ -92,7 +92,7 @@ describe('MaskedInputField', () => {
       const component = render({onBlur, id: 'myInputFieldId'})
       const maskedInput = component.find('MaskedInput')
       maskedInput.simulate('blur', {target: {value: '1234'}})
-      expect(onBlur).toHaveBeenCalledWith('myInputFieldId')
+      expect(onBlur).toHaveBeenCalled()
     })
   })
 

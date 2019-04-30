@@ -49,10 +49,7 @@ const MaskedInputField = ({
   const formFieldProps = {errors, gridClassName, htmlFor: id, label, labelClassName, required}
   const breakPoints = findBreakPoints(value, '-')
   const caret = cursorPosition(value, breakPoints)
-  const handleFocus = (e) => {
-    e.target.placeholder = placeholder
-    onFocus(id)
-  }
+
   const handleKeyDown = (e) => {
     const leftArrowKey = 37
     const upArrowKey = 38
@@ -64,10 +61,19 @@ const MaskedInputField = ({
     if (arrowKeys.includes(keyCode)) {
       moveCursor(caret, e)
     } else if (keyCode === enterKey) {
-      onKeyPress({charCode: 13})
+      onKeyPress({charCode: enterKey})
     }
   }
 
+  const handleBlur = (e) => {
+    e.target.placeholder = ''
+    if (onBlur) { onBlur() }
+  }
+
+  const handleFocus = (e) => {
+    e.target.placeholder = placeholder
+    if (onFocus) { onFocus(id) }
+  }
   const handleClick = (e) => {
     moveCursor(caret, e)
   }
@@ -84,12 +90,7 @@ const MaskedInputField = ({
           placeholder={''}
           required={required}
           aria-required={required}
-          onBlur={(event) => {
-            event.target.placeholder = ''
-            if (onBlur) {
-              onBlur(id)
-            }
-          }}
+          onBlur={handleBlur}
           onFocus={handleFocus}
           onChange={onChange}
           onClick={handleClick}
