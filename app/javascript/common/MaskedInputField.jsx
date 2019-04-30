@@ -70,11 +70,6 @@ const MaskedInputField = ({
     if (onBlur) { onBlur() }
   }
 
-  const handleFocus = (e) => {
-    e.target.placeholder = placeholder
-    if (onFocus) { onFocus() }
-  }
-
   const handleClick = (e) => {
     moveCursor(caret, e)
   }
@@ -92,7 +87,10 @@ const MaskedInputField = ({
           required={required}
           aria-required={required}
           onBlur={handleBlur}
-          onFocus={handleFocus}
+          onFocus={(e) => {
+            e.target.placeholder = placeholder
+            if (onFocus) { onFocus() }
+          }}
           onChange={onChange}
           onClick={handleClick}
           autoComplete={'off'}
