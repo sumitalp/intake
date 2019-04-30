@@ -52,6 +52,7 @@ const MaskedInputField = ({
   const handleFocus = (e) => {
     e.target.placeholder = placeholder
     onFocus(id)
+    moveCursor(caret, e)
   }
   const handleKeyDown = (e) => {
     const leftArrowKey = 37
