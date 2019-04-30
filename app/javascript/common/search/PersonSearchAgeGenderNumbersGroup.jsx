@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import MaskedInputField from 'common/MaskedInputField'
 import SearchByAgeMethodSelect from 'common/search/age/SearchByAgeMethodSelect'
@@ -8,64 +8,62 @@ import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/p
 import {moveCursor} from 'utils/moveCursor'
 
 const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields, onFocus, clientIdError, ssnErrors, dobErrors, onKeyPress, onKeyUp}) => (
-  <Fragment>
-    <div className="row">
-      <div className="col-md-3 age-search-field-container">
-        <SearchByAgeMethodSelect
-          gridClassName="search-by-age-method-field"
-          id="search-by-age-method"
-          onChange={onChange}
-          onKeyPress={onKeyPress}
-          value={personSearchFields.searchByAgeMethod}
-        />
-        <AgeSearchFields
-          dobErrors={dobErrors}
-          onBlur={onBlur}
-          onChange={onChange}
-          onKeyPress={onKeyPress}
-          onKeyUp={onKeyUp}
-          personSearchFields={personSearchFields}
-        />
-      </div>
-      <SexAtBirthSelect
-        id="search-sex-at-birth"
-        gridClassName="col-md-3 sex-at-birth-field"
+  <div className="row">
+    <div className="col-md-3 age-search-field-container">
+      <SearchByAgeMethodSelect
+        gridClassName="search-by-age-method-field"
+        id="search-by-age-method"
         onChange={onChange}
-        value={personSearchFields.searchSexAtBirth}
         onKeyPress={onKeyPress}
+        value={personSearchFields.searchByAgeMethod}
       />
-      <MaskedInputField
-        id="search-client-id"
-        label="Client ID Number"
-        gridClassName="col-md-3 client-id-field"
+      <AgeSearchFields
+        dobErrors={dobErrors}
         onBlur={onBlur}
-        onChange={({target: {value}}) => onChange('searchClientId', value)}
-        onFocus={onFocus}
-        value={personSearchFields.searchClientId}
-        mask='1111-1111-1111-1111111'
-        placeholder='____-____-____-_______'
-        maxLength='19'
-        errors={clientIdError}
-        moveCursor={moveCursor}
+        onChange={onChange}
         onKeyPress={onKeyPress}
-      />
-      <MaskedInputField
-        id="search-ssn"
-        label="Social Security Number"
-        gridClassName="col-md-3 ssn-field"
-        onBlur={onBlur}
-        onChange={({target: {value}}) => onChange('searchSsn', value)}
-        onFocus={onFocus}
-        value={personSearchFields.searchSsn}
-        mask='111-11-1111'
-        placeholder='___-__-____'
-        maxLength='9'
-        errors={ssnErrors}
-        moveCursor={moveCursor}
-        onKeyPress={onKeyPress}
+        onKeyUp={onKeyUp}
+        personSearchFields={personSearchFields}
       />
     </div>
-  </Fragment>
+    <SexAtBirthSelect
+      id="search-sex-at-birth"
+      gridClassName="col-md-3 sex-at-birth-field"
+      onChange={onChange}
+      value={personSearchFields.searchSexAtBirth}
+      onKeyPress={onKeyPress}
+    />
+    <MaskedInputField
+      id="search-client-id"
+      label="Client ID Number"
+      gridClassName="col-md-3 client-id-field"
+      onBlur={onBlur}
+      onChange={({target: {value}}) => onChange('searchClientId', value)}
+      onFocus={onFocus}
+      value={personSearchFields.searchClientId}
+      mask='1111-1111-1111-1111111'
+      placeholder='____-____-____-_______'
+      maxLength='19'
+      errors={clientIdError}
+      moveCursor={moveCursor}
+      onKeyPress={onKeyPress}
+    />
+    <MaskedInputField
+      id="search-ssn"
+      label="Social Security Number"
+      gridClassName="col-md-3 ssn-field"
+      onBlur={onBlur}
+      onChange={({target: {value}}) => onChange('searchSsn', value)}
+      onFocus={onFocus}
+      value={personSearchFields.searchSsn}
+      mask='111-11-1111'
+      placeholder='___-__-____'
+      maxLength='9'
+      errors={ssnErrors}
+      moveCursor={moveCursor}
+      onKeyPress={onKeyPress}
+    />
+  </div>
 )
 
 PersonSearchAgeGenderNumbersGroup.propTypes = {
