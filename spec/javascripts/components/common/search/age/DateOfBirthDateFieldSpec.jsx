@@ -24,14 +24,6 @@ const render = (
 
 describe('DateOfBirthDateField', () => {
   describe('layout', () => {
-    it('renders a div with props', () => {
-      const component = render({})
-      const dateFieldParent = component.find('div')
-      expect(dateFieldParent.exists()).toBe(true)
-      expect(typeof dateFieldParent.props().onFocus).toEqual('function')
-      expect(dateFieldParent.props().role).toEqual('presentation')
-    })
-
     it('renders a DateField', () => {
       const component = render({value: '2019-03-01'})
       const dateField = component.find('DateField')

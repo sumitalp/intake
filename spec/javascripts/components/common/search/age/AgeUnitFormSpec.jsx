@@ -89,7 +89,7 @@ describe('AgeUnitForm', () => {
     describe('radio buttons', () => {
       describe('months radio button', () => {
         describe('is checked', () => {
-          it('when the age units value equals the radio value', () => {
+          it('when the age unit value equals the radio value', () => {
             const component = render({searchApproximateAgeUnits: 'months'})
             const radioButton = component.find('input#age-unit-months')
             expect(radioButton.props().checked).toEqual(true)
@@ -97,7 +97,7 @@ describe('AgeUnitForm', () => {
         })
 
         describe('is not checked', () => {
-          it('when the age units value does not equal the radio value', () => {
+          it('when the age unit value does not equal the radio value', () => {
             const component = render({searchApproximateAgeUnits: 'years'})
             const radioButton = component.find('input#age-unit-months')
             expect(radioButton.props().checked).toEqual(false)
@@ -116,28 +116,28 @@ describe('AgeUnitForm', () => {
 
         describe('onClick', () => {
           describe('when the radio button has not been selected', () => {
-            it('calls onChange to store the age units and reset approximate age', () => {
+            it('calls onChange to store the age unit and approximate age', () => {
               const onChange = jasmine.createSpy('onChange')
               const component = render({onChange, searchApproximateAgeUnits: 'years'})
               const radioButton = component.find('input#age-unit-months')
               const target = {target: {value: 'months'}}
               radioButton.props().onClick(target)
-              expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
               expect(onChange).toHaveBeenCalledWith('searchApproximateAgeUnits', 'months')
               expect(onChange).toHaveBeenCalledWith('searchApproximateAge', '')
-              expect(onChange).toHaveBeenCalledTimes(3)
+              expect(onChange).toHaveBeenCalledTimes(2)
             })
           })
 
           describe('when the radio button is currently selected', () => {
-            it('calls onChange to set search by age method', () => {
+            it('does not call onChange to store the age unit and approximate age', () => {
               const onChange = jasmine.createSpy('onChange')
               const component = render({onChange, searchApproximateAgeUnits: 'months'})
               const radioButton = component.find('input#age-unit-months')
               const target = {target: {value: 'months'}}
               radioButton.props().onClick(target)
-              expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
-              expect(onChange).toHaveBeenCalledTimes(1)
+              expect(onChange).not.toHaveBeenCalledWith('searchApproximateAgeUnits', 'months')
+              expect(onChange).not.toHaveBeenCalledWith('searchApproximateAge', '')
+              expect(onChange).toHaveBeenCalledTimes(0)
             })
           })
         })
@@ -145,7 +145,7 @@ describe('AgeUnitForm', () => {
 
       describe('years radio button', () => {
         describe('is checked', () => {
-          it('when the age units value equals the radio value', () => {
+          it('when the age unit value equals the radio value', () => {
             const component = render({searchApproximateAgeUnits: 'years'})
             const radioButton = component.find('input#age-unit-years')
             expect(radioButton.props().checked).toEqual(true)
@@ -153,7 +153,7 @@ describe('AgeUnitForm', () => {
         })
 
         describe('is not checked', () => {
-          it('when the age units value does not equal the radio value', () => {
+          it('when the age unit value does not equal the radio value', () => {
             const component = render({searchApproximateAgeUnits: 'months'})
             const radioButton = component.find('input#age-unit-years')
             expect(radioButton.props().checked).toEqual(false)
@@ -162,28 +162,28 @@ describe('AgeUnitForm', () => {
 
         describe('onClick', () => {
           describe('when the radio button has not been selected', () => {
-            it('calls onChange to store the age units and reset approximate age', () => {
+            it('calls onChange to store the age unit and approximate age', () => {
               const onChange = jasmine.createSpy('onChange')
               const component = render({onChange, searchApproximateAgeUnits: 'months'})
               const radioButton = component.find('input#age-unit-years')
               const target = {target: {value: 'years'}}
               radioButton.props().onClick(target)
-              expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
               expect(onChange).toHaveBeenCalledWith('searchApproximateAgeUnits', 'years')
               expect(onChange).toHaveBeenCalledWith('searchApproximateAge', '')
-              expect(onChange).toHaveBeenCalledTimes(3)
+              expect(onChange).toHaveBeenCalledTimes(2)
             })
           })
 
           describe('when the radio button is currently selected', () => {
-            it('calls onChange to set search by age method', () => {
+            it('does not call onChange to store the age unit and approximate age', () => {
               const onChange = jasmine.createSpy('onChange')
               const component = render({onChange, searchApproximateAgeUnits: 'years'})
               const radioButton = component.find('input#age-unit-years')
               const target = {target: {value: 'years'}}
               radioButton.props().onClick(target)
-              expect(onChange).toHaveBeenCalledWith('searchByAgeMethod', 'approximate')
-              expect(onChange).toHaveBeenCalledTimes(1)
+              expect(onChange).not.toHaveBeenCalledWith('searchApproximateAgeUnits', 'years')
+              expect(onChange).not.toHaveBeenCalledWith('searchApproximateAge', '')
+              expect(onChange).toHaveBeenCalledTimes(0)
             })
           })
         })

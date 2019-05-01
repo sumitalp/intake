@@ -5,7 +5,6 @@ class AgeUnitForm extends React.Component {
   handleClick({target: {value}}) {
     const {onChange, searchApproximateAgeUnits} = this.props
     const unitsHaveChanged = value !== searchApproximateAgeUnits
-    onChange('searchByAgeMethod', 'approximate')
     if (unitsHaveChanged) {
       const isValidValue = value === 'months' || value === 'years'
       onChange('searchApproximateAgeUnits', isValidValue ? value : '')
