@@ -6,13 +6,17 @@ import {toCamelCase, toCapitalCase} from 'utils/textFormatter'
 const MaskedSearchInput = ({name, onBlur, onChange, onFocus, ...props}) => {
   const camelName = toCamelCase(name, /-/g)
   const capitalName = toCapitalCase(name, /-/g)
+  const handleBlur = () => onBlur(`${camelName}ErrorCheck`)
+  const handleChange = ({target: {value}}) => onChange(`search${capitalName}`, value)
+  const handleFocus = () => onFocus(`${camelName}ErrorCheck`)
+
   return (
     <HyphenatedMaskedInput
       id={`search-${name}`}
       gridClassName={`col-md-3 ${name}-field`}
-      onBlur={() => onBlur(`${camelName}ErrorCheck`)}
-      onChange={({target: {value}}) => onChange(`search${capitalName}`, value)}
-      onFocus={() => onFocus(`${camelName}ErrorCheck`)}
+      onBlur={handleBlur}
+      onChange={handleChange}
+      onFocus={handleFocus}
       {...props}
     />
   )

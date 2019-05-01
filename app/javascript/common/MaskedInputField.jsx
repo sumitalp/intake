@@ -49,7 +49,7 @@ const MaskedInputField = ({
   const formFieldProps = {errors, gridClassName, htmlFor: id, label, labelClassName, required}
   const breakPoints = findBreakPoints(value, '-')
   const caret = cursorPosition(value, breakPoints)
-  
+
   const handleKeyDown = (e) => {
     const leftArrowKey = 37
     const upArrowKey = 38

@@ -6,6 +6,9 @@ class DateOfBirthDateField extends React.Component {
   render() {
     const {value, onBlur, onChange, errors, onKeyUp, onKeyPress} = this.props
     const handleFocus = () => { this.props.onChange('searchByAgeMethod', 'dob') }
+    const handleBlur = () => onBlur('dobErrorCheck')
+    const handleChange = value => onChange('searchDateOfBirth', value)
+
     return (
       <div onFocus={handleFocus} role="presentation">
         <DateField
@@ -13,8 +16,8 @@ class DateOfBirthDateField extends React.Component {
           gridClassName="date-field"
           label="Date"
           value={value}
-          onBlur={() => onBlur('dobErrorCheck')}
-          onChange={value => onChange('searchDateOfBirth', value)}
+          onBlur={handleBlur}
+          onChange={handleChange}
           hasTime={false}
           errors={errors}
           onKeyUp={onKeyUp}
