@@ -53,15 +53,8 @@ const proxyOnChange = (onChange, hasTime) => (date) => {
   onChange(dateOrDatetime)
 }
 
-const proxyOnBlur = (id, onBlur) => (event) => {
-  if (!onBlur) { return }
-
-  const date = event.target.value
-  if (_.isEmpty(date)) {
-    onBlur(null)
-    return
-  }
-  onBlur(id, parseDate(date).toISOString())
+const proxyOnBlur = (onBlur) => () => {
+  if (onBlur) { onBlur() }
 }
 
 const DateField = ({
@@ -96,7 +89,7 @@ const DateField = ({
         value={dateValue}
         format={format}
         id={id}
-        onBlur={proxyOnBlur(id, onBlur)}
+        onBlur={proxyOnBlur(onBlur)}
         onChange={proxyOnChange(onChange, hasTime)}
         placeholder={placeholder}
         required={required}

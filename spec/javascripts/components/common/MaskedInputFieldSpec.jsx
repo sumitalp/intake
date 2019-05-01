@@ -92,7 +92,7 @@ describe('MaskedInputField', () => {
       const component = render({onBlur, id: 'myInputFieldId'})
       const maskedInput = component.find('MaskedInput')
       maskedInput.simulate('blur', {target: {value: '1234'}})
-      expect(onBlur).toHaveBeenCalledWith('myInputFieldId')
+      expect(onBlur).toHaveBeenCalledWith()
     })
   })
 
@@ -103,7 +103,7 @@ describe('MaskedInputField', () => {
       const event = {target: {placeholder: ''}}
       const maskedInput = render({onFocus, moveCursor}).find('MaskedInput')
       maskedInput.props().onFocus(event)
-      expect(onFocus).toHaveBeenCalledWith('myMaskedInput')
+      expect(onFocus).toHaveBeenCalledWith()
       expect(moveCursor).toHaveBeenCalledWith(0, event)
     })
   })

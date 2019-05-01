@@ -2,14 +2,10 @@ export const PEOPLE_SEARCH_FETCH = 'PEOPLE_SEARCH/FETCH'
 export const PEOPLE_SEARCH_FETCH_COMPLETE = 'PEOPLE_SEARCH/FETCH_COMPLETE'
 export const PEOPLE_SEARCH_CLEAR = 'PEOPLE_SEARCH/CLEAR'
 export const SET_SEARCH_FIELD = 'PEOPLE_SEARCH/SET_SEARCH_FIELD'
+export const SET_SEARCH_FIELD_ERROR_CHECK = 'PEOPLE_SEARCH/SET_SEARCH_FIELD_ERROR_CHECK'
 export const LOAD_MORE_RESULTS = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS'
 export const LOAD_MORE_RESULTS_COMPLETE = 'PEOPLE_SEARCH/LOAD_MORE_RESULTS_COMPLETE'
 export const RESET_PERSON_SEARCH = 'RESET_PERSON_SEARCH'
-export const SET_CLIENT_ID_ERROR = 'SET_CLIENT_ID_ERROR'
-export const SET_SSN_ERROR_CHECK = 'SET_SSN_ERROR_CHECK'
-export const SET_DOB_ERROR_CHECK = 'SET_DOB_ERROR_CHECK'
-export const RESET_SSN_ERROR_CHECK = 'RESET_SSN_ERROR_CHECK'
-export const RESET_CLIENT_ID_ERROR_CHECK = 'RESET_CLIENT_ID_ERROR_CHECK'
 
 export const setPersonSearchField = (field, value) => ({
   type: SET_SEARCH_FIELD,
@@ -48,18 +44,7 @@ export const clear = (field) => ({
 export const resetPersonSearch = () => ({
   type: RESET_PERSON_SEARCH,
 })
-export const setClientIdError = () => ({
-  type: SET_CLIENT_ID_ERROR,
-})
-export const setSsnErrorCheck = () => ({
-  type: SET_SSN_ERROR_CHECK,
-})
-export const resetSsnErrorCheck = () => ({
-  type: RESET_SSN_ERROR_CHECK,
-})
-export const resetClientIdErrorCheck = () => ({
-  type: RESET_CLIENT_ID_ERROR_CHECK,
-})
-export const setDobErrorCheck = () => ({
-  type: SET_DOB_ERROR_CHECK,
+export const setFieldErrorCheck = (field, value) => ({
+  type: SET_SEARCH_FIELD_ERROR_CHECK,
+  payload: {field, value},
 })

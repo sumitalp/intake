@@ -6,12 +6,8 @@ import {
   PEOPLE_SEARCH_FETCH_COMPLETE,
   RESET_PERSON_SEARCH,
   SET_SEARCH_FIELD,
+  SET_SEARCH_FIELD_ERROR_CHECK,
   LOAD_MORE_RESULTS_COMPLETE,
-  SET_CLIENT_ID_ERROR,
-  SET_SSN_ERROR_CHECK,
-  SET_DOB_ERROR_CHECK,
-  RESET_SSN_ERROR_CHECK,
-  RESET_CLIENT_ID_ERROR_CHECK,
 } from 'actions/peopleSearchActions'
 import {FETCH_USER_INFO_COMPLETE} from 'actions/userInfoActions'
 import moment from 'moment'
@@ -38,7 +34,7 @@ const initialState = fromJS({
   searchCountry: '',
   searchZipCode: '',
   defaultCounty: null,
-  clientIdError: false,
+  clientIdErrorCheck: false,
   ssnErrorCheck: false,
   dobErrorCheck: false,
 })
@@ -53,6 +49,11 @@ const setPersonSearchField = (state, {payload}) => {
   } else {
     return state.set(field, value).set('startTime', null)
   }
+}
+
+const setPersonSearchFieldErrorCheck = (state, {payload}) => {
+  const {field, value} = payload
+  return state.set(field, value)
 }
 
 const resetPersonSearchFields = state =>
@@ -114,6 +115,7 @@ export default createReducer(initialState, {
     return state
   },
   [SET_SEARCH_FIELD]: setPersonSearchField,
+  [SET_SEARCH_FIELD_ERROR_CHECK]: setPersonSearchFieldErrorCheck,
   [FETCH_USER_INFO_COMPLETE](
     state,
     {
@@ -144,19 +146,4 @@ export default createReducer(initialState, {
     }
   },
   [RESET_PERSON_SEARCH]: resetPersonSearchFields,
-  [SET_CLIENT_ID_ERROR](state) {
-    return state.set('clientIdError', true)
-  },
-  [SET_SSN_ERROR_CHECK](state) {
-    return state.set('ssnErrorCheck', true)
-  },
-  [SET_DOB_ERROR_CHECK](state) {
-    return state.set('dobErrorCheck', true)
-  },
-  [RESET_SSN_ERROR_CHECK](state) {
-    return state.set('ssnErrorCheck', false)
-  },
-  [RESET_CLIENT_ID_ERROR_CHECK](state) {
-    return state.set('clientIdError', false)
-  },
 })

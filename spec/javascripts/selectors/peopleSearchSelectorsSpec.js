@@ -8,7 +8,7 @@ import {
   selectPersonCreatedAtTime,
   selectPersonSearchFields,
   selectAkaFullName,
-  selectClientIdError,
+  selectClientIdErrors,
   selectSsnErrors,
   selectDobErrors,
   selectCanSearch,
@@ -836,18 +836,18 @@ describe('peopleSearchSelectors', () => {
     })
   })
 
-  describe('selectClientIdError', () => {
+  describe('selectClientIdErrors', () => {
     it('does not return error message if searchClientId is 19 digits.', () => {
       const peopleSearch = {searchClientId: '1111-1111-1111-1111111'}
       const state = fromJS({peopleSearch})
-      expect(selectClientIdError(state))
+      expect(selectClientIdErrors(state))
         .toEqual([])
     })
 
-    it('returns error message if searchClientId is less than 19 digits and clientIdError is true', () => {
-      const peopleSearch = {searchClientId: '1111-1111-1111-1______', clientIdError: true}
+    it('returns error message if searchClientId is less than 19 digits and clientIdErrorCheck is true', () => {
+      const peopleSearch = {searchClientId: '1111-1111-1111-1______', clientIdErrorCheck: true}
       const state = fromJS({peopleSearch})
-      expect(selectClientIdError(state))
+      expect(selectClientIdErrors(state))
         .toEqual(['Client Id number must be 19 digits long.'])
     })
   })

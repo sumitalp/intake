@@ -153,11 +153,11 @@ export const selectPersonCreatedAtTime = state =>
     .map(t => t.personCreatedAtTime)
     .pop()
 
-export const selectClientIdError = (state) => {
-  const clientIdError = selectPeopleSearch(state).get('clientIdError')
+export const selectClientIdErrors = (state) => {
+  const checkForClientIdErrors = selectPeopleSearch(state).get('clientIdErrorCheck')
   const clientId = selectPeopleSearch(state).get('searchClientId') || ''
   const clientIdWithoutHyphens = clientId.replace(/-|_/g, '')
-  return clientIdError ? getClientIdErrors(clientIdWithoutHyphens) : []
+  return checkForClientIdErrors ? getClientIdErrors(clientIdWithoutHyphens) : []
 }
 
 export const selectSsnErrors = (state) => {

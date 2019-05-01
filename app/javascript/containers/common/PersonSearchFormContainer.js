@@ -6,7 +6,7 @@ import {
   selectResultsTotalValue,
   selectStartTime,
   selectPersonSearchFields,
-  selectClientIdError,
+  selectClientIdErrors,
   selectSsnErrors,
   selectDobErrors,
   selectCanSearch,
@@ -14,14 +14,10 @@ import {
 import {
   search,
   setPersonSearchField,
+  setFieldErrorCheck,
   clear,
   loadMoreResults,
   resetPersonSearch,
-  setClientIdError,
-  setSsnErrorCheck,
-  resetSsnErrorCheck,
-  resetClientIdErrorCheck,
-  setDobErrorCheck,
 } from 'actions/peopleSearchActions'
 import {canUserAddClient} from 'utils/authorization'
 import {getStaffIdSelector} from 'selectors/userInfoSelectors'
@@ -41,7 +37,7 @@ const mapStateToProps = state => {
     results: selectPeopleResults(state).toJS(),
     total: selectResultsTotalValue(state),
     personSearchFields: selectPersonSearchFields(state),
-    clientIdError: selectClientIdError(state),
+    clientIdError: selectClientIdErrors(state),
     ssnErrors: selectSsnErrors(state),
     dobErrors: selectDobErrors(state),
     staffId: getStaffIdSelector(state),
@@ -53,14 +49,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const onBlur = (id) => { checkOnBlur(dispatch, id) }
-  const onFocus = (id) => {
-    if (id === 'search-ssn') {
-      dispatch(resetSsnErrorCheck())
-    } else if (id === 'search-client-id') {
-      dispatch(resetClientIdErrorCheck())
-    }
-  }
+  const onBlur = field => dispatch(setFieldErrorCheck(field, true))
+  const onFocus = field => dispatch(setFieldErrorCheck(field, false))
   const onClear = (field) => dispatch(clear(field))
   const onChange = (field, value) => { dispatch(setPersonSearchField(field, value)) }
   const onCancel = () => { dispatch(onClear('results')); dispatch(resetPersonSearch()) }
@@ -69,16 +59,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const onLoadMoreResults = (isAvancedSearchOn, personSearchFields) =>
     dispatch(loadMoreResults(ownProps.isClientOnly, isAvancedSearchOn, personSearchFields))
   return {onBlur, onSearch, onClear, onChange, onCancel, onFocus, onLoadMoreResults, dispatch}
-}
-
-const checkOnBlur = (dispatch, id) => {
-  if (id === 'search-client-id') {
-    dispatch(setClientIdError())
-  } else if (id === 'search-ssn') {
-    dispatch(setSsnErrorCheck())
-  } else if (id === 'search-date-of-birth') {
-    dispatch(setDobErrorCheck())
-  }
 }
 
 export default connect(

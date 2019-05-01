@@ -1,14 +1,15 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import MaskedInputField from 'common/MaskedInputField'
 import SearchByAgeMethodSelect from 'common/search/age/SearchByAgeMethodSelect'
 import AgeSearchFields from 'common/search/age/AgeSearchFields'
 import SexAtBirthSelect from 'common/search/sexatbirth/SexAtBirthSelect'
+import MaskedSearchInput from 'common/search/MaskedSearchInput'
 import {PersonSearchFieldsPropType, PersonSearchFieldsDefaultProps} from 'data/personSearch'
-import {moveCursor} from 'utils/moveCursor'
 
-const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields, onFocus, clientIdError, ssnErrors, dobErrors, onKeyPress, onKeyUp}) => (
-  <Fragment>
+const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields, onFocus, clientIdError, ssnErrors, dobErrors, onKeyPress, onKeyUp}) => {
+  const actions = {onBlur, onChange, onFocus, onKeyPress}
+
+  return (
     <div className="row">
       <div className="col-md-3 age-search-field-container">
         <SearchByAgeMethodSelect
@@ -34,39 +35,25 @@ const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields
         value={personSearchFields.searchSexAtBirth}
         onKeyPress={onKeyPress}
       />
-      <MaskedInputField
-        id="search-client-id"
-        label="Client ID Number"
-        gridClassName="col-md-3 client-id-field"
-        onBlur={onBlur}
-        onChange={({target: {value}}) => onChange('searchClientId', value)}
-        onFocus={onFocus}
-        value={personSearchFields.searchClientId}
-        mask='1111-1111-1111-1111111'
-        placeholder='____-____-____-_______'
-        maxLength='19'
+      <MaskedSearchInput
         errors={clientIdError}
-        moveCursor={moveCursor}
-        onKeyPress={onKeyPress}
+        label="Client ID Number"
+        name="client-id"
+        mask='1111-1111-1111-1111111'
+        value={personSearchFields.searchClientId}
+        {...actions}
       />
-      <MaskedInputField
-        id="search-ssn"
-        label="Social Security Number"
-        gridClassName="col-md-3 ssn-field"
-        onBlur={onBlur}
-        onChange={({target: {value}}) => onChange('searchSsn', value)}
-        onFocus={onFocus}
-        value={personSearchFields.searchSsn}
-        mask='111-11-1111'
-        placeholder='___-__-____'
-        maxLength='9'
+      <MaskedSearchInput
         errors={ssnErrors}
-        moveCursor={moveCursor}
-        onKeyPress={onKeyPress}
+        label='Social Security Number'
+        name='ssn'
+        mask='111-11-1111'
+        value={personSearchFields.searchSsn}
+        {...actions}
       />
     </div>
-  </Fragment>
-)
+  )
+}
 
 PersonSearchAgeGenderNumbersGroup.propTypes = {
   clientIdError: PropTypes.array,
