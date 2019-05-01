@@ -97,11 +97,14 @@ describe('MaskedInputField', () => {
   })
 
   describe('onFocus', () => {
-    it('when the field has focus calls onFocus', () => {
+    it('when the field has focus calls onFocus and moveCursor', () => {
       const onFocus = jasmine.createSpy('onFocus')
-      const maskedInput = render({onFocus}).find('MaskedInput')
-      maskedInput.props().onFocus({target: {placeholder: ''}})
+      const moveCursor = jasmine.createSpy('moveCursor')
+      const event = {target: {placeholder: ''}}
+      const maskedInput = render({onFocus, moveCursor}).find('MaskedInput')
+      maskedInput.props().onFocus(event)
       expect(onFocus).toHaveBeenCalledWith()
+      expect(moveCursor).toHaveBeenCalledWith(0, event)
     })
   })
 
