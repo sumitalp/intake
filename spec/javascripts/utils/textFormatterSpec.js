@@ -1,4 +1,4 @@
-import {nWords} from 'utils/textFormatter'
+import {nWords, capitalizedStr, toCamelCase, toCapitalCase} from 'utils/textFormatter'
 
 describe('nWords', () => {
   const threeWords = 'word word word'
@@ -31,5 +31,43 @@ describe('nWords', () => {
 
   it('returns undefined if the text is undefined', () => {
     expect(nWords(undefined, 1)).toEqual(undefined)
+  })
+})
+
+describe('capitalizedStr', () => {
+  // the method assumes the string is already lower-cased
+  it('capitalizes the first character of a string', () => {
+    const str = 'text'
+    expect(capitalizedStr(str)).toEqual('Text')
+  })
+})
+
+describe('toCamelCase', () => {
+  // this method assumes the string is already lower-cased
+  it('camel-cases a string with dashes', () => {
+    const str = 'camel-case-text'
+    const seperator = /-/g
+    expect(toCamelCase(str, seperator)).toEqual('camelCaseText')
+  })
+
+  it('camel-cases a string with periods', () => {
+    const str = 'camel.case.text'
+    const seperator = /\./g
+    expect(toCamelCase(str, seperator)).toEqual('camelCaseText')
+  })
+})
+
+describe('toCapitalCase', () => {
+  // this method assumes the string is already lower-cased
+  it('capital-cases a string with dashes', () => {
+    const str = 'capital-case-text'
+    const seperator = /-/g
+    expect(toCapitalCase(str, seperator)).toEqual('CapitalCaseText')
+  })
+
+  it('capital-cases a string with equal signs', () => {
+    const str = 'capital=case=text'
+    const seperator = /=/g
+    expect(toCapitalCase(str, seperator)).toEqual('CapitalCaseText')
   })
 })
