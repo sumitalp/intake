@@ -11,13 +11,6 @@ describe QueryBuilder do
     { ssn: '123456789' }
   end
 
-  let(:person_search_fields) do
-    { search_term: 'this is test search term',
-      city: 'city_search_term',
-      county: 'county_search_term',
-      street: 'street_number_and_name_search_term' }
-  end
-
   let(:person_search_fields_with_full_name) do
     { last_name: 'last name',
       first_name: 'first name',
@@ -66,40 +59,7 @@ describe QueryBuilder do
       search_by_age_method: 'approximate' }
   end
 
-  let(:person_search_fields_with_full_name_dob_address) do
-    { last_name: 'last name',
-      first_name: 'first name',
-      middle_name: 'middle name',
-      suffix: 'suffix',
-      date_of_birth: '1989/05/05',
-      search_by_age_method: 'dob',
-      city: 'city_search_term',
-      county: 'county_search_term',
-      street: 'street_number_and_name_search_term' }
-  end
-
-  let(:person_search_fields_with_last_name_dob_address) do
-    { last_name: 'last name',
-      suffix: 'suffix',
-      date_of_birth: '1989/05/05',
-      search_by_age_method: 'dob',
-      city: 'city_search_term',
-      county: 'county_search_term',
-      street: 'street_number_and_name_search_term' }
-  end
-
-  let(:person_search_fields_with_first_name_dob_address) do
-    { first_name: 'first name',
-      suffix: 'suffix',
-      date_of_birth: '1989/05/05',
-      search_by_age_method: 'dob',
-      city: 'city_search_term',
-      county: 'county_search_term',
-      street: 'street_number_and_name_search_term' }
-  end
-
   let(:ssn_only_query) { PersonSearchResultBuilder.new.ssn_only_query }
-  let(:person_and_address) { PersonSearchResultBuilder.new.person_and_address }
   let(:client_id_only_query) { PersonSearchResultBuilder.new.client_id_only_query }
   let(:full_name_query) { PersonSearchResultBuilder.new.fs_full_name_query }
   let(:full_name_dob_query) do
@@ -113,15 +73,6 @@ describe QueryBuilder do
   end
   let(:full_name_approx_age_years_gender_query) do
     PersonSearchResultBuilder.new.fs_full_name_approx_age_years_gender_query
-  end
-  let(:full_name_dob_address_query) do
-    PersonSearchResultBuilder.new.fs_full_name_dob_address_query
-  end
-  let(:last_name_dob_address_query) do
-    PersonSearchResultBuilder.new.fs_last_name_dob_address_query
-  end
-  let(:first_name_dob_address_query) do
-    PersonSearchResultBuilder.new.fs_first_name_dob_address_query
   end
 
   describe '.is_client_only?' do
@@ -257,20 +208,6 @@ describe QueryBuilder do
         expect(result['query']).to eq full_name_dob_query['query']
       end
 
-      it 'returns query with full name, date of birth, and address' do
-        result = described_class.build(
-          is_advanced_search_on: 'true',
-          person_search_fields: person_search_fields_with_full_name_dob_address
-        ).payload.as_json
-        expect(result['_source']).to eq full_name_dob_address_query['_source']
-        expect(result['size']).to eq full_name_dob_address_query['size']
-        expect(result['sort']).to eq full_name_dob_address_query['sort']
-        expect(
-          result['track_scores']
-        ).to eq full_name_dob_address_query['track_scores']
-        expect(result['query']).to eq full_name_dob_address_query['query']
-      end
-
       it 'returns query with full name, approx age in months, and sex at birth' do
         result = described_class.build(
           is_advanced_search_on: 'true',
@@ -316,47 +253,6 @@ describe QueryBuilder do
           result['track_scores']
         ).to eq full_name_approx_age_years_gender_query['track_scores']
         expect(result['query']).to eq full_name_approx_age_years_gender_query['query']
-      end
-
-      it 'returns query with last name, dob, date of birth, and address' do
-        result = described_class.build(
-          is_advanced_search_on: 'true',
-          person_search_fields: person_search_fields_with_last_name_dob_address
-        ).payload.as_json
-        expect(result['_source']).to eq last_name_dob_address_query['_source']
-        expect(result['size']).to eq last_name_dob_address_query['size']
-        expect(result['sort']).to eq last_name_dob_address_query['sort']
-        expect(
-          result['track_scores']
-        ).to eq last_name_dob_address_query['track_scores']
-        expect(result['query']).to eq last_name_dob_address_query['query']
-      end
-
-      it 'returns query with first name, date of birth, and address' do
-        result = described_class.build(
-          is_advanced_search_on: 'true',
-          person_search_fields: person_search_fields_with_first_name_dob_address
-        ).payload.as_json
-        expect(result['_source']).to eq first_name_dob_address_query['_source']
-        expect(result['size']).to eq first_name_dob_address_query['size']
-        expect(result['sort']).to eq first_name_dob_address_query['sort']
-        expect(
-          result['track_scores']
-        ).to eq first_name_dob_address_query['track_scores']
-        expect(result['query']).to eq first_name_dob_address_query['query']
-      end
-    end
-
-    context 'when search_term and search_address are present' do
-      it 'returns query with person and address' do
-        result = described_class.build(person_search_fields: person_search_fields)
-                                .payload.as_json
-        expect(result['_source']).to eq person_and_address['_source']
-        expect(result['size']).to eq person_and_address['size']
-        expect(result['sort']).to eq person_and_address['sort']
-        expect(result['track_scores']).to eq person_and_address['track_scores']
-        expect(result['highlight']).to eq person_and_address['highlight']
-        expect(result['query']).to eq person_and_address['query']
       end
     end
 
