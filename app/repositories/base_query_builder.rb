@@ -50,7 +50,6 @@ class BaseQueryBuilder
   end
 
   def initialize_address
-    return unless address_searched?
     @street                   = params.dig(:person_search_fields, :street)
     @city                     = params.dig(:person_search_fields, :city)
     @county                   = params.dig(:person_search_fields, :county)
@@ -83,6 +82,12 @@ class BaseQueryBuilder
     params.dig(:person_search_fields, :search_by_age_method)
   end
 
+  def last_name_only?
+    last_name = params.dig(:person_search_fields, :last_name)
+    first_name = params.dig(:person_search_fields, :first_name)
+    last_name.present? && first_name.blank?
+  end
+
   def build_query
     {
       size: SIZE, track_scores: TRACK_SCORES, sort: sort, min_score: MIN_SCORE,
@@ -95,10 +100,8 @@ class BaseQueryBuilder
   end
 
   def auto_bar_highlight
-    { 'matched_fields':
-      ['autocomplete_search_bar',
-       'autocomplete_search_bar.phonetic',
-       'autocomplete_search_bar.diminutive'] }
+    { 'matched_fields': ['autocomplete_search_bar', 'autocomplete_search_bar.phonetic',
+                         'autocomplete_search_bar.diminutive'] }
   end
 
   def fields

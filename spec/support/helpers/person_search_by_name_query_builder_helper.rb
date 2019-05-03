@@ -329,7 +329,7 @@ module PersonSearchByNameQueryBuilderHelper
                 "match": {
                   "last_name": {
                     "query": 'last name',
-                    "_name": '1_m_lst'
+                    "_name": '1_exact'
                   }
                 }
               }
@@ -343,15 +343,11 @@ module PersonSearchByNameQueryBuilderHelper
           "bool": {
             "must": [
               {
-                "multi_match": {
-                  "query": 'last name suffix',
-                  "operator": 'and',
-                  "fields": %w[
-                    last_name
-                    suffix
-                  ],
-                  "type": 'cross_fields',
-                  "_name": '2_mlt_last_suffix'
+                "match": {
+                  "akas.last_name": {
+                    "query": 'last name',
+                    "_name": '2_aka'
+                  }
                 }
               }
             ]
@@ -361,15 +357,17 @@ module PersonSearchByNameQueryBuilderHelper
       },
       {
         "filter": {
-          "multi_match": {
-            "query": 'last name',
-            "operator": 'and',
-            "fields": [
-              'akas.first_name',
-              'akas.last_name'
-            ],
-            "type": 'cross_fields',
-            "_name": '3_mlt_aka'
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "last_name.phonetic": {
+                    "query": 'last name',
+                    "_name": '3_phonetic'
+                  }
+                }
+              }
+            ]
           }
         },
         "weight": 4096
@@ -380,9 +378,10 @@ module PersonSearchByNameQueryBuilderHelper
             "must": [
               {
                 "match": {
-                  "last_name": {
+                  "last_name_ngram": {
                     "query": 'last name',
-                    "_name": '4_dim_lst'
+                    "minimum_should_match": '15%',
+                    "_name": '4_partial'
                   }
                 }
               }
@@ -396,10 +395,13 @@ module PersonSearchByNameQueryBuilderHelper
           "bool": {
             "must": [
               {
-                "match": {
+                "fuzzy": {
                   "last_name": {
-                    "query": 'last name',
-                    "_name": '5_pho_lst'
+                    "value": 'last name',
+                    "fuzziness": '5',
+                    "prefix_length": '1',
+                    "max_expansions": '50',
+                    "_name": '5_fuzzy'
                   }
                 }
               }
@@ -407,144 +409,6 @@ module PersonSearchByNameQueryBuilderHelper
           }
         },
         "weight": 1024
-      },
-      {
-        "filter": {
-          "bool": {
-            "must": [
-              {
-                "match": {
-                  "last_name": {
-                    "query": 'last name',
-                    "_name": '6_fz_lst'
-                  }
-                }
-              }
-            ]
-          }
-        },
-        "weight": 512
-      },
-      {
-        "filter": {
-          "bool": {
-            "must": [
-              {
-                "match": {
-                  "last_name": {
-                    "query": 'last name',
-                    "_name": '7_prt_lst'
-                  }
-                }
-              }
-            ]
-          }
-        },
-        "weight": 256
-      },
-      {
-        "filter": {
-          "multi_match": {
-            "query": 'last name',
-            "operator": 'and',
-            "fields": %w[
-              first_name
-              last_name
-            ],
-            "fuzziness": '2',
-            "_name": '7_mlt_fz'
-          }
-        },
-        "weight": 200
-      },
-      {
-        "filter": {
-          "bool": {
-            "must": [
-              {
-                "match": {
-                  "first_name": {
-                    "query": 'last name',
-                    "_name": '9a_rev_fst'
-                  }
-                }
-              }
-            ]
-          }
-        },
-        "weight": 128
-      },
-      {
-        "filter": {
-          "bool": {
-            "must": [
-              {
-                "match": {
-                  "first_name_ngram": {
-                    "query": 'last name',
-                    "minimum_should_match": '25%',
-                    "_name": '9b_rev_prt_fst'
-                  }
-                }
-              }
-            ]
-          }
-        },
-        "weight": 64
-      },
-      {
-        "filter": {
-          "bool": {
-            "must": [
-              {
-                "match": {
-                  "last_name": {
-                    "query": 'last name',
-                    "_name": '10_dup_lst'
-                  }
-                }
-              },
-              {
-                "match": {
-                  "first_name": {
-                    "query": 'last name',
-                    "_name": '10_dup_fst'
-                  }
-                }
-              }
-            ]
-          }
-        },
-        "weight": 32
-      },
-      {
-        "filter": {
-          "bool": {
-            "must": [
-              {
-                "match": {
-                  "first_name_ngram": {
-                    "query": 'last name',
-                    "minimum_should_match": '25%',
-                    "_name": '11_rev_prt_fst'
-                  }
-                }
-              }
-            ]
-          }
-        },
-        "weight": 16
-      },
-      {
-        "filter": {
-          "match": {
-            "last_name": {
-              "query": 'last name',
-              "_name": '8_m_lst'
-            }
-          }
-        },
-        "weight": 12
       }
     ]
   end
@@ -1503,6 +1367,45 @@ module PersonSearchByNameQueryBuilderHelper
     ]
   end
 
+  def fs_last_name_query
+    {
+      "size": '10',
+      "track_scores": 'true',
+      "sort": [
+        {
+          "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
+          "_uid": 'desc'
+        }
+      ],
+      "min_score": '2.5',
+      "query": {
+        "function_score": {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "match": {
+                    "legacy_descriptor.legacy_table_name": {
+                      "query": 'CLIENT_T',
+                      "_name": 'q_cli'
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "functions": last_name_functions,
+          "score_mode": 'sum',
+          "boost_mode": 'sum'
+        }
+      },
+      "_source": source,
+      "highlight": highlight
+    }.as_json
+  end
+
   def fs_full_name_query_part_one
     {
       "size": '10',
@@ -1803,84 +1706,6 @@ module PersonSearchByNameQueryBuilderHelper
             }
           },
           "functions": full_name_without_suffix_functions,
-          "score_mode": 'sum',
-          "boost_mode": 'sum'
-        }
-      },
-      "_source": source,
-      "highlight": highlight
-    }.as_json
-  end
-
-  def fs_last_name_query
-    {
-      "size": '10',
-      "track_scores": 'true',
-      "sort": [
-        {
-          "_score": 'desc',
-          "last_name": 'asc',
-          "first_name": 'asc',
-          "_uid": 'desc'
-        }
-      ],
-      "min_score": '2.5',
-      "query": {
-        "function_score": {
-          "query": {
-            "bool": {
-              "must": [
-                {
-                  "match": {
-                    "legacy_descriptor.legacy_table_name": {
-                      "query": 'CLIENT_T',
-                      "_name": 'q_cli'
-                    }
-                  }
-                }
-              ]
-            }
-          },
-          "functions": last_name_functions,
-          "score_mode": 'sum',
-          "boost_mode": 'sum'
-        }
-      },
-      "_source": source,
-      "highlight": highlight
-    }.as_json
-  end
-
-  def fs_first_name_query
-    {
-      "size": '10',
-      "track_scores": 'true',
-      "sort": [
-        {
-          "_score": 'desc',
-          "last_name": 'asc',
-          "first_name": 'asc',
-          "_uid": 'desc'
-        }
-      ],
-      "min_score": '2.5',
-      "query": {
-        "function_score": {
-          "query": {
-            "bool": {
-              "must": [
-                {
-                  "match": {
-                    "legacy_descriptor.legacy_table_name": {
-                      "query": 'CLIENT_T',
-                      "_name": 'q_cli'
-                    }
-                  }
-                }
-              ]
-            }
-          },
-          "functions": first_name_functions,
           "score_mode": 'sum',
           "boost_mode": 'sum'
         }
