@@ -96,6 +96,45 @@ module PersonSearchByLastNameQueryBuilderHelper
     ]
   end
 
+  def fs_no_last_name_query
+    {
+      "size": '10',
+      "track_scores": 'true',
+      "sort": [
+        {
+          "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
+          "_uid": 'desc'
+        }
+      ],
+      "min_score": '2.5',
+      "query": {
+        "function_score": {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "match": {
+                    "legacy_descriptor.legacy_table_name": {
+                      "query": 'CLIENT_T',
+                      "_name": 'q_cli'
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "functions": [],
+          "score_mode": 'sum',
+          "boost_mode": 'sum'
+        }
+      },
+      "_source": source,
+      "highlight": highlight
+    }.as_json
+  end
+
   def fs_last_name_query
     {
       "size": '10',
