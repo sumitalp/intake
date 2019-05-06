@@ -11,6 +11,18 @@ describe QueryBuilder do
     { ssn: '123456789' }
   end
 
+  let(:person_search_fields_with_no_name) do
+    {}
+  end
+
+  let(:person_search_fields_with_last_name_approx_age_years_gender) do
+    { last_name: 'last name',
+      gender: 'male',
+      approximate_age: '100',
+      approximate_age_units: 'years',
+      search_by_age_method: 'approximate' }
+  end
+
   let(:person_search_fields_with_full_name) do
     { last_name: 'last name',
       first_name: 'first name',
@@ -44,16 +56,6 @@ describe QueryBuilder do
       search_by_age_method: 'approximate' }
   end
 
-  let(:person_search_fields_with_full_name_without_suffix_approx_age_months_gender) do
-    { last_name: 'last name',
-      first_name: 'first name',
-      middle_name: 'middle name',
-      gender: 'female',
-      approximate_age: '12',
-      approximate_age_units: 'months',
-      search_by_age_method: 'approximate' }
-  end
-
   let(:person_search_fields_with_full_name_approx_age_years_gender) do
     { last_name: 'last name',
       first_name: 'first name',
@@ -65,8 +67,22 @@ describe QueryBuilder do
       search_by_age_method: 'approximate' }
   end
 
+  let(:person_search_fields_with_full_name_without_suffix_approx_age_months_gender) do
+    { last_name: 'last name',
+      first_name: 'first name',
+      middle_name: 'middle name',
+      gender: 'female',
+      approximate_age: '12',
+      approximate_age_units: 'months',
+      search_by_age_method: 'approximate' }
+  end
+
   let(:ssn_only_query) { PersonSearchResultBuilder.new.ssn_only_query }
   let(:client_id_only_query) { PersonSearchResultBuilder.new.client_id_only_query }
+  let(:no_name_query) { PersonSearchResultBuilder.new.fs_no_name_query }
+  let(:last_name_approx_age_years_gender_query) do
+    PersonSearchResultBuilder.new.fs_last_name_approx_age_years_gender_query
+  end
   let(:full_name_query) { PersonSearchResultBuilder.new.fs_full_name_query }
   let(:full_name_without_suffix_query) do
     PersonSearchResultBuilder.new.fs_full_name_without_suffix_query
@@ -77,11 +93,11 @@ describe QueryBuilder do
   let(:full_name_approx_age_months_gender_query) do
     PersonSearchResultBuilder.new.fs_full_name_approx_age_months_gender_query
   end
-  let(:full_name_without_suffix_approx_age_months_gender_query) do
-    PersonSearchResultBuilder.new.fs_full_name_without_suffix_approx_age_months_gender_query
-  end
   let(:full_name_approx_age_years_gender_query) do
     PersonSearchResultBuilder.new.fs_full_name_approx_age_years_gender_query
+  end
+  let(:full_name_without_suffix_approx_age_months_gender_query) do
+    PersonSearchResultBuilder.new.fs_full_name_without_suffix_approx_age_months_gender_query
   end
 
   describe '.is_client_only?' do
@@ -193,6 +209,30 @@ describe QueryBuilder do
     end
 
     context 'when advanced search feature flag is on' do
+      it 'returns query with no name' do
+        result = described_class.build(
+          is_advanced_search_on: 'true',
+          person_search_fields: person_search_fields_with_no_name
+        ).payload.as_json
+        expect(result['_source']).to eq no_name_query['_source']
+        expect(result['size']).to eq no_name_query['size']
+        expect(result['sort']).to eq no_name_query['sort']
+        expect(result['track_scores']).to eq no_name_query['track_scores']
+        expect(result['query']).to eq no_name_query['query']
+      end
+
+      it 'returns query with last name, approx age in years, and gender' do
+        result = described_class.build(
+          is_advanced_search_on: 'true',
+          person_search_fields: person_search_fields_with_last_name_approx_age_years_gender
+        ).payload.as_json
+        expect(result['_source']).to eq last_name_approx_age_years_gender_query['_source']
+        expect(result['size']).to eq last_name_approx_age_years_gender_query['size']
+        expect(result['sort']).to eq last_name_approx_age_years_gender_query['sort']
+        expect(result['track_scores']).to eq last_name_approx_age_years_gender_query['track_scores']
+        expect(result['query']).to eq last_name_approx_age_years_gender_query['query']
+      end
+
       it 'returns query with full name' do
         result = described_class.build(
           is_advanced_search_on: 'true',
@@ -229,7 +269,7 @@ describe QueryBuilder do
         expect(result['query']).to eq full_name_dob_query['query']
       end
 
-      it 'returns query with full name, approx age in months, and sex at birth' do
+      it 'returns query with full name, approx age in months, and gender' do
         result = described_class.build(
           is_advanced_search_on: 'true',
           person_search_fields: person_search_fields_with_full_name_approx_age_months_gender
@@ -243,7 +283,21 @@ describe QueryBuilder do
         expect(result['query']).to eq full_name_approx_age_months_gender_query['query']
       end
 
-      it 'returns query with full name, no suffix, approx age in months, and sex at birth' do
+      it 'returns query with full name, approx age in years, and gender' do
+        result = described_class.build(
+          is_advanced_search_on: 'true',
+          person_search_fields: person_search_fields_with_full_name_approx_age_years_gender
+        ).payload.as_json
+        expect(result['_source']).to eq full_name_approx_age_years_gender_query['_source']
+        expect(result['size']).to eq full_name_approx_age_years_gender_query['size']
+        expect(result['sort']).to eq full_name_approx_age_years_gender_query['sort']
+        expect(
+          result['track_scores']
+        ).to eq full_name_approx_age_years_gender_query['track_scores']
+        expect(result['query']).to eq full_name_approx_age_years_gender_query['query']
+      end
+
+      it 'returns query with full name, no suffix, approx age in months, and gender' do
         result = described_class.build(
           is_advanced_search_on: 'true',
           person_search_fields:
@@ -260,20 +314,6 @@ describe QueryBuilder do
         expect(
           result['query']
         ).to eq full_name_without_suffix_approx_age_months_gender_query['query']
-      end
-
-      it 'returns query with full name, approx age in years, and sex at birth' do
-        result = described_class.build(
-          is_advanced_search_on: 'true',
-          person_search_fields: person_search_fields_with_full_name_approx_age_years_gender
-        ).payload.as_json
-        expect(result['_source']).to eq full_name_approx_age_years_gender_query['_source']
-        expect(result['size']).to eq full_name_approx_age_years_gender_query['size']
-        expect(result['sort']).to eq full_name_approx_age_years_gender_query['sort']
-        expect(
-          result['track_scores']
-        ).to eq full_name_approx_age_years_gender_query['track_scores']
-        expect(result['query']).to eq full_name_approx_age_years_gender_query['query']
       end
     end
 
