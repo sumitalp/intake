@@ -18,6 +18,12 @@ describe QueryBuilder do
       suffix: 'suffix' }
   end
 
+  let(:person_search_fields_with_full_name_without_suffix) do
+    { last_name: 'last name',
+      first_name: 'first name',
+      middle_name: 'middle name' }
+  end
+
   let(:person_search_fields_with_full_name_dob) do
     { last_name: 'last name',
       first_name: 'first name',
@@ -62,6 +68,9 @@ describe QueryBuilder do
   let(:ssn_only_query) { PersonSearchResultBuilder.new.ssn_only_query }
   let(:client_id_only_query) { PersonSearchResultBuilder.new.client_id_only_query }
   let(:full_name_query) { PersonSearchResultBuilder.new.fs_full_name_query }
+  let(:full_name_without_suffix_query) do
+    PersonSearchResultBuilder.new.fs_full_name_without_suffix_query
+  end
   let(:full_name_dob_query) do
     PersonSearchResultBuilder.new.fs_full_name_dob_query
   end
@@ -194,6 +203,18 @@ describe QueryBuilder do
         expect(result['sort']).to eq full_name_query['sort']
         expect(result['track_scores']).to eq full_name_query['track_scores']
         expect(result['query']).to eq full_name_query['query']
+      end
+
+      it 'returns query with full name and no suffix' do
+        result = described_class.build(
+          is_advanced_search_on: 'true',
+          person_search_fields: person_search_fields_with_full_name_without_suffix
+        ).payload.as_json
+        expect(result['_source']).to eq full_name_without_suffix_query['_source']
+        expect(result['size']).to eq full_name_without_suffix_query['size']
+        expect(result['sort']).to eq full_name_without_suffix_query['sort']
+        expect(result['track_scores']).to eq full_name_without_suffix_query['track_scores']
+        expect(result['query']).to eq full_name_without_suffix_query['query']
       end
 
       it 'returns query with full name and date of birth' do
