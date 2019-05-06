@@ -11,9 +11,7 @@ describe QueryBuilder do
     { ssn: '123456789' }
   end
 
-  let(:person_search_fields_with_no_name) do
-    {}
-  end
+  let(:person_search_fields_with_no_name) {}
 
   let(:person_search_fields_with_last_name_approx_age_years_gender) do
     { last_name: 'last name',
