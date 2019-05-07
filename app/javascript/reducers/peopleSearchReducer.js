@@ -38,7 +38,7 @@ const initialState = fromJS({
   total: 0,
   defaultCounty: null,
   searchFields: defaultSearchFieldsState,
-  errorCheck: {
+  errorCheckFields: {
     clientId: false,
     ssn: false,
     dob: false,
@@ -60,8 +60,8 @@ const setPersonSearchField = (state, {payload}) => {
 
 const setPersonSearchFieldErrorCheck = (state, {payload}) => {
   const {field, value} = payload
-  const newErrorCheck = state.get('errorCheck').set(field, value)
-  const newState = state.set('errorCheck', newErrorCheck)
+  const newErrorCheck = state.get('errorCheckFields').set(field, value)
+  const newState = state.set('errorCheckFields', newErrorCheck)
   return newState
 }
 

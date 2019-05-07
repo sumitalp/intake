@@ -607,48 +607,48 @@ describe('peopleSearchReducer', () => {
     describe('clientId', () => {
       it('action sets error check to true', () => {
         const action = setFieldErrorCheck('clientId', true)
-        const initialState = fromJS({errorCheck: {clientId: false}})
+        const initialState = fromJS({errorCheckFields: {clientId: false}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('errorCheck').get('clientId')).toEqual(true)
+        expect(newState.get('errorCheckFields').get('clientId')).toEqual(true)
       })
 
       it('action sets error check to false', () => {
         const action = setFieldErrorCheck('clientId', false)
-        const initialState = fromJS({errorCheck: {clientId: true}})
+        const initialState = fromJS({errorCheckFields: {clientId: true}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('errorCheck').get('clientId')).toEqual(false)
+        expect(newState.get('errorCheckFields').get('clientId')).toEqual(false)
       })
     })
 
     describe('ssn', () => {
       it('action sets error check to true', () => {
         const action = setFieldErrorCheck('ssn', true)
-        const initialState = fromJS({errorCheck: {ssn: false}})
+        const initialState = fromJS({errorCheckFields: {ssn: false}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('errorCheck').get('ssn')).toEqual(true)
+        expect(newState.get('errorCheckFields').get('ssn')).toEqual(true)
       })
 
       it('action sets error check to false', () => {
         const action = setFieldErrorCheck('ssn', false)
-        const initialState = fromJS({errorCheck: {ssn: true}})
+        const initialState = fromJS({errorCheckFields: {ssn: true}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('errorCheck').get('ssn')).toEqual(false)
+        expect(newState.get('errorCheckFields').get('ssn')).toEqual(false)
       })
     })
 
-    describe('dobErrorCheck', () => {
+    describe('dob', () => {
       it('action sets error check to true', () => {
         const action = setFieldErrorCheck('dob', true)
-        const initialState = fromJS({errorCheck: {dob: false}})
+        const initialState = fromJS({errorCheckFields: {dob: false}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('errorCheck').get('dob')).toEqual(true)
+        expect(newState.get('errorCheckFields').get('dob')).toEqual(true)
       })
 
       it('action sets error check to false', () => {
         const action = setFieldErrorCheck('dob', false)
-        const initialState = fromJS({errorCheck: {dob: true}})
+        const initialState = fromJS({errorCheckFields: {dob: true}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('errorCheck').get('dob')).toEqual(false)
+        expect(newState.get('errorCheckFields').get('dob')).toEqual(false)
       })
     })
   })

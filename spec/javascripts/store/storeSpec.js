@@ -50,7 +50,7 @@ describe('Store', () => {
           country: '',
           zipCode: '',
         },
-        errorCheck: {
+        errorCheckFields: {
           clientId: false,
           ssn: false,
           dob: false,
