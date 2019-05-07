@@ -53,7 +53,7 @@ describe('Store', () => {
         errorCheckFields: {
           clientId: false,
           ssn: false,
-          dob: false,
+          dateOfBirth: false,
         },
       },
       relationshipForm: {isSaving: false},

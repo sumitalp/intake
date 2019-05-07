@@ -636,19 +636,19 @@ describe('peopleSearchReducer', () => {
       })
     })
 
-    describe('dob', () => {
+    describe('dateOfBirth', () => {
       it('action sets error check to true', () => {
-        const action = setFieldErrorCheck('dob', true)
-        const initialState = fromJS({errorCheckFields: {dob: false}})
+        const action = setFieldErrorCheck('dateOfBirth', true)
+        const initialState = fromJS({errorCheckFields: {dateOfBirth: false}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('errorCheckFields').get('dob')).toEqual(true)
+        expect(newState.get('errorCheckFields').get('dateOfBirth')).toEqual(true)
       })
 
       it('action sets error check to false', () => {
-        const action = setFieldErrorCheck('dob', false)
-        const initialState = fromJS({errorCheckFields: {dob: true}})
+        const action = setFieldErrorCheck('dateOfBirth', false)
+        const initialState = fromJS({errorCheckFields: {dateOfBirth: true}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('errorCheckFields').get('dob')).toEqual(false)
+        expect(newState.get('errorCheckFields').get('dateOfBirth')).toEqual(false)
       })
     })
   })

@@ -41,7 +41,7 @@ const initialState = fromJS({
   errorCheckFields: {
     clientId: false,
     ssn: false,
-    dob: false,
+    dateOfBirth: false,
   },
 })
 
