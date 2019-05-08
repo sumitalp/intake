@@ -3,22 +3,22 @@ import PropTypes from 'prop-types'
 
 class AgeUnitForm extends React.Component {
   handleClick({target: {value}}) {
-    const {onChange, searchApproximateAgeUnits} = this.props
-    const unitsHaveChanged = value !== searchApproximateAgeUnits
+    const {onChange, approximateAgeUnits} = this.props
+    const unitsHaveChanged = value !== approximateAgeUnits
     if (unitsHaveChanged) {
       const isValidValue = value === 'months' || value === 'years'
-      onChange('searchApproximateAgeUnits', isValidValue ? value : '')
-      onChange('searchApproximateAge', '')
+      onChange('approximateAgeUnits', isValidValue ? value : '')
+      onChange('approximateAge', '')
     }
   }
 
   renderRadioWithLabel({id, value, disabled, label, onKeyPress}) {
-    const {searchApproximateAgeUnits} = this.props
+    const {approximateAgeUnits} = this.props
     return (
       <Fragment>
         <div className={id} onKeyPress={onKeyPress} role='presentation'>
           <input
-            checked={searchApproximateAgeUnits === value}
+            checked={approximateAgeUnits === value}
             type="radio"
             name="age-unit"
             id={id}
@@ -64,7 +64,7 @@ AgeUnitForm.propTypes = {
   monthsLabel: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func,
-  searchApproximateAgeUnits: PropTypes.string,
+  approximateAgeUnits: PropTypes.string,
   yearsLabel: PropTypes.string.isRequired,
 }
 
