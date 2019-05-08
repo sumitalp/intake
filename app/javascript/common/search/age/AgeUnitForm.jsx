@@ -60,11 +60,11 @@ class AgeUnitForm extends React.Component {
 }
 
 AgeUnitForm.propTypes = {
+  approximateAgeUnits: PropTypes.string,
   formLabel: PropTypes.string.isRequired,
   monthsLabel: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func,
-  approximateAgeUnits: PropTypes.string,
   yearsLabel: PropTypes.string.isRequired,
 }
 
