@@ -126,9 +126,9 @@ describe('peopleSearchReducer', () => {
         total: 1,
         results: ['result_one'],
         searchByAgeMethod: 'dob',
-        searchDateOfBirth: '1985/05/05',
-        searchApproximateAge: '120',
-        searchApproximateAgeUnits: 'years',
+        dateOfBirth: '1985/05/05',
+        approximateAge: '120',
+        approximateAgeUnits: 'years',
       })
       it('does not clear results or age fields', () => {
         expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
@@ -137,9 +137,9 @@ describe('peopleSearchReducer', () => {
             total: 1,
             results: ['result_one'],
             searchByAgeMethod: 'dob',
-            searchDateOfBirth: '1985/05/05',
-            searchApproximateAge: '120',
-            searchApproximateAgeUnits: 'years',
+            dateOfBirth: '1985/05/05',
+            approximateAge: '120',
+            approximateAgeUnits: 'years',
           })
         )
       })
@@ -532,11 +532,11 @@ describe('peopleSearchReducer', () => {
     it('does not set the default if user is State of California', () => {
       const action = fetchUserInfoSuccess({county: 'State of California'})
       const initialState = fromJS({
-        searchFields: {searchCounty: ''},
+        searchFields: {county: ''},
         defaultCounty: null,
       })
       const newState = peopleSearchReducer(initialState, action)
-      expect(newState.get('searchFields').get('searchCounty')).toEqual('')
+      expect(newState.get('searchFields').get('county')).toEqual('')
       expect(newState.get('defaultCounty')).toEqual(null)
     })
   })
