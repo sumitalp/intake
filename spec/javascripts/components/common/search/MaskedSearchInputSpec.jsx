@@ -38,12 +38,12 @@ describe('MaskedSearchInput', () => {
     })
 
     it('sets the correct props on HyphenatedMaskedInput', () => {
-      const component = render({name: 'client-id'})
+      const component = render({name: 'clientId'})
       const hyphenatedMaskedInput = component.find('HyphenatedMaskedInput')
       const props = hyphenatedMaskedInput.props()
       expect(props.errors).toEqual([])
-      expect(props.id).toEqual('search-client-id')
-      expect(props.gridClassName).toEqual('col-md-3 client-id-field')
+      expect(props.id).toEqual('masked-input-clientId')
+      expect(props.gridClassName).toEqual('col-md-3 clientId-field')
       expect(props.label).toEqual('label')
       expect(props.mask).toEqual('')
       expect(typeof props.onBlur).toEqual('function')
@@ -57,30 +57,30 @@ describe('MaskedSearchInput', () => {
   describe('when the input value changes', () => {
     it('calls onChange when a new value is entered', () => {
       const onChange = jasmine.createSpy('onChange')
-      const component = render({name: 'client-id', onChange})
+      const component = render({name: 'clientId', onChange})
       const hyphenatedMaskedInput = component.find('HyphenatedMaskedInput')
       hyphenatedMaskedInput.props().onChange({target: {value: '1'}})
-      expect(onChange).toHaveBeenCalledWith('searchClientId', '1')
+      expect(onChange).toHaveBeenCalledWith('clientId', '1')
     })
   })
 
   describe('when input is blurred', () => {
     it('calls onBlur to set field error check to true', () => {
       const onBlur = jasmine.createSpy('onBlur')
-      const component = render({name: 'client-id', onBlur})
+      const component = render({name: 'clientId', onBlur})
       const hyphenatedMaskedInput = component.find('HyphenatedMaskedInput')
       hyphenatedMaskedInput.props().onBlur()
-      expect(onBlur).toHaveBeenCalledWith('clientIdErrorCheck')
+      expect(onBlur).toHaveBeenCalledWith('clientId')
     })
   })
 
   describe('when input has focus', () => {
     it('calls onFocus to set field error check to false', () => {
       const onFocus = jasmine.createSpy('onFocus')
-      const component = render({name: 'client-id', onFocus})
+      const component = render({name: 'clientId', onFocus})
       const hyphenatedMaskedInput = component.find('HyphenatedMaskedInput')
       hyphenatedMaskedInput.props().onFocus()
-      expect(onFocus).toHaveBeenCalledWith('clientIdErrorCheck')
+      expect(onFocus).toHaveBeenCalledWith('clientId')
     })
   })
 })
