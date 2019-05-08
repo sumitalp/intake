@@ -35,15 +35,15 @@ export default class Autocompleter extends Component {
   searchAndFocus() {
     const {onChange, onSearch, isAdvancedSearchOn, personSearchFields} = this.props
     const {
-      searchLastName, searchFirstName, searchMiddleName, searchClientId, searchSuffix, searchSsn,
-      searchDateOfBirth, searchApproximateAge, searchApproximateAgeUnits, searchByAgeMethod} = personSearchFields
-    const suffixWithComma = searchSuffix ? `, ${searchSuffix}` : ''
-    const lastNameWithSuffix = `${searchLastName}${suffixWithComma}`
-    let searchTermList = [searchFirstName, searchMiddleName, lastNameWithSuffix, searchClientId, searchSsn]
+      lastName, firstName, middleName, clientId, suffix, ssn,
+      dateOfBirth, approximateAge, approximateAgeUnits, searchByAgeMethod} = personSearchFields
+    const suffixWithComma = suffix ? `, ${suffix}` : ''
+    const lastNameWithSuffix = `${lastName}${suffixWithComma}`
+    let searchTermList = [firstName, middleName, lastNameWithSuffix, clientId, ssn]
     if (searchByAgeMethod === 'dob') {
-      searchTermList.push(searchDateOfBirth)
+      searchTermList.push(dateOfBirth)
     } else if (searchByAgeMethod === 'approximate') {
-      searchTermList = searchTermList.concat([searchApproximateAge, searchApproximateAgeUnits])
+      searchTermList = searchTermList.concat([approximateAge, approximateAgeUnits])
     }
     const searchTerm = searchTermList.filter(Boolean).join(' ').trim()
     onSearch(isAdvancedSearchOn, personSearchFields)
@@ -206,7 +206,7 @@ export default class Autocompleter extends Component {
       const enterKeyCode = 13
       if ((canSearch && e.charCode === enterKeyCode)) { this.handleSubmit() }
     }
-    const validateAndSetDateOfBirth = (e) => { if (this.isValidDate(e)) { onChange('searchDateOfBirth', moment(e.target.value).format('YYYY-MM-DD')) } }
+    const validateAndSetDateOfBirth = (e) => { if (this.isValidDate(e)) { onChange('dateOfBirth', moment(e.target.value).format('YYYY-MM-DD')) } }
     return (
       <PersonSearchFields
         onBlur={onBlur}
