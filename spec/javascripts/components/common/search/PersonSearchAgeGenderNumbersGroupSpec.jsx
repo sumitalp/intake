@@ -98,18 +98,18 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
     describe('Client ID', () => {
       it('renders a MaskedSearchInput', () => {
         const component = render({})
-        const maskedSearchInput = component.find('MaskedSearchInput[name="client-id"]')
+        const maskedSearchInput = component.find('MaskedSearchInput[name="clientId"]')
         expect(maskedSearchInput.exists()).toEqual(true)
       })
 
       it('sets the correct props', () => {
         const clientId = '1111-2222-3333-4444444'
         const component = render({personSearchFields: {clientId}})
-        const maskedSearchInput = component.find('MaskedSearchInput[name="client-id"]')
+        const maskedSearchInput = component.find('MaskedSearchInput[name="clientId"]')
         const props = maskedSearchInput.props()
         expect(props.errors).toEqual([])
         expect(props.label).toEqual('Client ID Number')
-        expect(props.name).toEqual('client-id')
+        expect(props.name).toEqual('clientId')
         expect(props.mask).toEqual('1111-1111-1111-1111111')
         expect(props.value).toEqual(clientId)
         expect(typeof props.onBlur).toEqual('function')

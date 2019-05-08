@@ -38,7 +38,7 @@ const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields
       <MaskedSearchInput
         errors={clientIdError}
         label="Client ID Number"
-        name="client-id"
+        name="clientId"
         mask='1111-1111-1111-1111111'
         value={personSearchFields.clientId}
         {...actions}
