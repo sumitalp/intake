@@ -17,7 +17,7 @@ class AgeSearchFields extends React.Component {
           onChange={onChange}
           onKeyPress={onKeyPress}
           onKeyUp={onKeyUp}
-          value={personSearchFields.searchDateOfBirth}
+          value={personSearchFields.dateOfBirth}
         />
       </div>
     )
