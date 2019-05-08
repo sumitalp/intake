@@ -32,7 +32,7 @@ const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields
         id="search-sex-at-birth"
         gridClassName="col-md-3 sex-at-birth-field"
         onChange={onChange}
-        value={personSearchFields.searchSexAtBirth}
+        value={personSearchFields.sexAtBirth}
         onKeyPress={onKeyPress}
       />
       <MaskedSearchInput
@@ -40,7 +40,7 @@ const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields
         label="Client ID Number"
         name="client-id"
         mask='1111-1111-1111-1111111'
-        value={personSearchFields.searchClientId}
+        value={personSearchFields.clientId}
         {...actions}
       />
       <MaskedSearchInput
@@ -48,7 +48,7 @@ const PersonSearchAgeGenderNumbersGroup = ({onBlur, onChange, personSearchFields
         label='Social Security Number'
         name='ssn'
         mask='111-11-1111'
-        value={personSearchFields.searchSsn}
+        value={personSearchFields.ssn}
         {...actions}
       />
     </div>
