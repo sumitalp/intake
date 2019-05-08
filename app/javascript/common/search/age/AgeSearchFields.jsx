@@ -33,7 +33,7 @@ class AgeSearchFields extends React.Component {
         yearsLabel="Years"
         onChange={onChange}
         onKeyPress={onKeyPress}
-        searchApproximateAgeUnits={personSearchFields.searchApproximateAgeUnits}
+        approximateAgeUnits={personSearchFields.approximateAgeUnits}
       />
     )
   }
@@ -42,12 +42,12 @@ class AgeSearchFields extends React.Component {
     const {onChange, onKeyPress, personSearchFields} = this.props
     return (
       <ApproximateAgeNumberSelect
-        ageUnit={personSearchFields.searchApproximateAgeUnits}
+        ageUnit={personSearchFields.approximateAgeUnits}
         gridClassName="age-number-field"
         id="search-approximate-age-number"
         onChange={onChange}
         onKeyPress={onKeyPress}
-        value={personSearchFields.searchApproximateAge}
+        value={personSearchFields.approximateAge}
       />
     )
   }
