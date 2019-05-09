@@ -5,41 +5,34 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
-  PrimitiveButton as Button,
 } from '@cwds/components'
 
-const ModalComponent = ({isOpen, size, modalTitle, modalBody, onCloseText, toggle, okText}) => {
+const ModalComponent = ({isOpen, size, modalTitle, modalBody, onCloseText, closeModal, modalFooter}) => {
   return (
     <div>
       <Modal isOpen={isOpen} size={size}>
-        <ModalHeader toggle={toggle}>
+        <ModalHeader toggle={closeModal}>
           <CardTitle>{modalTitle}</CardTitle>
         </ModalHeader>
         <ModalBody>
           {modalBody}
         </ModalBody>
-        <div className="p-3 text-right">
-          {onCloseText ? <Button className="m-1" onClick={toggle}>
-            {onCloseText}
-          </Button> : null}
-          <Button className="m-1" color="primary" onClick={toggle}>
-            {okText}
-          </Button>
+        <div className ="p-3 text-right">
+          {modalFooter}
         </div>
-
       </Modal>
     </div>
   )
 }
 
 ModalComponent.propTypes = {
+  closeModal: PropTypes.func,
   isOpen: PropTypes.bool.isRequired,
   modalBody: PropTypes.any,
+  modalFooter: PropTypes.any,
   modalTitle: PropTypes.string,
-  okText: PropTypes.string,
   onCloseText: PropTypes.string,
   size: PropTypes.string,
-  toggle: PropTypes.func,
 
 }
 export default ModalComponent

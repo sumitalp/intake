@@ -1,7 +1,7 @@
 import React from 'react'
 import ActionRow from 'screenings/ActionRow'
 import CreateRelationshipForm from 'common/relationship/CreateRelationshipForm'
-import {ModalComponent} from 'react-wood-duck'
+import ModalComponent from '../common/Modal'
 import PropTypes from 'prop-types'
 import {CandidatesPropType} from 'data/candidates'
 
@@ -71,12 +71,12 @@ export default class ScreeningCreateRelationship extends React.Component {
         </div>
         <div className='col-md-12' >{this.state.show &&
           <ModalComponent
+            isOpen={this.state.show}
             closeModal={this.closeModal}
-            showModal={this.state.show}
             modalBody={<CreateRelationshipForm candidates={candidates} onChange={onChange}/>}
             modalFooter={this.modalFooter()}
-            modalSize='large'
-            modalTitle={'Create Relationships'}
+            size="lg"
+            modalTitle='Create Relationships'
           />
         }
         </div>

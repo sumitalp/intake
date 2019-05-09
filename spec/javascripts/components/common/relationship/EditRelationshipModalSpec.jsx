@@ -1,6 +1,5 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import {ModalComponent} from 'react-wood-duck'
 import ActionRow from 'screenings/ActionRow'
 import EditRelationshipForm from 'common/relationship/EditRelationshipForm'
 import EditRelationshipModal from 'common/relationship/EditRelationshipModal'
@@ -41,18 +40,18 @@ describe('EditRelationshipModal', () => {
 
   describe('rendersModal', () => {
     it('renders a ModalComponent', () => {
-      expect(render(props).find(ModalComponent).length).toBe(1)
+      expect(render(props).find('ModalComponent').length).toBe(1)
     })
   })
 
   describe('renderFooter', () => {
     it('renders ActionRow', () => {
-      expect(render(props).find(ModalComponent).shallow().find(ActionRow).length).toBe(1)
+      expect(render(props).find('ModalComponent').shallow().find(ActionRow).length).toBe(1)
     })
     it('passes the isSaving props to Action row', () => {
       expect(
         render({...props, isSaving: true})
-          .find(ModalComponent)
+          .find('ModalComponent')
           .shallow()
           .find(ActionRow)
           .prop('isSaving')
@@ -61,7 +60,7 @@ describe('EditRelationshipModal', () => {
     it('passes the isDisabled props to Action row', () => {
       expect(
         render({...props, isInvalidForm: true})
-          .find(ModalComponent)
+          .find('ModalComponent')
           .shallow()
           .find(ActionRow)
           .prop('isDisabled')
@@ -70,7 +69,7 @@ describe('EditRelationshipModal', () => {
   })
 
   describe('renderEditRelationshipForm', () => {
-    const modalRender = render(props).find(ModalComponent)
+    const modalRender = render(props).find('ModalComponent')
     it('renders the EditRelationshipForm', () => {
       expect(modalRender.shallow().find(EditRelationshipForm).length).toBe(1)
     })

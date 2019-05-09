@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import EditRelationshipForm from 'common/relationship/EditRelationshipForm'
-import {ModalComponent} from 'react-wood-duck'
+import ModalComponent from '../Modal'
 import ActionRow from 'screenings/ActionRow'
 import {RelationshipPropType} from 'data/relationships'
 
@@ -19,7 +19,7 @@ const EditRelationshipModal = ({
 }) => (
   <ModalComponent
     closeModal={closeModal}
-    showModal={show}
+    isOpen={show}
     modalBody={
       <EditRelationshipForm
         editFormRelationship={editFormRelationship}
@@ -38,7 +38,7 @@ const EditRelationshipModal = ({
         onSave={() => onSave(editFormRelationship.id)}
       />
     }
-    modalSize='large'
+    size='lg'
     modalTitle='Edit Relationship Type'
   />
 )

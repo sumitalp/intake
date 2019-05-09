@@ -7,6 +7,7 @@ import {isAdvancedSearchOn} from 'common/config'
 // import {ModalComponent} from 'react-wood-duck'
 import ModalComponent from '../../common/Modal'
 import SearchModalBody from 'common/search/SearchModalBody'
+import {ModalFooter} from '@cwds/components'
 
 class PersonSearchForm extends React.Component {
   constructor(props) {
@@ -39,15 +40,15 @@ class PersonSearchForm extends React.Component {
   }
 
   renderModal() {
-    // const ModalFooter = () => {
-    //   return <div><button className='btn modal-footer-button' onClick={this.closeModal}>OK</button></div>
-    // }
+    const ModalFooter = () => {
+      return <div><button className='btn modal-footer-button' onClick={this.closeModal}>OK</button></div>
+    }
     return (
       <ModalComponent isOpen={this.state.show}
-        toggle={this.handleShowModal}
+        closeModal={this.closeModal}
         modalTitle="How to Use Snapshot"
         modalBody={<SearchModalBody />}
-        okText="Ok"
+        modalFooter={<ModalFooter />}
         size="xl"
       />
     )
