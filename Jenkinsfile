@@ -28,7 +28,6 @@ switch(env.BUILD_JOB_TYPE) {
 def buildRegression() {
   node('intake-slave') {
     try {
-      scmCheckOut()
       regressionTestIntStage()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
@@ -70,7 +69,7 @@ def buildPullRequest() {
     ])
 
     try {
-      //scmCheckOut()
+      scmCheckOut()
       buildRegression()
       //buildingTestBench()
       //lintTest()
