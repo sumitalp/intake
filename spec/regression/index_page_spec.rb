@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'acceptance_helper'
+require 'acceptance_helpers'
 require 'feature'
 
 feature 'Index Page' do
