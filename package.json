@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "licenses-report": "bundle exec license_finder report --save=legal/licenses.csv --format csv --columns=name version homepage licenses"
+    "licenses-report": "bundle exec license_finder report --save=legal/licenses.csv --format csv --columns=name version homepage licenses",
+    "test:regression": "bundle exec rspec spec/regression"
   },
   "dependencies": {
     "@babel/core": "^7.4.3",

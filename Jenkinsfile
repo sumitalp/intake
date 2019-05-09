@@ -21,7 +21,43 @@ GITHUB_CREDENTIALS_ID = '433ac100-b3c2-4519-b4d6-207c029a103b'
 switch(env.BUILD_JOB_TYPE) {
   case "master": buildMaster(); break;
   case "release":releasePipeline(); break;
+  case "regression": buildRegression(); break;
   default: buildPullRequest();
+}
+
+def buildRegression() {
+  node('integration') {
+    try {
+      scmCheckOut()
+      regressionTestIntStage()
+    } catch(Exception exception) {
+      currentBuild.result = "FAILURE"
+      throw exception
+    } finally {
+      cleanupStage('')
+    }
+  }
+}
+
+def regressionTestIntStage() {
+  stage('Regression Test Int') {
+    withDockerRegistry([credentialsId: JENKINS_MANAGEMENT_DOCKER_REGISTRY_CREDENTIALS_ID]) {
+      withCredentials([
+        string(credentialsId: 'cans-supervisor-username', variable: 'SUPERVISOR_USERNAME'),
+        string(credentialsId: 'cans-supervisor-password', variable: 'SUPERVISOR_PASSWORD'),
+        string(credentialsId: 'cans-supervisor-verification-code', variable: 'SUPERVISOR_VERIFICATION_CODE'),
+        string(credentialsId: 'cans-caseworker-username', variable: 'CASEWORKER_USERNAME'),
+        string(credentialsId: 'cans-caseworker-password', variable: 'CASEWORKER_PASSWORD'),
+        string(credentialsId: 'cans-caseworker-verification-code', variable: 'CASEWORKER_VERIFICATION_CODE'),
+        string(credentialsId: 'cans-non-caseworker-username', variable: 'NON_CASEWORKER_USERNAME'),
+        string(credentialsId: 'cans-non-caseworker-password', variable: 'NON_CASEWORKER_PASSWORD'),
+        string(credentialsId: 'cans-non-caseworker-verification-code', variable: 'NON_CASEWORKER_VERIFICATION_CODE'),
+        ]) {
+        sh "docker-compose -f docker/test/docker-compose.yml up -d --build"
+        sh "docker-compose -f docker/test/docker-compose.yml exec -T --env NON_CASEWORKER_USERNAME=$NON_CASEWORKER_USERNAME --env NON_CASEWORKER_PASSWORD=$NON_CASEWORKER_PASSWORD --env NON_CASEWORKER_VERIFICATION_CODE=$NON_CASEWORKER_VERIFICATION_CODE --env SUPERVISOR_USERNAME=$SUPERVISOR_USERNAME --env SUPERVISOR_PASSWORD=$SUPERVISOR_PASSWORD --env SUPERVISOR_VERIFICATION_CODE=$SUPERVISOR_VERIFICATION_CODE --env CASEWORKER_USERNAME=$CASEWORKER_USERNAME --env CASEWORKER_PASSWORD=$CASEWORKER_PASSWORD --env CASEWORKER_VERIFICATION_CODE=$CASEWORKER_VERIFICATION_CODE --env REGRESSION_TEST=true --env  bundle exec rspec spec/regression"
+      }
+    }
+  }
 }
 
 def buildPullRequest() {
@@ -34,12 +70,13 @@ def buildPullRequest() {
     ])
 
     try {
-      scmCheckOut()
-      buildingTestBench()
-      lintTest()
-      verifySemVerLabel()
-      karmaTests()
-      rspecTestsSnapshot()
+      //scmCheckOut()
+      buildRegression
+      //buildingTestBench()
+      //lintTest()
+      //verifySemVerLabel()
+      //karmaTests()
+      //rspecTestsSnapshot()
       reports()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
