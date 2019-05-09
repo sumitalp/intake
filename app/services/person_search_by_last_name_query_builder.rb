@@ -14,7 +14,7 @@ module PersonSearchByLastNameQueryBuilder
   def query
     q = { bool: { must: must } }
     f = last_name.blank? ? [] : function_score_queries(fs_query_params)
-    { function_score: { query: q, functions: f, score_mode: 'sum', boost_mode: 'sum' } }
+    { function_score: { query: q, functions: f, score_mode: 'max', boost_mode: 'max' } }
   end
 
   def must
