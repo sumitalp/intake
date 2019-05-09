@@ -26,7 +26,7 @@ switch(env.BUILD_JOB_TYPE) {
 }
 
 def buildRegression() {
-  node('integration') {
+  node('intake-slave') {
     try {
       scmCheckOut()
       regressionTestIntStage()
