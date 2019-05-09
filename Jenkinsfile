@@ -71,7 +71,7 @@ def buildPullRequest() {
 
     try {
       //scmCheckOut()
-      buildRegression
+      buildRegression()
       //buildingTestBench()
       //lintTest()
       //verifySemVerLabel()
