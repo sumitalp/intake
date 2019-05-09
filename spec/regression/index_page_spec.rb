@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'feature'
+require 'rails_helper'
 
 feature 'Index Page' do
   scenario 'CANS-Worker lands on client list and can logout' do
