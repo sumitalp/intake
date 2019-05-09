@@ -4,10 +4,22 @@ require 'rails_helper'
 
 feature 'Index Page' do
   scenario 'CANS-Worker lands on client list and can logout' do
+    logout
     visit '/snapshot'
-    !page.has_content?('v', wait: 5)
+    !page.has_content?('Snapshot', wait: 5)
     enter_credentials default_json
     expect(page).to have_content('Snapshot')
+    logout
+  end
+
+  def logout
+    visit '/snapshot'
+    click_logout
+  end
+
+  def click_logout
+    find('.fa-user').click
+    find('span[role="menuitem"]').click
   end
 
   def enter_credentials(login_config = default_json)
