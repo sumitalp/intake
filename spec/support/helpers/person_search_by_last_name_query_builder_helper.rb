@@ -53,7 +53,7 @@ module PersonSearchByLastNameQueryBuilderHelper
             ]
           }
         },
-        "weight": 4096
+        "weight": 1024
       },
       {
         "filter": {
@@ -63,7 +63,7 @@ module PersonSearchByLastNameQueryBuilderHelper
                 "match": {
                   "last_name_ngram": {
                     "query": 'last name',
-                    "minimum_should_match": '15%',
+                    "minimum_should_match": '20%',
                     "_name": '4_partial'
                   }
                 }
@@ -91,7 +91,7 @@ module PersonSearchByLastNameQueryBuilderHelper
             ]
           }
         },
-        "weight": 1024
+        "weight": 4096
       }
     ]
   end

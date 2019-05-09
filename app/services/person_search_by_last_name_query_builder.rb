@@ -40,7 +40,7 @@ module PersonSearchByLastNameQueryBuilder
   end
 
   def match_last_name_partial
-    [match_query(field: 'last_name_ngram', query: last_name, min_should_match: '15%',
+    [match_query(field: 'last_name_ngram', query: last_name, min_should_match: '20%',
                  name: '4_partial')]
   end
 
@@ -53,9 +53,9 @@ module PersonSearchByLastNameQueryBuilder
     [
       { q: match_last_name, w: 16_384, bq: true },
       { q: match_last_name_akas, w: 8192, bq: true },
-      { q: match_last_name_phon, w: 4096, bq: true },
+      { q: match_last_name_phon, w: 1024, bq: true },
       { q: match_last_name_partial, w: 2048, bq: true },
-      { q: match_last_name_fuzzy, w: 1024, bq: true }
+      { q: match_last_name_fuzzy, w: 4096, bq: true }
     ].compact
   end
 end
