@@ -11,9 +11,6 @@ class BaseQueryBuilder
   def self.build(params = {})
     builder = new(params)
     build_base(builder)
-    if builder.client_id_searched?.blank? && builder.address_searched?
-      builder.extend(PersonSearchByAddress).build_query(builder)
-    end
     builder
   end
 
@@ -23,7 +20,6 @@ class BaseQueryBuilder
     initialize_search
     initialize_name_ssn_client_id
     initialize_age_gender
-    initialize_address
     @payload = build_query
   end
 
@@ -49,26 +45,8 @@ class BaseQueryBuilder
     @gender                   = params.dig(:person_search_fields, :gender)
   end
 
-  def initialize_address
-    return unless address_searched?
-    @street                   = params.dig(:person_search_fields, :street)
-    @city                     = params.dig(:person_search_fields, :city)
-    @county                   = params.dig(:person_search_fields, :county)
-    @state                    = params.dig(:person_search_fields, :state)
-    @country                  = params.dig(:person_search_fields, :country)
-    @zip_code                 = params.dig(:person_search_fields, :zip_code)
-  end
-
   def advanced_search_on?
     params.fetch(:is_advanced_search_on, 'false') == 'true'
-  end
-
-  def address_searched?
-    [
-      params.dig(:person_search_fields, :street), params.dig(:person_search_fields, :city),
-      params.dig(:person_search_fields, :county), params.dig(:person_search_fields, :state),
-      params.dig(:person_search_fields, :country), params.dig(:person_search_fields, :zip_code)
-    ].any?(&:present?)
   end
 
   def client_id_searched?
@@ -83,6 +61,12 @@ class BaseQueryBuilder
     params.dig(:person_search_fields, :search_by_age_method)
   end
 
+  def last_name_only?
+    last_name = params.dig(:person_search_fields, :last_name)
+    first_name = params.dig(:person_search_fields, :first_name)
+    last_name.present? && first_name.blank?
+  end
+
   def build_query
     {
       size: SIZE, track_scores: TRACK_SCORES, sort: sort, min_score: MIN_SCORE,
@@ -95,10 +79,8 @@ class BaseQueryBuilder
   end
 
   def auto_bar_highlight
-    { 'matched_fields':
-      ['autocomplete_search_bar',
-       'autocomplete_search_bar.phonetic',
-       'autocomplete_search_bar.diminutive'] }
+    { 'matched_fields': ['autocomplete_search_bar', 'autocomplete_search_bar.phonetic',
+                         'autocomplete_search_bar.diminutive'] }
   end
 
   def fields
