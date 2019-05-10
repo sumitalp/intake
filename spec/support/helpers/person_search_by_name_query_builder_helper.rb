@@ -321,7 +321,7 @@ module PersonSearchByNameQueryBuilderHelper
 
   def fs_no_name_query
     {
-      "size": '10',
+      "size": '25',
       "track_scores": 'true',
       "sort": [
         {
@@ -360,7 +360,7 @@ module PersonSearchByNameQueryBuilderHelper
 
   def fs_last_name_approx_age_years_gender_query
     {
-      "size": '10',
+      "size": '25',
       "track_scores": 'true',
       "sort": [
         {
@@ -415,7 +415,7 @@ module PersonSearchByNameQueryBuilderHelper
 
   def fs_full_name_query
     {
-      "size": '10',
+      "size": '25',
       "track_scores": 'true',
       "sort": [
         {
@@ -454,7 +454,7 @@ module PersonSearchByNameQueryBuilderHelper
 
   def fs_full_name_without_suffix_query
     {
-      "size": '10',
+      "size": '25',
       "track_scores": 'true',
       "sort": [
         {
@@ -493,7 +493,7 @@ module PersonSearchByNameQueryBuilderHelper
 
   def fs_full_name_dob_query
     {
-      "size": '10',
+      "size": '25',
       "track_scores": 'true',
       "sort": [
         {
@@ -539,7 +539,7 @@ module PersonSearchByNameQueryBuilderHelper
 
   def fs_full_name_approx_age_months_gender_query
     {
-      "size": '10',
+      "size": '25',
       "track_scores": 'true',
       "sort": [
         {
@@ -594,7 +594,7 @@ module PersonSearchByNameQueryBuilderHelper
 
   def fs_full_name_approx_age_years_gender_query
     {
-      "size": '10',
+      "size": '25',
       "track_scores": 'true',
       "sort": [
         {
@@ -649,7 +649,7 @@ module PersonSearchByNameQueryBuilderHelper
 
   def fs_full_name_without_suffix_approx_age_months_gender_query
     {
-      "size": '10',
+      "size": '25',
       "track_scores": 'true',
       "sort": [
         {

@@ -34,8 +34,7 @@ export default class Autocompleter extends Component {
 
   searchAndFocus() {
     const {onChange, onSearch, isAdvancedSearchOn, personSearchFields} = this.props
-    const {
-      lastName, firstName, middleName, clientId, suffix, ssn,
+    const {lastName, firstName, middleName, clientId, suffix, ssn,
       dateOfBirth, approximateAge, approximateAgeUnits, searchByAgeMethod} = personSearchFields
     const suffixWithComma = suffix ? `, ${suffix}` : ''
     const lastNameWithSuffix = `${lastName}${suffixWithComma}`
