@@ -58,13 +58,12 @@ def buildPullRequest() {
 
     try {
       scmCheckOut()
-      //buildRegression()
       buildingTestBench()
+      lintTest()
+      verifySemVerLabel()
+      karmaTests()
+      rspecTestsSnapshot()
       rspecRegressionSnapshot()
-      //lintTest()
-      //verifySemVerLabel()
-      //karmaTests()
-      //rspecTestsSnapshot()
       reports()
     } catch(Exception exception) {
       currentBuild.result = "FAILURE"
