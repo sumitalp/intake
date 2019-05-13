@@ -9,4 +9,3 @@ rspc_cmd += (ENV['EXCLUDE_PATTERN'] ?
                  '--exclude-pattern ' + ENV['EXCLUDE_PATTERN'] : '') + ' spec'
 
 exec("docker-compose #{test_args} run run_tests bash -c \"#{rspc_cmd}\"")
-
