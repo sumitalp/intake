@@ -9,7 +9,7 @@ import {checkStaffPermission} from 'actions/staffActions'
 import {bindActionCreators} from 'redux'
 import Footer from 'views/Footer'
 import userNameFormatter from 'utils/userNameFormatter'
-import {config} from 'common/config'
+import {config, isSnapshot, isHotline} from 'common/config'
 import {ScrollToTop} from 'common/app/ScrollToTop'
 import {Page, CaresProvider, MenuItem, UncontrolledUserMenu} from '@cwds/components'
 
@@ -38,10 +38,15 @@ export class App extends React.Component {
       )
     }
 
+    // eslint-disable-next-line no-nested-ternary
+    const pageTitle = isSnapshot(location) ? 'Snapshort' :
+      isHotline(location) ? 'Hotline' :
+        'Dashboard'
+
     return (
       <RouterScrollToTop>
         <CaresProvider UserMenu={UserMenu} Brand= 'CWS-CARES'>
-          <Page layout= 'dashboard'>
+          <Page layout= 'dashboard' title= {pageTitle} >
             {this.props.children}
             <Footer />
           </Page>

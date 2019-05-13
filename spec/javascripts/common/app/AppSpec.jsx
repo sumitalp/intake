@@ -26,10 +26,11 @@ describe('App', () => {
     expect(scrollToTop.exists()).toBe(true)
   })
 
-  it('renders the Page component on all app views with layout as dashboard', () => {
+  it('renders the Page component on all app views with layout and title as dashboard', () => {
     const app = shallow(<App actions={{}}><div/></App>, {disableLifecycleMethods: true})
     expect(app.find(Page).exists()).toBe(true)
     expect(app.find('Page[layout="dashboard"]').exists()).toBe(true)
+    expect(app.find('Page[title="Dashboard"]').exists()).toBe(true)
   })
 
   it('renders its children', () => {
