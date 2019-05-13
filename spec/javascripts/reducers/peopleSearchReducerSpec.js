@@ -31,7 +31,9 @@ describe('peopleSearchReducer', () => {
 
   describe('on PEOPLE_SEARCH_FETCH_COMPLETE', () => {
     const initialState = fromJS({
-      searchTerm: 'newSearchTerm',
+      searchFields: {
+        searchTerm: 'newSearchTerm',
+      },
       total: 0,
     })
     describe('on success', () => {
@@ -44,7 +46,9 @@ describe('peopleSearchReducer', () => {
       it('updates search results with hits and sets the new total', () => {
         expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
           fromJS({
-            searchTerm: 'newSearchTerm',
+            searchFields: {
+              searchTerm: 'newSearchTerm',
+            },
             total: 2,
             results: ['result_one', 'result_two'],
           })
@@ -65,14 +69,18 @@ describe('peopleSearchReducer', () => {
     describe('clear search results', () => {
       const action = clear('results')
       const initialState = fromJS({
-        searchTerm: 'newSearchTerm',
+        searchFields: {
+          searchTerm: 'newSearchTerm',
+        },
         total: 3,
         results: ['result_one', 'result_two', 'result_three'],
       })
       it('resets results, total, and startTime', () => {
         expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
           fromJS({
-            searchTerm: 'newSearchTerm',
+            searchFields: {
+              searchTerm: 'newSearchTerm',
+            },
             total: null,
             results: [],
             startTime: null,
@@ -84,53 +92,54 @@ describe('peopleSearchReducer', () => {
     describe('clear age fields', () => {
       const action = clear('age')
       const initialState = fromJS({
-        searchTerm: '',
+        searchFields: {
+          searchTerm: 'newSearchTerm',
+          searchByAgeMethod: 'approximate',
+          dateOfBirth: '1985/05/05',
+          approximateAge: '120',
+          approximateAgeUnits: 'years',
+        },
         total: 1,
         results: ['result_one'],
-        searchByAgeMethod: 'dob',
-        searchDateOfBirth: '1985/05/05',
-        searchApproximateAge: '120',
-        searchApproximateAgeUnits: 'years',
       })
       it('resets the age fields back to default', () => {
         expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
           fromJS({
-            searchTerm: '',
+            searchFields: {
+              searchTerm: 'newSearchTerm',
+              searchByAgeMethod: 'dob',
+              dateOfBirth: '',
+              approximateAge: '',
+              approximateAgeUnits: '',
+            },
             total: 1,
             results: ['result_one'],
-            searchByAgeMethod: 'dob',
-            searchDateOfBirth: '',
-            searchApproximateAge: '',
-            searchApproximateAgeUnits: '',
           })
         )
       })
     })
 
-    describe('does not clear results or age fields', () => {
-      describe('when the field is not "age" or "results"', () => {
-
-      })
+    describe('when the field is not "age" or "results"', () => {
       const action = clear('unknown')
       const initialState = fromJS({
-        searchTerm: '',
+        searchTerm: 'newSearchTerm',
         total: 1,
         results: ['result_one'],
         searchByAgeMethod: 'dob',
-        searchDateOfBirth: '1985/05/05',
-        searchApproximateAge: '120',
-        searchApproximateAgeUnits: 'years',
+        dateOfBirth: '1985/05/05',
+        approximateAge: '120',
+        approximateAgeUnits: 'years',
       })
-      it('resets the age fields back to default', () => {
+      it('does not clear results or age fields', () => {
         expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
           fromJS({
-            searchTerm: '',
+            searchTerm: 'newSearchTerm',
             total: 1,
             results: ['result_one'],
             searchByAgeMethod: 'dob',
-            searchDateOfBirth: '1985/05/05',
-            searchApproximateAge: '120',
-            searchApproximateAgeUnits: 'years',
+            dateOfBirth: '1985/05/05',
+            approximateAge: '120',
+            approximateAgeUnits: 'years',
           })
         )
       })
@@ -142,40 +151,48 @@ describe('peopleSearchReducer', () => {
       const today = moment('2015-10-19').toDate()
 
       it('does not set the start time when it exists', () => {
-        const action = setPersonSearchField('searchLastName', 'Doe')
+        const action = setPersonSearchField('lastName', 'Doe')
         const initialState = fromJS({
-          searchTerm: '',
+          searchFields: {
+            searchTerm: '',
+            lastName: 'Flintstone',
+          },
           total: 1,
           results: ['result_one'],
-          searchLastName: 'Flintstone',
           startTime: today.toISOString(),
         })
         expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
           fromJS({
-            searchTerm: '',
+            searchFields: {
+              searchTerm: '',
+              lastName: 'Doe',
+            },
             total: 1,
             results: ['result_one'],
-            searchLastName: 'Doe',
             startTime: today.toISOString(),
           })
         )
       })
 
       it('sets the start time when the value is falsy', () => {
-        const action = setPersonSearchField('searchLastName', 'Doe')
+        const action = setPersonSearchField('lastName', 'Doe')
         const initialState = fromJS({
-          searchTerm: 'searchTerm',
+          searchFields: {
+            searchTerm: 'searchTerm',
+            lastName: 'Flintstone',
+          },
           total: 1,
           results: ['result_one'],
-          searchLastName: 'Flintstone',
         })
         jasmine.clock().mockDate(today)
         expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
           fromJS({
-            searchTerm: 'searchTerm',
+            searchFields: {
+              searchTerm: 'searchTerm',
+              lastName: 'Doe',
+            },
             total: 1,
             results: ['result_one'],
-            searchLastName: 'Doe',
             startTime: today.toISOString(),
           })
         )
@@ -183,19 +200,23 @@ describe('peopleSearchReducer', () => {
       })
 
       it('resets the start time when the start time is falsy and value is falsy', () => {
-        const action = setPersonSearchField('searchLastName', '')
+        const action = setPersonSearchField('lastName', '')
         const initialState = fromJS({
-          searchTerm: '',
+          searchFields: {
+            searchTerm: '',
+            lastName: '',
+          },
           total: 0,
           results: [],
-          searchLastName: '',
         })
         expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
           fromJS({
-            searchTerm: '',
+            searchFields: {
+              searchTerm: '',
+              lastName: '',
+            },
             total: 0,
             results: [],
-            searchLastName: '',
             startTime: null,
           })
         )
@@ -205,243 +226,258 @@ describe('peopleSearchReducer', () => {
     it('sets the search term', () => {
       const action = setPersonSearchField('searchTerm', 'Annie Doe')
       const initialState = fromJS({
-        searchTerm: '',
+        searchFields: {searchTerm: ''},
         total: 1,
         results: ['result_one'],
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchTerm')
-      ).toEqual('Annie Doe')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('searchTerm')).toEqual('Annie Doe')
     })
 
     it('sets the last name', () => {
-      const action = setPersonSearchField('searchLastName', 'Doe')
+      const action = setPersonSearchField('lastName', 'Doe')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          lastName: 'Flintstone',
+        },
         total: 1,
         results: ['result_one'],
-        searchLastName: 'Flintstone',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchLastName')
-      ).toEqual('Doe')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('lastName')).toEqual('Doe')
     })
 
     it('sets the first name', () => {
-      const action = setPersonSearchField('searchFirstName', 'Jane')
+      const action = setPersonSearchField('firstName', 'Jane')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          firstName: 'Freddy',
+        },
         total: 1,
         results: ['result_one'],
-        searchFirstName: 'Freddy',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchFirstName')
-      ).toEqual('Jane')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('firstName')).toEqual('Jane')
     })
 
     it('sets the middle name', () => {
-      const action = setPersonSearchField('searchMiddleName', 'Bedrock')
+      const action = setPersonSearchField('middleName', 'Bedrock')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          middleName: 'Joe',
+        },
         total: 1,
         results: ['result_one'],
-        searchMiddleName: 'Joe',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchMiddleName')
-      ).toEqual('Bedrock')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('middleName')).toEqual('Bedrock')
     })
 
     it('sets the client id', () => {
-      const action = setPersonSearchField('searchClientId', '1')
+      const action = setPersonSearchField('clientId', '1')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          clientId: '2',
+        },
         total: 1,
         results: ['results_one'],
-        searchClientId: '2',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchClientId')
-      ).toEqual('1')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('clientId')).toEqual('1')
     })
 
     it('sets the suffix', () => {
-      const action = setPersonSearchField('searchSuffix', 'Jr')
+      const action = setPersonSearchField('suffix', 'Jr')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          suffix: 'Sr',
+        },
         total: 1,
         results: ['result_one'],
-        searchSuffix: 'Sr',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchSuffix')
-      ).toEqual('Jr')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('suffix')).toEqual('Jr')
     })
 
     it('sets the ssn', () => {
-      const action = setPersonSearchField('searchSsn', '123456789')
+      const action = setPersonSearchField('ssn', '123456789')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          ssn: '098765432',
+        },
         total: 1,
         results: ['result_one'],
-        searchSsn: '098765432',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchSsn')
-      ).toEqual('123456789')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('ssn')).toEqual('123456789')
     })
 
     it('sets the date of birth', () => {
-      const action = setPersonSearchField('searchDateOfBirth', '01/01/2000')
+      const action = setPersonSearchField('dateOfBirth', '01/01/2000')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          dateOfBirth: '12/01/1999',
+        },
         total: 1,
         results: ['result_one'],
-        searchDateOfBirth: '12/01/1999',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchDateOfBirth')
-      ).toEqual('01/01/2000')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('dateOfBirth')).toEqual('01/01/2000')
     })
 
     it('sets the approximate age', () => {
-      const action = setPersonSearchField('searchApproximateAge', '5')
+      const action = setPersonSearchField('approximateAge', '5')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          approximateAge: '3',
+        },
         total: 1,
         results: ['result_one'],
-        searchApproximateAge: '3',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchApproximateAge')
-      ).toEqual('5')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('approximateAge')).toEqual('5')
     })
 
     it('sets the approximate age units', () => {
-      const action = setPersonSearchField('searchApproximateAgeUnits', 'years')
+      const action = setPersonSearchField('approximateAgeUnits', 'years')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          approximateAgeUnits: 'months',
+        },
         total: 1,
         results: ['result_one'],
-        searchApproximateAgeUnits: 'months',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchApproximateAgeUnits')
-      ).toEqual('years')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('approximateAgeUnits')).toEqual('years')
     })
 
     it('sets the search by age method', () => {
       const action = setPersonSearchField('searchByAgeMethod', 'approximate')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          searchByAgeMethod: 'dob',
+        },
         total: 1,
         results: ['result_one'],
-        searchByAgeMethod: 'dob',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchByAgeMethod')
-      ).toEqual('approximate')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('searchByAgeMethod')).toEqual('approximate')
     })
 
     it('sets the sex at birth', () => {
-      const action = setPersonSearchField('searchSexAtBirth', 'Female')
+      const action = setPersonSearchField('sexAtBirth', 'Female')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          sexAtBirth: 'Male',
+        },
         total: 1,
         results: ['result_one'],
-        searchSexAtBirth: 'Male',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchSexAtBirth')
-      ).toEqual('Female')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('sexAtBirth')).toEqual('Female')
     })
 
     it('sets the address', () => {
-      const action = setPersonSearchField('searchAddress', '123 Main St')
+      const action = setPersonSearchField('address', '123 Main St')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          address: '777 Cross St',
+        },
         total: 3,
         results: ['result_one', 'result_two', 'result_three'],
-        searchAddress: '777 Cross St',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchAddress')
-      ).toEqual('123 Main St')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('address')).toEqual('123 Main St')
     })
 
     it('sets the city', () => {
-      const action = setPersonSearchField('searchCity', 'Sac Town')
+      const action = setPersonSearchField('city', 'Sac Town')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          city: 'Sac Town',
+        },
         total: 3,
         results: ['result_one', 'result_two', 'result_three'],
-        searchCity: 'Sac Town',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchCity')
-      ).toEqual('Sac Town')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('city')).toEqual('Sac Town')
     })
 
     it('sets the county', () => {
-      const action = setPersonSearchField('searchCounty', 'Placer')
+      const action = setPersonSearchField('county', 'Placer')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          county: 'Shasta',
+        },
         total: 3,
         results: ['result_one', 'result_two', 'result_three'],
-        searchCounty: 'Shasta',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchCounty')
-      ).toEqual('Placer')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('county')).toEqual('Placer')
     })
 
     it('sets the US state', () => {
-      const action = setPersonSearchField('searchState', 'California')
+      const action = setPersonSearchField('state', 'California')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          state: 'Florida',
+        },
         total: 1,
         results: ['result_one'],
-        searchState: 'Florida',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchState')
-      ).toEqual('California')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('state')).toEqual('California')
     })
 
     it('sets the country', () => {
-      const action = setPersonSearchField(
-        'searchCountry',
-        'United States of America'
-      )
+      const action = setPersonSearchField('country', 'United States of America')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          country: 'Mexico',
+        },
         total: 1,
         results: ['result_one'],
-        searchCountry: 'Mexico',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchCountry')
-      ).toEqual('United States of America')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('country')).toEqual('United States of America')
     })
 
     it('sets the zip code', () => {
-      const action = setPersonSearchField('searchZipCode', '95776')
+      const action = setPersonSearchField('zipCode', '95776')
       const initialState = fromJS({
-        searchTerm: 'searchTerm',
+        searchFields: {
+          searchTerm: 'searchTerm',
+          zipCode: '95695',
+        },
         total: 1,
         results: ['result_one'],
-        searchZipCode: '95695',
       })
-      expect(
-        peopleSearchReducer(initialState, action).get('searchZipCode')
-      ).toEqual('95776')
+      const searchFields = peopleSearchReducer(initialState, action).get('searchFields')
+      expect(searchFields.get('zipCode')).toEqual('95776')
     })
   })
 
   describe('on LOAD_MORE_RESULTS_COMPLETE', () => {
     const initialState = fromJS({
-      searchTerm: 'newSearchTerm',
+      searchFields: {
+        searchTerm: 'newSearchTerm',
+      },
       total: 4,
       results: ['result_one', 'result_two'],
     })
@@ -454,7 +490,9 @@ describe('peopleSearchReducer', () => {
       it('updates search results with hits', () => {
         expect(peopleSearchReducer(initialState, action)).toEqualImmutable(
           fromJS({
-            searchTerm: 'newSearchTerm',
+            searchFields: {
+              searchTerm: 'newSearchTerm',
+            },
             total: 4,
             results: [
               'result_one',
@@ -479,23 +517,26 @@ describe('peopleSearchReducer', () => {
   describe('on FETCH_USER_INFO_COMPLETE', () => {
     it('defaults the search county to the county of the user', () => {
       const action = fetchUserInfoSuccess({county: 'Los Angeles'})
-      const initialState = fromJS({searchCounty: ''})
+      const initialState = fromJS({searchFields: {county: ''}})
       const newState = peopleSearchReducer(initialState, action)
-      expect(newState.get('searchCounty')).toEqual('Los Angeles')
+      expect(newState.get('searchFields').get('county')).toEqual('Los Angeles')
       expect(newState.get('defaultCounty')).toEqual('Los Angeles')
     })
     it('does not override an explicit user selection', () => {
       const action = fetchUserInfoSuccess({county: 'Los Angeles'})
-      const initialState = fromJS({searchCounty: 'Sutter'})
+      const initialState = fromJS({searchFields: {county: 'Sutter'}})
       const newState = peopleSearchReducer(initialState, action)
-      expect(newState.get('searchCounty')).toEqual('Sutter')
+      expect(newState.get('searchFields').get('county')).toEqual('Sutter')
       expect(newState.get('defaultCounty')).toEqual('Los Angeles')
     })
     it('does not set the default if user is State of California', () => {
       const action = fetchUserInfoSuccess({county: 'State of California'})
-      const initialState = fromJS({searchCounty: '', defaultCounty: null})
+      const initialState = fromJS({
+        searchFields: {county: ''},
+        defaultCounty: null,
+      })
       const newState = peopleSearchReducer(initialState, action)
-      expect(newState.get('searchCounty')).toEqual('')
+      expect(newState.get('searchFields').get('county')).toEqual('')
       expect(newState.get('defaultCounty')).toEqual(null)
     })
   })
@@ -504,47 +545,51 @@ describe('peopleSearchReducer', () => {
     it('clears everything and sets county to default', () => {
       const action = resetPersonSearch()
       const initialState = fromJS({
-        searchTerm: 'Doe Jane Middle II 123456789 2019-02-14',
-        searchLastName: 'Doe',
-        searchFirstName: 'Jane',
-        searchMiddleName: 'Middle',
-        searchClientId: '1',
-        searchSuffix: 'II',
-        searchSsn: '123456789',
-        searchDateOfBirth: '2019-02-14',
-        searchApproximateAge: '5',
-        searchApproximateAgeUnits: 'Years',
-        searchByAgeMethod: 'approximate',
-        searchSexAtBirth: 'Female',
-        searchAddress: '123 Main St',
-        searchCity: 'Woodland',
-        searchCounty: 'Yolo',
-        searchState: 'California',
-        searchCountry: 'United States of America',
-        searchZipCode: '95695',
+        searchFields: {
+          searchTerm: 'Doe Jane Middle II 123456789 2019-02-14',
+          lastName: 'Doe',
+          firstName: 'Jane',
+          middleName: 'Middle',
+          clientId: '1',
+          suffix: 'II',
+          ssn: '123456789',
+          dateOfBirth: '2019-02-14',
+          approximateAge: '5',
+          approximateAgeUnits: 'Years',
+          searchByAgeMethod: 'approximate',
+          sexAtBirth: 'Female',
+          address: '123 Main St',
+          city: 'Woodland',
+          county: 'Yolo',
+          state: 'California',
+          country: 'United States of America',
+          zipCode: '95695',
+        },
         defaultCounty: 'Sacramento',
       })
       const newState = peopleSearchReducer(initialState, action)
       expect(newState).toEqualImmutable(
         fromJS({
-          searchTerm: '',
-          searchLastName: '',
-          searchFirstName: '',
-          searchMiddleName: '',
-          searchClientId: '',
-          searchSuffix: '',
-          searchSsn: '',
-          searchDateOfBirth: '',
-          searchApproximateAge: '',
-          searchApproximateAgeUnits: '',
-          searchByAgeMethod: 'dob',
-          searchSexAtBirth: '',
-          searchAddress: '',
-          searchCity: '',
-          searchCounty: 'Sacramento',
-          searchState: '',
-          searchCountry: '',
-          searchZipCode: '',
+          searchFields: {
+            searchTerm: '',
+            lastName: '',
+            firstName: '',
+            middleName: '',
+            clientId: '',
+            suffix: '',
+            ssn: '',
+            dateOfBirth: '',
+            approximateAge: '',
+            approximateAgeUnits: '',
+            searchByAgeMethod: 'dob',
+            sexAtBirth: '',
+            address: '',
+            city: '',
+            county: 'Sacramento',
+            state: '',
+            country: '',
+            zipCode: '',
+          },
           defaultCounty: 'Sacramento',
         })
       )
@@ -553,57 +598,57 @@ describe('peopleSearchReducer', () => {
       const action = resetPersonSearch()
       const initialState = fromJS({defaultCounty: null})
       const newState = peopleSearchReducer(initialState, action)
-      expect(newState.get('searchCounty')).toEqual('')
+      expect(newState.get('searchFields').get('county')).toEqual('')
       expect(newState.get('defaultCounty')).toEqual(null)
     })
   })
 
   describe('on SET_SEARCH_FIELD_ERROR_CHECK', () => {
-    describe('clientIdErrorCheck', () => {
+    describe('clientId', () => {
       it('action sets error check to true', () => {
-        const action = setFieldErrorCheck('clientIdErrorCheck', true)
-        const initialState = fromJS({clientIdErrorCheck: false})
+        const action = setFieldErrorCheck('clientId', true)
+        const initialState = fromJS({errorCheckFields: {clientId: false}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('clientIdErrorCheck')).toEqual(true)
+        expect(newState.get('errorCheckFields').get('clientId')).toEqual(true)
       })
 
       it('action sets error check to false', () => {
-        const action = setFieldErrorCheck('clientIdErrorCheck', false)
-        const initialState = fromJS({clientIdErrorCheck: true})
+        const action = setFieldErrorCheck('clientId', false)
+        const initialState = fromJS({errorCheckFields: {clientId: true}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('clientIdErrorCheck')).toEqual(false)
+        expect(newState.get('errorCheckFields').get('clientId')).toEqual(false)
       })
     })
 
-    describe('ssnErrorCheck', () => {
+    describe('ssn', () => {
       it('action sets error check to true', () => {
-        const action = setFieldErrorCheck('ssnErrorCheck', true)
-        const initialState = fromJS({ssnErrorCheck: false})
+        const action = setFieldErrorCheck('ssn', true)
+        const initialState = fromJS({errorCheckFields: {ssn: false}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('ssnErrorCheck')).toEqual(true)
+        expect(newState.get('errorCheckFields').get('ssn')).toEqual(true)
       })
 
       it('action sets error check to false', () => {
-        const action = setFieldErrorCheck('ssnErrorCheck', false)
-        const initialState = fromJS({ssnErrorCheck: true})
+        const action = setFieldErrorCheck('ssn', false)
+        const initialState = fromJS({errorCheckFields: {ssn: true}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('ssnErrorCheck')).toEqual(false)
+        expect(newState.get('errorCheckFields').get('ssn')).toEqual(false)
       })
     })
 
-    describe('dobErrorCheck', () => {
+    describe('dateOfBirth', () => {
       it('action sets error check to true', () => {
-        const action = setFieldErrorCheck('dobErrorCheck', true)
-        const initialState = fromJS({dobErrorCheck: false})
+        const action = setFieldErrorCheck('dateOfBirth', true)
+        const initialState = fromJS({errorCheckFields: {dateOfBirth: false}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('dobErrorCheck')).toEqual(true)
+        expect(newState.get('errorCheckFields').get('dateOfBirth')).toEqual(true)
       })
 
       it('action sets error check to false', () => {
-        const action = setFieldErrorCheck('dobErrorCheck', false)
-        const initialState = fromJS({dobErrorCheck: true})
+        const action = setFieldErrorCheck('dateOfBirth', false)
+        const initialState = fromJS({errorCheckFields: {dateOfBirth: true}})
         const newState = peopleSearchReducer(initialState, action)
-        expect(newState.get('dobErrorCheck')).toEqual(false)
+        expect(newState.get('errorCheckFields').get('dateOfBirth')).toEqual(false)
       })
     })
   })

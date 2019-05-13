@@ -14,7 +14,7 @@ module PersonSearchByLastNameQueryBuilder
   def query
     q = { bool: { must: must } }
     f = last_name.blank? ? [] : function_score_queries(fs_query_params)
-    { function_score: { query: q, functions: f, score_mode: 'sum', boost_mode: 'sum' } }
+    { function_score: { query: q, functions: f, score_mode: 'max', boost_mode: 'max' } }
   end
 
   def must
@@ -40,7 +40,7 @@ module PersonSearchByLastNameQueryBuilder
   end
 
   def match_last_name_partial
-    [match_query(field: 'last_name_ngram', query: last_name, min_should_match: '15%',
+    [match_query(field: 'last_name_ngram', query: last_name, min_should_match: '20%',
                  name: '4_partial')]
   end
 
@@ -53,9 +53,9 @@ module PersonSearchByLastNameQueryBuilder
     [
       { q: match_last_name, w: 16_384, bq: true },
       { q: match_last_name_akas, w: 8192, bq: true },
-      { q: match_last_name_phon, w: 4096, bq: true },
+      { q: match_last_name_phon, w: 1024, bq: true },
       { q: match_last_name_partial, w: 2048, bq: true },
-      { q: match_last_name_fuzzy, w: 1024, bq: true }
+      { q: match_last_name_fuzzy, w: 4096, bq: true }
     ].compact
   end
 end

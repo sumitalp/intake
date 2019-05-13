@@ -74,7 +74,7 @@ describe('GenderSelect', () => {
       .props()
       .onChange({target: {value: 'Female'}})
 
-    expect(onChange).toHaveBeenCalledWith('searchSexAtBirth', 'Female')
+    expect(onChange).toHaveBeenCalledWith('sexAtBirth', 'Female')
   })
 
   it('calls back with empty string when the selection changes to unknown value', () => {
@@ -95,6 +95,6 @@ describe('GenderSelect', () => {
       .props()
       .onChange({target: {value: 'Days'}})
 
-    expect(onChange).toHaveBeenCalledWith('searchSexAtBirth', '')
+    expect(onChange).toHaveBeenCalledWith('sexAtBirth', '')
   })
 })

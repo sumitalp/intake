@@ -154,49 +154,31 @@ export const selectPersonCreatedAtTime = state =>
     .pop()
 
 export const selectClientIdErrors = (state) => {
-  const checkForClientIdErrors = selectPeopleSearch(state).get('clientIdErrorCheck')
-  const clientId = selectPeopleSearch(state).get('searchClientId') || ''
+  const errorCheckFields = selectPeopleSearch(state).get('errorCheckFields')
+  const errorCheck = errorCheckFields.get('clientId')
+  const searchFields = selectPeopleSearch(state).get('searchFields')
+  const clientId = searchFields.get('clientId') || ''
   const clientIdWithoutHyphens = clientId.replace(/-|_/g, '')
-  return checkForClientIdErrors ? getClientIdErrors(clientIdWithoutHyphens) : []
+  return errorCheck ? getClientIdErrors(clientIdWithoutHyphens) : []
 }
 
 export const selectSsnErrors = (state) => {
-  const checkForSsnErrors = selectPeopleSearch(state).get('ssnErrorCheck')
-  const ssn = selectPeopleSearch(state).get('searchSsn')
+  const errorCheckFields = selectPeopleSearch(state).get('errorCheckFields')
+  const errorCheck = errorCheckFields.get('ssn')
+  const searchFields = selectPeopleSearch(state).get('searchFields')
+  const ssn = searchFields.get('ssn')
   const ssnWithoutHyphens = ssn.replace(/-|_/g, '')
-  return checkForSsnErrors ? getSSNErrors(ssnWithoutHyphens) : []
+  return errorCheck ? getSSNErrors(ssnWithoutHyphens) : []
 }
 
 export const selectDobErrors = (state) => {
-  const dob = selectPeopleSearch(state).get('searchDateOfBirth') || ''
+  const searchFields = selectPeopleSearch(state).get('searchFields')
+  const dob = searchFields.get('dateOfBirth') || ''
   return combineCompact(isFutureDatetimeCreate(dob, 'Please enter date as today or earlier.'))
 }
 
-export const selectPersonSearchFields = state => {
-  const personSearchFields = {
-    searchTerm: selectPeopleSearch(state).get('searchTerm'),
-    searchLastName: selectPeopleSearch(state).get('searchLastName'),
-    searchFirstName: selectPeopleSearch(state).get('searchFirstName'),
-    searchMiddleName: selectPeopleSearch(state).get('searchMiddleName'),
-    searchClientId: selectPeopleSearch(state).get('searchClientId'),
-    searchSuffix: selectPeopleSearch(state).get('searchSuffix'),
-    searchSsn: selectPeopleSearch(state).get('searchSsn'),
-    searchDateOfBirth: selectPeopleSearch(state).get('searchDateOfBirth'),
-    searchApproximateAge: selectPeopleSearch(state).get('searchApproximateAge'),
-    searchApproximateAgeUnits: selectPeopleSearch(state).get(
-      'searchApproximateAgeUnits'
-    ),
-    searchByAgeMethod: selectPeopleSearch(state).get('searchByAgeMethod'),
-    searchSexAtBirth: selectPeopleSearch(state).get('searchSexAtBirth'),
-    searchAddress: selectPeopleSearch(state).get('searchAddress'),
-    searchCity: selectPeopleSearch(state).get('searchCity'),
-    searchCounty: selectPeopleSearch(state).get('searchCounty'),
-    searchState: selectPeopleSearch(state).get('searchState'),
-    searchCountry: selectPeopleSearch(state).get('searchCountry'),
-    searchZipCode: selectPeopleSearch(state).get('searchZipCode'),
-  }
-  return personSearchFields
-}
+export const selectPersonSearchFields = state =>
+  selectPeopleSearch(state).get('searchFields').toJS()
 
 const isSearchable = (value, min) => {
   if (min === LAST_NAME_MIN_SEARCHABLE_CHARS) {
@@ -217,6 +199,7 @@ const isEmptyCheckForLastName = (searchableLastName) => {
     emptyCheckForLastName = false
   }
 }
+
 const isEmptyCheckForClientId = (searchableClientId) => {
   if (searchableClientId === '') {
     emptyCheckForClientId = true
@@ -224,6 +207,7 @@ const isEmptyCheckForClientId = (searchableClientId) => {
     emptyCheckForClientId = false
   }
 }
+
 const isEmptyCheckForSsn = (searchableSsn) => {
   if (searchableSsn === '') {
     emptyCheckForSsn = true
@@ -231,13 +215,15 @@ const isEmptyCheckForSsn = (searchableSsn) => {
     emptyCheckForSsn = false
   }
 }
-const isEmptyCheckForFields = (searchLastName, searchClientId, searchSsn, searchDateOfBirth) => {
-  if (searchLastName === '' && searchClientId === '' && searchSsn === '' && searchDateOfBirth === '') {
+
+const isEmptyCheckForFields = (lastName, clientId, ssn, dateOfBirth) => {
+  if (lastName === '' && clientId === '' && ssn === '' && dateOfBirth === '') {
     emptyCheckForFields = false
   } else {
     emptyCheckForFields = true
   }
 }
+
 const canSearchable = (searchableLastName, searchableClientId, searchableSsn, dobErrors, ssnErrors) => {
   const isSearchableLastName = emptyCheckForLastName || searchableLastName
   const isSearchableClientId = emptyCheckForClientId || searchableClientId
@@ -251,13 +237,13 @@ const canSearchable = (searchableLastName, searchableClientId, searchableSsn, do
 }
 
 export const selectCanSearch = (state) => {
-  const {searchLastName, searchClientId, searchSsn, searchDateOfBirth} = selectPersonSearchFields(state)
-  const searchableLastName = isSearchable(searchLastName, LAST_NAME_MIN_SEARCHABLE_CHARS)
-  const searchableClientId = isSearchable(searchClientId, CLIENT_ID_MIN_SEARCHABLE_CHARS)
-  const searchableSsn = isSearchable(searchSsn, SSN_MIN_SEARCHABLE_CHARS)
+  const {lastName, clientId, ssn, dateOfBirth} = selectPersonSearchFields(state)
+  const searchableLastName = isSearchable(lastName, LAST_NAME_MIN_SEARCHABLE_CHARS)
+  const searchableClientId = isSearchable(clientId, CLIENT_ID_MIN_SEARCHABLE_CHARS)
+  const searchableSsn = isSearchable(ssn, SSN_MIN_SEARCHABLE_CHARS)
   const dobErrors = selectDobErrors(state)
   const ssnErrors = selectSsnErrors(state)
-  isEmptyCheckForFields(searchLastName, searchClientId, searchSsn, searchDateOfBirth)
+  isEmptyCheckForFields(lastName, clientId, ssn, dateOfBirth)
   isEmptyCheckForLastName(searchableLastName)
   isEmptyCheckForClientId(searchableClientId)
   isEmptyCheckForSsn(searchableSsn)

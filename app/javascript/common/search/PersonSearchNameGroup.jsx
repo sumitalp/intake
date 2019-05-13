@@ -9,8 +9,8 @@ const PersonSearchNameGroup = ({onChange, personSearchFields, onKeyPress}) => (
       id="search-last-name"
       gridClassName="col-md-3 last-name-field"
       label="Last Name"
-      onChange={({target: {value}}) => onChange('searchLastName', value)}
-      value={personSearchFields.searchLastName}
+      onChange={({target: {value}}) => onChange('lastName', value)}
+      value={personSearchFields.lastName}
       onKeyPress={onKeyPress}
       maxLength='25'
     />
@@ -18,8 +18,8 @@ const PersonSearchNameGroup = ({onChange, personSearchFields, onKeyPress}) => (
       id="search-first-name"
       gridClassName="col-md-3 first-name-field"
       label="First Name"
-      onChange={({target: {value}}) => onChange('searchFirstName', value)}
-      value={personSearchFields.searchFirstName}
+      onChange={({target: {value}}) => onChange('firstName', value)}
+      value={personSearchFields.firstName}
       onKeyPress={onKeyPress}
       maxLength='20'
     />
@@ -27,8 +27,8 @@ const PersonSearchNameGroup = ({onChange, personSearchFields, onKeyPress}) => (
       id="search-middle-name"
       gridClassName="col-md-3 middle-name-field"
       label="Middle Name"
-      onChange={({target: {value}}) => onChange('searchMiddleName', value)}
-      value={personSearchFields.searchMiddleName}
+      onChange={({target: {value}}) => onChange('middleName', value)}
+      value={personSearchFields.middleName}
       onKeyPress={onKeyPress}
       maxLength='20'
     />
@@ -36,8 +36,8 @@ const PersonSearchNameGroup = ({onChange, personSearchFields, onKeyPress}) => (
       id="search-suffix"
       gridClassName="col-md-3 suffix-field"
       label="Suffix"
-      onChange={({target: {value}}) => onChange('searchSuffix', value)}
-      value={personSearchFields.searchSuffix}
+      onChange={({target: {value}}) => onChange('suffix', value)}
+      value={personSearchFields.suffix}
       maxLength='4'
       onKeyPress={onKeyPress}
     />

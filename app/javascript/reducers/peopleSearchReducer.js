@@ -12,70 +12,64 @@ import {
 import {FETCH_USER_INFO_COMPLETE} from 'actions/userInfoActions'
 import moment from 'moment'
 
+const defaultSearchFieldsState = {
+  searchTerm: '',
+  lastName: '',
+  firstName: '',
+  middleName: '',
+  clientId: '',
+  suffix: '',
+  ssn: '',
+  dateOfBirth: '',
+  approximateAge: '',
+  approximateAgeUnits: '',
+  searchByAgeMethod: 'dob',
+  sexAtBirth: '',
+  address: '',
+  city: '',
+  county: '',
+  state: '',
+  country: '',
+  zipCode: '',
+}
+
 const initialState = fromJS({
   results: [],
-  searchTerm: '',
   total: 0,
-  searchLastName: '',
-  searchFirstName: '',
-  searchMiddleName: '',
-  searchClientId: '',
-  searchSuffix: '',
-  searchSsn: '',
-  searchDateOfBirth: '',
-  searchApproximateAge: '',
-  searchApproximateAgeUnits: '',
-  searchByAgeMethod: 'dob',
-  searchSexAtBirth: '',
-  searchAddress: '',
-  searchCity: '',
-  searchCounty: '',
-  searchState: '',
-  searchCountry: '',
-  searchZipCode: '',
   defaultCounty: null,
-  clientIdErrorCheck: false,
-  ssnErrorCheck: false,
-  dobErrorCheck: false,
+  searchFields: defaultSearchFieldsState,
+  errorCheckFields: {
+    clientId: false,
+    ssn: false,
+    dateOfBirth: false,
+  },
 })
 
 const setPersonSearchField = (state, {payload}) => {
   const {field, value} = payload
-
+  const newSearchFields = state.get('searchFields').set(field, value)
+  const newState = state.set('searchFields', newSearchFields)
   if (state.get('startTime')) {
-    return state.set(field, value)
+    return newState
   } else if (value) {
-    return state.set(field, value).set('startTime', moment().toISOString())
+    return newState.set('startTime', moment().toISOString())
   } else {
-    return state.set(field, value).set('startTime', null)
+    return newState.set('startTime', null)
   }
 }
 
 const setPersonSearchFieldErrorCheck = (state, {payload}) => {
   const {field, value} = payload
-  return state.set(field, value)
+  const newErrorCheck = state.get('errorCheckFields').set(field, value)
+  const newState = state.set('errorCheckFields', newErrorCheck)
+  return newState
 }
 
-const resetPersonSearchFields = state =>
-  state
-    .set('searchTerm', '')
-    .set('searchLastName', '')
-    .set('searchFirstName', '')
-    .set('searchMiddleName', '')
-    .set('searchClientId', '')
-    .set('searchSuffix', '')
-    .set('searchSsn', '')
-    .set('searchDateOfBirth', '')
-    .set('searchApproximateAge', '')
-    .set('searchApproximateAgeUnits', '')
-    .set('searchByAgeMethod', 'dob')
-    .set('searchSexAtBirth', '')
-    .set('searchAddress', '')
-    .set('searchCity', '')
-    .set('searchCounty', state.get('defaultCounty') || '')
-    .set('searchState', '')
-    .set('searchCountry', '')
-    .set('searchZipCode', '')
+const resetPersonSearchFields = state => {
+  const defaultCounty = state.get('defaultCounty') || ''
+  const searchFields = fromJS({...defaultSearchFieldsState, county: defaultCounty})
+  return state.set('searchFields', searchFields)
+}
 
 export default createReducer(initialState, {
   [PEOPLE_SEARCH_FETCH](state) {
@@ -106,11 +100,14 @@ export default createReducer(initialState, {
         .set('startTime', null)
         .set('total', null)
     } else if (field === 'age') {
-      return state
-        .set('searchByAgeMethod', 'dob')
-        .set('searchDateOfBirth', '')
-        .set('searchApproximateAge', '')
-        .set('searchApproximateAgeUnits', '')
+      const searchFields = state.get('searchFields')
+      const ageFields = fromJS({
+        searchByAgeMethod: 'dob',
+        dateOfBirth: '',
+        approximateAge: '',
+        approximateAgeUnits: '',
+      })
+      return state.set('searchFields', searchFields.merge(ageFields))
     }
     return state
   },
@@ -127,10 +124,13 @@ export default createReducer(initialState, {
     if (county === 'State of California') {
       return state
     }
+    const searchFields = state.get('searchFields')
+    const isCountyEmpty = searchFields.get('county') === ''
     const newState = state.set('defaultCounty', county)
-    return newState.get('searchCounty') === '' ?
-      newState.set('searchCounty', county) :
-      newState
+    const newSearchFields = searchFields.set('county', county)
+    const newStateWithCounty = newState.set('searchFields', newSearchFields)
+
+    return isCountyEmpty ? newStateWithCounty : newState
   },
   [LOAD_MORE_RESULTS_COMPLETE](
     state,

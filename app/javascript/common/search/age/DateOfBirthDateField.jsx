@@ -5,8 +5,8 @@ import DateField from 'common/DateField'
 class DateOfBirthDateField extends React.Component {
   render() {
     const {value, onBlur, onChange, errors, onKeyUp, onKeyPress} = this.props
-    const handleBlur = () => onBlur('dobErrorCheck')
-    const handleChange = value => onChange('searchDateOfBirth', value)
+    const handleBlur = () => onBlur('dateOfBirth')
+    const handleChange = value => onChange('dateOfBirth', value)
 
     return (
       <DateField

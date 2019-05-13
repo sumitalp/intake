@@ -404,8 +404,8 @@ module PersonSearchByNameQueryBuilderHelper
             }
           },
           "functions": last_name_functions,
-          "score_mode": 'sum',
-          "boost_mode": 'sum'
+          "score_mode": 'max',
+          "boost_mode": 'max'
         }
       },
       "_source": source,

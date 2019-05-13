@@ -3,7 +3,7 @@ import {shallow} from 'enzyme'
 import PersonSearchAgeGenderNumbersGroup from 'common/search/PersonSearchAgeGenderNumbersGroup'
 
 const defaultPersonSearchFields = {
-  searchApproximateAgeUnits: '',
+  approximateAgeUnits: '',
   searchByAgeMethod: '',
 }
 
@@ -66,7 +66,7 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
 
     describe('Sex At Birth', () => {
       it('renders sex at birth select', () => {
-        const component = render({personSearchFields: {searchSexAtBirth: ''}})
+        const component = render({personSearchFields: {sexAtBirth: ''}})
         const sexAtBirthSelect = component.find('SexAtBirthSelect')
         expect(sexAtBirthSelect.props().id).toEqual('search-sex-at-birth')
         expect(sexAtBirthSelect.props().value).toEqual('')
@@ -75,7 +75,7 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
 
       it('renders sex at birth select when a gender is selected', () => {
         const component = render({
-          personSearchFields: {searchSexAtBirth: 'Female'},
+          personSearchFields: {sexAtBirth: 'Female'},
         })
         const sexAtBirthSelect = component.find('SexAtBirthSelect')
         expect(sexAtBirthSelect.props().id).toEqual('search-sex-at-birth')
@@ -89,8 +89,8 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
           component
             .find('SexAtBirthSelect')
             .props()
-            .onChange('searchSexAtBirth', 'Female')
-          expect(onChange).toHaveBeenCalledWith('searchSexAtBirth', 'Female')
+            .onChange('sexAtBirth', 'Female')
+          expect(onChange).toHaveBeenCalledWith('sexAtBirth', 'Female')
         })
       })
     })
@@ -98,20 +98,20 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
     describe('Client ID', () => {
       it('renders a MaskedSearchInput', () => {
         const component = render({})
-        const maskedSearchInput = component.find('MaskedSearchInput[name="client-id"]')
+        const maskedSearchInput = component.find('MaskedSearchInput[name="clientId"]')
         expect(maskedSearchInput.exists()).toEqual(true)
       })
 
       it('sets the correct props', () => {
-        const searchClientId = '1111-2222-3333-4444444'
-        const component = render({personSearchFields: {searchClientId}})
-        const maskedSearchInput = component.find('MaskedSearchInput[name="client-id"]')
+        const clientId = '1111-2222-3333-4444444'
+        const component = render({personSearchFields: {clientId}})
+        const maskedSearchInput = component.find('MaskedSearchInput[name="clientId"]')
         const props = maskedSearchInput.props()
         expect(props.errors).toEqual([])
         expect(props.label).toEqual('Client ID Number')
-        expect(props.name).toEqual('client-id')
+        expect(props.name).toEqual('clientId')
         expect(props.mask).toEqual('1111-1111-1111-1111111')
-        expect(props.value).toEqual(searchClientId)
+        expect(props.value).toEqual(clientId)
         expect(typeof props.onBlur).toEqual('function')
         expect(typeof props.onChange).toEqual('function')
         expect(typeof props.onFocus).toEqual('function')
@@ -127,15 +127,15 @@ describe('PersonSearchAgeGenderNumbersGroup', () => {
       })
 
       it('sets the correct props', () => {
-        const searchSsn = '123-45-6789'
-        const component = render({personSearchFields: {searchSsn}})
+        const ssn = '123-45-6789'
+        const component = render({personSearchFields: {ssn}})
         const maskedSearchInput = component.find('MaskedSearchInput[name="ssn"]')
         const props = maskedSearchInput.props()
         expect(props.errors).toEqual([])
         expect(props.label).toEqual('Social Security Number')
         expect(props.name).toEqual('ssn')
         expect(props.mask).toEqual('111-11-1111')
-        expect(props.value).toEqual(searchSsn)
+        expect(props.value).toEqual(ssn)
         expect(typeof props.onBlur).toEqual('function')
         expect(typeof props.onChange).toEqual('function')
         expect(typeof props.onFocus).toEqual('function')
