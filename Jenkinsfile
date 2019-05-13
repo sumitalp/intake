@@ -173,7 +173,7 @@ def rspecTests() {
 def rspecTestsSnapshot() {
   stage('Rspec tests for Snapshot') {
     curStage = 'Rspec tests for Snapshot'
-    sh 'EXCLUDE_PATTERN="features/screening","./regression" ./scripts/ci/rspec_test.rb'
+    sh 'EXCLUDE_PATTERN="features/screening" ./scripts/ci/rspec_test.rb'
   }
 }
 
