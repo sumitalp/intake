@@ -5,6 +5,8 @@ test_args = "-p intake_accelerator#{ENV['BUILD_NAME']}_test -f docker/test/docke
 webpack = 'bin/webpack'
 
 rspc_cmd = "#{webpack} && bundle exec parallel_rspec --runtime-log parallel_runtime_rspec.log "
-rspc_cmd += (ENV['EXCLUDE_PATTERN'] ? '--exclude-pattern ' + ENV['EXCLUDE_PATTERN'] : '') + ' spec'
+rspc_cmd += (ENV['EXCLUDE_PATTERN'] ?
+                 '--exclude-pattern ' + ENV['EXCLUDE_PATTERN'] : '') + ' spec'
 
 exec("docker-compose #{test_args} run run_tests bash -c \"#{rspc_cmd}\"")
+

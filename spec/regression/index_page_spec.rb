@@ -41,19 +41,16 @@ feature 'Index Page' do
 
   def default_json
     {
-        'user' : 'REGREQD',
-        'first_name' : 'QA02',
-        'last_name' : 'Regression',
-        'email' : 'regressioncares+qa02@gmail.com',
-        'roles' : [
-            'CWS-worker',
-        'SocialWorker'
-    ],
-        'staffId' : 'agn',
-        'county_name' : 'Sacramento',
-        'county_code' : '34',
-        'county_cws_code' : 1101,
-        'privileges' : [
+        user: 'REGREQD',
+        first_name: 'QA02',
+        last_name: 'Regression',
+        email: 'regressioncares+qa02@gmail.com',
+        roles: [ 'CWS-worker', 'SocialWorker'],
+        staffId: 'agn',
+        county_name: 'Sacramento',
+        county_code: '34',
+        county_cws_code: 1101,
+        privileges: [
         'Resource Mgmt Placement Facility Maint',
         'Countywide Read/Write',
         'Officewide Read',
@@ -82,12 +79,9 @@ feature 'Index Page' do
         'CANS-assessment-in-progress-delete',
         'CANS-assessment-completed-delete',
         'CANS-assessment-complete',
-        'CANS-rollout'
-    ],
-        'authorityCodes' : [
-        'B'
-    ],
-        'userName' : 'd0108753-54cf-4e28-9d3f-1817903f24ad'
-    }
+        'CANS-rollout'],
+        authorityCodes: ['B'],
+        userName: 'd0108753-54cf-4e28-9d3f-1817903f24ad'
+    }.to_json
   end
 end
