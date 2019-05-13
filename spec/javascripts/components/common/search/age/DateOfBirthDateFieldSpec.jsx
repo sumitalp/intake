@@ -64,12 +64,22 @@ describe('DateOfBirthDateField', () => {
     })
 
     describe('when field is blurred', () => {
-      it('calls onBlur to set dobErrorCheck to true', () => {
+      it('calls onBlur to set date of birth error check to true', () => {
         const onBlur = jasmine.createSpy('onBlur')
         const component = render({onBlur})
         const dateField = component.find('DateField[label="Date"]')
         dateField.props().onBlur()
-        expect(onBlur).toHaveBeenCalledWith('dobErrorCheck')
+        expect(onBlur).toHaveBeenCalledWith('dateOfBirth')
+      })
+    })
+
+    describe('when the date field value changes', () => {
+      it('calls onChange to set the date of birth value', () => {
+        const onChange = jasmine.createSpy('onChange')
+        const component = render({onChange})
+        const dateField = component.find('DateField[label="Date"]')
+        dateField.props().onChange('12/12/2000')
+        expect(onChange).toHaveBeenCalledWith('dateOfBirth', '12/12/2000')
       })
     })
   })

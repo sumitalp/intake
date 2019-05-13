@@ -26,22 +26,22 @@ describe('loadMorePeopleSearchResultsSaga', () => {
 describe('loadMorePeopleSearch', () => {
   const isClientOnly = true
   const isAdvancedSearchOn = true
-  const personSearchFields = {searchLastName: 'Doe'}
+  const personSearchFields = {lastName: 'Doe'}
   const action = loadMoreResults(isClientOnly, isAdvancedSearchOn, personSearchFields)
-
   const searchTerm = 'test'
   const lastResultSort = ['last_result_sort']
 
   it('finds some error during the process', () => {
     const error = 'Something went wrong'
     const peopleSeachGenerator = loadMorePeopleSearch(action)
-    expect(peopleSeachGenerator.next(searchTerm).value).toEqual(select(selectLastResultsSortValue))
-    expect(peopleSeachGenerator.next(lastResultSort).value).toEqual(call(get, '/api/v1/people', {
+    const searchParams = {
       is_client_only: true,
       is_advanced_search_on: true,
       person_search_fields: {last_name: 'Doe'},
       search_after: lastResultSort,
-    }))
+    }
+    expect(peopleSeachGenerator.next(searchTerm).value).toEqual(select(selectLastResultsSortValue))
+    expect(peopleSeachGenerator.next(lastResultSort).value).toEqual(call(get, '/api/v1/people', searchParams))
     expect(peopleSeachGenerator.throw(error).value).toEqual(put(loadMoreResultsFailure('Something went wrong')))
   })
 
@@ -51,7 +51,6 @@ describe('loadMorePeopleSearch', () => {
         hits: [],
       },
     }
-
     const peopleSeachGenerator = loadMorePeopleSearch(action)
     expect(peopleSeachGenerator.next(searchTerm).value).toEqual(select(selectLastResultsSortValue))
     expect(peopleSeachGenerator.next(lastResultSort).value).toEqual(call(get, '/api/v1/people', {

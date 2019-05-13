@@ -7,23 +7,23 @@ import moment from 'moment'
 
 const defaultPersonSearchFields = {
   searchTerm: '',
-  searchAddress: '',
-  searchApproximateAge: '',
-  searchApproximateAgeUnits: '',
+  address: '',
+  approximateAge: '',
+  approximateAgeUnits: '',
   searchByAgeMethod: '',
-  searchCity: '',
-  searchClientId: '',
-  searchCountry: '',
-  searchCounty: '',
-  searchDateOfBirth: '',
-  searchFirstName: '',
-  searchSexAtBirth: '',
-  searchLastName: '',
-  searchMiddleName: '',
-  searchSsn: '',
-  searchState: '',
-  searchSuffix: '',
-  searchZipCode: '',
+  city: '',
+  clientId: '',
+  country: '',
+  county: '',
+  dateOfBirth: '',
+  firstName: '',
+  sexAtBirth: '',
+  lastName: '',
+  middleName: '',
+  ssn: '',
+  state: '',
+  suffix: '',
+  zipCode: '',
 }
 
 describe('<Autocompleter />', () => {
@@ -344,13 +344,13 @@ describe('<Autocompleter />', () => {
             onLoadMoreResults,
             total,
             personSearchFields: {
-              searchSsn: '',
-              searchClientId: '',
-              searchState: '',
-              searchCounty: 'Colusa',
-              searchCity: 'Central City',
-              searchAddress: 'Star Labs',
-              searchApproximateAgeUnits: '',
+              ssn: '',
+              clientId: '',
+              state: '',
+              county: 'Colusa',
+              city: 'Central City',
+              address: 'Star Labs',
+              approximateAgeUnits: '',
             },
             isAdvancedSearchOn: true,
           })
@@ -359,13 +359,13 @@ describe('<Autocompleter />', () => {
             .props()
             .onSelect('_value', {showMoreResults: true})
           expect(onLoadMoreResults).toHaveBeenCalledWith(true, {
-            searchSsn: '',
-            searchClientId: '',
-            searchState: '',
-            searchCounty: 'Colusa',
-            searchCity: 'Central City',
-            searchAddress: 'Star Labs',
-            searchApproximateAgeUnits: '',
+            ssn: '',
+            clientId: '',
+            state: '',
+            county: 'Colusa',
+            city: 'Central City',
+            address: 'Star Labs',
+            approximateAgeUnits: '',
           })
         })
       })
@@ -512,13 +512,13 @@ describe('<Autocompleter />', () => {
         isAdvancedSearchOn: true,
         canSearch: true,
         personSearchFields: {
-          searchLastName: 'Sandiego',
+          lastName: 'Sandiego',
         },
       })
       const personSearchFields = autocompleter.find('PersonSearchFields')
       personSearchFields.simulate('keypress', {charCode: 13})
       expect(onSearch).toHaveBeenCalledWith(true, {
-        searchLastName: 'Sandiego',
+        lastName: 'Sandiego',
       })
     })
 
@@ -529,7 +529,7 @@ describe('<Autocompleter />', () => {
         isAdvancedSearchOn: true,
         canSearch: false,
         personSearchFields: {
-          searchLastName: 'Sandiego',
+          lastName: 'Sandiego',
         },
       })
       const personSearchFields = autocompleter.find('PersonSearchFields')
@@ -554,15 +554,15 @@ describe('<Autocompleter />', () => {
         isAdvancedSearchOn: true,
         canSearch: true,
         personSearchFields: {
-          searchDateOfBirth: '2018-11-11',
+          dateOfBirth: '2018-11-11',
         },
       })
       const personSearchFields = autocompleter.find('PersonSearchFields')
       personSearchFields.props().onKeyUp({target: {value: '11/11/2018'}})
-      expect(onChange).toHaveBeenCalledWith('searchDateOfBirth', '2018-11-11')
+      expect(onChange).toHaveBeenCalledWith('dateOfBirth', '2018-11-11')
       personSearchFields.simulate('keypress', {charCode: 13})
       expect(onSearch).toHaveBeenCalledWith(true, {
-        searchDateOfBirth: '2018-11-11',
+        dateOfBirth: '2018-11-11',
       })
     })
   })
@@ -584,27 +584,27 @@ describe('<Autocompleter />', () => {
         onSearch,
         isAdvancedSearchOn: true,
         personSearchFields: {
-          searchLastName: 'Sandiego',
-          searchFirstName: 'Carmen',
-          searchSuffix: 'Jr',
-          searchAddress: '123 Main St',
-          searchCity: 'Woodland',
-          searchCounty: 'Yolo',
-          searchApproximateAge: '24',
-          searchApproximateAgeUnits: 'months',
+          lastName: 'Sandiego',
+          firstName: 'Carmen',
+          suffix: 'Jr',
+          address: '123 Main St',
+          city: 'Woodland',
+          county: 'Yolo',
+          approximateAge: '24',
+          approximateAgeUnits: 'months',
         },
       })
       const personSearchFields = autocompleter.find('PersonSearchFields')
       personSearchFields.props().onSubmit()
       expect(onSearch).toHaveBeenCalledWith(true, {
-        searchLastName: 'Sandiego',
-        searchFirstName: 'Carmen',
-        searchSuffix: 'Jr',
-        searchAddress: '123 Main St',
-        searchCity: 'Woodland',
-        searchCounty: 'Yolo',
-        searchApproximateAge: '24',
-        searchApproximateAgeUnits: 'months',
+        lastName: 'Sandiego',
+        firstName: 'Carmen',
+        suffix: 'Jr',
+        address: '123 Main St',
+        city: 'Woodland',
+        county: 'Yolo',
+        approximateAge: '24',
+        approximateAgeUnits: 'months',
       })
     })
 
@@ -617,13 +617,13 @@ describe('<Autocompleter />', () => {
               onSearch,
               isAdvancedSearchOn: true,
               personSearchFields: {
-                searchLastName: 'Sandiego',
-                searchFirstName: 'Carmen',
-                searchSuffix: 'Jr',
+                lastName: 'Sandiego',
+                firstName: 'Carmen',
+                suffix: 'Jr',
                 searchByAgeMethod: 'dob',
-                searchDateOfBirth: '1985/09/09',
-                searchApproximateAge: '120',
-                searchApproximateAgeUnits: 'years',
+                dateOfBirth: '1985/09/09',
+                approximateAge: '120',
+                approximateAgeUnits: 'years',
               },
             })
             const personSearchFields = autocompleter.find('PersonSearchFields')
@@ -638,13 +638,13 @@ describe('<Autocompleter />', () => {
               onSearch,
               isAdvancedSearchOn: true,
               personSearchFields: {
-                searchLastName: 'Sandiego',
-                searchFirstName: 'Carmen',
-                searchSuffix: 'Jr',
+                lastName: 'Sandiego',
+                firstName: 'Carmen',
+                suffix: 'Jr',
                 searchByAgeMethod: 'approximate',
-                searchDateOfBirth: '1985/09/09',
-                searchApproximateAge: '120',
-                searchApproximateAgeUnits: 'years',
+                dateOfBirth: '1985/09/09',
+                approximateAge: '120',
+                approximateAgeUnits: 'years',
               },
             })
             const personSearchFields = autocompleter.find('PersonSearchFields')
@@ -657,7 +657,7 @@ describe('<Autocompleter />', () => {
 
     it('displays search results when button is submitted', () => {
       const autocompleter = renderAutocompleter({
-        personSearchFields: {searchTerm: '', searchAddress: '123 Main St', searchCity: 'Woodland', searchCounty: 'Sacramento'},
+        personSearchFields: {searchTerm: '', address: '123 Main St', city: 'Woodland', county: 'Sacramento'},
       })
       const personSearchFields = autocompleter.find('PersonSearchFields')
       expect(autocompleter.state().menuVisible).toEqual(false)
@@ -668,7 +668,7 @@ describe('<Autocompleter />', () => {
     it('clears old results when button is submitted', () => {
       const autocompleter = renderAutocompleter({
         onClear,
-        personSearchFields: {searchTerm: '', searchAddress: '123 Main St', searchCity: 'Woodland', searchCounty: 'Sacramento'},
+        personSearchFields: {searchTerm: '', address: '123 Main St', city: 'Woodland', county: 'Sacramento'},
       })
       const personSearchFields = autocompleter.find('PersonSearchFields')
       personSearchFields.props().onSubmit()
@@ -830,7 +830,7 @@ describe('<Autocompleter />', () => {
       it('displays no results were found', () => {
         const autocompleter = mountAutocompleter({
           total: 0,
-          personSearchFields: {searchTerm: 'Simpson', searchCounty: '', searchState: ''},
+          personSearchFields: {searchTerm: 'Simpson', county: '', state: ''},
         })
         autocompleter.setState({menuVisible: true})
         const suggestionHeader = autocompleter.find('SuggestionHeader')
@@ -848,8 +848,8 @@ describe('<Autocompleter />', () => {
           total: 20,
           personSearchFields: {
             searchTerm: 'Simpson Jr 120 years',
-            searchCounty: '',
-            searchState: '',
+            county: '',
+            state: '',
           },
         })
         autocompleter.setState({menuVisible: true})
@@ -869,199 +869,199 @@ describe('<Autocompleter />', () => {
   })
 
   it('renders PersonSearchFields with selected county', () => {
-    const component = renderAutocompleter({personSearchFields: {searchCounty: 'Yolo'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchCounty).toBe('Yolo')
+    const component = renderAutocompleter({personSearchFields: {county: 'Yolo'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.county).toBe('Yolo')
   })
 
   it('renders PersonSearchFields with selected lastName', () => {
-    const component = renderAutocompleter({personSearchFields: {searchLastName: 'Bravo'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchLastName).toBe('Bravo')
+    const component = renderAutocompleter({personSearchFields: {lastName: 'Bravo'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.lastName).toBe('Bravo')
   })
 
   it('calls onChange when a new lastName is entered', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchLastName', 'Bravo')
-    expect(onChange).toHaveBeenCalledWith('searchLastName', 'Bravo')
+    component.find('PersonSearchFields').props().onChange('lastName', 'Bravo')
+    expect(onChange).toHaveBeenCalledWith('lastName', 'Bravo')
   })
 
   it('renders PersonSearchFields with selected firstName', () => {
-    const component = renderAutocompleter({personSearchFields: {searchFirstName: 'Miguel'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchFirstName).toBe('Miguel')
+    const component = renderAutocompleter({personSearchFields: {firstName: 'Miguel'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.firstName).toBe('Miguel')
   })
 
   it('calls onChange when a new firstName is entered', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchFirstName', 'Miguel')
-    expect(onChange).toHaveBeenCalledWith('searchFirstName', 'Miguel')
+    component.find('PersonSearchFields').props().onChange('firstName', 'Miguel')
+    expect(onChange).toHaveBeenCalledWith('firstName', 'Miguel')
   })
 
   it('renders PersonSearchFields with selected middleName', () => {
-    const component = renderAutocompleter({personSearchFields: {searchMiddleName: 'Angel'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchMiddleName).toBe('Angel')
+    const component = renderAutocompleter({personSearchFields: {middleName: 'Angel'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.middleName).toBe('Angel')
   })
 
   it('calls onChange when a new middleName is entered', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchMiddleName', 'Angel')
-    expect(onChange).toHaveBeenCalledWith('searchMiddleName', 'Angel')
+    component.find('PersonSearchFields').props().onChange('middleName', 'Angel')
+    expect(onChange).toHaveBeenCalledWith('middleName', 'Angel')
   })
 
   it('renders PersonSearchFields with selected clientId', () => {
-    const component = renderAutocompleter({personSearchFields: {searchClientId: '1'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchClientId).toBe('1')
+    const component = renderAutocompleter({personSearchFields: {clientId: '1'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.clientId).toBe('1')
   })
 
   it('calls onChange when a new clientId is entered', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchClientId', '2')
-    expect(onChange).toHaveBeenCalledWith('searchClientId', '2')
+    component.find('PersonSearchFields').props().onChange('clientId', '2')
+    expect(onChange).toHaveBeenCalledWith('clientId', '2')
   })
 
   it('renders PersonSearchFields with selected suffix', () => {
-    const component = renderAutocompleter({personSearchFields: {searchSuffix: 'Jr'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchSuffix).toBe('Jr')
+    const component = renderAutocompleter({personSearchFields: {suffix: 'Jr'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.suffix).toBe('Jr')
   })
 
   it('calls onChange when new suffix is selected', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchSuffix', 'Sr')
-    expect(onChange).toHaveBeenCalledWith('searchSuffix', 'Sr')
+    component.find('PersonSearchFields').props().onChange('suffix', 'Sr')
+    expect(onChange).toHaveBeenCalledWith('suffix', 'Sr')
   })
 
   it('renders PersonSearchFields with selected ssn', () => {
-    const component = renderAutocompleter({personSearchFields: {searchSsn: '111223333'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchSsn).toBe('111223333')
+    const component = renderAutocompleter({personSearchFields: {ssn: '111223333'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.ssn).toBe('111223333')
   })
 
   it('calls onChange when a new ssn is entered', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchSsn', '222334444')
-    expect(onChange).toHaveBeenCalledWith('searchSsn', '222334444')
+    component.find('PersonSearchFields').props().onChange('ssn', '222334444')
+    expect(onChange).toHaveBeenCalledWith('ssn', '222334444')
   })
 
   it('renders PersonSearchFields with selected dateOfBirth', () => {
-    const component = renderAutocompleter({personSearchFields: {searchDateOfBirth: '01/01/2000'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchDateOfBirth).toBe('01/01/2000')
+    const component = renderAutocompleter({personSearchFields: {dateOfBirth: '01/01/2000'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.dateOfBirth).toBe('01/01/2000')
   })
 
   it('calls onChange when new dateOfBirth is selected', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchDateOfBirth', '02/02/2001')
-    expect(onChange).toHaveBeenCalledWith('searchDateOfBirth', '02/02/2001')
+    component.find('PersonSearchFields').props().onChange('dateOfBirth', '02/02/2001')
+    expect(onChange).toHaveBeenCalledWith('dateOfBirth', '02/02/2001')
   })
 
   it('renders PersonSearchFields with selected age value', () => {
-    const component = renderAutocompleter({personSearchFields: {searchApproximateAge: '1'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchApproximateAge).toBe('1')
+    const component = renderAutocompleter({personSearchFields: {approximateAge: '1'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.approximateAge).toBe('1')
   })
 
   it('calls onChange when a new age value is entered', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchApproximateAge', '2')
-    expect(onChange).toHaveBeenCalledWith('searchApproximateAge', '2')
+    component.find('PersonSearchFields').props().onChange('approximateAge', '2')
+    expect(onChange).toHaveBeenCalledWith('approximateAge', '2')
   })
 
   it('renders PersonSearchFields with selected approximateAgeUnits', () => {
-    const component = renderAutocompleter({personSearchFields: {searchApproximateAgeUnits: 'Months'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchApproximateAgeUnits).toBe('Months')
+    const component = renderAutocompleter({personSearchFields: {approximateAgeUnits: 'Months'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.approximateAgeUnits).toBe('Months')
   })
 
   it('calls onChange when new approximateAgeUnits is selected', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchApproximateAgeUnits', 'Years')
-    expect(onChange).toHaveBeenCalledWith('searchApproximateAgeUnits', 'Years')
+    component.find('PersonSearchFields').props().onChange('approximateAgeUnits', 'Years')
+    expect(onChange).toHaveBeenCalledWith('approximateAgeUnits', 'Years')
   })
 
   it('renders PersonSearchFields with selected sex at birth', () => {
-    const component = renderAutocompleter({personSearchFields: {searchSexAtBirth: 'Female'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchSexAtBirth).toBe('Female')
+    const component = renderAutocompleter({personSearchFields: {sexAtBirth: 'Female'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.sexAtBirth).toBe('Female')
   })
 
   it('calls onChange when new sex at birth is selected', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchSexAtBirth', 'Male')
-    expect(onChange).toHaveBeenCalledWith('searchSexAtBirth', 'Male')
+    component.find('PersonSearchFields').props().onChange('sexAtBirth', 'Male')
+    expect(onChange).toHaveBeenCalledWith('sexAtBirth', 'Male')
   })
 
   it('renders PersonSearchFields with selected address', () => {
-    const component = renderAutocompleter({personSearchFields: {searchAddress: 'Goodbye Road'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchAddress).toBe('Goodbye Road')
+    const component = renderAutocompleter({personSearchFields: {address: 'Goodbye Road'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.address).toBe('Goodbye Road')
   })
 
   it('calls onChange when new address is entered', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchAddress', 'Penny Lane')
-    expect(onChange).toHaveBeenCalledWith('searchAddress', 'Penny Lane')
+    component.find('PersonSearchFields').props().onChange('address', 'Penny Lane')
+    expect(onChange).toHaveBeenCalledWith('address', 'Penny Lane')
   })
 
   it('renders PersonSearchFields with selected city', () => {
-    const component = renderAutocompleter({personSearchFields: {searchCity: 'Emerald City'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchCity).toBe('Emerald City')
+    const component = renderAutocompleter({personSearchFields: {city: 'Emerald City'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.city).toBe('Emerald City')
   })
 
   it('calls onChange when new city is entered', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchCity', 'Woodland')
-    expect(onChange).toHaveBeenCalledWith('searchCity', 'Woodland')
+    component.find('PersonSearchFields').props().onChange('city', 'Woodland')
+    expect(onChange).toHaveBeenCalledWith('city', 'Woodland')
   })
 
   it('renders PersonSearchFields with selected county', () => {
-    const component = renderAutocompleter({personSearchFields: {searchCounty: 'Yolo'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchCounty).toBe('Yolo')
+    const component = renderAutocompleter({personSearchFields: {county: 'Yolo'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.county).toBe('Yolo')
   })
 
   it('calls onChange when new county is selected', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchCounty', 'Yolo')
-    expect(onChange).toHaveBeenCalledWith('searchCounty', 'Yolo')
+    component.find('PersonSearchFields').props().onChange('county', 'Yolo')
+    expect(onChange).toHaveBeenCalledWith('county', 'Yolo')
   })
 
   it('renders PersonSearchFields with selected state', () => {
-    const component = renderAutocompleter({personSearchFields: {searchState: 'California'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchState).toBe('California')
+    const component = renderAutocompleter({personSearchFields: {state: 'California'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.state).toBe('California')
   })
 
   it('calls onChange when new state is selected', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchState', 'Nevada')
-    expect(onChange).toHaveBeenCalledWith('searchState', 'Nevada')
+    component.find('PersonSearchFields').props().onChange('state', 'Nevada')
+    expect(onChange).toHaveBeenCalledWith('state', 'Nevada')
   })
 
   it('renders PersonSearchFields with selected country', () => {
-    const component = renderAutocompleter({personSearchFields: {searchCountry: 'United States'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchCountry).toBe('United States')
+    const component = renderAutocompleter({personSearchFields: {country: 'United States'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.country).toBe('United States')
   })
 
   it('calls onChange when new country is entered', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchCountry', 'Mexico')
-    expect(onChange).toHaveBeenCalledWith('searchCountry', 'Mexico')
+    component.find('PersonSearchFields').props().onChange('country', 'Mexico')
+    expect(onChange).toHaveBeenCalledWith('country', 'Mexico')
   })
 
   it('renders PersonSearchFields with selected zip code', () => {
-    const component = renderAutocompleter({personSearchFields: {searchZipCode: '12345'}})
-    expect(component.find('PersonSearchFields').props().personSearchFields.searchZipCode).toBe('12345')
+    const component = renderAutocompleter({personSearchFields: {zipCode: '12345'}})
+    expect(component.find('PersonSearchFields').props().personSearchFields.zipCode).toBe('12345')
   })
 
   it('calls onChange when new zip code is entered', () => {
     const onChange = jasmine.createSpy('onChange')
     const component = renderAutocompleter({onChange})
-    component.find('PersonSearchFields').props().onChange('searchZipCode', '54321')
-    expect(onChange).toHaveBeenCalledWith('searchZipCode', '54321')
+    component.find('PersonSearchFields').props().onChange('zipCode', '54321')
+    expect(onChange).toHaveBeenCalledWith('zipCode', '54321')
   })
 })

@@ -1,18 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import HyphenatedMaskedInput from 'common/HyphenatedMaskedInput'
-import {toCamelCase, toCapitalCase} from 'utils/textFormatter'
 
 const MaskedSearchInput = ({name, onBlur, onChange, onFocus, ...props}) => {
-  const camelName = toCamelCase(name, /-/g)
-  const capitalName = toCapitalCase(name, /-/g)
-  const handleBlur = () => onBlur(`${camelName}ErrorCheck`)
-  const handleChange = ({target: {value}}) => onChange(`search${capitalName}`, value)
-  const handleFocus = () => onFocus(`${camelName}ErrorCheck`)
+  const handleBlur = () => onBlur(name)
+  const handleChange = ({target: {value}}) => onChange(name, value)
+  const handleFocus = () => onFocus(name)
 
   return (
     <HyphenatedMaskedInput
-      id={`search-${name}`}
+      id={`masked-input-${name}`}
       gridClassName={`col-md-3 ${name}-field`}
       onBlur={handleBlur}
       onChange={handleChange}

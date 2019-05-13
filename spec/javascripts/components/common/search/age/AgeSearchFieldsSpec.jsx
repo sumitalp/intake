@@ -3,17 +3,17 @@ import {shallow} from 'enzyme'
 import AgeSearchFields from 'common/search/age/AgeSearchFields'
 
 const defaultPersonSearchFields = {
-  searchApproximateAge: '',
-  searchApproximateAgeUnits: '',
+  approximateAge: '',
+  approximateAgeUnits: '',
   searchByAgeMethod: '',
-  searchClientId: '',
-  searchDateOfBirth: '',
-  searchFirstName: '',
-  searchSexAtBirth: '',
-  searchLastName: '',
-  searchMiddleName: '',
-  searchSsn: '',
-  searchSuffix: '',
+  clientId: '',
+  dateOfBirth: '',
+  firstName: '',
+  sexAtBirth: '',
+  lastName: '',
+  middleName: '',
+  ssn: '',
+  suffix: '',
   searchTerm: '',
 }
 
@@ -56,7 +56,7 @@ describe('AgeSearchFields', () => {
         personSearchFields = {
           ...defaultPersonSearchFields,
           searchByAgeMethod: 'dob',
-          searchDateOfBirth: '2019-03-01',
+          dateOfBirth: '2019-03-01',
           dobErrors: [],
         }
         component = render({personSearchFields})
@@ -88,8 +88,8 @@ describe('AgeSearchFields', () => {
         personSearchFields = {
           ...defaultPersonSearchFields,
           searchByAgeMethod: 'approximate',
-          searchApproximateAge: '120',
-          searchApproximateAgeUnits: 'years',
+          approximateAge: '120',
+          approximateAgeUnits: 'years',
         }
         component = render({personSearchFields})
       })
@@ -108,7 +108,7 @@ describe('AgeSearchFields', () => {
         expect(props.yearsLabel).toEqual('Years')
         expect(typeof props.onChange).toEqual('function')
         expect(typeof props.onKeyPress).toEqual('function')
-        expect(props.searchApproximateAgeUnits).toEqual('years')
+        expect(props.approximateAgeUnits).toEqual('years')
       })
 
       it('renders the ApproximateAgeNumberSelect', () => {

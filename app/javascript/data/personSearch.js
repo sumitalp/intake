@@ -9,17 +9,17 @@ const mapObject = (obj, f) => {
 }
 
 const SEARCH_PARAMS = Object.freeze({
-  searchApproximateAge: 'approximate_age',
-  searchApproximateAgeUnits: 'approximate_age_units',
+  approximateAge: 'approximate_age',
+  approximateAgeUnits: 'approximate_age_units',
   searchByAgeMethod: 'search_by_age_method',
-  searchClientId: 'client_id',
-  searchDateOfBirth: 'date_of_birth',
-  searchFirstName: 'first_name',
-  searchSexAtBirth: 'gender',
-  searchLastName: 'last_name',
-  searchMiddleName: 'middle_name',
-  searchSsn: 'ssn',
-  searchSuffix: 'suffix',
+  clientId: 'client_id',
+  dateOfBirth: 'date_of_birth',
+  firstName: 'first_name',
+  sexAtBirth: 'gender',
+  lastName: 'last_name',
+  middleName: 'middle_name',
+  ssn: 'ssn',
+  suffix: 'suffix',
   searchTerm: 'search_term',
 })
 

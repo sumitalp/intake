@@ -15,7 +15,7 @@ describe('PersonSearchNameGroup', () => {
   describe('layout', () => {
     it('renders last name input field with label Last Name', () => {
       const lastName = render({
-        personSearchFields: {searchLastName: 'Bravo'},
+        personSearchFields: {lastName: 'Bravo'},
       }).find('InputField[label="Last Name"]')
       expect(lastName.props().id).toEqual('search-last-name')
       expect(lastName.props().value).toEqual('Bravo')
@@ -25,7 +25,7 @@ describe('PersonSearchNameGroup', () => {
 
     it('renders first name input field with label First Name', () => {
       const firstName = render({
-        personSearchFields: {searchFirstName: 'Armando'},
+        personSearchFields: {firstName: 'Armando'},
       }).find('InputField[label="First Name"]')
       expect(firstName.props().id).toEqual('search-first-name')
       expect(firstName.props().value).toEqual('Armando')
@@ -35,7 +35,7 @@ describe('PersonSearchNameGroup', () => {
 
     it('renders middle name input field with label Middle Name', () => {
       const middleName = render({
-        personSearchFields: {searchMiddleName: 'Middle'},
+        personSearchFields: {middleName: 'Middle'},
       }).find('InputField[label="Middle Name"]')
       expect(middleName.props().id).toEqual('search-middle-name')
       expect(middleName.props().value).toEqual('Middle')
@@ -45,7 +45,7 @@ describe('PersonSearchNameGroup', () => {
 
     it('renders suffix input field with label Suffix', () => {
       const suffix = render({
-        personSearchFields: {searchSuffix: 'Jr'},
+        personSearchFields: {suffix: 'Jr'},
       }).find('InputField[label="Suffix"]')
       expect(suffix.props().id).toEqual('search-suffix')
       expect(suffix.props().value).toEqual('Jr')
@@ -63,7 +63,7 @@ describe('PersonSearchNameGroup', () => {
         .props()
         .onChange({target: {value: 'Bravo'}})
 
-      expect(onChange).toHaveBeenCalledWith('searchLastName', 'Bravo')
+      expect(onChange).toHaveBeenCalledWith('lastName', 'Bravo')
     })
 
     it('calls onChange when a new first name is entered', () => {
@@ -74,7 +74,7 @@ describe('PersonSearchNameGroup', () => {
         .props()
         .onChange({target: {value: 'Armando'}})
 
-      expect(onChange).toHaveBeenCalledWith('searchFirstName', 'Armando')
+      expect(onChange).toHaveBeenCalledWith('firstName', 'Armando')
     })
 
     it('calls onChange when a new middle name is entered', () => {
@@ -85,7 +85,7 @@ describe('PersonSearchNameGroup', () => {
         .props()
         .onChange({target: {value: 'Middle'}})
 
-      expect(onChange).toHaveBeenCalledWith('searchMiddleName', 'Middle')
+      expect(onChange).toHaveBeenCalledWith('middleName', 'Middle')
     })
 
     it('calls onChange when new suffix is entered', () => {
@@ -95,7 +95,7 @@ describe('PersonSearchNameGroup', () => {
         .find('#search-suffix')
         .props()
         .onChange({target: {value: 'Jr'}})
-      expect(onChange).toHaveBeenCalledWith('searchSuffix', 'Jr')
+      expect(onChange).toHaveBeenCalledWith('suffix', 'Jr')
     })
   })
 })

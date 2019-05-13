@@ -590,151 +590,115 @@ describe('peopleSearchSelectors', () => {
 
   describe('selectPersonSearchFields', () => {
     it('gets the last name from the store', () => {
-      const peopleSearch = {
-        searchLastName: 'Flintstone',
-      }
+      const peopleSearch = {searchFields: {lastName: 'Flintstone'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchLastName).toEqual(
-        'Flintstone'
-      )
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.lastName).toEqual('Flintstone')
     })
 
     it('gets the first name from the store', () => {
-      const peopleSearch = {
-        searchFirstName: 'Freddy',
-      }
+      const peopleSearch = {searchFields: {firstName: 'Freddy'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchFirstName).toEqual('Freddy')
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.firstName).toEqual('Freddy')
     })
-  })
 
-  describe('selectSearchMiddleName', () => {
     it('gets the middle name from the store', () => {
-      const peopleSearch = {
-        searchMiddleName: 'Bedrock',
-      }
+      const peopleSearch = {searchFields: {middleName: 'Bedrock'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchMiddleName).toEqual(
-        'Bedrock'
-      )
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.middleName).toEqual('Bedrock')
     })
-  })
 
-  describe('selectSearchClientId', () => {
     it('gets the client id from the store', () => {
-      const peopleSearch = {searchClientId: '1'}
+      const peopleSearch = {searchFields: {clientId: '1'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchClientId).toEqual('1')
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.clientId).toEqual('1')
     })
-  })
 
-  describe('selectSearchSuffix', () => {
     it('gets the suffix from the store', () => {
-      const peopleSearch = {searchSuffix: 'Jr'}
+      const peopleSearch = {searchFields: {suffix: 'Jr'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchSuffix).toEqual('Jr')
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.suffix).toEqual('Jr')
     })
-  })
 
-  describe('selectSearchSsn', () => {
     it('gets the ssn from the store', () => {
-      const peopleSearch = {searchSsn: '123456789'}
+      const peopleSearch = {searchFields: {ssn: '123456789'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchSsn).toEqual('123456789')
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.ssn).toEqual('123456789')
     })
-  })
 
-  describe('selectSearchDateOfBirth', () => {
     it('gets the date of birth from the store', () => {
-      const peopleSearch = {searchDateOfBirth: '01/01/2000'}
+      const peopleSearch = {searchFields: {dateOfBirth: '01/01/2000'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchDateOfBirth).toEqual(
-        '01/01/2000'
-      )
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.dateOfBirth).toEqual('01/01/2000')
     })
-  })
 
-  describe('selectSearchApproximateAge', () => {
     it('gets the approximate age from the store', () => {
-      const peopleSearch = {searchApproximateAge: '5'}
+      const peopleSearch = {searchFields: {approximateAge: '5'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchApproximateAge).toEqual('5')
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.approximateAge).toEqual('5')
     })
-  })
 
-  describe('selectSearchApproximateAgeUnits', () => {
     it('gets the approximate age units from the store', () => {
-      const peopleSearch = {searchApproximateAgeUnits: 'years'}
+      const peopleSearch = {searchFields: {approximateAgeUnits: 'years'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchApproximateAgeUnits).toEqual(
-        'years'
-      )
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.approximateAgeUnits).toEqual('years')
     })
-  })
 
-  describe('selectSearchSexAtBirth', () => {
     it('gets the sex at birth from the store', () => {
-      const peopleSearch = {searchSexAtBirth: 'Female'}
+      const peopleSearch = {searchFields: {sexAtBirth: 'Female'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchSexAtBirth).toEqual('Female')
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.sexAtBirth).toEqual('Female')
     })
-  })
 
-  describe('selectSearchAddress', () => {
     it('gets the selected address from the store', () => {
-      const peopleSearch = {
-        searchAddress: '123 Sunflower Way',
-      }
+      const peopleSearch = {searchFields: {address: '123 Sunflower Way'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchAddress).toEqual(
-        '123 Sunflower Way'
-      )
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.address).toEqual('123 Sunflower Way')
     })
-  })
 
-  describe('selectSearchCity', () => {
     it('gets the selected city from the store', () => {
-      const peopleSearch = {
-        searchCity: 'Sweetwater',
-      }
+      const peopleSearch = {searchFields: {city: 'Sweetwater'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchCity).toEqual('Sweetwater')
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.city).toEqual('Sweetwater')
     })
-  })
 
-  describe('selectSearchCounty', () => {
     it('gets the selected county from the store', () => {
-      const peopleSearch = {
-        searchCounty: 'Mariposa',
-      }
+      const peopleSearch = {searchFields: {county: 'Mariposa'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchCounty).toEqual('Mariposa')
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.county).toEqual('Mariposa')
     })
-  })
 
-  describe('selectSearchState', () => {
     it('gets the selected US state from the store', () => {
-      const peopleSearch = {searchState: 'California'}
+      const peopleSearch = {searchFields: {state: 'California'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchState).toEqual('California')
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.state).toEqual('California')
     })
-  })
 
-  describe('selectSearchCountry', () => {
     it('gets the selected country from the store', () => {
-      const peopleSearch = {searchCountry: 'United States of America'}
+      const peopleSearch = {searchFields: {country: 'United States of America'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchCountry).toEqual(
-        'United States of America'
-      )
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.country).toEqual('United States of America')
     })
-  })
 
-  describe('selectSearchZipCode', () => {
     it('gets the selected zip code from the store', () => {
-      const peopleSearch = {searchZipCode: '95695'}
+      const peopleSearch = {searchFields: {zipCode: '95695'}}
       const state = fromJS({peopleSearch})
-      expect(selectPersonSearchFields(state).searchZipCode).toEqual('95695')
+      const searchFields = selectPersonSearchFields(state)
+      expect(searchFields.zipCode).toEqual('95695')
     })
   })
 
@@ -837,51 +801,103 @@ describe('peopleSearchSelectors', () => {
   })
 
   describe('selectClientIdErrors', () => {
-    it('does not return error message if searchClientId is 19 digits.', () => {
-      const peopleSearch = {searchClientId: '1111-1111-1111-1111111'}
-      const state = fromJS({peopleSearch})
-      expect(selectClientIdErrors(state))
-        .toEqual([])
+    describe('when the field error check is true', () => {
+      it('does not return error message if clientId is 19 digits.', () => {
+        const peopleSearch = {
+          searchFields: {clientId: '1111-1111-1111-1111111'},
+          errorCheckFields: {clientId: true},
+        }
+        const state = fromJS({peopleSearch})
+        const errors = selectClientIdErrors(state)
+        expect(errors).toEqual([])
+      })
+
+      it('returns error message if clientId is less than 19 digits', () => {
+        const peopleSearch = {
+          searchFields: {clientId: '1111-1111-1111-1______'},
+          errorCheckFields: {clientId: true},
+        }
+        const state = fromJS({peopleSearch})
+        const errors = selectClientIdErrors(state)
+        expect(errors).toEqual(['Client Id number must be 19 digits long.'])
+      })
     })
 
-    it('returns error message if searchClientId is less than 19 digits and clientIdErrorCheck is true', () => {
-      const peopleSearch = {searchClientId: '1111-1111-1111-1______', clientIdErrorCheck: true}
-      const state = fromJS({peopleSearch})
-      expect(selectClientIdErrors(state))
-        .toEqual(['Client Id number must be 19 digits long.'])
+    describe('when the field error check is false', () => {
+      it('does not return any errors', () => {
+        const peopleSearch = {
+          searchFields: {clientId: '1111-1111-1111-1______'},
+          errorCheckFields: {clientId: false},
+        }
+        const state = fromJS({peopleSearch})
+        const errors = selectClientIdErrors(state)
+        expect(errors).toEqual([])
+      })
     })
   })
 
   describe('selectSsnErrors', () => {
-    it('does not return an error message if SSN is 9 digits', () => {
-      const peopleSearch = {searchSsn: '123456789'}
-      const state = fromJS({peopleSearch})
-      expect(selectSsnErrors(state)).toEqual([])
+    describe('when the field error check is true', () => {
+      it('does not return an error message if SSN is 9 digits', () => {
+        const peopleSearch = {
+          searchFields: {ssn: '123456789'},
+          errorCheckFields: {ssn: true},
+        }
+        const state = fromJS({peopleSearch})
+        const errors = selectSsnErrors(state)
+        expect(errors).toEqual([])
+      })
+
+      it('returns an error message if ssn is less than 9 digits', () => {
+        const peopleSearch = {
+          searchFields: {ssn: '12345'},
+          errorCheckFields: {ssn: true},
+        }
+        const state = fromJS({peopleSearch})
+        const errors = selectSsnErrors(state)
+        expect(errors).toEqual(['Social security number must be 9 digits long.'])
+      })
+
+      it('returns an error message if ssn starts with 9', () => {
+        const peopleSearch = {
+          searchFields: {ssn: '923456789'},
+          errorCheckFields: {ssn: true},
+        }
+        const state = fromJS({peopleSearch})
+        const errors = selectSsnErrors(state)
+        expect(errors).toEqual(['Social security number cannot begin with 9.'])
+      })
+
+      it('returns an error message if ssn starts with 666', () => {
+        const peopleSearch = {
+          searchFields: {ssn: '666456789'},
+          errorCheckFields: {ssn: true},
+        }
+        const state = fromJS({peopleSearch})
+        const errors = selectSsnErrors(state)
+        expect(errors).toEqual(['Social security number cannot begin with 666.'])
+      })
+
+      it('returns an error message if ssn has all 0s in a group', () => {
+        const peopleSearch = {
+          searchFields: {ssn: '123006789'},
+          errorCheckFields: {ssn: true},
+        }
+        const state = fromJS({peopleSearch})
+        const errors = selectSsnErrors(state)
+        expect(errors).toEqual(['Social security number cannot contain all 0s in a group.'])
+      })
     })
 
-    describe('when ssnError is true', () => {
-      it('returns an error message if searchSsn is less than 9 digits', () => {
-        const peopleSearch = {searchSsn: '12345', ssnErrorCheck: true}
+    describe('when the field error check is false', () => {
+      it('does not return any errors', () => {
+        const peopleSearch = {
+          searchFields: {ssn: '123006789'},
+          errorCheckFields: {ssn: false},
+        }
         const state = fromJS({peopleSearch})
-        expect(selectSsnErrors(state)).toEqual(['Social security number must be 9 digits long.'])
-      })
-
-      it('returns an error message if searchSsn starts with 9', () => {
-        const peopleSearch = {searchSsn: '923456789', ssnErrorCheck: true}
-        const state = fromJS({peopleSearch})
-        expect(selectSsnErrors(state)).toEqual(['Social security number cannot begin with 9.'])
-      })
-
-      it('returns an error message if searchSsn starts with 666', () => {
-        const peopleSearch = {searchSsn: '666456789', ssnErrorCheck: true}
-        const state = fromJS({peopleSearch})
-        expect(selectSsnErrors(state)).toEqual(['Social security number cannot begin with 666.'])
-      })
-
-      it('returns an error message if searchSsn has all 0s in a group', () => {
-        const peopleSearch = {searchSsn: '123006789', ssnErrorCheck: true}
-        const state = fromJS({peopleSearch})
-        expect(selectSsnErrors(state)).toEqual(['Social security number cannot contain all 0s in a group.'])
+        const errors = selectSsnErrors(state)
+        expect(errors).toEqual([])
       })
     })
   })
@@ -889,76 +905,112 @@ describe('peopleSearchSelectors', () => {
   describe('selectDobErrors', () => {
     it('returns an error if date is in the future', () => {
       const tomorrow = moment().add(1, 'days').toISOString()
-      const peopleSearch = {searchDateOfBirth: tomorrow, dobErrorCheck: true}
+      const peopleSearch = {searchFields: {dateOfBirth: tomorrow}}
       const state = fromJS({peopleSearch})
-      expect(selectDobErrors(state)).toEqual(['Please enter date as today or earlier.'])
+      const errors = selectDobErrors(state)
+      expect(errors).toEqual(['Please enter date as today or earlier.'])
     })
 
     it('returns no error if date is current', () => {
       const today = moment().toISOString()
-      const peopleSearch = {searchDateOfBirth: today, dobErrorCheck: true}
+      const peopleSearch = {searchFields: {dateOfBirth: today}}
       const state = fromJS({peopleSearch})
-      expect(selectDobErrors(state)).toEqual([])
+      const errors = selectDobErrors(state)
+      expect(errors).toEqual([])
     })
   })
 
   describe('selectCanSearch', () => {
     describe('returns false', () => {
-      it('when searchLastName, searchClientId, searchSsn, searchDateOfBirth is empty', () => {
-        const peopleSearch = {searchLastName: '', searchClientId: '', searchSsn: '', searchDateOfBirth: ''}
+      it('when lastName, clientId, ssn, dateOfBirth are empty', () => {
+        const peopleSearch = {
+          searchFields: {lastName: '', clientId: '', ssn: '', dateOfBirth: ''},
+          errorCheckFields: {clientId: true, ssn: true},
+        }
         const state = fromJS({peopleSearch})
         expect(selectCanSearch(state)).toEqual(false)
       })
-      it('when searchClientId is not 19 digits', () => {
-        const peopleSearch = {searchLastName: '', searchClientId: '1111-1111-1111', searchSsn: '', searchDateOfBirth: ''}
+
+      it('when clientId is not 19 digits', () => {
+        const peopleSearch = {
+          searchFields: {lastName: '', clientId: '1111-1111-1111', ssn: '', dateOfBirth: ''},
+          errorCheckFields: {clientId: true, ssn: true},
+        }
         const state = fromJS({peopleSearch})
         expect(selectCanSearch(state)).toEqual(false)
       })
-      it('when searchSsn is not 9 digits', () => {
-        const peopleSearch = {searchLastName: '', searchClientId: '', searchSsn: '123-4', searchDateOfBirth: ''}
+
+      it('when ssn is not 9 digits', () => {
+        const peopleSearch = {
+          searchFields: {lastName: '', clientId: '', ssn: '123-4', dateOfBirth: ''},
+          errorCheckFields: {clientId: true, ssn: true},
+        }
         const state = fromJS({peopleSearch})
         expect(selectCanSearch(state)).toEqual(false)
       })
-      it('when dob is future date', () => {
+
+      it('when date of birth is future date', () => {
         const tomorrow = moment().add(10, 'days').toISOString()
-        const peopleSearch = {searchLastName: '', searchClientId: '', searchSsn: '', searchDateOfBirth: tomorrow, dobErrorCheck: true}
+        const peopleSearch = {
+          searchFields: {lastName: '', clientId: '', ssn: '', dateOfBirth: tomorrow},
+          errorCheckFields: {clientId: true, ssn: true},
+        }
         const state = fromJS({peopleSearch})
         expect(selectCanSearch(state)).toEqual(false)
       })
-      it('when searchSsn is 9 digits and searchClientId is not 19 digits ', () => {
-        const peopleSearch = {searchLastName: '', searchClientId: '1111', searchSsn: '123-45-6789', searchDateOfBirth: ''}
+
+      it('when ssn is 9 digits and clientId is not 19 digits ', () => {
+        const peopleSearch = {
+          searchFields: {lastName: '', clientId: '1111', ssn: '123-45-6789', dateOfBirth: ''},
+          errorCheckFields: {clientId: true, ssn: true},
+        }
         const state = fromJS({peopleSearch})
         expect(selectCanSearch(state)).toEqual(false)
       })
     })
 
     describe('returns true', () => {
-      it('when searchLastName is at least 1 character', () => {
-        const peopleSearch = {searchLastName: 'G', searchClientId: '', searchSsn: '', searchDateOfBirth: ''}
+      it('when lastName is at least 1 character', () => {
+        const peopleSearch = {
+          searchFields: {lastName: 'G', clientId: '', ssn: '', dateOfBirth: ''},
+          errorCheckFields: {clientId: true, ssn: true},
+        }
         const state = fromJS({peopleSearch})
         expect(selectCanSearch(state)).toEqual(true)
       })
 
-      it('when searchClientId is 19 digits and has no errors', () => {
-        const peopleSearch = {searchLastName: '', searchClientId: '1111-1111-1111-1111111', searchSsn: '', searchDateOfBirth: '', clientIdError: false}
+      it('when clientId is 19 digits and has no errors', () => {
+        const peopleSearch = {
+          searchFields: {lastName: '', clientId: '1111-1111-1111-1111111', ssn: '', dateOfBirth: ''},
+          errorCheckFields: {clientId: true, ssn: true},
+        }
         const state = fromJS({peopleSearch})
         expect(selectCanSearch(state)).toEqual(true)
       })
 
-      it('when searchSsn is 9 digits and has no errors', () => {
-        const peopleSearch = {searchLastName: '', searchClientId: '', searchSsn: '123-45-6789', searchDateOfBirth: '', ssnErrorCheck: false}
+      it('when ssn is 9 digits and has no errors', () => {
+        const peopleSearch = {
+          searchFields: {lastName: '', clientId: '', ssn: '123-45-6789', dateOfBirth: ''},
+          errorCheckFields: {clientId: true, ssn: true},
+        }
         const state = fromJS({peopleSearch})
         expect(selectCanSearch(state)).toEqual(true)
       })
 
-      it('when dob is entire entry and has no errors', () => {
-        const peopleSearch = {searchLastName: '', searchClientId: '', searchSsn: '', searchDateOfBirth: '2019-04-01', dobErrorCheck: false}
+      it('when date of birth is valid date and has no errors', () => {
+        const peopleSearch = {
+          searchFields: {lastName: '', clientId: '', ssn: '', dateOfBirth: '2019-04-01'},
+          errorCheckFields: {clientId: true, ssn: true},
+        }
         const state = fromJS({peopleSearch})
         expect(selectCanSearch(state)).toEqual(true)
       })
 
-      it('when searchLastName has at least 1 character, searchClientId is 19 digits, searchSsn is 9 digits and searchDob is entire entry', () => {
-        const peopleSearch = {searchLastName: 'Girish', searchClientId: '1111-1111-1111-1111111', searchSsn: '123-45-6789', searchDateOfBirth: '2019-04-01'}
+      it('when lastName has at least 1 character, clientId is 19 digits, ssn is 9 digits and date of birth is valid', () => {
+        const peopleSearch = {
+          searchFields: {lastName: 'Girish', clientId: '1111-1111-1111-1111111', ssn: '123-45-6789', dateOfBirth: '2019-04-01'},
+          errorCheckFields: {clientId: true, ssn: true},
+        }
         const state = fromJS({peopleSearch})
         expect(selectCanSearch(state)).toEqual(true)
       })
