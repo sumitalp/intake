@@ -13,7 +13,7 @@ module PersonSearchByNameQueryBuilderPartTwo
   end
 
   def query
-    f = last_name.blank? && first_name.blank? ? [] : function_score_queries(fs_query_params)
+    f = function_score_queries(fs_query_params)
     { function_score: { functions: f, score_mode: 'sum', boost_mode: 'sum' } }
   end
 

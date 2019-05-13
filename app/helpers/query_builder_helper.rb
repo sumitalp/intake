@@ -61,17 +61,20 @@ module QueryBuilderHelper
     }.delete_if { |_k, v| v.blank? } }
   end
 
-  def filter_query(queries: nil, weight: nil, bool_query: nil)
+  def filter_query(queries: nil, not_queries: nil, weight: nil, bool_query: nil)
     return if queries.blank?
-    f = bool_query ? { bool: { must: queries } } : queries
+    b = not_queries.nil? ? { must: queries } : { must: queries, must_not: not_queries }
+    f = bool_query ? { bool: b } : queries
     { filter: f, weight: weight }.delete_if { |_k, v| v.blank? }
   end
 
-  def function_score_queries(param_hash_list)
+  def function_score_queries(hash_list)
     function_queries = []
-    param_hash_list.each do |hash|
-      params = { queries: hash[:q], weight: hash[:w], bool_query: hash[:bq] }
-      function_queries.push(filter_query(params))
+    hash_list.each do |hash|
+      params = { queries: hash[:q], not_queries: hash[:not_q],
+                 weight: hash[:w], bool_query: hash[:bq] }.delete_if { |_k, v| v.blank? }
+      fq = filter_query(params)
+      function_queries.push(fq)
     end
     function_queries.flatten.compact
   end
