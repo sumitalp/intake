@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'login_helper'
+require 'regression'
 
 feature 'Index Page' do
   scenario 'CANS-Worker lands on client list and can logout' do
