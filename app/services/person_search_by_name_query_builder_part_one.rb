@@ -13,7 +13,7 @@ module PersonSearchByNameQueryBuilderPartOne
 
   def query
     q = { bool: { must: must } }
-    f = last_name.blank? && first_name.blank? ? [] : function_score_queries(fs_query_params)
+    f = function_score_queries(fs_query_params)
     { function_score: { query: q, functions: f, score_mode: 'sum', boost_mode: 'sum' } }
   end
 
@@ -28,15 +28,22 @@ module PersonSearchByNameQueryBuilderPartOne
   end
 
   def match_last_and_first_name
-    double_match_query(fields: %w[last_name first_name], values: [last_name, first_name],
-                       names: %w[1_m_lst 1_m_fst])
+    last_name_params = generate_match_params('last_name', last_name, '1_m_lst', nil)
+    first_name_params = generate_match_params('first_name', first_name, '1_m_fst', nil)
+    param_list = [last_name_params, first_name_params]
+    match_query_list(param_list)
   end
 
   def multi_match_last_name_suffix
     return if suffix.blank?
-    fq = formatted_query("#{last_name} #{suffix}")
-    [multi_match(query: fq, operator: 'and', fields: %w[last_name suffix],
-                 type: 'cross_fields', name: '2_mlt_last_suffix')].compact
+    params = {
+      query: formatted_query("#{last_name} #{suffix}"),
+      operator: 'and',
+      fields: %w[last_name suffix],
+      type: 'cross_fields',
+      name: '2_mlt_last_suffix'
+    }
+    [multi_match(params)].compact
   end
 
   def multi_match_last_and_first_name_akas
@@ -51,24 +58,35 @@ module PersonSearchByNameQueryBuilderPartOne
   end
 
   def match_last_name_first_name_dim
-    double_match_query(fields: ['last_name', 'first_name.diminutive'],
-                       values: [last_name, first_name], names: %w[4_dim_lst 4_dim_fst])
+    last_name_params = generate_match_params('last_name', last_name, '4_dim_lst', nil)
+    dim_first_name_params = generate_match_params('first_name.diminutive', first_name,
+      '4_dim_fst', nil)
+    param_list = [last_name_params, dim_first_name_params]
+    match_query_list(param_list)
   end
 
   def match_last_name_first_name_phon
-    double_match_query(fields: ['last_name', 'first_name.phonetic'],
-                       values: [last_name, first_name], names: %w[5_pho_lst 5_pho_fst])
+    last_name_params = generate_match_params('last_name', last_name, '5_pho_lst', nil)
+    phon_first_name_params = generate_match_params('first_name.phonetic', first_name,
+      '5_pho_fst', nil)
+    param_list = [last_name_params, phon_first_name_params]
+    match_query_list(param_list)
   end
 
   def match_last_name_first_name_fuzzy
-    [match_query(field: 'last_name', query: last_name, name: '6_fz_lst'),
-     match_query(query_type: 'fuzzy', field: 'first_name', value: first_name, fuzziness: '5',
-                 prefix_length: '1', max_expansions: '25', name: '6_fz_fst')].compact
+    last_name_query = match_query(generate_match_params('last_name', last_name, '6_fz_lst', nil))
+    fuzzy_query_params = { field: 'first_name', value: first_name, fuzziness: '5',
+                           prefix_length: '1', max_expansions: '25', name: '6_fz_fst' }
+    fuzzy_first_name_query = fuzzy_query(fuzzy_query_params)
+    [last_name_query, fuzzy_first_name_query].compact
   end
 
   def match_last_name_first_name_partial
-    double_match_query(fields: %w[last_name first_name_ngram], values: [last_name, first_name],
-                       names: %w[7_prt_lst 7_prt_fst], min_s_m: [nil, '25%'])
+    last_name_params = generate_match_params('last_name', last_name, '7_prt_lst', nil)
+    partial_first_name_params = generate_match_params('first_name_ngram', first_name, '7_prt_fst',
+      '25%')
+    param_list = [last_name_params, partial_first_name_params]
+    match_query_list(param_list)
   end
 
   def multi_match_last_and_first_name_fuzzy

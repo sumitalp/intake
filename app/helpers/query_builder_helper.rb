@@ -20,27 +20,38 @@ module QueryBuilderHelper
           .strip
   end
 
+  def generate_match_params(field, query, name, min_s_m)
+    { field: field, query: query, name: name, min_s_m: min_s_m }.delete_if { |_k, v| v.blank? }
+  end
+
   def generate_query_params(params)
-    { params[:field] => {
+    {
       query: params[:query], value: params[:value], operator: params[:operator],
-      boost: params[:boost], minimum_should_match: params[:min_should_match],
+      boost: params[:boost], minimum_should_match: params[:min_s_m],
       _name: params[:name], fuzziness: params[:fuzziness], prefix_length: params[:prefix_length],
       max_expansions: params[:max_expansions], fields: params[:fields], type: params[:type]
-    }.delete_if { |_k, v| v.blank? } }
+    }.delete_if { |_k, v| v.blank? }
   end
 
   def match_query(params)
     return if params[:query].blank? && params[:value].blank?
-    query_params = generate_query_params(params)
-    type = params[:query_type].blank? ? 'match' : params[:query_type]
-    { type => query_params }
+    field_params = generate_query_params(params)
+    { match: { params[:field] => field_params } }
   end
 
-  def double_match_query(fields: [], values: [], names: [], min_s_m: [])
-    [
-      match_query(field: fields[0], query: values[0], name: names[0], min_should_match: min_s_m[0]),
-      match_query(field: fields[1], query: values[1], name: names[1], min_should_match: min_s_m[1])
-    ].flatten.compact
+  def fuzzy_query(params)
+    return if params[:query].blank? && params[:value].blank?
+    field_params = generate_query_params(params)
+    { fuzzy: { params[:field] => field_params } }
+  end
+
+  def match_query_list(param_list)
+    queries = []
+    param_list.each do |hash|
+      q = match_query(hash)
+      queries.push(q)
+    end
+    queries.flatten.compact
   end
 
   def query_string(field, query, boost: nil)
@@ -54,25 +65,25 @@ module QueryBuilderHelper
 
   def multi_match(params)
     return if params[:query].blank?
-    { multi_match: {
-      query: params[:query], operator: params[:operator],
-      fields: params[:fields], type: params[:type],
-      fuzziness: params[:fuzziness], _name: params[:name]
-    }.delete_if { |_k, v| v.blank? } }
+    multi_match_params = generate_query_params(params)
+    { multi_match: multi_match_params }
   end
 
-  def filter_query(queries: nil, weight: nil, bool_query: nil)
+  def filter_query(queries: nil, not_queries: nil, weight: nil, bool_query: nil)
     return if queries.blank?
-    f = bool_query ? { bool: { must: queries } } : queries
+    b = not_queries.nil? ? { must: queries } : { must: queries, must_not: not_queries }
+    f = bool_query ? { bool: b } : queries
     { filter: f, weight: weight }.delete_if { |_k, v| v.blank? }
   end
 
-  def function_score_queries(param_hash_list)
-    function_queries = []
-    param_hash_list.each do |hash|
-      params = { queries: hash[:q], weight: hash[:w], bool_query: hash[:bq] }
-      function_queries.push(filter_query(params))
+  def function_score_queries(param_list)
+    queries = []
+    param_list.each do |hash|
+      params = { queries: hash[:q], not_queries: hash[:not_q],
+                 weight: hash[:w], bool_query: hash[:bq] }.delete_if { |_k, v| v.blank? }
+      fq = filter_query(params)
+      queries.push(fq)
     end
-    function_queries.flatten.compact
+    queries.flatten.compact
   end
 end

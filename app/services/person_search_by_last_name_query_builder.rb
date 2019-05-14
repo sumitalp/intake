@@ -40,13 +40,13 @@ module PersonSearchByLastNameQueryBuilder
   end
 
   def match_last_name_partial
-    [match_query(field: 'last_name_ngram', query: last_name, min_should_match: '20%',
+    [match_query(field: 'last_name_ngram', query: last_name, min_s_m: '20%',
                  name: '4_partial')]
   end
 
   def match_last_name_fuzzy
-    [match_query(query_type: 'fuzzy', field: 'last_name', value: last_name, fuzziness: '5',
-                 prefix_length: '1', max_expansions: '50', name: '5_fuzzy')]
+    [fuzzy_query(field: 'last_name', value: last_name, fuzziness: '5', prefix_length: '1',
+                 max_expansions: '50', name: '5_fuzzy')]
   end
 
   def fs_query_params

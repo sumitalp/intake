@@ -13,28 +13,39 @@ module PersonSearchByNameQueryBuilderPartTwo
   end
 
   def query
-    f = last_name.blank? && first_name.blank? ? [] : function_score_queries(fs_query_params)
+    f = function_score_queries(fs_query_params)
     { function_score: { functions: f, score_mode: 'sum', boost_mode: 'sum' } }
   end
 
   def reverse_match_last_and_first_name
-    double_match_query(fields: %w[last_name first_name], values: [first_name, last_name],
-                       names: %w[9a_rev_lst 9a_rev_fst])
+    rev_last_name_params = generate_match_params('last_name', first_name, '9a_rev_lst', nil)
+    rev_first_name_params = generate_match_params('first_name', last_name, '9a_rev_fst', nil)
+    param_list = [rev_last_name_params, rev_first_name_params]
+    match_query_list(param_list)
   end
 
   def reverse_match_last_name_first_name_partial
-    double_match_query(fields: %w[last_name first_name_ngram], values: [first_name, last_name],
-                       names: %w[9b_rev_prt_lst 9b_rev_prt_fst], min_s_m: [nil, '25%'])
+    rev_last_name_params = generate_match_params('last_name', first_name, '9b_rev_prt_lst', nil)
+    rev_partial_first_name_params = generate_match_params('first_name_ngram', last_name,
+      '9b_rev_prt_fst', '25%')
+    param_list = [rev_last_name_params, rev_partial_first_name_params]
+    match_query_list(param_list)
   end
 
   def match_last_name_duplicate
-    double_match_query(fields: %w[last_name first_name], values: [last_name, last_name],
-                       names: %w[10_dup_lst 10_dup_fst])
+    last_name_params = generate_match_params('last_name', last_name, '10_dup_lst', nil)
+    first_name_params = generate_match_params('first_name', last_name, '10_dup_fst', nil)
+    param_list = [last_name_params, first_name_params]
+    match_query_list(param_list)
   end
 
   def reverse_match_last_and_first_name_partial
-    double_match_query(fields: %w[last_name_ngram first_name_ngram], min_s_m: ['25%', '25%'],
-                       names: %w[11_rev_prt_lst 11_rev_prt_fst], values: [first_name, last_name])
+    rev_partial_last_name_params = generate_match_params('last_name_ngram', first_name,
+      '11_rev_prt_lst', '25%')
+    rev_partial_first_name_params = generate_match_params('first_name_ngram', last_name,
+      '11_rev_prt_fst', '25%')
+    param_list = [rev_partial_last_name_params, rev_partial_first_name_params]
+    match_query_list(param_list)
   end
 
   def match_last_name

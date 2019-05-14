@@ -21,6 +21,15 @@ describe QueryBuilder do
       search_by_age_method: 'approximate' }
   end
 
+  let(:person_search_fields_with_last_name_suffix_approx_age_years_gender) do
+    { last_name: 'last name',
+      suffix: 'suffix',
+      gender: 'male',
+      approximate_age: '100',
+      approximate_age_units: 'years',
+      search_by_age_method: 'approximate' }
+  end
+
   let(:person_search_fields_with_full_name) do
     { last_name: 'last name',
       first_name: 'first name',
@@ -80,6 +89,9 @@ describe QueryBuilder do
   let(:no_name_query) { PersonSearchResultBuilder.new.fs_no_name_query }
   let(:last_name_approx_age_years_gender_query) do
     PersonSearchResultBuilder.new.fs_last_name_approx_age_years_gender_query
+  end
+  let(:last_name_suffix_approx_age_years_gender_query) do
+    PersonSearchResultBuilder.new.fs_last_name_suffix_approx_age_years_gender_query
   end
   let(:full_name_query) { PersonSearchResultBuilder.new.fs_full_name_query }
   let(:full_name_without_suffix_query) do
@@ -229,6 +241,20 @@ describe QueryBuilder do
         expect(result['sort']).to eq last_name_approx_age_years_gender_query['sort']
         expect(result['track_scores']).to eq last_name_approx_age_years_gender_query['track_scores']
         expect(result['query']).to eq last_name_approx_age_years_gender_query['query']
+      end
+
+      it 'returns query with last name, suffix, approx age in years, and gender' do
+        result = described_class.build(
+          is_advanced_search_on: 'true',
+          person_search_fields: person_search_fields_with_last_name_suffix_approx_age_years_gender
+        ).payload.as_json
+        expect(result['_source']).to eq last_name_suffix_approx_age_years_gender_query['_source']
+        expect(result['size']).to eq last_name_suffix_approx_age_years_gender_query['size']
+        expect(result['sort']).to eq last_name_suffix_approx_age_years_gender_query['sort']
+        expect(
+          result['track_scores']
+        ).to eq last_name_suffix_approx_age_years_gender_query['track_scores']
+        expect(result['query']).to eq last_name_suffix_approx_age_years_gender_query['query']
       end
 
       it 'returns query with full name' do

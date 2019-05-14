@@ -62,9 +62,11 @@ class BaseQueryBuilder
   end
 
   def last_name_only?
-    last_name = params.dig(:person_search_fields, :last_name)
-    first_name = params.dig(:person_search_fields, :first_name)
-    last_name.present? && first_name.blank?
+    @last_name.present? && @middle_name.blank? && @first_name.blank? && @suffix.blank?
+  end
+
+  def last_name_and_suffix_only?
+    @last_name.present? && @middle_name.blank? && @first_name.blank? && @suffix.present?
   end
 
   def build_query
