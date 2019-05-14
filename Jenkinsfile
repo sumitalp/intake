@@ -39,7 +39,7 @@ def buildRegression() {
 }
 
 def regressionTestStage() {
-  stage('Regression Test Int') {
+  stage('Regression Test') {
     withDockerRegistry([credentialsId: JENKINS_MANAGEMENT_DOCKER_REGISTRY_CREDENTIALS_ID]) {
         sh "docker-compose -f docker/test/docker-compose.yml up -d --build"
         sh "docker-compose -f docker/test/docker-compose.yml exec bundle exec rspec spec/regression"
@@ -178,7 +178,7 @@ def rspecTestsSnapshot() {
 }
 
 def rspecRegressionSnapshot() {
-  stage('Rspec tests for Snapshot') {
+  stage('Regression tests') {
     curStage = 'Rspec tests for Snapshot'
     sh 'EXCLUDE_PATTERN="features/screening" ./scripts/ci/rspec_regression_test.rb'
   }
