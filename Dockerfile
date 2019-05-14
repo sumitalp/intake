@@ -1,4 +1,4 @@
-FROM cwds/intake_testing_base_image:2.3
+FROM cwds/intake_testing_base_image:2.5
 ENV APP_HOME /ca_intake
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
