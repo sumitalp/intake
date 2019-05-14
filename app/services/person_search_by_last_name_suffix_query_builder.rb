@@ -28,15 +28,15 @@ module PersonSearchByLastNameSuffixQueryBuilder
   end
 
   def match_last_name_and_suffix
-    last_name_params = { field: 'last_name', query: last_name, name: '1_exact_last' }
-    suffix_params = { field: 'name_suffix', query: suffix, name: '1_exact_suffix' }
+    last_name_params = generate_match_params('last_name', last_name, '1_exact_last', nil)
+    suffix_params = generate_match_params('name_suffix', suffix, '1_exact_suffix', nil)
     param_list = [last_name_params, suffix_params]
     match_query_list(param_list)
   end
 
   def match_last_name_and_suffix_akas
-    last_name_aka_params = { field: 'akas.last_name', query: last_name, name: '2_aka_last' }
-    suffix_aka_params = { field: 'akas.suffix', query: suffix, name: '2_aka_suffix' }
+    last_name_aka_params = generate_match_params('akas.last_name', last_name, '2_aka_last', nil)
+    suffix_aka_params = generate_match_params('akas.suffix', suffix, '2_aka_suffix', nil)
     param_list = [last_name_aka_params, suffix_aka_params]
     match_query_list(param_list)
   end
@@ -50,9 +50,9 @@ module PersonSearchByLastNameSuffixQueryBuilder
   end
 
   def match_last_name_suffix_dim
-    last_name_params = { field: 'last_name', query: last_name, name: '4_exact_last' }
-    dim_suffix_params = { field: 'name_suffix.diminutive', query: suffix,
-                          name: '4_diminutive_suffix' }
+    last_name_params = generate_match_params('last_name', last_name, '4_exact_last', nil)
+    dim_suffix_params = generate_match_params('name_suffix.diminutive', suffix,
+      '4_diminutive_suffix', nil)
     param_list = [last_name_params, dim_suffix_params]
     match_query_list(param_list)
   end
