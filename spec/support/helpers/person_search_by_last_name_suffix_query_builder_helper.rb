@@ -149,7 +149,7 @@ module PersonSearchByLastNameSuffixQueryBuilderHelper
                   "last_name_ngram": {
                     "query": 'last name',
                     "minimum_should_match": '15%',
-                    "_name": '6_partial_match'
+                    "_name": '6_partial_last'
                   }
                 }
               }

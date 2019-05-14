@@ -28,23 +28,33 @@ module PersonSearchByLastNameSuffixQueryBuilder
   end
 
   def match_last_name_and_suffix
-    double_match_query(fields: %w[last_name name_suffix],
-                       values: [last_name, suffix], names: %w[1_exact_last 1_exact_suffix])
+    last_name_params = { field: 'last_name', query: last_name, name: '1_exact_last' }
+    suffix_params = { field: 'name_suffix', query: suffix, name: '1_exact_suffix' }
+    param_list = [last_name_params, suffix_params]
+    match_query_list(param_list)
   end
 
   def match_last_name_and_suffix_akas
-    double_match_query(fields: %w[akas.last_name akas.suffix], values: [last_name, suffix],
-                       names: %w[2_aka_last 2_aka_suffix])
+    last_name_aka_params = { field: 'akas.last_name', query: last_name, name: '2_aka_last' }
+    suffix_aka_params = { field: 'akas.suffix', query: suffix, name: '2_aka_suffix' }
+    param_list = [last_name_aka_params, suffix_aka_params]
+    match_query_list(param_list)
   end
 
   def match_last_name_suffix_partial
-    double_match_query(fields: %w[last_name name_suffix_ngram], values: [last_name, suffix],
-                       names: %w[3_exact_last 3_partial_suffix], min_s_m: [nil, '15%'])
+    last_name_params = generate_match_params('last_name', last_name, '3_exact_last', nil)
+    partial_suffix_params = generate_match_params('name_suffix_ngram', suffix, '3_partial_suffix',
+      '15%')
+    param_list = [last_name_params, partial_suffix_params]
+    match_query_list(param_list)
   end
 
   def match_last_name_suffix_dim
-    double_match_query(fields: %w[last_name name_suffix.diminutive], values: [last_name, suffix],
-                       names: %w[4_exact_last 4_diminutive_suffix])
+    last_name_params = { field: 'last_name', query: last_name, name: '4_exact_last' }
+    dim_suffix_params = { field: 'name_suffix.diminutive', query: suffix,
+                          name: '4_diminutive_suffix' }
+    param_list = [last_name_params, dim_suffix_params]
+    match_query_list(param_list)
   end
 
   def match_last_name
@@ -56,14 +66,19 @@ module PersonSearchByLastNameSuffixQueryBuilder
   end
 
   def match_suffix_last_name_partial
-    double_match_query(fields: %w[name_suffix last_name_ngram], values: [suffix, last_name],
-                       names: %w[6_exact_suffix 6_partial_match], min_s_m: [nil, '15%'])
+    suffix_params = generate_match_params('name_suffix', suffix, '6_exact_suffix', nil)
+    partial_last_name_params = generate_match_params('last_name_ngram', last_name, '6_partial_last',
+      '15%')
+    param_list = [suffix_params, partial_last_name_params]
+    match_query_list(param_list)
   end
 
   def match_suffix_last_name_fuzzy
-    [match_query(field: 'name_suffix', query: suffix, name: '7_exact_suffix'),
-     match_query(query_type: 'fuzzy', field: 'last_name', value: last_name, fuzziness: '3',
-                 prefix_length: '1', max_expansions: '50', name: '7_fuzzy_last')].compact
+    suffix_query = match_query(generate_match_params('name_suffix', suffix, '7_exact_suffix', nil))
+    fuzzy_last_name_query = fuzzy_query(field: 'last_name', value: last_name, fuzziness: '3',
+                                        prefix_length: '1', max_expansions: '50',
+                                        name: '7_fuzzy_last')
+    [suffix_query, fuzzy_last_name_query].compact
   end
 
   def fs_query_params
