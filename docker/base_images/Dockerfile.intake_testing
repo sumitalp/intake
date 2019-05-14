@@ -13,7 +13,7 @@ RUN dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
 RUN apt-get update -y
 RUN apt-get upgrade -y
 
-RUN  apt-get install curl gnupg -yq \
+RUN  apt-get install -y \
     build-essential \
     sudo \
     libgconf-2-4 \
