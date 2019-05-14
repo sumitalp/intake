@@ -59,9 +59,9 @@ def buildPullRequest() {
     try {
       scmCheckOut()
       buildingTestBench()
-      //lintTest()
-      //verifySemVerLabel()
-      //karmaTests()
+      lintTest()
+      verifySemVerLabel()
+      karmaTests()
       rspecTestsSnapshot()
       rspecRegressionSnapshot()
       reports()
