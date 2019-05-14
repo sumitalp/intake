@@ -75,8 +75,9 @@ module PersonSearchByNameQueryBuilderPartOne
 
   def match_last_name_first_name_fuzzy
     last_name_query = match_query(generate_match_params('last_name', last_name, '6_fz_lst', nil))
-    fuzzy_first_name_query = fuzzy_query(field: 'first_name', value: first_name, fuzziness: '5',
-                                         prefix_length: '1', max_expansions: '25', name: '6_fz_fst')
+    fuzzy_query_params = { field: 'first_name', value: first_name, fuzziness: '5',
+                           prefix_length: '1', max_expansions: '25', name: '6_fz_fst' }
+    fuzzy_first_name_query = fuzzy_query(fuzzy_query_params)
     [last_name_query, fuzzy_first_name_query].compact
   end
 
