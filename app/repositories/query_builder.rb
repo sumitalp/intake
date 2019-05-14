@@ -23,6 +23,8 @@ class QueryBuilder < BaseQueryBuilder
   def self.advanced_search_by_name_query(builder)
     if builder.last_name_only?
       builder.extend(PersonSearchByLastNameQueryBuilder).build_query(builder)
+    elsif builder.last_name_and_suffix_only?
+      builder.extend(PersonSearchByLastNameSuffixQueryBuilder).build_query(builder)
     else
       builder.extend(PersonSearchByNameQueryBuilderPartOne).build_query(builder)
       builder.extend(PersonSearchByNameQueryBuilderPartTwo).build_query(builder)

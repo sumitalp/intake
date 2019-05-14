@@ -413,6 +413,61 @@ module PersonSearchByNameQueryBuilderHelper
     }.as_json
   end
 
+  def fs_last_name_suffix_approx_age_years_gender_query
+    {
+      "size": '10',
+      "track_scores": 'true',
+      "sort": [
+        {
+          "_score": 'desc',
+          "last_name": 'asc',
+          "first_name": 'asc',
+          "_uid": 'desc'
+        }
+      ],
+      "min_score": '2.5',
+      "query": {
+        "function_score": {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "match": {
+                    "legacy_descriptor.legacy_table_name": {
+                      "query": 'CLIENT_T',
+                      "_name": 'q_cli'
+                    }
+                  }
+                },
+                {
+                  "range": {
+                    "date_of_birth": {
+                      "gte": (Date.current - 100.years - 5.years).iso8601,
+                      "lte": (Date.current - 100.years + 5.years).iso8601,
+                      "format": 'yyyy-MM-dd'
+                    }
+                  }
+                },
+                {
+                  "query_string": {
+                    "default_field": 'gender',
+                    "query": 'male',
+                    "boost": '1'
+                  }
+                }
+              ]
+            }
+          },
+          "functions": last_name_suffix_functions,
+          "score_mode": 'max',
+          "boost_mode": 'max'
+        }
+      },
+      "_source": source,
+      "highlight": highlight
+    }.as_json
+  end
+
   def fs_full_name_query
     {
       "size": '10',
