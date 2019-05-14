@@ -4,9 +4,9 @@ import Autocompleter from 'common/search/Autocompleter'
 import {withRouter} from 'react-router'
 import {PersonSearchFieldsPropType} from 'data/personSearch'
 import {isAdvancedSearchOn} from 'common/config'
-// import {ModalComponent} from 'react-wood-duck'
 import ModalComponent from '../../common/Modal'
 import SearchModalBody from 'common/search/SearchModalBody'
+// eslint-disable-next-line no-unused-vars
 import {ModalFooter} from '@cwds/components'
 
 class PersonSearchForm extends React.Component {
