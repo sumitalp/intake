@@ -32,12 +32,12 @@ describe('ActionMenu', () => {
     ...props
   } = {}) => shallow(<ActionMenu onEdit={onEdit} onClick={onClick} {...props} />)
 
-  it('renders a span', () => {
-    expect(renderActionMenu(props).find('span').length).toBe(1)
+  it('renders a menu', () => {
+    expect(renderActionMenu(props).find('UncontrolledMenu').length).toBe(1)
   })
 
   it('renders an unordered list', () => {
-    expect(renderActionMenu(props).find('ul').length).toBe(1)
+    expect(renderActionMenu(props).find('DropdownItem').length).toBe(2)
   })
 
   it('renders AttachLink component', () => {

@@ -10,6 +10,7 @@ const isAbsentParentDisabled = (type) => (
   !type.toLowerCase().match(/\bfather\b|\bmother\b|\bparent\b/)
 )
 const findTypeLabel = (typeCode) => {
+  if (!typeCode) return false
   const types = (RELATIONSHIP_TYPES.find((type) =>
     type.value === typeCode
   ).label).split('/')
@@ -165,6 +166,19 @@ EditRelationshipForm.propTypes = {
   onChange: PropTypes.func,
   person: personPropType,
   relationship: RelationshipPropType,
+}
+
+EditRelationshipForm.defaultProps = {
+  editFormRelationship: {
+    absent_parent_indicator: false,
+    client_id: '',
+    end_date: '',
+    id: '',
+    relationship_type: 175,
+    relative_id: '',
+    same_home_status: '',
+    start_date: '',
+  },
 }
 
 export default EditRelationshipForm

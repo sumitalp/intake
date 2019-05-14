@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import AttachLink from 'common/relationship/AttachLink'
 import EditRelationshipModal from 'common/relationship/EditRelationshipModal'
 import {RelationshipPropType} from 'data/relationships'
+import {UncontrolledMenu as Menu, MenuItem} from '@cwds/components'
 
 export class ActionMenu extends Component {
   constructor(props) {
@@ -39,7 +40,6 @@ export class ActionMenu extends Component {
       person,
       relationship,
     } = this.props
-
     return (
       <EditRelationshipModal
         editFormRelationship={editFormRelationship}
@@ -58,20 +58,13 @@ export class ActionMenu extends Component {
 
   render() {
     return (
-      <div>
-        <div className='dropdown' aria-label='Action Menu'>
-          <span className='glyphicon glyphicon-option-vertical' type='button' data-toggle='dropdown' aria-hidden='true'/>
-          <ul className='dropdown-menu dropdown-menu-right' role='menu' aria-hidden='true'>
-            <li className='dropdown-header'>Actions</li>
-            <li role='separator' className='divider'/>
-            <li role='menuitem'><AttachLink {...this.props}/></li>
-            <li role='menuitem'>
-              <a className='edit-relationship' href='#/' onClick={this.handleShowModal}>
+      <div className='dropdown' aria-label='Action Menu'>
+        <Menu right>
+          <MenuItem><AttachLink {...this.props}/></MenuItem>
+          <MenuItem><a className='edit-relationship' href='#/' onClick={this.handleShowModal}>
                 Edit Relationship
-              </a>
-            </li>
-          </ul>
-        </div>
+          </a></MenuItem>
+        </Menu>
         {this.state.show && this.renderModal()}
       </div>
     )

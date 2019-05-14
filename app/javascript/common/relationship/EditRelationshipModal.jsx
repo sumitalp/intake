@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import EditRelationshipForm from 'common/relationship/EditRelationshipForm'
 import ModalComponent from '../Modal'
+import _ from 'lodash'
 import ActionRow from 'screenings/ActionRow'
 import {RelationshipPropType} from 'data/relationships'
 
@@ -22,7 +23,7 @@ const EditRelationshipModal = ({
     isOpen={show}
     modalBody={
       <EditRelationshipForm
-        editFormRelationship={editFormRelationship}
+        editFormRelationship={_.isEmpty(editFormRelationship) ? undefined : editFormRelationship}
         errors={errors}
         onChange={onChange}
         person={person}
