@@ -1,4 +1,4 @@
-FROM cwds/intake_testing_base_image:2.4
+FROM cwds/intake_testing_base_image:2.5
 LABEL application=intake_accelerator
 
 ENV APP_HOME /ca_intake
