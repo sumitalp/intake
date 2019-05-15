@@ -41,7 +41,6 @@ export class App extends React.Component {
   }
 
   render() {
-    console.log('props', this.props)
     const logoutUrl = `${config().base_path.replace(/\/$/, '')}/logout`
 
     const UserMenu = (state) => {
@@ -131,8 +130,11 @@ App.propTypes = {
   children: PropTypes.object.isRequired,
   createScreening: PropTypes.func,
   createSnapshot: PropTypes.func,
+  disableSubmitButton: PropTypes.bool,
+  editable: PropTypes.bool,
   fullName: PropTypes.string,
   hotline: PropTypes.bool,
+  params: PropTypes.object.isRequired,
   snapshot: PropTypes.bool,
   startOver: PropTypes.func,
 }
