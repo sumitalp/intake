@@ -12,9 +12,22 @@ import userNameFormatter from 'utils/userNameFormatter'
 import {config, isSnapshot, isHotline} from 'common/config'
 import {ScrollToTop} from 'common/app/ScrollToTop'
 import {createScreening} from 'actions/screeningActions'
-import {createSnapshot} from 'actions/snapshotActions'
 import {snapshotEnabledSelector, hotlineEnabledSelector} from 'selectors/homePageSelectors'
 import {Page, CaresProvider, MenuItem, UncontrolledUserMenu} from '@cwds/components'
+import {createSnapshot} from 'actions/snapshotActions'
+import {clearPeople} from 'actions/personCardActions'
+import {clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
+import {clearRelationships} from 'actions/relationshipsActions'
+import {
+  clear as clearSearch,
+  resetPersonSearch,
+} from 'actions/peopleSearchActions'
+import {getScreeningTitleSelector, getScreeningIsReadOnlySelector} from 'selectors/screeningSelectors'
+import {
+  getAllCardsAreSavedValueSelector,
+  getScreeningHasErrorsSelector,
+  getPeopleHaveErrorsSelector,
+} from 'selectors/screening/screeningPageSelectors'
 
 const RouterScrollToTop = withRouter(ScrollToTop)
 
@@ -67,26 +80,32 @@ export class App extends React.Component {
       </div>
     )
 
-    const SnapshotButton = ({}) => (
+    const SnapshotButton = () => (
       <button
         type="button"
         className="btn primary-btn pull-right"
         disabled={false}
-        // onClick={startOver}
+        onClick={this.props.startOver}
       >
       Start Over
       </button>
     )
-
-    const ScreeningButton = ({}) => (
-      <button type='button'
-        className='btn primary-btn pull-right'
-        // disabled={disableSubmitButton}
-        // onClick={() => submitScreening(id)}
-      >
-      Submit
-      </button>
-    )
+    const ScreeningButton = () => {
+      const {editable, disableSubmitButton, params: {id}, actions: {submitScreening}} = this.props
+      if (editable) {
+        return (
+          <button type='button'
+            className='btn primary-btn pull-right'
+            disabled={disableSubmitButton}
+            onClick={() => submitScreening(id)}
+          >
+            Submit
+          </button>
+        )
+      } else {
+        return (<div />)
+      }
+    }
     // eslint-disable-next-line no-nested-ternary
     const buttons = isSnapshot(location) ? <SnapshotButton /> : isHotline(location) ? <ScreeningButton /> : <DashboardButtons />
 
@@ -115,15 +134,32 @@ App.propTypes = {
   fullName: PropTypes.string,
   hotline: PropTypes.bool,
   snapshot: PropTypes.bool,
+  startOver: PropTypes.func,
 }
 const mapStateToProps = (state, _ownProps) => ({
   fullName: userNameFormatter(getUserNameSelector(state)),
   snapshot: snapshotEnabledSelector(state),
   hotline: hotlineEnabledSelector(state),
+  screeningTitle: getScreeningTitleSelector(state),
+  editable: !getScreeningIsReadOnlySelector(state),
+  disableSubmitButton: !getAllCardsAreSavedValueSelector(state) ||
+        getScreeningHasErrorsSelector(state) ||
+        getPeopleHaveErrorsSelector(state),
 })
 
-const mapDispatchToProps = (dispatch, _ownProps) => ({
-  actions: bindActionCreators({fetchUserInfoAction, fetchSystemCodesAction, checkStaffPermission, createScreening, createSnapshot}, dispatch),
-})
+function mapDispatchToProps(dispatch, _ownProps) {
+  const actions = {fetchUserInfoAction, fetchSystemCodesAction, checkStaffPermission, createScreening, createSnapshot}
+  return {
+    actions: bindActionCreators(actions, dispatch),
+    startOver: () => {
+      dispatch(createSnapshot())
+      dispatch(clearPeople())
+      dispatch(clearHistoryOfInvolvement())
+      dispatch(clearRelationships())
+      dispatch(clearSearch('results'))
+      dispatch(resetPersonSearch())
+    },
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

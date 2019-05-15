@@ -3,10 +3,6 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {createSnapshot, clearSnapshot} from 'actions/snapshotActions'
 import {clearPeople, createSnapshotPerson} from 'actions/personCardActions'
-import {
-  clear as clearSearch,
-  resetPersonSearch,
-} from 'actions/peopleSearchActions'
 import {clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
 import {clearRelationships} from 'actions/relationshipsActions'
 import PersonSearchFormContainer from 'containers/common/PersonSearchFormContainer'
@@ -15,10 +11,9 @@ import HistoryOfInvolvementContainer from 'containers/snapshot/HistoryOfInvolvem
 import HistoryTableContainer from 'containers/common/HistoryTableContainer'
 import EmptyHistory from 'views/history/EmptyHistory'
 import RelationshipsCardContainer from 'containers/snapshot/RelationshipsCardContainer'
-import PageHeader from 'common/PageHeader'
 import SnapshotIntro from 'snapshots/SnapshotIntro'
 import {selectParticipants} from 'selectors/participantSelectors'
-import BreadCrumb from 'containers/common/BreadCrumb'
+// import BreadCrumb from 'containers/common/BreadCrumb'
 import {getHasGenericErrorValueSelector} from 'selectors/errorsSelectors'
 
 const isDuplicatePerson = (participants, id) =>
@@ -32,21 +27,6 @@ export class SnapshotPage extends React.Component {
   componentWillUnmount() {
     this.props.unmount()
   }
-
-  startOverButton() {
-    const {startOver} = this.props
-    return (
-      <button
-        type="button"
-        className="btn primary-btn pull-right"
-        disabled={false}
-        onClick={startOver}
-      >
-        Start Over
-      </button>
-    )
-  }
-
   onSelectPerson(person) {
     const id = person.legacyDescriptor && person.legacyDescriptor.legacy_id
     if (!isDuplicatePerson(this.props.participants, id)) {
@@ -83,10 +63,6 @@ export class SnapshotPage extends React.Component {
     const genericErrorClass = hasGenericErrors ? 'generic-error' : ''
     return (
       <div>
-        <div>
-          <PageHeader pageTitle="Snapshot" button={this.startOverButton()} />
-          <BreadCrumb />
-        </div>
         <div className={`container snapshot-container ${genericErrorClass}`}>
           <div className="row">
             {this.renderBody(participants)}
@@ -114,14 +90,6 @@ const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
   createSnapshot: () => dispatch(createSnapshot()),
   createSnapshotPerson: id => dispatch(createSnapshotPerson(id)),
-  startOver: () => {
-    dispatch(createSnapshot())
-    dispatch(clearPeople())
-    dispatch(clearHistoryOfInvolvement())
-    dispatch(clearRelationships())
-    dispatch(clearSearch('results'))
-    dispatch(resetPersonSearch())
-  },
   unmount: () => {
     dispatch(clearPeople())
     dispatch(clearHistoryOfInvolvement())

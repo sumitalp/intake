@@ -16,9 +16,8 @@ import IncidentInformationCard from 'screenings/IncidentInformationCard'
 import NarrativeCard from 'screenings/NarrativeCard'
 import ScreeningInformationCard from 'screenings/ScreeningInformationCard'
 import WorkerSafetyCard from 'screenings/WorkerSafetyCard'
-import PageHeader from 'common/PageHeader'
-import BreadCrumb from 'containers/common/BreadCrumb'
-import {urlHelper} from 'common/url_helper.js.erb'
+// import BreadCrumb from 'containers/common/BreadCrumb'
+// import {urlHelper} from 'common/url_helper.js.erb'
 
 const isDuplicatePerson = (participants, personOnScreening) => (
   participants
@@ -72,23 +71,6 @@ export class ScreeningPage extends React.Component {
     }
     if (!isDuplicatePerson(participants, personOnScreening)) {
       createPerson(personOnScreening)
-    }
-  }
-
-  submitButton() {
-    const {editable, disableSubmitButton, params: {id}, actions: {submitScreening}} = this.props
-    if (editable) {
-      return (
-        <button type='button'
-          className='btn primary-btn pull-right'
-          disabled={disableSubmitButton}
-          onClick={() => submitScreening(id)}
-        >
-          Submit
-        </button>
-      )
-    } else {
-      return (<div />)
     }
   }
 
@@ -151,10 +133,6 @@ export class ScreeningPage extends React.Component {
     const genericErrorClass = this.props.hasGenericErrors ? 'generic-error' : ''
     return (
       <div>
-        <div>
-          <PageHeader pageTitle={this.props.screeningTitle} button={this.submitButton()} />
-          <BreadCrumb navigationElements={[<Link key={this.props.params.id} to={urlHelper('/')}>CaseLoad</Link>]}/>
-        </div>
         <div className={`container hotline-container ${genericErrorClass}`}>
           {this.renderScreening()}
         </div>

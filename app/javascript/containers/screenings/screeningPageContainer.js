@@ -13,17 +13,9 @@ import {
 } from 'selectors/errorsSelectors'
 import {getScreeningTitleSelector, getScreeningIsReadOnlySelector} from 'selectors/screeningSelectors'
 import {selectParticipants} from 'selectors/participantSelectors'
-import {
-  getAllCardsAreSavedValueSelector,
-  getScreeningHasErrorsSelector,
-  getPeopleHaveErrorsSelector,
-} from 'selectors/screening/screeningPageSelectors'
 
 function mapStateToProps(state, _ownProps) {
   return {
-    disableSubmitButton: !getAllCardsAreSavedValueSelector(state) ||
-        getScreeningHasErrorsSelector(state) ||
-        getPeopleHaveErrorsSelector(state),
     editable: !getScreeningIsReadOnlySelector(state),
     loaded: state.getIn(['screening', 'fetch_status']) === 'FETCHED',
     mode: state.getIn(['screeningPage', 'mode']),
