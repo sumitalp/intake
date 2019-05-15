@@ -143,7 +143,7 @@ feature 'Search results page' do
     end
 
     within '.rt-tbody' do
-      expect(page).to have_content('1. Juan Simpson')
+      expect(page).to have_content('Juan Simpson')
       expect(page).to have_content('male')
       expect(page).to have_content('Pala, CA, 92089')
     end
@@ -158,11 +158,11 @@ feature 'Search results page' do
     end
 
     within '.rt-tbody' do
-      expect(page).to have_content('1. Juan Simpson')
+      expect(page).to have_content('Juan Simpson')
     end
 
     click_button 'Start Over'
 
-    expect(page).not_to have_content('1. Juan Simpson')
+    expect(page).not_to have_content('Juan Simpson')
   end
 end

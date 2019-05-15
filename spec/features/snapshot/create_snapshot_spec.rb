@@ -149,7 +149,7 @@ feature 'Create Snapshot' do
         end
 
         within '.rt-tbody' do
-          expect(page).to have_content('1. Simpson')
+          expect(page).to have_content('Simpson')
         end
 
         page.driver.go_back
@@ -211,7 +211,7 @@ feature 'Create Snapshot' do
           end
           click_button 'Start Over'
 
-          expect(page).not_to have_content('1. Simpson')
+          expect(page).not_to have_content('Simpson')
         end
       end
 
