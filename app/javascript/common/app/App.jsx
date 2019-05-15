@@ -11,6 +11,9 @@ import Footer from 'views/Footer'
 import userNameFormatter from 'utils/userNameFormatter'
 import {config, isSnapshot, isHotline} from 'common/config'
 import {ScrollToTop} from 'common/app/ScrollToTop'
+import {createScreening} from 'actions/screeningActions'
+import {createSnapshot} from 'actions/snapshotActions'
+import {snapshotEnabledSelector, hotlineEnabledSelector} from 'selectors/homePageSelectors'
 import {Page, CaresProvider, MenuItem, UncontrolledUserMenu} from '@cwds/components'
 
 const RouterScrollToTop = withRouter(ScrollToTop)
@@ -25,6 +28,7 @@ export class App extends React.Component {
   }
 
   render() {
+    console.log('props', this.props)
     const logoutUrl = `${config().base_path.replace(/\/$/, '')}/logout`
 
     const UserMenu = (state) => {
@@ -38,15 +42,62 @@ export class App extends React.Component {
       )
     }
 
+    const DashboardButtons = () => (
+      <div className='pull-right'>
+        {
+          this.props.snapshot &&
+        <button type='button'
+          className='btn primary-btn'
+          disabled={false}
+          onClick={this.props.actions.createSnapshot}
+        >
+        Start Snapshot
+        </button>
+        }
+        {
+          this.props.hotline &&
+        <button type='button'
+          className='btn primary-btn'
+          disabled={false}
+          onClick={this.props.actions.createScreening}
+        >
+        Start Screening
+        </button>
+        }
+      </div>
+    )
+
+    const SnapshotButton = ({}) => (
+      <button
+        type="button"
+        className="btn primary-btn pull-right"
+        disabled={false}
+        // onClick={startOver}
+      >
+      Start Over
+      </button>
+    )
+
+    const ScreeningButton = ({}) => (
+      <button type='button'
+        className='btn primary-btn pull-right'
+        // disabled={disableSubmitButton}
+        // onClick={() => submitScreening(id)}
+      >
+      Submit
+      </button>
+    )
+    // eslint-disable-next-line no-nested-ternary
+    const buttons = isSnapshot(location) ? <SnapshotButton /> : isHotline(location) ? <ScreeningButton /> : <DashboardButtons />
+
     // eslint-disable-next-line no-nested-ternary
     const pageTitle = isSnapshot(location) ? 'Snapshort' :
       isHotline(location) ? 'Hotline' :
         'Dashboard'
-
     return (
       <RouterScrollToTop>
         <CaresProvider UserMenu={UserMenu} Brand= 'CWS-CARES'>
-          <Page layout= 'dashboard' title= {pageTitle} >
+          <Page layout= 'dashboard' title= {pageTitle} PageActions={() => buttons}>
             {this.props.children}
             <Footer />
           </Page>
@@ -59,14 +110,20 @@ export class App extends React.Component {
 App.propTypes = {
   actions: PropTypes.object.isRequired,
   children: PropTypes.object.isRequired,
+  createScreening: PropTypes.func,
+  createSnapshot: PropTypes.func,
   fullName: PropTypes.string,
+  hotline: PropTypes.bool,
+  snapshot: PropTypes.bool,
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state, _ownProps) => ({
   fullName: userNameFormatter(getUserNameSelector(state)),
+  snapshot: snapshotEnabledSelector(state),
+  hotline: hotlineEnabledSelector(state),
 })
 
 const mapDispatchToProps = (dispatch, _ownProps) => ({
-  actions: bindActionCreators({fetchUserInfoAction, fetchSystemCodesAction, checkStaffPermission}, dispatch),
+  actions: bindActionCreators({fetchUserInfoAction, fetchSystemCodesAction, checkStaffPermission, createScreening, createSnapshot}, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
