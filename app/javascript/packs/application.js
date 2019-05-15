@@ -18,7 +18,6 @@ import '@cwds/components/scss/global.scss'
 // CSS
 import 'react-bootstrap-table/css/react-bootstrap-table.css'
 import 'bootstrap/dist/css/bootstrap'
-import 'react-wood-duck/dist/styles/application'
 import '../../assets/stylesheets/helpers'
 import '../../assets/stylesheets/accessibility'
 import '../../assets/stylesheets/form'
