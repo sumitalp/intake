@@ -415,7 +415,7 @@ module PersonSearchByNameQueryBuilderHelper
 
   def fs_last_name_suffix_approx_age_years_gender_query
     {
-      "size": '10',
+      "size": '250',
       "track_scores": 'true',
       "sort": [
         {
