@@ -5,12 +5,20 @@ import 'react-table/react-table.css'
 
 class SearchResultsTable extends Component {
   columns = [{
+    Header: '',
+    id: 'row',
+    maxWidth: 50,
+    filterable: false,
+    Cell: (row) => {
+      return `${row.index + 1}.`
+    },
+  },
+  {
     id: 'name',
     Header: 'Name',
     Cell: (row) => {
       const personName = row.original.fullName
-      return personName ?
-        `${row.index + 1}. ${personName}` : ''
+      return <button className='search-result-button'>{personName}</button> || ''
     },
   }, {
     Header: 'Date of Birth',
