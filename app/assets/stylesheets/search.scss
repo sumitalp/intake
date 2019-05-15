@@ -138,3 +138,16 @@
 .modal-dialog {
   top: 20%;
 }
+
+.pagination-bottom {
+  .select-wrap > select {
+    background-position: right 1.3rem center;
+    background-repeat: no-repeat;
+    background-size: 1.3rem;
+    width: 10rem;
+  }
+}
+
+.rt-tbody {
+  padding: 1rem;
+}
