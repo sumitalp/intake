@@ -20,7 +20,7 @@ feature 'Search results page' do
       addresses: [{
         messages: [],
         type: 'Placement Home',
-        street_address: 'P.O. Box 162',
+        street_address: '500 El Camino Real',
         city: 'Santa Clara',
         state: 'CA',
         zip: '95053',
@@ -145,7 +145,7 @@ feature 'Search results page' do
     within '.rt-tbody' do
       expect(page).to have_content('Juan Simpson')
       expect(page).to have_content('Male')
-      expect(page).to have_content('Santa Clara, CA 95053')
+      expect(page).to have_content('500 El Camino Real, Santa Clara, CA 95053')
     end
   end
 
