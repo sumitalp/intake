@@ -21,9 +21,9 @@ feature 'Search results page' do
         messages: [],
         type: 'Placement Home',
         street_address: 'P.O. Box 162',
-        city: 'Pala',
+        city: 'Santa Clara',
         state: 'CA',
-        zip: '92089',
+        zip: '95053',
         phone_numbers: [{ id: '1', type: 'Home', number: '(971) 287-6774' }],
         legacy_descriptor: {
           legacy_id: '7OFBh9m2St',
@@ -144,8 +144,8 @@ feature 'Search results page' do
 
     within '.rt-tbody' do
       expect(page).to have_content('Juan Simpson')
-      expect(page).to have_content('male')
-      expect(page).to have_content('Pala, CA, 92089')
+      expect(page).to have_content('Male')
+      expect(page).to have_content('Santa Clara, CA 95053')
     end
   end
 
