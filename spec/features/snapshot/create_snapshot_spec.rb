@@ -94,12 +94,6 @@ feature 'Create Snapshot' do
         within '#search-card' do
           expect(page).to have_content('How to Use Snapshot')
         end
-
-        within '#snapshot-card' do
-          expect(page).to have_content(
-            'The Child Welfare History Snapshot allows you to search CWS/CMS for people and their'
-          )
-        end
       end
 
       scenario 'user starts a snapshot, goes back to the home page, and starts another snapshot' do
@@ -217,7 +211,7 @@ feature 'Create Snapshot' do
 
       scenario 'a new snapshot is created if the user visits the snapshot page directly' do
         visit snapshot_path(accessCode: access_code)
-        expect(page).to have_content('The Child Welfare History Snapshot allows you to search')
+        expect(page).to have_content('Snapshot Search')
       end
     end
   end

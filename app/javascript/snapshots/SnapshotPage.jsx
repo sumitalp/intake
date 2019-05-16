@@ -16,7 +16,6 @@ import HistoryTableContainer from 'containers/common/HistoryTableContainer'
 import EmptyHistory from 'views/history/EmptyHistory'
 import RelationshipsCardContainer from 'containers/snapshot/RelationshipsCardContainer'
 import PageHeader from 'common/PageHeader'
-import SnapshotIntro from 'snapshots/SnapshotIntro'
 import {selectParticipants} from 'selectors/participantSelectors'
 import BreadCrumb from 'containers/common/BreadCrumb'
 import {getHasGenericErrorValueSelector} from 'selectors/errorsSelectors'
@@ -64,7 +63,6 @@ export class SnapshotPage extends React.Component {
     return (
       <div className="col-md-12 col-xs-12 snapshot-inner-container">
         <div className="row">
-          <SnapshotIntro />
           <PersonSearchFormContainer
             onSelect={person => this.onSelectPerson(person)}
             searchPrompt="Search for clients"
