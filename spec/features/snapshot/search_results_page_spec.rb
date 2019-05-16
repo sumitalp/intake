@@ -20,7 +20,8 @@ feature 'Search results page' do
       addresses: [{
         messages: [],
         type: 'Placement Home',
-        street_address: '500 El Camino Real',
+        street_number: '500',
+        street_name: 'El Camino Real',
         city: 'Santa Clara',
         state: 'CA',
         zip: '95053',
