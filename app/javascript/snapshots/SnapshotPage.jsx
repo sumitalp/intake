@@ -13,7 +13,7 @@ import EmptyHistory from 'views/history/EmptyHistory'
 import RelationshipsCardContainer from 'containers/snapshot/RelationshipsCardContainer'
 import SnapshotIntro from 'snapshots/SnapshotIntro'
 import {selectParticipants} from 'selectors/participantSelectors'
-// import BreadCrumb from 'containers/common/BreadCrumb'
+import BreadCrumb from 'containers/common/BreadCrumb'
 import {getHasGenericErrorValueSelector} from 'selectors/errorsSelectors'
 
 const isDuplicatePerson = (participants, id) =>
@@ -63,6 +63,7 @@ export class SnapshotPage extends React.Component {
     const genericErrorClass = hasGenericErrors ? 'generic-error' : ''
     return (
       <div>
+        <BreadCrumb />
         <div className={`container snapshot-container ${genericErrorClass}`}>
           <div className="row">
             {this.renderBody(participants)}

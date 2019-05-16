@@ -7,7 +7,6 @@ import {fetch as fetchUserInfoAction} from 'actions/userInfoActions'
 import {fetch as fetchSystemCodesAction} from 'actions/systemCodesActions'
 import {checkStaffPermission} from 'actions/staffActions'
 import {bindActionCreators} from 'redux'
-import Footer from 'views/Footer'
 import userNameFormatter from 'utils/userNameFormatter'
 import {config, isSnapshot, isHotline} from 'common/config'
 import {ScrollToTop} from 'common/app/ScrollToTop'
@@ -28,8 +27,16 @@ import {
   getScreeningHasErrorsSelector,
   getPeopleHaveErrorsSelector,
 } from 'selectors/screening/screeningPageSelectors'
+import {Link} from 'react-router'
 
 const RouterScrollToTop = withRouter(ScrollToTop)
+
+const Footer = () => (
+  <div aria-label= 'footer' className= 'col-12-xs text-center footer'><br/>
+    <span><Link to='/pages/privacy_policy'>Privacy Policy</Link></span>
+    <span> <Link to='/pages/conditions_of_use'>Conditions of use</Link></span>
+  </div>
+)
 
 export class App extends React.Component {
   componentDidMount() {
@@ -38,6 +45,61 @@ export class App extends React.Component {
     fetchSystemCodesAction()
     checkStaffPermission('add_sensitive_people')
     checkStaffPermission('has_state_override')
+  }
+
+  dashBoardButtons() {
+    return <div className='pull-right'>
+      {
+        this.props.snapshot &&
+    <button type='button'
+      className='btn primary-btn'
+      disabled={false}
+      onClick={this.props.actions.createSnapshot}
+    >
+    Start Snapshot
+    </button>
+      }
+      {
+        this.props.hotline &&
+    <button type='button'
+      className='btn primary-btn'
+      disabled={false}
+      onClick={this.props.actions.createScreening}
+    >
+    Start Screening
+    </button>
+      }
+    </div>
+  }
+
+  SnapshotButton() {
+    return (
+      <button
+        type="button"
+        className="btn primary-btn pull-right"
+        disabled={false}
+        onClick={this.props.startOver}
+      >
+    Start Over
+      </button>
+    )
+  }
+
+  ScreeningButton() {
+    const {editable, disableSubmitButton, params: {id}, actions: {submitScreening}} = this.props
+    if (editable) {
+      return (
+        <button type='button'
+          className='btn primary-btn pull-right'
+          disabled={disableSubmitButton}
+          onClick={() => submitScreening(id)}
+        >
+          Submit
+        </button>
+      )
+    } else {
+      return (<div />)
+    }
   }
 
   render() {
@@ -54,59 +116,8 @@ export class App extends React.Component {
       )
     }
 
-    const DashboardButtons = () => (
-      <div className='pull-right'>
-        {
-          this.props.snapshot &&
-        <button type='button'
-          className='btn primary-btn'
-          disabled={false}
-          onClick={this.props.actions.createSnapshot}
-        >
-        Start Snapshot
-        </button>
-        }
-        {
-          this.props.hotline &&
-        <button type='button'
-          className='btn primary-btn'
-          disabled={false}
-          onClick={this.props.actions.createScreening}
-        >
-        Start Screening
-        </button>
-        }
-      </div>
-    )
-
-    const SnapshotButton = () => (
-      <button
-        type="button"
-        className="btn primary-btn pull-right"
-        disabled={false}
-        onClick={this.props.startOver}
-      >
-      Start Over
-      </button>
-    )
-    const ScreeningButton = () => {
-      const {editable, disableSubmitButton, params: {id}, actions: {submitScreening}} = this.props
-      if (editable) {
-        return (
-          <button type='button'
-            className='btn primary-btn pull-right'
-            disabled={disableSubmitButton}
-            onClick={() => submitScreening(id)}
-          >
-            Submit
-          </button>
-        )
-      } else {
-        return (<div />)
-      }
-    }
     // eslint-disable-next-line no-nested-ternary
-    const buttons = isSnapshot(location) ? <SnapshotButton /> : isHotline(location) ? <ScreeningButton /> : <DashboardButtons />
+    const buttons = isSnapshot(location) ? this.SnapshotButton() : isHotline(location) ? this.ScreeningButton() : this.dashBoardButtons()
 
     // eslint-disable-next-line no-nested-ternary
     const pageTitle = isSnapshot(location) ? 'Snapshort' :
