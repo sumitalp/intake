@@ -20,11 +20,6 @@ describe('SnapshotPage', () => {
     expect(snapshotPage.find('Connect(BreadCrumb)').exists()).toBe(true)
   })
 
-  it('renders a SnapshotIntro', () => {
-    const snapshotPage = renderSnapshotPage({})
-    expect(snapshotPage.find('SnapshotIntro').exists()).toEqual(true)
-  })
-
   it('renders a PersonSearchResults', () => {
     spyOn(IntakeConfig, 'isAdvancedSearchOn').and.returnValue(true)
     const results = [{fullName: 'Sarah Timson'}]
