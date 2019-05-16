@@ -144,7 +144,7 @@ feature 'Search results page' do
 
     within '.rt-tbody' do
       expect(page).to have_content('Juan Simpson')
-      expect(page).to have_content('male')
+      expect(page).to have_content('Male')
       expect(page).to have_content('Pala, CA, 92089')
     end
   end
