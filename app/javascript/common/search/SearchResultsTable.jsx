@@ -49,7 +49,7 @@ class SearchResultsTable extends Component {
       accessor: (result) => {
         const address = result.address
         return address ?
-          `${address.streetAddress} ${address.city}, ${address.state} ${address.zip}` :
+          `${address.streetAddress}, ${address.city}, ${address.state} ${address.zip}` :
           ''
       },
     },

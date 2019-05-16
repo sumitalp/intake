@@ -20,7 +20,8 @@ feature 'Search results page' do
       addresses: [{
         messages: [],
         type: 'Placement Home',
-        street_address: 'P.O. Box 162',
+        street_number: '500',
+        street_name: 'El Camino Real',
         city: 'Santa Clara',
         state: 'CA',
         zip: '95053',
@@ -93,6 +94,8 @@ feature 'Search results page' do
             builder.with_addresses do
               [
                 AddressSearchResultBuilder.build do |address|
+                  address.with_street_number(participant[:addresses][0][:street_number])
+                  address.with_street_name(participant[:addresses][0][:street_name])
                   address.with_state_code(participant[:addresses][0][:state])
                   address.with_city(participant[:addresses][0][:city])
                   address.with_zip(participant[:addresses][0][:zip])
@@ -145,7 +148,7 @@ feature 'Search results page' do
     within '.rt-tbody' do
       expect(page).to have_content('Juan Simpson')
       expect(page).to have_content('Male')
-      expect(page).to have_content('Santa Clara, CA 95053')
+      expect(page).to have_content('500 El Camino Real, Santa Clara, CA 95053')
     end
   end
 
