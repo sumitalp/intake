@@ -94,6 +94,8 @@ feature 'Search results page' do
             builder.with_addresses do
               [
                 AddressSearchResultBuilder.build do |address|
+                  address.with_street_number(participant[:addresses][0][:street_number])
+                  address.with_street_name(participant[:addresses][0][:street_name])
                   address.with_state_code(participant[:addresses][0][:state])
                   address.with_city(participant[:addresses][0][:city])
                   address.with_zip(participant[:addresses][0][:zip])
