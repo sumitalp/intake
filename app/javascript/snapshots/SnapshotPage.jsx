@@ -1,20 +1,11 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
-import {createSnapshot, clearSnapshot} from 'actions/snapshotActions'
-import {clearPeople, createSnapshotPerson} from 'actions/personCardActions'
 import {
   clear as clearSearch,
   resetPersonSearch,
 } from 'actions/peopleSearchActions'
-import {clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
-import {clearRelationships} from 'actions/relationshipsActions'
 import PersonSearchFormContainer from 'containers/common/PersonSearchFormContainer'
-import PersonCardView from 'snapshots/PersonCardView'
-import HistoryOfInvolvementContainer from 'containers/snapshot/HistoryOfInvolvementContainer'
-import HistoryTableContainer from 'containers/common/HistoryTableContainer'
-import EmptyHistory from 'views/history/EmptyHistory'
-import RelationshipsCardContainer from 'containers/snapshot/RelationshipsCardContainer'
 import PageHeader from 'common/PageHeader'
 import {selectParticipants} from 'selectors/participantSelectors'
 import BreadCrumb from 'containers/common/BreadCrumb'
@@ -23,18 +14,7 @@ import PersonSearchResultsContainer from 'containers/snapshot/PersonSearchResult
 import {selectPeopleResults} from 'selectors/peopleSearchSelectors'
 import {isAdvancedSearchOn} from 'common/config'
 
-const isDuplicatePerson = (participants, id) =>
-  participants.some(x => x.id === id)
-
 export class SnapshotPage extends React.Component {
-  componentDidMount() {
-    this.props.createSnapshot()
-  }
-
-  componentWillUnmount() {
-    this.props.unmount()
-  }
-
   startOverButton() {
     const {startOver} = this.props
     return (
@@ -49,14 +29,7 @@ export class SnapshotPage extends React.Component {
     )
   }
 
-  onSelectPerson(person) {
-    const id = person.legacyDescriptor && person.legacyDescriptor.legacy_id
-    if (!isDuplicatePerson(this.props.participants, id)) {
-      this.props.createSnapshotPerson(id)
-    }
-  }
-
-  renderBody(participants) {
+  renderBody() {
     const {results, location} = this.props
     const advancedSearchFeatureFlag = isAdvancedSearchOn(location)
     const hasResults = results && results.length !== 0
@@ -64,37 +37,33 @@ export class SnapshotPage extends React.Component {
       <div className="col-md-12 col-xs-12 snapshot-inner-container">
         <div className="row">
           <PersonSearchFormContainer
-            onSelect={person => this.onSelectPerson(person)}
+            onSelect={() => null}
             searchPrompt="Search for clients"
             canCreateNewPerson={false}
             isClientOnly={true}
           />
-          {participants.map(({id}) => (
-            <PersonCardView key={id} personId={id} />
-          ))}
           {advancedSearchFeatureFlag && hasResults && <PersonSearchResultsContainer />}
-          <RelationshipsCardContainer />
-          <HistoryOfInvolvementContainer
-            empty={<EmptyHistory />}
-            notEmpty={<HistoryTableContainer includesScreenings={false} />}
-          />
         </div>
       </div>
     )
   }
 
+  renderBreadCrumbs() {
+    return <BreadCrumb navigationElements={['Snapshot']}/>
+  }
+
   render() {
-    const {participants, hasGenericErrors} = this.props
+    const {hasGenericErrors} = this.props
     const genericErrorClass = hasGenericErrors ? 'generic-error' : ''
     return (
       <div>
         <div>
           <PageHeader pageTitle="Snapshot" button={this.startOverButton()} />
-          <BreadCrumb />
+          {this.renderBreadCrumbs()}
         </div>
         <div className={`container snapshot-container ${genericErrorClass}`}>
           <div className="row">
-            {this.renderBody(participants)}
+            {this.renderBody()}
           </div>
         </div>
       </div>
@@ -103,8 +72,6 @@ export class SnapshotPage extends React.Component {
 }
 
 SnapshotPage.propTypes = {
-  createSnapshot: PropTypes.func,
-  createSnapshotPerson: PropTypes.func,
   hasGenericErrors: PropTypes.bool,
   location: PropTypes.shape({
     pathname: PropTypes.string,
@@ -112,7 +79,6 @@ SnapshotPage.propTypes = {
   participants: PropTypes.array,
   results: PropTypes.array,
   startOver: PropTypes.func,
-  unmount: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
@@ -122,21 +88,9 @@ const mapStateToProps = state => ({
 })
 
 export const mapDispatchToProps = dispatch => ({
-  createSnapshot: () => dispatch(createSnapshot()),
-  createSnapshotPerson: id => dispatch(createSnapshotPerson(id)),
   startOver: () => {
-    dispatch(createSnapshot())
-    dispatch(clearPeople())
-    dispatch(clearHistoryOfInvolvement())
-    dispatch(clearRelationships())
     dispatch(clearSearch('results'))
     dispatch(resetPersonSearch())
-  },
-  unmount: () => {
-    dispatch(clearPeople())
-    dispatch(clearHistoryOfInvolvement())
-    dispatch(clearRelationships())
-    dispatch(clearSnapshot())
   },
 })
 
