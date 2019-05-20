@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, {Fragment} from 'react'
 import {connect} from 'react-redux'
-import {createSnapshot, clearSnapshot} from 'actions/snapshotActions'
+import {clearSnapshot} from 'actions/snapshotActions'
 import {clearPeople, createSnapshotPerson} from 'actions/personCardActions'
 import {clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
 import {clearRelationships} from 'actions/relationshipsActions'
@@ -74,7 +74,7 @@ export class SnapshotDetailPage extends React.Component {
 }
 
 SnapshotDetailPage.propTypes = {
-  createSnapshot: PropTypes.func,
+  clearSnapshot: PropTypes.func,
   createSnapshotPerson: PropTypes.func,
   hasGenericErrors: PropTypes.bool,
   location: PropTypes.shape({
@@ -95,7 +95,6 @@ const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   clearSnapshot: () => dispatch(clearSnapshot()),
-  createSnapshot: () => dispatch(createSnapshot()),
   createSnapshotPerson: id => dispatch(createSnapshotPerson(id)),
   unmount: () => {
     dispatch(clearPeople())
