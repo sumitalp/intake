@@ -5,6 +5,7 @@ import {
   clear as clearSearch,
   resetPersonSearch,
 } from 'actions/peopleSearchActions'
+import {viewSnapshotDetail} from 'actions/snapshotActions'
 import PersonSearchFormContainer from 'containers/common/PersonSearchFormContainer'
 import PageHeader from 'common/PageHeader'
 import {selectParticipants} from 'selectors/participantSelectors'
@@ -29,6 +30,11 @@ export class SnapshotPage extends React.Component {
     )
   }
 
+  onSelectPerson(person) {
+    const id = person.legacyDescriptor && person.legacyDescriptor.legacy_id
+    this.props.viewSnapshotDetail(id)
+  }
+
   renderBody() {
     const {results, location} = this.props
     const advancedSearchFeatureFlag = isAdvancedSearchOn(location)
@@ -37,7 +43,7 @@ export class SnapshotPage extends React.Component {
       <div className="col-md-12 col-xs-12 snapshot-inner-container">
         <div className="row">
           <PersonSearchFormContainer
-            onSelect={() => null}
+            onSelect={person => this.onSelectPerson(person)}
             searchPrompt="Search for clients"
             canCreateNewPerson={false}
             isClientOnly={true}
@@ -79,6 +85,7 @@ SnapshotPage.propTypes = {
   participants: PropTypes.array,
   results: PropTypes.array,
   startOver: PropTypes.func,
+  viewSnapshotDetail: PropTypes.func,
 }
 
 const mapStateToProps = state => ({
@@ -92,6 +99,7 @@ export const mapDispatchToProps = dispatch => ({
     dispatch(clearSearch('results'))
     dispatch(resetPersonSearch())
   },
+  viewSnapshotDetail: (id) => dispatch(viewSnapshotDetail(id)),
 })
 
 export default connect(
