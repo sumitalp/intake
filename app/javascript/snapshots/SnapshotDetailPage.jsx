@@ -21,7 +21,7 @@ import {Link} from 'react-router'
 export class SnapshotDetailPage extends React.Component {
   componentDidMount() {
     const {id} = this.props.params
-    this.props.createSnapshot()
+    this.props.clearSnapshot()
     this.props.createSnapshotPerson(id)
   }
 
@@ -94,6 +94,7 @@ const mapStateToProps = state => ({
 })
 
 export const mapDispatchToProps = dispatch => ({
+  clearSnapshot: () => dispatch(clearSnapshot()),
   createSnapshot: () => dispatch(createSnapshot()),
   createSnapshotPerson: id => dispatch(createSnapshotPerson(id)),
   unmount: () => {

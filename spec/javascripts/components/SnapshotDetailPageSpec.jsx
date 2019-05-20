@@ -7,9 +7,9 @@ import {clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
 import {clearRelationships} from 'actions/relationshipsActions'
 
 describe('SnapshotDetailPage', () => {
-  const render = ({participants = [], params = {}, ...args}) => {
+  const render = ({participants = [], params = {}, ...args}, disableLifecycleMethods = true) => {
     const props = {participants, params, ...args}
-    return shallow(<SnapshotDetailPage {...props} />, {disableLifecycleMethods: true})
+    return shallow(<SnapshotDetailPage {...props} />, {disableLifecycleMethods})
   }
 
   it('renders PageHeader with title and no button', () => {
@@ -48,7 +48,15 @@ describe('SnapshotDetailPage', () => {
     expect(page.find('Connect(HistoryOfInvolvement)').exists()).toBe(true)
   })
 
-  it('calls the unmount function when the component is unmounted', () => {
+  it('calls the clearSnapshot and createSnapshot Person on mount', () => {
+    const clearSnapshot = jasmine.createSpy('clearSnapshot')
+    const createSnapshotPerson = jasmine.createSpy('createSnapshotPerson')
+    const page = render({params: {id: '1'}, clearSnapshot, createSnapshotPerson}, false)
+    expect(clearSnapshot).toHaveBeenCalled()
+    expect(createSnapshotPerson).toHaveBeenCalledWith('1')
+  })
+
+  it('calls the unmount prop when the component is unmounted', () => {
     const unmount = jasmine.createSpy('unmount')
     const page = render({unmount})
     page.unmount()
@@ -56,6 +64,14 @@ describe('SnapshotDetailPage', () => {
   })
 
   describe('mapDispatchToProps', () => {
+    describe('clearSnapshot', () => {
+      it('dispatches clearSnapshot action', () => {
+        const dispatch = jasmine.createSpy('dispatch')
+        const props = mapDispatchToProps(dispatch)
+        props.clearSnapshot()
+        expect(dispatch).toHaveBeenCalledWith(clearSnapshot())
+      })
+    })
     describe('createSnapshot', () => {
       it('dispatches createSnapshot action', () => {
         const dispatch = jasmine.createSpy('dispatch')
