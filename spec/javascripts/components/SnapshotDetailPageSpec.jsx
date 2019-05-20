@@ -1,7 +1,7 @@
 import React from 'react'
 import {SnapshotDetailPage, mapDispatchToProps} from 'snapshots/SnapshotDetailPage'
 import {shallow} from 'enzyme'
-import {createSnapshot, clearSnapshot} from 'actions/snapshotActions'
+import {clearSnapshot} from 'actions/snapshotActions'
 import {clearPeople, createSnapshotPerson} from 'actions/personCardActions'
 import {clearHistoryOfInvolvement} from 'actions/historyOfInvolvementActions'
 import {clearRelationships} from 'actions/relationshipsActions'
@@ -51,7 +51,7 @@ describe('SnapshotDetailPage', () => {
   it('calls the clearSnapshot and createSnapshot Person on mount', () => {
     const clearSnapshot = jasmine.createSpy('clearSnapshot')
     const createSnapshotPerson = jasmine.createSpy('createSnapshotPerson')
-    const page = render({params: {id: '1'}, clearSnapshot, createSnapshotPerson}, false)
+    render({params: {id: '1'}, clearSnapshot, createSnapshotPerson}, false)
     expect(clearSnapshot).toHaveBeenCalled()
     expect(createSnapshotPerson).toHaveBeenCalledWith('1')
   })
@@ -70,14 +70,6 @@ describe('SnapshotDetailPage', () => {
         const props = mapDispatchToProps(dispatch)
         props.clearSnapshot()
         expect(dispatch).toHaveBeenCalledWith(clearSnapshot())
-      })
-    })
-    describe('createSnapshot', () => {
-      it('dispatches createSnapshot action', () => {
-        const dispatch = jasmine.createSpy('dispatch')
-        const props = mapDispatchToProps(dispatch)
-        props.createSnapshot()
-        expect(dispatch).toHaveBeenCalledWith(createSnapshot())
       })
     })
 
