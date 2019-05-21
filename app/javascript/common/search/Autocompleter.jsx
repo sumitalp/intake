@@ -167,7 +167,8 @@ export default class Autocompleter extends Component {
 
   shouldMenuOpen() {
     const {searchTerm} = this.props.personSearchFields
-    return this.state.menuVisible || (Boolean(this.props.results.length) && this.isSearchable(searchTerm))
+    const openMenu = this.state.menuVisible || Boolean(this.props.results.length && this.isSearchable(searchTerm))
+    return openMenu
   }
 
   prepareAutocomplete() {
