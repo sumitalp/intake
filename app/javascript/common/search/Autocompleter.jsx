@@ -73,9 +73,7 @@ export default class Autocompleter extends Component {
   }
 
   onSelect(item) {
-    this.props.onCancel()
     this.props.onSelect(item)
-    this.hideMenu()
   }
 
   onButtonSelect(item) {
@@ -167,6 +165,11 @@ export default class Autocompleter extends Component {
     return <input {...newProps} />
   }
 
+  shouldMenuOpen() {
+    const {searchTerm} = this.props.personSearchFields
+    return this.state.menuVisible || (Boolean(this.props.results.length) && this.isSearchable(searchTerm))
+  }
+
   prepareAutocomplete() {
     const {personSearchFields, id, results, canCreateNewPerson, total, isAdvancedSearchOn} = this.props
     const {searchTerm} = personSearchFields
@@ -190,7 +193,7 @@ export default class Autocompleter extends Component {
         onChange={this.onChangeInput}
         onSelect={this.onItemSelect}
         renderItem={this.renderItem}
-        open={this.state.menuVisible}
+        open={this.shouldMenuOpen()}
         renderMenu={this.renderMenu}
         value={searchTerm}
         wrapperStyle={{display: 'block'}}

@@ -141,7 +141,6 @@ describe('<Autocompleter />', () => {
 
   describe('#onItemSelect', () => {
     let onLoadMoreResults
-    let onCancel
     let onClear
     let onSelect
     let total
@@ -153,9 +152,7 @@ describe('<Autocompleter />', () => {
     const item = results[0]
 
     beforeEach(() => {
-      onCancel = jasmine.createSpy('onCancel')
       onClear = jasmine.createSpy('onClear')
-
       onSelect = jasmine.createSpy('onSelect')
       onLoadMoreResults = jasmine.createSpy('onLoadMoreResults')
     })
@@ -165,7 +162,6 @@ describe('<Autocompleter />', () => {
       beforeEach(() => {
         autocompleter = mountAutocompleter({
           results,
-          onCancel,
           onSelect,
         })
         autocompleter.setState({menuVisible: true})
@@ -175,17 +171,13 @@ describe('<Autocompleter />', () => {
           .simulate('click', null)
       })
 
-      it('clears the results and the search fields', () => {
-        expect(onCancel).toHaveBeenCalled()
-      })
-
       it('calls onSelect with the selected result', () => {
         expect(onSelect).toHaveBeenCalledWith(item)
       })
 
-      it('hides the menu', () => {
+      it('does not hide the menu', () => {
         const header = autocompleter.find('SuggestionHeader')
-        expect(header.length).toBe(0)
+        expect(header.length).toBe(1)
       })
 
       it('logs a search result event', () => {
@@ -202,7 +194,6 @@ describe('<Autocompleter />', () => {
       beforeEach(() => {
         autocompleter = mountAutocompleter({
           results,
-          onCancel,
           onClear,
           onSelect,
         })
@@ -213,17 +204,13 @@ describe('<Autocompleter />', () => {
           .simulate('click', null)
       })
 
-      it('clears the results and the search fields', () => {
-        expect(onCancel).toHaveBeenCalled()
-      })
-
       it('calls onSelect with the selected result', () => {
         expect(onSelect).toHaveBeenCalled()
       })
 
-      it('hides the menu', () => {
+      it('does not hide the menu', () => {
         const header = autocompleter.find('SuggestionHeader')
-        expect(header.length).toBe(0)
+        expect(header.length).toBe(1)
       })
     })
 
@@ -398,7 +385,6 @@ describe('<Autocompleter />', () => {
           .and.returnValue(false)
         const autocompleter = mountAutocompleter({
           results,
-          onCancel,
           onSelect,
           isSelectable,
           onLoadMoreResults,
@@ -411,7 +397,6 @@ describe('<Autocompleter />', () => {
       })
 
       it('only presents error message', () => {
-        expect(onCancel).not.toHaveBeenCalled()
         expect(onSelect).not.toHaveBeenCalled()
         expect(window.alert).toHaveBeenCalledWith(
           'You are not authorized to add this person.'
@@ -713,6 +698,49 @@ describe('<Autocompleter />', () => {
       expect(input.props().id).toEqual('search-input-id')
     })
 
+    describe('autocomplete menu', () => {
+      describe('is open', () => {
+        it('when the menuVisible state is set to true', () => {
+          const autocompleter = mountAutocompleter({})
+          autocompleter.setState({menuVisible: true})
+          const autocomplete = autocompleter.find('Autocomplete')
+          expect(autocomplete.props().open).toEqual(true)
+        })
+
+        it('when there are results and searchTerm is searchable', () => {
+          const results = [{legacyDescriptor: {legacy_id: 'some-other-legacy-id'}}]
+          const personSearchFields = {searchTerm: 'go'}
+          const autocompleter = mountAutocompleter({results, personSearchFields})
+          const autocomplete = autocompleter.find('Autocomplete')
+          expect(autocomplete.props().open).toEqual(true)
+        })
+      })
+
+      describe('is closed', () => {
+        it('when the menuVisible state is set to false', () => {
+          const autocompleter = mountAutocompleter({})
+          autocompleter.setState({menuVisible: false})
+          const autocomplete = autocompleter.find('Autocomplete')
+          expect(autocomplete.props().open).toEqual(false)
+        })
+
+        it('when there are results and search term is not searchable', () => {
+          const results = [{legacyDescriptor: {legacy_id: 'some-other-legacy-id'}}]
+          const personSearchFields = {searchTerm: 'g'}
+          const autocompleter = mountAutocompleter({results, personSearchFields})
+          const autocomplete = autocompleter.find('Autocomplete')
+          expect(autocomplete.props().open).toEqual(false)
+        })
+
+        it('when there are no results and search term is searchable', () => {
+          const personSearchFields = {searchTerm: 'go'}
+          const autocompleter = mountAutocompleter({personSearchFields})
+          const autocomplete = autocompleter.find('Autocomplete')
+          expect(autocomplete.props().open).toEqual(false)
+        })
+      })
+    })
+
     describe('with search results present', () => {
       const address = {id: 'test address'}
       const ethnicity = {id: 'test ethnicity'}
@@ -776,7 +804,6 @@ describe('<Autocompleter />', () => {
 
       it('changes className when highlighted', () => {
         const input = autocompleter.find('input').at(0)
-        autocompleter.setState({menuVisible: true})
         const resultBefore = autocompleter.find(
           'div[id="search-result-1-of-2"]'
         )
@@ -795,7 +822,6 @@ describe('<Autocompleter />', () => {
       it('when enter is pressed it should not highlight', () => {
         const input = autocompleter.find('input').at(0)
         input.simulate('keyDown', {key: 'Enter', keyCode: 13, which: 13})
-        autocompleter.setState({menuVisible: true})
         const result = autocompleter.find('div[id="search-result-1-of-2"]')
         expect(result.props().className).not.toEqual(
           'search-item highlighted-search-item'
