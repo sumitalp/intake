@@ -233,6 +233,9 @@ feature 'Snapshot relationship card' do
         expect(page).to have_content('Relationship')
         expect(page)
           .not_to have_content('Search for people and add them to see their relationships.')
+        expect(page).to have_content('Jake Campbell')
+        expect(page).to have_content('Jane Campbell')
+        expect(page).to have_content('John Florence, PhD')
       end
     end
   end
