@@ -59,7 +59,7 @@ export default class HistoryTable extends React.Component {
             className='btn btn-primary'
             data-clipboard-target='#history'
           >
-            Copy
+            Copy History
           </Clipboard>
         </div>
       </div>
