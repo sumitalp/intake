@@ -141,7 +141,6 @@ describe('<Autocompleter />', () => {
 
   describe('#onItemSelect', () => {
     let onLoadMoreResults
-    let onClear
     let onSelect
     let total
     const results = [
@@ -152,7 +151,6 @@ describe('<Autocompleter />', () => {
     const item = results[0]
 
     beforeEach(() => {
-      onClear = jasmine.createSpy('onClear')
       onSelect = jasmine.createSpy('onSelect')
       onLoadMoreResults = jasmine.createSpy('onLoadMoreResults')
     })
@@ -194,7 +192,6 @@ describe('<Autocompleter />', () => {
       beforeEach(() => {
         autocompleter = mountAutocompleter({
           results,
-          onClear,
           onSelect,
         })
         autocompleter.setState({menuVisible: true})
@@ -221,7 +218,6 @@ describe('<Autocompleter />', () => {
         beforeEach(() => {
           autocompleter = mountAutocompleter({
             results,
-            onClear,
             onSelect,
             onLoadMoreResults,
             total,
@@ -257,7 +253,6 @@ describe('<Autocompleter />', () => {
         beforeEach(() => {
           autocompleter = mountAutocompleter({
             results,
-            onClear,
             onSelect,
             onLoadMoreResults,
             canCreateNewPerson,
@@ -284,7 +279,6 @@ describe('<Autocompleter />', () => {
         beforeEach(() => {
           autocompleter = mountAutocompleter({
             results,
-            onClear,
             onSelect,
             onLoadMoreResults,
             canCreateNewPerson,
@@ -309,7 +303,6 @@ describe('<Autocompleter />', () => {
         it('calls onLoadMoreResults', () => {
           const autocompleter = mountAutocompleter({
             results,
-            onClear,
             onSelect,
             onLoadMoreResults,
             total,
@@ -326,7 +319,6 @@ describe('<Autocompleter />', () => {
         it('calls onLoadMoreResults with an address', () => {
           const autocompleter = mountAutocompleter({
             results,
-            onClear,
             onSelect,
             onLoadMoreResults,
             total,
@@ -361,7 +353,6 @@ describe('<Autocompleter />', () => {
     it('logs a search result event when a deeper item is clicked', () => {
       const autocompleter = mountAutocompleter({
         results,
-        onClear,
         onSelect,
       })
       autocompleter.setState({menuVisible: true})
