@@ -238,10 +238,6 @@ feature 'Snapshot History of Involvement' do
     }
   end
 
-  let(:no_hoi) do
-    {referrals: [], screenings: [], cases: []}
-  end
-
   before(:each) do
     stub_system_codes
   end
@@ -273,12 +269,7 @@ feature 'Snapshot History of Involvement' do
         ) + "?clientIds=#{person.dig(:legacy_descriptor, :legacy_id)}"
       ).and_return(json_body([].to_json, status: 200))
 
-      stub_request(
-        :get,
-        ferb_api_url(
-          FerbRoutes.history_of_involvements_path
-        ) + "?clientIds=#{person.dig(:legacy_descriptor, :legacy_id)}"
-      ).and_return(json_body(no_hoi.to_json, status: 200))
+      stub_empty_history_for_clients([person.dig(:legacy_descriptor, :legacy_id)])
 
       stub_person_search(person_response: search_response)
 
