@@ -297,7 +297,7 @@ feature 'Snapshot History of Involvement' do
       within '#person-search-results-card' do
         click_link 'Simpson'
       end
-    end    
+    end
 
     scenario 'snapshot detail page displays the no HOI copy' do
       within '#history-card.card.show' do
@@ -314,13 +314,6 @@ feature 'Snapshot History of Involvement' do
     end
 
     before(:each) do
-      stub_request(
-        :get,
-        ferb_api_url(
-          FerbRoutes.relationships_path
-        ) + "?clientIds=#{person.dig(:legacy_descriptor, :legacy_id)}"
-      ).and_return(json_body([].to_json, status: 200))
-
       search_response = PersonSearchResponseBuilder.build do |response|
         response.with_total(1)
         response.with_hits do
@@ -336,11 +329,19 @@ feature 'Snapshot History of Involvement' do
       stub_request(
         :get,
         ferb_api_url(
+          FerbRoutes.relationships_path
+        ) + "?clientIds=#{person.dig(:legacy_descriptor, :legacy_id)}"
+      ).and_return(json_body([].to_json, status: 200))
+
+      stub_request(
+        :get,
+        ferb_api_url(
           FerbRoutes.history_of_involvements_path
         ) + "?clientIds=#{person.dig(:legacy_descriptor, :legacy_id)}"
       ).and_return(json_body(history.to_json, status: 200))
 
       stub_person_search(person_response: search_response)
+
       stub_request(
         :get,
         ferb_api_url(
